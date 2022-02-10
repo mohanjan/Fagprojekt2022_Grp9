@@ -1,0 +1,9 @@
+We use Pascal case
+ Functions look like this
+    FunctionExample()
+ Variables look like this
+    var Number
+
+
+
+
