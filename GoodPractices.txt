@@ -8,7 +8,7 @@ We use Pascal case
 Chisel:
 Test chisel code in small bites
 small blocks of code
-
+GTK wave ?
 
 
 Hardware:
