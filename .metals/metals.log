@@ -1,0 +1,67 @@
+2022.02.16 23:16:51 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\.metals\lsp.trace.json or C:\Users\Gamerpcen\AppData\Local\scalameta\metals\cache\lsp.trace.json
+2022.02.16 23:16:52 INFO  logging to file C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\.metals\metals.log
+2022.02.16 23:16:52 INFO  Started: Metals version 0.11.1 in workspace 'C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9' for client Visual Studio Code 1.63.2.
+2022.02.16 23:16:52 INFO  Parse release: 16.0.1
+2022.02.16 23:16:57 INFO  time: initialize in 5.02s
+2022.02.16 23:16:57 WARN  Build server is not auto-connectable.
+2022.02.16 23:17:21 INFO  running 'C:\Program Files\AdoptOpenJDK\jdk-16.0.1+9\bin\java -Djline.terminal=jline.UnsupportedTerminal -Dsbt.log.noformat=true -Dfile.encoding=UTF-8 -jar C:\Users\GAMERP~1\AppData\Local\Temp\metals17812456129869618172\sbt-launch.jar -Dbloop.export-jar-classifiers=sources bloopInstall'
+2022.02.16 23:17:23 INFO  [info] welcome to sbt 1.4.9 (AdoptOpenJDK Java 16.0.1)
+2022.02.16 23:17:25 INFO  [info] loading global plugins from C:\Users\Gamerpcen\.sbt\1.0\plugins
+2022.02.16 23:17:27 INFO  [info] loading settings for project fagprojekt2022_grp9-build-build-build from metals.sbt ...
+2022.02.16 23:17:27 INFO  [info] loading project definition from C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\project\project\project
+2022.02.16 23:17:32 INFO  [info] loading settings for project fagprojekt2022_grp9-build-build from metals.sbt ...
+2022.02.16 23:17:32 INFO  [info] loading project definition from C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\project\project
+2022.02.16 23:17:36 INFO  [success] Generated .bloop\fagprojekt2022_grp9-build-build.json
+2022.02.16 23:17:36 INFO  [success] Total time: 4 s, completed 16. feb. 2022 23.17.37
+2022.02.16 23:17:37 INFO  [info] loading settings for project fagprojekt2022_grp9-build from metals.sbt,plugins.sbt ...
+2022.02.16 23:17:37 INFO  [info] loading project definition from C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\project
+2022.02.16 23:17:40 INFO  [success] Total time: 3 s, completed 16. feb. 2022 23.17.40
+2022.02.16 23:17:42 INFO  [info] loading settings for project root from build.sbt ...
+2022.02.16 23:17:42 INFO  [info] set current project to %NAME% (in build file:/C:/Users/Gamerpcen/OneDrive%20-%20Danmarks%20Tekniske%20Universitet/Dokumenter/GitHub/Fagprojekt2022_Grp9/)
+2022.02.16 23:17:42 INFO  [success] Generated .bloop\root.json
+2022.02.16 23:17:42 INFO  [success] Generated .bloop\root-test.json
+2022.02.16 23:17:42 INFO  [success] Total time: 0 s, completed 16. feb. 2022 23.17.42
+2022.02.16 23:17:43 INFO  time: ran 'sbt bloopInstall' in 21s
+2022.02.16 23:17:43 INFO  Attempting to connect to the build server...
+2022.02.16 23:17:50 WARN  no build target for: C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\src\main\scala\DSP.scala
+2022.02.16 23:18:13 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\.metals\bsp.trace.json or C:\Users\Gamerpcen\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.02.16 23:18:28 INFO  no build target found for C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\src\main\scala\DSP.scala. Using presentation compiler with project's scala-library version: 3.1.0
+2022.02.16 23:18:29 INFO  Attempting to connect to the build server...
+2022.02.16 23:18:29 INFO  Attempting to connect to the build server...
+2022.02.16 23:18:29 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\project\project\.metals\bsp.trace.json or C:\Users\Gamerpcen\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.02.16 23:18:29 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\project\.metals\bsp.trace.json or C:\Users\Gamerpcen\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.02.16 23:18:29 INFO  time: code lens generation in 39s
+2022.02.16 23:18:29 INFO  time: code lens generation in 1.27s
+2022.02.16 23:18:29 INFO  time: code lens generation in 1.25s
+2022.02.16 23:18:29 INFO  time: code lens generation in 1.24s
+2022.02.16 23:18:36 INFO  time: Connected to build server in 53s
+2022.02.16 23:18:36 INFO  Connected to Build server: Bloop v1.4.12
+2022.02.16 23:18:37 INFO  time: Imported build in 0.13s
+2022.02.16 23:18:50 INFO  time: indexed workspace in 13s
+2022.02.16 23:18:50 INFO  compiling root (1 scala source)
+2022.02.16 23:18:50 INFO  compiling root (1 scala source)
+2022.02.16 23:18:59 INFO  time: compiled root in 8.26s
+2022.02.16 23:20:48 WARN  no build target for: C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\DE2\chisel-lab\lab1\src\main\scala\Hello.scala
+feb. 16, 2022 11:20:54 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 168
+2022.02.16 23:21:10 ERROR code navigation does not work for the file 'C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\src\main\scala\DSP.scala' because the SemanticDB file 'C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\.bloop\root\bloop-bsp-clients-classes\classes-Metals-gjmH6jtqRYOd_Ex1X3mN9w==\META-INF\semanticdb\src\main\scala\DSP.scala.semanticdb' doesn't exist. There can be many reasons for this error. 
+2022.02.16 23:21:10 ERROR code navigation does not work for the file 'C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\src\main\scala\DSP.scala' because the SemanticDB file 'C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\.bloop\root\bloop-bsp-clients-classes\classes-Metals-gjmH6jtqRYOd_Ex1X3mN9w==\META-INF\semanticdb\src\main\scala\DSP.scala.semanticdb' doesn't exist. There can be many reasons for this error. 
+2022.02.16 23:21:10 ERROR code navigation does not work for the file 'C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\src\main\scala\DSP.scala' because the SemanticDB file 'C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\.bloop\root\bloop-bsp-clients-classes\classes-Metals-gjmH6jtqRYOd_Ex1X3mN9w==\META-INF\semanticdb\src\main\scala\DSP.scala.semanticdb' doesn't exist. There can be many reasons for this error. 
+2022.02.16 23:21:59 INFO  compiling root (1 scala source)
+2022.02.16 23:21:59 INFO  time: compiled root in 0.13s
+2022.02.16 23:22:55 ERROR code navigation does not work for the file 'C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\src\main\scala\DSP.scala' because the SemanticDB file 'C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\.bloop\root\bloop-bsp-clients-classes\classes-Metals-gjmH6jtqRYOd_Ex1X3mN9w==\META-INF\semanticdb\src\main\scala\DSP.scala.semanticdb' doesn't exist. There can be many reasons for this error. 
+2022.02.16 23:22:55 ERROR code navigation does not work for the file 'C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\src\main\scala\DSP.scala' because the SemanticDB file 'C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\.bloop\root\bloop-bsp-clients-classes\classes-Metals-gjmH6jtqRYOd_Ex1X3mN9w==\META-INF\semanticdb\src\main\scala\DSP.scala.semanticdb' doesn't exist. There can be many reasons for this error. 
+2022.02.16 23:22:55 ERROR code navigation does not work for the file 'C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\src\main\scala\DSP.scala' because the SemanticDB file 'C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\.bloop\root\bloop-bsp-clients-classes\classes-Metals-gjmH6jtqRYOd_Ex1X3mN9w==\META-INF\semanticdb\src\main\scala\DSP.scala.semanticdb' doesn't exist. There can be many reasons for this error. 
+feb. 16, 2022 11:23:01 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 411
+feb. 16, 2022 11:23:18 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 447
+2022.02.16 23:23:18 WARN  no build target for: C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\DE2\chisel-lab\lab1\src\main\scala\Hello.scala
+2022.02.16 23:23:31 INFO  compiling root (1 scala source)
+2022.02.16 23:23:31 INFO  time: compiled root in 0.25s
+2022.02.16 23:23:43 INFO  compiling root (1 scala source)
+2022.02.16 23:23:45 INFO  time: compiled root in 1.27s
+2022.02.16 23:24:25 INFO  shutting down Metals
+2022.02.16 23:24:25 INFO  Shut down connection with build server.
+2022.02.16 23:24:25 INFO  Shut down connection with build server.
+2022.02.16 23:24:25 INFO  Shut down connection with build server.

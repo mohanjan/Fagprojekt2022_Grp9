@@ -1,0 +1,33 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(;Test/compile; collectAnalyses, None, Some(CommandSource(network-1)))[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":4,"message":"Processing"})[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":4,"message":"Done"})[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(Test/compile, None, Some(CommandSource(network-1)))[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":4,"message":"Processing"})[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: Test / compile[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/taskStart, {"taskId":{"id":"5","parents":[]},"eventTime":1645050211374,"message":"Compiling root","dataKind":"compile-task","data":{"target":{"uri":"file:/C:/Users/Gamerpcen/OneDrive%20-%20Danmarks%20Tekniske%20Universitet/Dokumenter/GitHub/Fagprojekt2022_Grp9/#root/Compile"}}})[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\target\scala-2.13\classes ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":3,"message":"compiling 1 Scala source to C:\\Users\\Gamerpcen\\OneDrive - Danmarks Tekniske Universitet\\Dokumenter\\GitHub\\Fagprojekt2022_Grp9\\target\\scala-2.13\\classes ..."})[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/publishDiagnostics, {"textDocument":{"uri":"file:///C:/Users/Gamerpcen/OneDrive%20-%20Danmarks%20Tekniske%20Universitet/Dokumenter/GitHub/Fagprojekt2022_Grp9/src/main/scala/DSP.scala"},"buildTarget":{"uri":"file:/C:/Users/Gamerpcen/OneDrive%20-%20Danmarks%20Tekniske%20Universitet/Dokumenter/GitHub/Fagprojekt2022_Grp9/#root/Compile"},"diagnostics":[{"range":{"start":{"line":10,"character":2},"end":{"line":10,"character":8}},"severity":1,"source":"sbt","message":"not found: value blkReg"}],"reset":false})[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\src\main\scala\DSP.scala:11:3: not found: value blkReg[0m
+[0m[[0m[31merror[0m] [0m[0m  blkReg := 1.U[0m
+[0m[[0m[31merror[0m] [0m[0m  ^[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":1,"message":"C:\\Users\\Gamerpcen\\OneDrive - Danmarks Tekniske Universitet\\Dokumenter\\GitHub\\Fagprojekt2022_Grp9\\src\\main\\scala\\DSP.scala:11:3: not found: value blkReg"})[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":1,"message":"  blkReg := 1.U"})[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":1,"message":"  ^"})[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/publishDiagnostics, {"textDocument":{"uri":"file:///C:/Users/Gamerpcen/OneDrive%20-%20Danmarks%20Tekniske%20Universitet/Dokumenter/GitHub/Fagprojekt2022_Grp9/src/main/scala/DSP.scala"},"buildTarget":{"uri":"file:/C:/Users/Gamerpcen/OneDrive%20-%20Danmarks%20Tekniske%20Universitet/Dokumenter/GitHub/Fagprojekt2022_Grp9/#root/Compile"},"diagnostics":[{"range":{"start":{"line":11,"character":12},"end":{"line":11,"character":18}},"severity":1,"source":"sbt","message":"not found: value blkReg"}],"reset":false})[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\src\main\scala\DSP.scala:12:13: not found: value blkReg[0m
+[0m[[0m[31merror[0m] [0m[0m  io.Out := blkReg[0m
+[0m[[0m[31merror[0m] [0m[0m            ^[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":1,"message":"C:\\Users\\Gamerpcen\\OneDrive - Danmarks Tekniske Universitet\\Dokumenter\\GitHub\\Fagprojekt2022_Grp9\\src\\main\\scala\\DSP.scala:12:13: not found: value blkReg"})[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":1,"message":"  io.Out := blkReg"})[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":1,"message":"            ^"})[0m
+[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":1,"message":"two errors found"})[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/publishDiagnostics, {"textDocument":{"uri":"file:///C:/Users/Gamerpcen/OneDrive%20-%20Danmarks%20Tekniske%20Universitet/Dokumenter/GitHub/Fagprojekt2022_Grp9/src/main/scala/DSP.scala"},"buildTarget":{"uri":"file:/C:/Users/Gamerpcen/OneDrive%20-%20Danmarks%20Tekniske%20Universitet/Dokumenter/GitHub/Fagprojekt2022_Grp9/#root/Compile"},"diagnostics":[{"range":{"start":{"line":10,"character":2},"end":{"line":10,"character":8}},"severity":1,"source":"sbt","message":"not found: value blkReg"},{"range":{"start":{"line":11,"character":12},"end":{"line":11,"character":18}},"severity":1,"source":"sbt","message":"not found: value blkReg"}],"reset":true})[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/taskFinish, {"taskId":{"id":"5","parents":[]},"eventTime":1645050211598,"message":"Compiled root","status":2,"dataKind":"compile-report","data":{"target":{"uri":"file:/C:/Users/Gamerpcen/OneDrive%20-%20Danmarks%20Tekniske%20Universitet/Dokumenter/GitHub/Fagprojekt2022_Grp9/#root/Compile"},"errors":2,"warnings":0,"time":224}})[0m
+[0m[[0m[31merror[0m] [0m[0m(Compile / [31mcompileIncremental[0m) Compilation failed[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":1,"message":"(Compile / \u001b[31mcompileIncremental\u001b[0m) Compilation failed"})[0m
+[0m[[0m[31merror[0m] [0m[0mTotal time: 0 s, completed 16. feb. 2022 23.23.31[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":4,"message":"Done"})[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(shell, None, None)[0m

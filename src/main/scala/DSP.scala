@@ -3,12 +3,12 @@ import chisel3.util._
 
 class DSP(maxCount: Int) extends Module {
   val io = IO(new Bundle {
-    val Out = Output(UInt(20.W))
+    val Out = Output(UInt(1.W))
 
     val SCL = Input(Bool())
     val SDA = Input(Bool())
   })
-
+  io.Out := 1.U
 
 }
 // generate Verilog

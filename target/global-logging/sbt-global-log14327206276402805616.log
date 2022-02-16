@@ -1,0 +1,18 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(sbt run, Some(fef56f9d-a6c8-4a1a-86e6-c98f99f4a434), Some(CommandSource(console0)))[0m
+[0m[[0m[31merror[0m] [0m[0mExpected ID character[0m
+[0m[[0m[31merror[0m] [0m[0mNot a valid command: sbt (similar: set, boot, last)[0m
+[0m[[0m[31merror[0m] [0m[0mExpected 'sbtRebootNetwork'[0m
+[0m[[0m[31merror[0m] [0m[0mExpected project ID[0m
+[0m[[0m[31merror[0m] [0m[0mExpected configuration[0m
+[0m[[0m[31merror[0m] [0m[0mExpected ':'[0m
+[0m[[0m[31merror[0m] [0m[0mExpected key[0m
+[0m[[0m[31merror[0m] [0m[0mNot a valid key: sbt (similar: test, state, ivySbt)[0m
+[0m[[0m[31merror[0m] [0m[0mExpected 'sbtPromptChannel'[0m
+[0m[[0m[31merror[0m] [0m[0mExpected 'sbtRebootImpl'[0m
+[0m[[0m[31merror[0m] [0m[0mExpected 'sbtReportResult'[0m
+[0m[[0m[31merror[0m] [0m[0mExpected 'sbtMapExec'[0m
+[0m[[0m[31merror[0m] [0m[0mExpected 'sbtCompleteExec'[0m
+[0m[[0m[31merror[0m] [0m[0msbt run[0m
+[0m[[0m[31merror[0m] [0m[0m   ^[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(shell, None, None)[0m
+[0m[[0m[31merror[0m] [0m[0mserver failed to start on local:sbt-server-5f300e171576886b648b. java.io.IOException: Could not create lock for \\.\pipe\sbt-server-5f300e171576886b648b_lock, error 5[0m
