@@ -1,0 +1,53 @@
+Tiny ISA 
+
+18 bit instruction 
+ 
+17,16 = Type
+
+Type 1, Arithmetic 
+
+15,12 = Operation 
+11,8 = Write Register 
+7,4 = Read Register 1 
+3,0 = Read Register 0 
+
+Type 2, Immidiate Arithmetic 
+
+15,12 = Operation 
+11,4 = Immidiate value
+3,0 = Register
+
+Type 3, Memory
+
+15,14 = Operation, Read/Write
+13,4 = Memory Address 
+3,0 = Read/Write register
+
+
+Type 4, Conditional 
+
+15,13 = Operation 
+12,8 = Immediate jump value 
+7,4 = Read Register 1 
+3,0 = Read Register 0 
+
+
+16 Registers 
+
+x0 = 0.U hardcoded 
+x1 = Program Counter    
+x2 = Input 
+x3 = Output
+x4 = Temp
+x5 = Temp 
+x6 = Temp 
+x7 = Temp 
+x8 = Temp 		
+x9 = Temp
+x10 = Temp
+x11 = Temp 
+x12 = Temp 
+x13 = Temp 
+x14 = Temp 
+x15 = Temp 
+
