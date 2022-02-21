@@ -102,11 +102,14 @@ public class ISA{
     public int find_reg(String instruction, int reg_num){
         int val=0;
                 //Function needs to know, if the target register is rd, rs1, rs2
+                //probably easy to read the x, then ignore the x and return the register number as its binary value...
 
-        if(instruction.contains("x0"){
-            val=0b;
-            
+        if(instruction.contains("x")){
+            //return String - x; (int)stringtoint-> binary representation.
+            val=0b0;
         }
+
+        
 
         val= val<<(4*reg_num);
         return val;
@@ -114,7 +117,7 @@ public class ISA{
 
     public int find_imm_val(){
         int val=0;
-        
+
         return val;
     }
 
@@ -128,6 +131,13 @@ public class ISA{
         int val=0;
 
         return val;
+    }
+
+    public int return_machine_code(){
+        //if else tree, which first looks at the instruction type >>15
+        //sum of the different functions...
+        //java should be able to read the value of the imm_val easily...
+
     }
 
 }
