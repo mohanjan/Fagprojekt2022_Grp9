@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class bitifyer {
     public static void main(String[] args) {
 
-        
+
     }
 
 
