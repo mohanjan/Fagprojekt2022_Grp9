@@ -8,14 +8,13 @@ class Memory(maxCount: Int) extends Module {
     val DataIn = Input(UInt(18.W))
     val DataOut = Output(UInt(18.W))
 
-    val Operation = Input(UInt(1.W))
+    val Operation = Input(UInt(2.W))
     val Valid = Input(Bool())
   })
 
   val Memory = Mem(1024, UInt(18.W))
 
   loadMemoryFromFile(Memory, "Program")
-
 
   io.DataOut := 0.U
 

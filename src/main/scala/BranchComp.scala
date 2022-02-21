@@ -3,27 +3,27 @@ import chisel3.util._
 
 class BranchComp(maxCount: Int) extends Module {
   val io = IO(new Bundle {
-    val Read1 = Input(UInt(16.W))
-    val Read0 = Input(UInt(16.W))
-    val Operation = Input(UInt(3.W))
+    val rs2 = Input(UInt(16.W))
+    val rs1 = Input(UInt(16.W))
+    val Operation = Input(UInt(2.W))
 
     val Out = Output(Bool())
   })
 
   io.Out := false.B
 
-  switch(io.Operation(2,0)){
+  switch(io.Operation){
     is(0.U){
-      io.Out := io.Read1 > io.Read0
+      io.Out := io.rs2 > io.rs1
     }
     is(1.U){
-      io.Out := io.Read1 >= io.Read0
+      io.Out := io.rs2 >= io.rs1
     }
     is(2.U){
-      io.Out := io.Read1 === io.Read0
+      io.Out := io.rs2 === io.rs1
     }
     is(3.U){
-      io.Out := false.B
+      io.Out := io.rs2 =/= io.rs1
     }
   }
 }
