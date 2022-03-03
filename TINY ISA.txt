@@ -40,9 +40,9 @@ li rd, imm
 
 Type 3, Memory
 
-15,14 = Operation, Read/Write
-13,10 = Read/Write register
-9,0 = Memory Address
+15 = Operation, Read/Write
+14,11 = Read/Write register
+10,0 = Memory Address
 
 lw rd, address
 sw rd, address
