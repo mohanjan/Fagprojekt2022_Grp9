@@ -565,4 +565,6 @@ Connection ~ 4800 2100
 Connection ~ 4550 2100
 Wire Wire Line
 	4550 2100 4550 2150
+Text Notes 5150 3050 0    50   ~ 0
+3R?\n
 $EndSCHEMATC

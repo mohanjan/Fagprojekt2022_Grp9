@@ -567,4 +567,6 @@ Wire Wire Line
 	4550 2100 4550 2150
 Text Notes 5150 3050 0    50   ~ 0
 3R?\n
+Text Notes 5950 1550 0    50   ~ 0
+add 6.8n tantalum cap?\nboth VCC and VEE
 $EndSCHEMATC
