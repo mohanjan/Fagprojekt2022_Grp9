@@ -1,0 +1,19 @@
+Vivado Simulator v2021.2
+Copyright 1986-1999, 2001-2021 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2021.2/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 --maxdelay -L xil_defaultlib -L simprims_ver -L secureip --snapshot adc_time_impl -transport_int_delays -pulse_r 0 -pulse_int_r 0 -pulse_e 0 -pulse_int_e 0 xil_defaultlib.adc xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+INFO: [XSIM 43-3451] SDF backannotation process started with SDF file "adc_time_impl.sdf", for root module "adc".
+INFO: [XSIM 43-3452] SDF backannotation was successful for SDF file "adc_time_impl.sdf", for root module "adc".
+Time Resolution for simulation is 1ps
+Compiling module simprims_ver.IBUF
+Compiling module simprims_ver.OBUF
+Compiling module simprims_ver.XADC(INIT_40=16'b100000000001010...
+Compiling module xil_defaultlib.xadc_wiz_0
+Compiling module xil_defaultlib.adc
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot adc_time_impl

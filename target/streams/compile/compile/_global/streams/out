@@ -1,7 +1,2 @@
-[0m[[0m[31merror[0m] [0m[0mC:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\src\main\scala\DSP.scala:11:3: not found: value blkReg[0m
-[0m[[0m[31merror[0m] [0m[0m  blkReg := 1.U[0m
-[0m[[0m[31merror[0m] [0m[0m  ^[0m
-[0m[[0m[31merror[0m] [0m[0mC:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\src\main\scala\DSP.scala:12:13: not found: value blkReg[0m
-[0m[[0m[31merror[0m] [0m[0m  io.Out := blkReg[0m
-[0m[[0m[31merror[0m] [0m[0m            ^[0m
-[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m
+[debug] Acquiring lock on file C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\project\target\.sbt-compilation-infos\root-compile\.sbt-idea-lock ...
+[debug] Releasing lock on file C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\project\target\.sbt-compilation-infos\root-compile\.sbt-idea-lock.
