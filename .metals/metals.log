@@ -7211,3 +7211,118 @@ WARNING: Unmatched cancel notification for request id 2750
 2022.03.07 20:39:41 WARN  no build target for: C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Dokumenter\GitHub\Fagprojekt2022_Grp9\src\main\scala\XADC.scala
 2022.03.07 21:14:40 WARN  no build target for: C:\Users\Gamerpcen\OneDrive - Danmarks Tekniske Universitet\Kurser og bøger\DE2 02139\chisel-lab-master\vending\src\main\scala\Datapath.scala
 2022.03.07 21:14:48 INFO  shutting down Metals
+2022.03.10 14:12:53 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\.metals\lsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\lsp.trace.json
+2022.03.10 14:12:55 INFO  logging to file C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\.metals\metals.log
+2022.03.10 14:12:55 INFO  Started: Metals version 0.11.2 in workspace 'C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9' for client Visual Studio Code 1.65.1.
+2022.03.10 14:12:55 INFO  Parse release: 1.8.0_292
+2022.03.10 14:12:56 INFO  time: initialize in 1.01s
+2022.03.10 14:12:56 INFO  Deleting old database format C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\.metals\metals.h2.db
+2022.03.10 14:12:56 INFO  Attempting to connect to the build server...
+2022.03.10 14:12:56 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\.metals\bsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.03.10 14:12:57 INFO  Attempting to connect to the build server...
+2022.03.10 14:12:57 INFO  Attempting to connect to the build server...
+2022.03.10 14:12:57 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\project\project\.metals\bsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.03.10 14:12:57 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\project\.metals\bsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.03.10 14:12:57 WARN  Scala instance jar C:\Users\Gamerpcen\.sbt\boot\scala-2.12.14\lib\scala-library.jar doesn't exist!
+2022.03.10 14:12:57 WARN  Scala instance jar C:\Users\Gamerpcen\.sbt\boot\scala-2.12.14\lib\scala-library.jar doesn't exist!
+2022.03.10 14:12:57 WARN  Scala instance jar C:\Users\Gamerpcen\.sbt\boot\scala-2.12.14\lib\scala-compiler.jar doesn't exist!
+2022.03.10 14:12:57 WARN  Scala instance jar C:\Users\Gamerpcen\.sbt\boot\scala-2.12.14\lib\scala-compiler.jar doesn't exist!
+2022.03.10 14:12:57 WARN  Scala instance jar C:\Users\Gamerpcen\.sbt\boot\scala-2.12.14\lib\scala-reflect.jar doesn't exist!
+2022.03.10 14:12:57 WARN  Scala instance jar C:\Users\Gamerpcen\.sbt\boot\scala-2.12.14\lib\scala-reflect.jar doesn't exist!
+2022.03.10 14:12:57 WARN  Scala instance jar C:\Users\Gamerpcen\.sbt\boot\scala-2.12.14\lib\scala-xml_2.12-1.0.6.jar doesn't exist!
+2022.03.10 14:12:57 WARN  Scala instance jar C:\Users\Gamerpcen\.sbt\boot\scala-2.12.14\lib\scala-xml_2.12-1.0.6.jar doesn't exist!
+2022.03.10 14:12:57 ERROR Failed to connect with build server, no functionality will work.
+java.util.concurrent.ExecutionException: org.eclipse.lsp4j.jsonrpc.ResponseErrorException: Failed to load project from C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\project\project\.bloop\fagprojekt2022_grp9-build-build.json
+	at java.util.concurrent.CompletableFuture.reportGet(CompletableFuture.java:357)
+	at java.util.concurrent.CompletableFuture.get(CompletableFuture.java:1928)
+	at scala.meta.internal.metals.BuildServerConnection$.initialize(BuildServerConnection.scala:419)
+	at scala.meta.internal.metals.BuildServerConnection$.$anonfun$fromSockets$1(BuildServerConnection.scala:329)
+	at scala.util.Success.$anonfun$map$1(Try.scala:255)
+	at scala.util.Success.map(Try.scala:213)
+	at scala.concurrent.Future.$anonfun$map$1(Future.scala:292)
+	at scala.concurrent.impl.Promise.liftedTree1$1(Promise.scala:33)
+	at scala.concurrent.impl.Promise.$anonfun$transform$1(Promise.scala:33)
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.eclipse.lsp4j.jsonrpc.ResponseErrorException: Failed to load project from C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\project\project\.bloop\fagprojekt2022_grp9-build-build.json
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.handleResponse(RemoteEndpoint.java:209)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.consume(RemoteEndpoint.java:193)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.handleMessage(StreamMessageProducer.java:194)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(StreamMessageProducer.java:94)
+	at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run(ConcurrentMessageProcessor.java:113)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+2022.03.10 14:13:08 WARN  no build target for: C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\src\main\scala\xadc_wiz_0.scala
+2022.03.10 14:13:10 INFO  no build target found for C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\src\main\scala\xadc_wiz_0.scala. Using presentation compiler with project's scala-library version: 3.1.1
+2022.03.10 14:13:12 WARN  no build target for: C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\src\main\scala\XADC.scala
+2022.03.10 14:13:13 INFO  time: code lens generation in 3.83s
+mar. 10, 2022 2:27:46 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+2022.03.10 15:09:18 INFO  shutting down Metals
+2022.03.10 15:09:18 ERROR Unexpected error initializing server
+org.eclipse.lsp4j.jsonrpc.ResponseErrorException: Request window/showMessageRequest failed with message: Canceled
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.handleResponse(RemoteEndpoint.java:209)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.consume(RemoteEndpoint.java:193)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.handleMessage(StreamMessageProducer.java:194)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(StreamMessageProducer.java:94)
+	at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run(ConcurrentMessageProcessor.java:113)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+2022.03.10 15:10:40 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\.metals\lsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\lsp.trace.json
+2022.03.10 15:10:43 INFO  logging to file C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\.metals\metals.log
+2022.03.10 15:10:43 INFO  Started: Metals version 0.11.2 in workspace 'C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9' for client Visual Studio Code 1.65.1.
+2022.03.10 15:10:43 INFO  Parse release: 1.8.0_292
+2022.03.10 15:10:46 INFO  time: initialize in 2.83s
+2022.03.10 15:10:47 INFO  Attempting to connect to the build server...
+2022.03.10 15:10:46 INFO  skipping build import with status 'Requested'
+2022.03.10 15:10:50 INFO  no build target found for C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\src\main\scala\XADC.scala. Using presentation compiler with project's scala-library version: 3.1.1
+2022.03.10 15:10:53 INFO  time: code lens generation in 5.82s
+2022.03.10 15:10:57 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\.metals\bsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.03.10 15:10:57 INFO  Attempting to connect to the build server...
+2022.03.10 15:10:57 INFO  Attempting to connect to the build server...
+2022.03.10 15:10:57 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\project\.metals\bsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.03.10 15:10:58 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\project\project\.metals\bsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.03.10 15:10:58 INFO  time: Connected to build server in 11s
+2022.03.10 15:10:58 INFO  Connected to Build server: Bloop v1.4.13
+2022.03.10 15:10:58 INFO  time: Imported build in 0.16s
+2022.03.10 15:11:05 INFO  time: indexed workspace in 6.89s
+2022.03.10 15:11:06 INFO  compiling root (2 scala sources)
+2022.03.10 15:11:15 INFO  time: compiled root in 9.34s
+2022.03.10 15:17:04 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\.metals\lsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\lsp.trace.json
+2022.03.10 15:17:06 INFO  logging to file C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\.metals\metals.log
+2022.03.10 15:17:06 INFO  Started: Metals version 0.11.2 in workspace 'C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9' for client Visual Studio Code 1.65.1.
+2022.03.10 15:17:06 INFO  Parse release: 1.8.0_292
+2022.03.10 15:17:09 INFO  time: initialize in 2.71s
+2022.03.10 15:17:14 INFO  Attempting to connect to the build server...
+2022.03.10 15:17:14 INFO  skipping build import with status 'Requested'
+2022.03.10 15:17:18 INFO  no build target found for C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\build.sbt. Using presentation compiler with project's scala-library version: 3.1.1
+2022.03.10 15:17:22 INFO  time: code lens generation in 7.3s
+2022.03.10 15:17:32 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\.metals\bsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.03.10 15:17:32 INFO  Attempting to connect to the build server...
+2022.03.10 15:17:32 INFO  Attempting to connect to the build server...
+2022.03.10 15:17:32 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\project\.metals\bsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.03.10 15:17:33 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\project\project\.metals\bsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.03.10 15:17:33 INFO  time: Connected to build server in 19s
+2022.03.10 15:17:33 INFO  Connected to Build server: Bloop v1.4.13
+2022.03.10 15:17:33 INFO  time: Imported build in 0.31s
+2022.03.10 15:17:47 INFO  time: indexed workspace in 13s
+2022.03.10 15:18:14 INFO  compiling root (1 scala source)
+2022.03.10 15:18:23 INFO  time: compiled root in 9.68s
+2022.03.10 15:20:54 INFO  compiling root (1 scala source)
+2022.03.10 15:20:59 INFO  time: compiled root in 4.76s
+2022.03.10 15:21:30 INFO  compiling root (1 scala source)
+2022.03.10 15:21:33 INFO  time: compiled root in 3.12s
+2022.03.10 15:25:52 INFO  shutting down Metals
+2022.03.10 15:25:52 INFO  Shut down connection with build server.
+2022.03.10 15:25:52 INFO  Shut down connection with build server.
+2022.03.10 15:25:52 INFO  Shut down connection with build server.

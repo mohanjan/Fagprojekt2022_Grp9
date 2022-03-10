@@ -17,6 +17,8 @@ class XADC(maxCount: Int) extends Module {
   val anal_n = Wire(UInt(1.W))
   val channel_out = Wire(UInt(5.W))
 
+ 
+
   val adc = Module(new xadc_wiz_0(maxCount))
 
   adc.io.di_in := 0.U(16.W)
@@ -37,6 +39,14 @@ class XADC(maxCount: Int) extends Module {
   adc.io.eos_out <> DontCare
   adc.io.busy_out <> DontCare
 
+  io.JA := 0.U
+  daddr_in := 0.U
+  eoc_out := 0.U
+  do_out := 0.U
+  anal_p := 0.U
+  anal_n := 0.U
+  channel_out := 0.U
+  
 
   daddr_in := Cat("b00".U, channel_out)
   anal_p := io.JA(4)
