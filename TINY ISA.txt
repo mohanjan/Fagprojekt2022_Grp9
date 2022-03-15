@@ -18,7 +18,6 @@ sub rd, rs1, rs2
 mult rd, rs1, rs2
 sll rd, rs1, rs2
 srl rd, rs1, rs2
-multfp rd, rs1, rs2
 and rd, rs1, rs2
 or rd, rs1, rs2
 xor rd rs1, rs2
@@ -27,22 +26,20 @@ xor rd rs1, rs2
 
 Type 2, Immidiate Arithmetic 
 
-15,14 = Operation // Can be extended
-13,10 = Register
-9,0 = Immidiate value
+15 = Operation // Can be extended
+14,11 = Register
+10,0 = Immidiate value
 
 addi rs, imm
-subi rs, imm
-multi rs, imm
 li rd, imm
 
 ////////////////////
 
 Type 3, Memory
 
-15,14 = Operation, Read/Write
-13,10 = Read/Write register
-9,0 = Memory Address
+15 = Operation, Read/Write
+14,11 = Read/Write register
+10,0 = Memory Address
 
 lw rd, address
 sw rd, address
