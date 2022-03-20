@@ -8,20 +8,20 @@ class DataMemory(maxCount: Int) extends Module {
     val DataIn = Input(UInt(18.W))
     val DataOut = Output(UInt(18.W))
 
-    val Operation = Input(UInt(1.W))
-    val Valid = Input(Bool())
+    val Enable = Input(Bool())
+    val Write = Input(Bool())
   })
 
   val Memory = SyncReadMem(2048, UInt(18.W))
 
-  io.DataOut := 0.U
+  io.DataOut := DontCare
 
-  switch(io.Operation){
-    is(0.U){
-      io.DataOut := Memory.read(io.Address)
-    }
-    is(1.U){
-      Memory.write(io.Address,io.DataIn)
+  when(io.Enable){
+    val ReadWritePort = Memory(io.Address)
+    when(io.Write){
+      ReadWritePort := io.DataIn
+    }.otherwise{
+      io.DataOut := ReadWritePort
     }
   }
 }

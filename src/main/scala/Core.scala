@@ -7,6 +7,7 @@ object Core{
   val ImmidiateArithmetic = 1.U
   val MemoryI = 2.U
   val Conditional = 3.U
+  val Nil = 4.U
   val InstructionFetch = 0.U
   val InstructionDecode = 1.U
   val Execute = 2.U
@@ -27,11 +28,6 @@ class Core(maxCount: Int) extends Module {
     val ProgramLength = Input(UInt(10.W))
   })
 
-  // x0 = 0.U hardcoded
-  // x1 = Program Counter
-  // x2 = Input
-  // x3 = Output
-
   val OpCounter = RegInit(0.U(3.W))
   val AddressReg = RegInit(0.U(10.W))
 
@@ -40,14 +36,14 @@ class Core(maxCount: Int) extends Module {
   val rs2Reg = RegInit(0.U(4.W))
   val rdReg = RegInit(0.U(4.W))
 
-  val AImmidiateReg = RegInit(0.U(10.W))
+  val AImmediateReg = RegInit(0.U(10.W))
   val AOperationReg = RegInit(0.U(4.W))
 
   val MemOpReg = RegInit(0.U(1.W))
-  val MemAdressReg = RegInit(0.U(11.W))
+  val MemAddressReg = RegInit(0.U(11.W))
 
   val COperationReg = RegInit(0.U(2.W))
-  val COffsetReg = RegInit(0.U(6.W))
+  val COffsetReg = RegInit(0.S(6.W))
 
   // Memory Access and Writeback registers
 
@@ -72,13 +68,19 @@ class Core(maxCount: Int) extends Module {
   ALU.io.rs1 := 0.U
   ALU.io.Operation := 0.U
 
+  InstructionMem.io.Address := 0.U
+  InstructionMem.io.DataIn := 0.U
+  InstructionMem.io.MemWrite := 0.U
+
   DataMem.io.DataIn := 0.U
   DataMem.io.Address := 0.U
-  DataMem.io.Valid := false.B
-  DataMem.io.Operation := 0.U
+  DataMem.io.Enable := false.B
+  DataMem.io.Write := false.B
 
   BranchComp.io.rs2 := 0.U
   BranchComp.io.rs1 := 0.U
+  BranchComp.io.PC := 0.U
+  BranchComp.io.Offset := 0.S
   BranchComp.io.Operation := 0.U
 
   InstDec.io.Instruction := 0.U
@@ -92,7 +94,7 @@ class Core(maxCount: Int) extends Module {
       is(InstructionFetch){
         InstructionMem.io.Address := x(1)
         AddressReg := x(1)
-        OpCounter := OpCounter + 1.U
+        OpCounter := InstructionDecode
       }
       is(InstructionDecode){
         InstDec.io.Instruction := InstructionMem.io.Instruction
@@ -102,16 +104,16 @@ class Core(maxCount: Int) extends Module {
         rs2Reg := InstDec.io.rs2
         rdReg := InstDec.io.rd
 
-        AImmidiateReg := InstDec.io.AImmidiate
+        AImmediateReg := InstDec.io.AImmidiate
         AOperationReg := InstDec.io.AOperation
 
         MemOpReg := InstDec.io.MemOp
-        MemAdressReg := InstDec.io.MemAdress
+        MemAddressReg := InstDec.io.MemAdress
 
         COperationReg := InstDec.io.COperation
         COffsetReg := InstDec.io.COffset
 
-        OpCounter := OpCounter + 1.U
+        OpCounter := Execute
       }
       is(Execute){
         switch(TypeReg){
@@ -120,46 +122,36 @@ class Core(maxCount: Int) extends Module {
             ALU.io.rs2 := x(rs2Reg)
             ALU.io.rs1 := x(rs1Reg)
 
-            /*
-            x(rdReg) := ALU.io.Out
-            x(1) := x(1) + 1.U
-            */
-
             WritebackMode := Arithmetic
             WritebackRegister := rdReg
           }
           is(ImmidiateArithmetic){
             when(InstDec.io.AOperation === 3.U){
-              //x(rdReg) := AImmidiateReg
-              ALU.io.rs2 := AImmidiateReg
-              ALU.io.rs1 := 0.U
+              ALU.io.rs2 := 0.U
+              ALU.io.rs1 := AImmediateReg
             }.otherwise{
-              ALU.io.Operation := AOperationReg
-              ALU.io.rs2 := AImmidiateReg
+              ALU.io.rs2 := AImmediateReg
               ALU.io.rs1 := x(rs1Reg)
-              //x(rdReg) := ALU.io.Out
             }
-            //x(1) := x(1) + 1.U
-
+            ALU.io.Operation := 0.U
             WritebackMode := Arithmetic
             WritebackRegister := rdReg
           }
           is(MemoryI){
-            DataMem.io.Valid := true.B
-            DataMem.io.Operation := MemOpReg
-            DataMem.io.Address := InstDec.io.MemAdress
+            DataMem.io.Address := MemAddressReg
+            DataMem.io.DataIn := x(rdReg)
+            DataMem.io.Enable := true.B
+            DataMem.io.Write := MemOpReg
 
-            /*
-            when(InstDec.io.MemOp === 0.U){
-              x(InstDec.io.rd) := DataMem.io.DataOut
-            }.otherwise{
-              DataMem.io.DataIn := x(InstDec.io.rd)
+            switch(MemOpReg){
+              is(0.U){
+                WritebackMode := MemoryI
+              }
+              is(1.U){
+                WritebackMode := Nil
+              }
             }
 
-            x(1) := x(1) + 1.U
-            */
-
-            WritebackMode := MemoryI
             WritebackRegister := rdReg
           }
           is(Conditional){
@@ -169,21 +161,17 @@ class Core(maxCount: Int) extends Module {
             BranchComp.io.PC := x(1)
             BranchComp.io.Offset := COffsetReg
 
-            /*
-            when(BranchComp.io.Out){
-              x(1) := (x(1).zext + InstDec.io.COffset.asSInt).asUInt(15,0)
-            }.otherwise{
-              x(1) := x(1) + 1.U
-            }
-            */
-
-            RegisterWriteback := Conditional
+            WritebackMode := Conditional
             WritebackRegister := rdReg
           }
         }
+        OpCounter := RegisterWriteback
       }
       is(RegisterWriteback){
         switch(WritebackMode){
+          is(Nil){
+            x(1) := x(1) + 1.U
+          }
           is(Arithmetic){
             x(WritebackRegister) := ALU.io.Out
             x(1) := x(1) + 1.U
@@ -193,66 +181,13 @@ class Core(maxCount: Int) extends Module {
             x(1) := x(1) + 1.U
           }
           is(Conditional){
-            x(WritebackRegister) := BranchComp.io.Out
+            x(1) := BranchComp.io.Out
           }
         }
 
         OpCounter := InstructionFetch
 
       }
-
-      /*
-
-      is(1.U){
-        InstDec.io.Instruction := InstructionMem.io.Instruction
-
-        switch(InstDec.io.Type){
-          is(Arithmetic){
-            ALU.io.Operation := InstDec.io.AOperation
-            ALU.io.rs2 := x(InstDec.io.rs2)
-            ALU.io.rs1 := x(InstDec.io.rs1)
-            x(InstDec.io.rd) := ALU.io.Out
-            x(1) := x(1) + 1.U
-          }
-          is(ImmidiateArithmetic){
-            when(InstDec.io.AOperation === 3.U){
-              x(InstDec.io.rd) := InstDec.io.AImmidiate
-            }.otherwise{
-              ALU.io.Operation := InstDec.io.AOperation
-              ALU.io.rs2 := InstDec.io.AImmidiate
-              ALU.io.rs1 := x(InstDec.io.rd)
-              x(InstDec.io.rd) := ALU.io.Out
-            }
-            x(1) := x(1) + 1.U
-          }
-          is(MemoryI){
-            DataMem.io.Valid := true.B
-            DataMem.io.Operation := InstDec.io.MemOp
-            DataMem.io.Address := InstDec.io.MemAdress
-
-            when(InstDec.io.MemOp === 0.U){
-              x(InstDec.io.rd) := DataMem.io.DataOut
-            }.otherwise{
-              DataMem.io.DataIn := x(InstDec.io.rd)
-            }
-            x(1) := x(1) + 1.U
-          }
-          is(Conditional){
-            BranchComp.io.rs2 := x(InstDec.io.rs2)
-            BranchComp.io.rs1 := x(InstDec.io.rs1)
-            BranchComp.io.Operation := InstDec.io.COperation
-
-            when(BranchComp.io.Out){
-              x(1) := (x(1).zext + InstDec.io.COffset.asSInt).asUInt(15,0)
-            }.otherwise{
-              x(1) := x(1) + 1.U
-            }
-          }
-        }
-        OpCounter := OpCounter + 1.U
-      }
-
-      */
     }
   }
 

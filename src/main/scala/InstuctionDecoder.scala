@@ -18,7 +18,7 @@ class InstuctionDecoder(maxCount: Int) extends Module {
     val MemAdress = Output(UInt(11.W))
 
     val COperation = Output(UInt(2.W))
-    val COffset = Output(UInt(6.W))
+    val COffset = Output(SInt(6.W))
   })
 
   io.Type := io.Instruction(17,16)
@@ -30,7 +30,7 @@ class InstuctionDecoder(maxCount: Int) extends Module {
   io.MemOp := 0.U
   io.MemAdress := 0.U
   io.COperation := 0.U
-  io.COffset := 0.U
+  io.COffset := 0.S
 
   switch(io.Instruction(17,16)){
     is(0.U){
@@ -40,9 +40,9 @@ class InstuctionDecoder(maxCount: Int) extends Module {
       io.rs2 := io.Instruction(3,0)
     }
     is(1.U){
-      io.AOperation := io.Instruction(15,14)
-      io.rd := io.Instruction(13,10)
-      io.AImmidiate := io.Instruction(9,0)
+      io.AOperation := io.Instruction(15)
+      io.rd := io.Instruction(14,11)
+      io.AImmidiate := io.Instruction(10,0)
     }
     is(2.U){
       io.MemOp := io.Instruction(15)
@@ -53,7 +53,7 @@ class InstuctionDecoder(maxCount: Int) extends Module {
       io.COperation := io.Instruction(15,14)
       io.rs1 := io.Instruction(13,10)
       io.rs2 := io.Instruction(9,6)
-      io.COffset := io.Instruction(5,0)
+      io.COffset := io.Instruction(5,0).asSInt
     }
   }
 }
