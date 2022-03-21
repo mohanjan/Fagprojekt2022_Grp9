@@ -7326,3 +7326,19 @@ org.eclipse.lsp4j.jsonrpc.ResponseErrorException: Request window/showMessageRequ
 2022.03.10 15:25:52 INFO  Shut down connection with build server.
 2022.03.10 15:25:52 INFO  Shut down connection with build server.
 2022.03.10 15:25:52 INFO  Shut down connection with build server.
+2022.03.21 14:19:17 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\.metals\lsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\lsp.trace.json
+2022.03.21 14:19:18 INFO  logging to file C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\.metals\metals.log
+2022.03.21 14:19:18 INFO  Started: Metals version 0.11.2 in workspace 'C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9' for client Visual Studio Code 1.65.2.
+2022.03.21 14:19:18 INFO  Parse release: 1.8.0_292
+2022.03.21 14:19:20 INFO  time: initialize in 1.46s
+2022.03.21 14:19:21 INFO  Attempting to connect to the build server...
+2022.03.21 14:19:20 INFO  skipping build import with status 'Requested'
+2022.03.21 14:19:21 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\.metals\bsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.03.21 14:19:21 INFO  Attempting to connect to the build server...
+2022.03.21 14:19:21 INFO  Attempting to connect to the build server...
+2022.03.21 14:19:21 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\project\.metals\bsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.03.21 14:19:21 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\jonas\Documents\GitHub\Fagprojekt2022_Grp9\project\project\.metals\bsp.trace.json or C:\Users\jonas\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.03.21 14:19:21 INFO  time: Connected to build server in 0.29s
+2022.03.21 14:19:21 INFO  Connected to Build server: Bloop v1.4.13
+2022.03.21 14:19:21 INFO  time: Imported build in 0.13s
+2022.03.21 14:19:24 INFO  time: indexed workspace in 2.78s
