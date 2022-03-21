@@ -31,7 +31,4 @@ class ALU(maxCount: Int) extends Module {
       OutputReg := io.rs1 >> io.rs2
     }
   }
-
-
-
 }

@@ -8,6 +8,7 @@ object Core{
   val MemoryI = 2.U
   val Conditional = 3.U
   val Nil = 4.U
+  val FirRead = 5.U
   val InstructionFetch = 0.U
   val InstructionDecode = 1.U
   val Execute = 2.U
@@ -29,8 +30,10 @@ class Core(maxCount: Int) extends Module {
   })
 
   val OpCounter = RegInit(0.U(3.W))
-  val AddressReg = RegInit(0.U(10.W))
 
+  // Pipeline registers
+
+  val AddressReg = RegInit(0.U(10.W))
   val TypeReg = RegInit(0.U(2.W))
   val rs1Reg = RegInit(0.U(4.W))
   val rs2Reg = RegInit(0.U(4.W))
@@ -55,6 +58,7 @@ class Core(maxCount: Int) extends Module {
   val InstDec = Module(new InstuctionDecoder(maxCount))
   val BranchComp = Module(new BranchComp(maxCount))
   val InstructionMem = Module(new InstuctionMemory(maxCount))
+  val FirEngine = Module(new FirEngine(maxCount))
 
   //Registers
 
@@ -63,6 +67,8 @@ class Core(maxCount: Int) extends Module {
   x(0) := 0.U(16.W)
   x(2) := io.WaveIn
   io.WaveOut := x(3)
+
+  // Defaults
 
   ALU.io.rs2 := 0.U
   ALU.io.rs1 := 0.U
@@ -77,6 +83,12 @@ class Core(maxCount: Int) extends Module {
   DataMem.io.Enable := false.B
   DataMem.io.Write := false.B
 
+  FirEngine.io.WriteData := 0.U
+  FirEngine.io.Address := 0.U
+  FirEngine.io.Enable := false.B
+  FirEngine.io.WriteEn := false.B
+  FirEngine.io.WaveIn := io.WaveIn
+
   BranchComp.io.rs2 := 0.U
   BranchComp.io.rs1 := 0.U
   BranchComp.io.PC := 0.U
@@ -84,6 +96,8 @@ class Core(maxCount: Int) extends Module {
   BranchComp.io.Operation := 0.U
 
   InstDec.io.Instruction := 0.U
+
+  // Processor
 
   when(io.MemWrite){
     DataMem.io.DataIn := io.MemInData
@@ -138,21 +152,39 @@ class Core(maxCount: Int) extends Module {
             WritebackRegister := rdReg
           }
           is(MemoryI){
-            DataMem.io.Address := MemAddressReg
-            DataMem.io.DataIn := x(rdReg)
-            DataMem.io.Enable := true.B
-            DataMem.io.Write := MemOpReg
+            when(MemAddressReg < "h7BF".U){
+              DataMem.io.Address := (MemAddressReg - "h7BF".U)
+              DataMem.io.DataIn := x(rdReg)
+              DataMem.io.Enable := true.B
+              DataMem.io.Write := MemOpReg
 
-            switch(MemOpReg){
-              is(0.U){
-                WritebackMode := MemoryI
+              switch(MemOpReg){
+                is(0.U){
+                  WritebackMode := MemoryI
+                }
+                is(1.U){
+                  WritebackMode := Nil
+                }
               }
-              is(1.U){
-                WritebackMode := Nil
+              WritebackRegister := rdReg
+            }.otherwise{
+              // Read and write to FIR registers
+
+              FirEngine.io.Address := MemAddressReg
+              FirEngine.io.WriteData := x(rdReg)
+              FirEngine.io.Enable := true.B
+              FirEngine.io.WriteEn := MemOpReg
+
+              switch(MemOpReg){
+                is(0.U){
+                  WritebackMode := FirRead
+                }
+                is(1.U){
+                  WritebackMode := Nil
+                }
               }
+              WritebackRegister := rdReg
             }
-
-            WritebackRegister := rdReg
           }
           is(Conditional){
             BranchComp.io.rs2 := x(rs2Reg)
@@ -180,6 +212,10 @@ class Core(maxCount: Int) extends Module {
             x(WritebackRegister) := DataMem.io.DataOut
             x(1) := x(1) + 1.U
           }
+          is(FirRead){
+            x(WritebackRegister) := FirEngine.io.ReadData
+            x(1) := x(1) + 1.U
+          }
           is(Conditional){
             x(1) := BranchComp.io.Out
           }
@@ -190,7 +226,4 @@ class Core(maxCount: Int) extends Module {
       }
     }
   }
-
-
-
 }

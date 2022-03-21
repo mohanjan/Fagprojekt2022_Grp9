@@ -6,6 +6,7 @@ class FirEngine(maxCount: Int) extends Module {
     val WaveIn = Input(UInt(16.W))
     val WaveOut = Output(UInt(16.W))
 
+    val Enable = Input(Bool())
     val WriteEn = Input(Bool())
     val WriteData = Input(UInt(18.W))
     val Address = Input(UInt(6.W))
@@ -13,12 +14,18 @@ class FirEngine(maxCount: Int) extends Module {
     val ReadData = Output(UInt(18.W))
   })
 
-  val DataReg = Reg(Vec(64,UInt(18.W)))
+  io.ReadData := DontCare
+  io.WaveOut := 0.U
 
-  when(io.WriteEn){
-    DataReg(io.Address) := io.WriteData
-  }.otherwise{
-    io.ReadData := DataReg(io.Address)
+  val DataReg = Reg(Vec(128,UInt(18.W)))
+
+  when(io.Enable){
+    val ReadWritePort = DataReg(io.Address)
+    when(io.WriteEn){
+      ReadWritePort := io.WriteData
+    }.otherwise{
+      io.ReadData := ReadWritePort
+    }
   }
 
 
