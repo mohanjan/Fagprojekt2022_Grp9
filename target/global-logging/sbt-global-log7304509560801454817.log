@@ -1,0 +1,9 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(sbtrun, Some(e9bddc9e-339d-4e7a-b607-38f6083a2910), Some(CommandSource(console0)))[0m
+[0m[[0m[31merror[0m] [0m[0mNot a valid command: sbtrun (similar: set)[0m
+[0m[[0m[31merror[0m] [0m[0mNot a valid project ID: sbtrun[0m
+[0m[[0m[31merror[0m] [0m[0mExpected ':'[0m
+[0m[[0m[31merror[0m] [0m[0mNot a valid key: sbtrun (similar: run, sbtPlugin, bgRun)[0m
+[0m[[0m[31merror[0m] [0m[0msbtrun[0m
+[0m[[0m[31merror[0m] [0m[0m      ^[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(shell, None, None)[0m
+[0m[[0m[31merror[0m] [0m[0mserver failed to start on local:sbt-server-5f300e171576886b648b. java.io.IOException: Could not create lock for \\.\pipe\sbt-server-5f300e171576886b648b_lock, error 5[0m

@@ -1,0 +1,268 @@
+(DELAYFILE 
+(SDFVERSION "3.0" )
+(DESIGN "adc")
+(DATE "Mon Mar  7 11:16:55 2022")
+(VENDOR "XILINX")
+(PROGRAM "Vivado")
+(VERSION "2021.2")
+(DIVIDER /)
+(TIMESCALE 1ps)
+(CELL 
+  (CELLTYPE "IBUF")
+  (INSTANCE JA_IBUF\[0\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (0.0:0.0:0.0) (0.0:0.0:0.0))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "IBUF")
+  (INSTANCE JA_IBUF\[4\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (0.0:0.0:0.0) (0.0:0.0:0.0))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[0\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3301.8:3503.8:3503.8) (3301.8:3503.8:3503.8))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[10\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3322.2:3524.4:3524.4) (3322.2:3524.4:3524.4))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[11\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3300.8:3502.7:3502.7) (3300.8:3502.7:3502.7))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[12\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3315.0:3517.1:3517.1) (3315.0:3517.1:3517.1))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[13\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3304.4:3506.4:3506.4) (3304.4:3506.4:3506.4))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[14\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3312.3:3514.4:3514.4) (3312.3:3514.4:3514.4))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[15\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3318.3:3520.4:3520.4) (3318.3:3520.4:3520.4))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[1\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3326.5:3528.7:3528.7) (3326.5:3528.7:3528.7))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[2\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3298.0:3500.0:3500.0) (3298.0:3500.0:3500.0))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[3\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3306.0:3508.0:3508.0) (3306.0:3508.0:3508.0))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[4\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3305.6:3507.6:3507.6) (3305.6:3507.6:3507.6))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[5\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3311.4:3513.5:3513.5) (3311.4:3513.5:3513.5))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[6\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3303.2:3505.2:3505.2) (3303.2:3505.2:3505.2))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[7\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3297.7:3499.7:3499.7) (3297.7:3499.7:3499.7))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[8\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3301.1:3503.1:3503.1) (3301.1:3503.1:3503.1))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "OBUF")
+  (INSTANCE LED_OBUF\[9\]_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (3305.2:3507.2:3507.2) (3305.2:3507.2:3507.2))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "IBUF")
+  (INSTANCE clk_IBUF_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (1388.0:1458.4:1458.4) (1388.0:1458.4:1458.4))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "IBUF")
+  (INSTANCE sw_IBUF_inst)
+  (DELAY 
+    (PATHPULSE (50.0))
+    (ABSOLUTE 
+      (IOPATH I O (1382.6:1452.8:1452.8) (1382.6:1452.8:1452.8))
+    )
+  )
+)
+(CELL 
+  (CELLTYPE "XADC")
+  (INSTANCE xadc_inst/U0)
+  (DELAY 
+    (ABSOLUTE 
+      (IOPATH DCLK EOC (1437.0:1527.0:1527.0) (1437.0:1527.0:1527.0))
+      (IOPATH DCLK DO[15:0] (1142.0:1214.0:1214.0) (1142.0:1214.0:1214.0))
+      (IOPATH DCLK CHANNEL[4:0] (1200.0:1276.0:1276.0) (1200.0:1276.0:1276.0))
+    )
+  )
+    (TIMINGCHECK
+      (SETUPHOLD (posedge DEN) (posedge DCLK) (800.0:848.0:848.0) (-13.0:-13.0:-13.0))
+      (SETUPHOLD (negedge DEN) (posedge DCLK) (800.0:848.0:848.0) (-13.0:-13.0:-13.0))
+      (SETUPHOLD (posedge DWE) (posedge DCLK) (531.0:565.0:565.0) (-5.0:-5.0:-5.0))
+      (SETUPHOLD (negedge DWE) (posedge DCLK) (531.0:565.0:565.0) (-5.0:-5.0:-5.0))
+      (PERIOD (posedge CONVSTCLK) (1000000.0:1000000.0:1000000.0))
+      (PERIOD (negedge CONVSTCLK) (1000000.0:1000000.0:1000000.0))
+      (PERIOD (posedge DCLK) (4000.0:4000.0:4000.0))
+      (SETUPHOLD (posedge DI[15:0]) (posedge DCLK) (610.0:648.0:648.0) (10.0:10.0:10.0))
+      (SETUPHOLD (negedge DI[15:0]) (posedge DCLK) (610.0:648.0:648.0) (10.0:10.0:10.0))
+      (SETUPHOLD (posedge DADDR[6:0]) (posedge DCLK) (659.0:699.0:699.0) (17.0:17.0:17.0))
+      (SETUPHOLD (negedge DADDR[6:0]) (posedge DCLK) (659.0:699.0:699.0) (17.0:17.0:17.0))
+    )
+)
+(CELL 
+    (CELLTYPE "adc")
+    (INSTANCE )
+    (DELAY
+      (ABSOLUTE
+      (INTERCONNECT JA_IBUF\[0\]_inst/O xadc_inst/U0/VAUXN[5] (0.0:0.0:0.0) (0.0:0.0:0.0))
+      (INTERCONNECT JA_IBUF\[4\]_inst/O xadc_inst/U0/VAUXP[5] (0.0:0.0:0.0) (0.0:0.0:0.0))
+      (INTERCONNECT clk_IBUF_inst/O xadc_inst/U0/DCLK (2312.2:2719.2:2719.2) (2312.2:2719.2:2719.2))
+      (INTERCONNECT sw_IBUF_inst/O xadc_inst/U0/RESET (2691.6:3140.6:3140.6) (2691.6:3140.6:3140.6))
+      (INTERCONNECT xadc_inst/U0/CHANNEL[4] xadc_inst/U0/DADDR[4] (436.6:523.6:523.6) (436.6:523.6:523.6))
+      (INTERCONNECT xadc_inst/U0/CHANNEL[3] xadc_inst/U0/DADDR[3] (396.3:475.3:475.3) (396.3:475.3:475.3))
+      (INTERCONNECT xadc_inst/U0/CHANNEL[2] xadc_inst/U0/DADDR[2] (436.6:523.6:523.6) (436.6:523.6:523.6))
+      (INTERCONNECT xadc_inst/U0/CHANNEL[1] xadc_inst/U0/DADDR[1] (436.6:523.6:523.6) (436.6:523.6:523.6))
+      (INTERCONNECT xadc_inst/U0/CHANNEL[0] xadc_inst/U0/DADDR[0] (397.3:476.3:476.3) (397.3:476.3:476.3))
+      (INTERCONNECT xadc_inst/U0/DO[15] LED_OBUF\[15\]_inst/I (2968.9:3456.9:3456.9) (2968.9:3456.9:3456.9))
+      (INTERCONNECT xadc_inst/U0/DO[14] LED_OBUF\[14\]_inst/I (2909.2:3383.2:3383.2) (2909.2:3383.2:3383.2))
+      (INTERCONNECT xadc_inst/U0/DO[13] LED_OBUF\[13\]_inst/I (2413.4:2807.4:2807.4) (2413.4:2807.4:2807.4))
+      (INTERCONNECT xadc_inst/U0/DO[12] LED_OBUF\[12\]_inst/I (2531.7:2939.7:2939.7) (2531.7:2939.7:2939.7))
+      (INTERCONNECT xadc_inst/U0/DO[11] LED_OBUF\[11\]_inst/I (3615.9:4217.9:4217.9) (3615.9:4217.9:4217.9))
+      (INTERCONNECT xadc_inst/U0/DO[10] LED_OBUF\[10\]_inst/I (3484.7:4057.7:4057.7) (3484.7:4057.7:4057.7))
+      (INTERCONNECT xadc_inst/U0/DO[9] LED_OBUF\[9\]_inst/I (3636.5:4235.5:4235.5) (3636.5:4235.5:4235.5))
+      (INTERCONNECT xadc_inst/U0/DO[8] LED_OBUF\[8\]_inst/I (4309.3:5044.3:5044.3) (4309.3:5044.3:5044.3))
+      (INTERCONNECT xadc_inst/U0/DO[7] LED_OBUF\[7\]_inst/I (4149.2:4858.2:4858.2) (4149.2:4858.2:4858.2))
+      (INTERCONNECT xadc_inst/U0/DO[6] LED_OBUF\[6\]_inst/I (4147.8:4856.8:4856.8) (4147.8:4856.8:4856.8))
+      (INTERCONNECT xadc_inst/U0/DO[5] LED_OBUF\[5\]_inst/I (3646.9:4291.9:4291.9) (3646.9:4291.9:4291.9))
+      (INTERCONNECT xadc_inst/U0/DO[4] LED_OBUF\[4\]_inst/I (3766.8:4402.8:4402.8) (3766.8:4402.8:4402.8))
+      (INTERCONNECT xadc_inst/U0/DO[3] LED_OBUF\[3\]_inst/I (3650.0:4263.0:4263.0) (3650.0:4263.0:4263.0))
+      (INTERCONNECT xadc_inst/U0/DO[2] LED_OBUF\[2\]_inst/I (3647.6:4258.6:4258.6) (3647.6:4258.6:4258.6))
+      (INTERCONNECT xadc_inst/U0/DO[1] LED_OBUF\[1\]_inst/I (2924.0:3405.0:3405.0) (2924.0:3405.0:3405.0))
+      (INTERCONNECT xadc_inst/U0/DO[0] LED_OBUF\[0\]_inst/I (3325.9:3905.9:3905.9) (3325.9:3905.9:3905.9))
+      (INTERCONNECT xadc_inst/U0/EOC xadc_inst/U0/DEN (694.6:819.6:819.6) (694.6:819.6:819.6))
+      )
+    )
+)
+)

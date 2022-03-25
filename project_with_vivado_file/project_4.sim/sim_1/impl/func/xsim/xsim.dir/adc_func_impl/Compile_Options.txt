@@ -1,0 +1,1 @@
+--incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "secureip" --snapshot "adc_func_impl" "xil_defaultlib.adc" -log "elaborate.log" 

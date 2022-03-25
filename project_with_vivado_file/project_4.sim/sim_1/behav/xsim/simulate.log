@@ -1,0 +1,8 @@
+Vivado Simulator 2020.2
+Time resolution is 1 ps
+WARNING: file design.txt could not be opened
+ *** Warning: The analog data file design.txt for XADC instance adc.xadc_inst.inst was not found. Use the SIM_MONITOR_FILE parameter to specify the analog data file name or use the default name: design.txt.
+
+Failure: arguments of overloaded 'and' operator are not of the same length
+Time: 0 ps  Iteration: 0  Process: /adc/line__99  File: C:/Users/Gamerpcen/Desktop/project_4/project_4.srcs/sources_1/new/XADC.vhd
+$finish called at time : 0 fs : File "C:/Users/Gamerpcen/Desktop/project_4/project_4.srcs/sources_1/new/XADC.vhd" Line 99
