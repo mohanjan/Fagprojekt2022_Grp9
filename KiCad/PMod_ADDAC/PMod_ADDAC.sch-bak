@@ -1225,6 +1225,4 @@ F 3 "~" H 10250 1450 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	10100 1450 9950 1450
-Text Notes 6700 5300 0    50   ~ 0
--high slew rate comparators\n+-12 eller ?
 $EndSCHEMATC

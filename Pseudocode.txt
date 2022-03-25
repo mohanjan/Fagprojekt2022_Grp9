@@ -1,0 +1,25 @@
+
+S = sample array
+C = coefficient array
+
+L_fold_expand(S,L){
+    output(S)       //returns whatever sample is in S
+    for i=1..L{
+        output(0)   //returns 0 as an output
+    }
+    f_s2=f_s1*L     //creates a new sample rate L times as fast as the original
+}
+
+FIR_LPF(S,L){
+    Z[0]=S
+    sum=FIR_C(Z[0],0)
+    for i=1...L{
+        Z[i]=Z[i-1]
+        sum+=FIR_C(Z[i],i)
+    }
+   return sum
+}
+
+FIR_C(S,c){
+    return S*C[c]
+}
