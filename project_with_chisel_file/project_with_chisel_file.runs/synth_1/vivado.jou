@@ -1,0 +1,13 @@
+#-----------------------------------------------------------
+# Vivado v2021.2 (64-bit)
+# SW Build 3367213 on Tue Oct 19 02:48:09 MDT 2021
+# IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
+# Start of session at: Fri Mar 25 17:08:48 2022
+# Process ID: 18408
+# Current directory: C:/Users/Gamerpcen/Dokumenter/Fagprojekt2022_Grp9/project_with_chisel_file/project_with_chisel_file.runs/synth_1
+# Command line: vivado.exe -log XADC.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source XADC.tcl
+# Log file: C:/Users/Gamerpcen/Dokumenter/Fagprojekt2022_Grp9/project_with_chisel_file/project_with_chisel_file.runs/synth_1/XADC.vds
+# Journal file: C:/Users/Gamerpcen/Dokumenter/Fagprojekt2022_Grp9/project_with_chisel_file/project_with_chisel_file.runs/synth_1\vivado.jou
+# Running On: DESKTOP-K43AEQ4, OS: Windows, CPU Frequency: 3793 MHz, CPU Physical cores: 12, Host memory: 17113 MB
+#-----------------------------------------------------------
+source XADC.tcl -notrace

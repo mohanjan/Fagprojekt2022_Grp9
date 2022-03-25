@@ -4,12 +4,11 @@ import chisel3.util._
 class XADC(maxCount: Int) extends Module {
   val io = IO(new Bundle {
     val LED = Output(UInt(16.W))
-    val JA = Output(UInt(8.W))
-
-    val clk = Input(Bool())
-    val sw = Input(Bool())
+    val JA = Input(UInt(8.W))
   })
 
+
+  // internal wires
   val daddr_in = Wire(UInt(6.W))
   val eoc_out = Wire(UInt(1.W))
   val do_out = Wire(UInt(16.W))
@@ -17,8 +16,18 @@ class XADC(maxCount: Int) extends Module {
   val anal_n = Wire(UInt(1.W))
   val channel_out = Wire(UInt(5.W))
 
- 
 
+  //Counter for generating a 'do a sample' flag
+  val cntReg = RegInit(0.U(16.W))
+  val tick = cntReg === 0.U
+
+  cntReg := cntReg + 1.U
+  when (cntReg === 1.U) {
+    cntReg := 0.U
+  }
+
+
+  //instantiation of adc blackbox module and subsequent connection of signals
   val adc = Module(new xadc_wiz_0(maxCount))
 
   adc.io.di_in := 0.U(16.W)
@@ -26,34 +35,29 @@ class XADC(maxCount: Int) extends Module {
   adc.io.den_in := eoc_out
   adc.io.dwe_in := 0.U
   adc.io.drdy_out <> DontCare
-  adc.io.do_out := do_out
-  adc.io.dclk_in := io.clk
-  adc.io.reset_in := io.sw
+  adc.io.dclk_in := clock
+  adc.io.reset_in := reset
+  adc.io.convst_in := tick
   adc.io.vp_in := (0.U)
   adc.io.vn_in := (0.U)
   adc.io.vauxp5 := anal_p
   adc.io.vauxn5 := anal_n
-  adc.io.channel_out := channel_out
-  adc.io.eoc_out := eoc_out
   adc.io.alarm_out <> DontCare
   adc.io.eos_out <> DontCare
   adc.io.busy_out <> DontCare
-
-  io.JA := 0.U
-  daddr_in := 0.U
-  eoc_out := 0.U
-  do_out := 0.U
-  anal_p := 0.U
-  anal_n := 0.U
-  channel_out := 0.U
-  
+  eoc_out := adc.io.eoc_out
+  channel_out := adc.io.channel_out
+  do_out := adc.io.do_out
 
   daddr_in := Cat("b00".U, channel_out)
+  //connecting the analog nega tive and positive inputs to correct pmod pins
   anal_p := io.JA(4)
   anal_n := io.JA(0)
+  //Base led vector val to catch errors
   io.LED := "b1100110011001100".U
 
-  switch(do_out(15, 11)) {
+  //'lut' for led output depending in analog reading
+  switch(do_out(15, 12)) {
     is(0.U) {
       io.LED := "b0000000000000000".U
     }

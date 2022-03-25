@@ -1,118 +1,151 @@
 circuit XADC :
-  module xadc_wiz_0 :
-    input clock : Clock
-    input reset : Reset
-    output io : { flip di_in : UInt<16>, flip daddr_in : UInt<7>, flip den_in : UInt<1>, flip dwe_in : UInt<1>, flip drdy_out : UInt<1>, flip do_out : UInt<16>, flip dclk_in : UInt<1>, flip reset_in : UInt<1>, flip vp_in : UInt<1>, flip vn_in : UInt<1>, flip vauxp5 : UInt<1>, flip vauxn5 : UInt<1>, flip channel_out : UInt<5>, flip eoc_out : UInt<1>, flip alarm_out : UInt<1>, flip eos_out : UInt<1>, flip busy_out : UInt<1>}
-
-    skip
+  extmodule xadc_wiz_0 :
+    input di_in : UInt<16>
+    input daddr_in : UInt<7>
+    input den_in : UInt<1>
+    input dwe_in : UInt<1>
+    output drdy_out : UInt<1>
+    output do_out : UInt<16>
+    input dclk_in : Clock
+    input reset_in : UInt<1>
+    input convst_in : UInt<1>
+    input vp_in : UInt<1>
+    input vn_in : UInt<1>
+    input vauxp5 : UInt<1>
+    input vauxn5 : UInt<1>
+    output channel_out : UInt<5>
+    output eoc_out : UInt<1>
+    output alarm_out : UInt<1>
+    output eos_out : UInt<1>
+    output busy_out : UInt<1>
+    defname = xadc_wiz_0
 
   module XADC :
     input clock : Clock
     input reset : UInt<1>
-    output io : { LED : UInt<16>, JA : UInt<8>, flip clk : UInt<1>, flip sw : UInt<1>}
+    output io : { LED : UInt<16>, flip JA : UInt<8>}
 
-    wire daddr_in : UInt<6> @[XADC.scala 13:22]
-    wire eoc_out : UInt<1> @[XADC.scala 14:21]
-    wire do_out : UInt<16> @[XADC.scala 15:20]
-    wire anal_p : UInt<1> @[XADC.scala 16:20]
-    wire anal_n : UInt<1> @[XADC.scala 17:20]
-    wire channel_out : UInt<5> @[XADC.scala 18:25]
-    inst adc of xadc_wiz_0 @[XADC.scala 22:19]
-    adc.clock <= clock
-    adc.reset <= reset
-    adc.io.di_in <= UInt<16>("h0") @[XADC.scala 24:16]
-    adc.io.daddr_in <= daddr_in @[XADC.scala 25:19]
-    adc.io.den_in <= eoc_out @[XADC.scala 26:17]
-    adc.io.dwe_in <= UInt<1>("h0") @[XADC.scala 27:17]
-    adc.io.drdy_out is invalid @[XADC.scala 28:19]
-    adc.io.do_out <= do_out @[XADC.scala 29:17]
-    adc.io.dclk_in <= io.clk @[XADC.scala 30:18]
-    adc.io.reset_in <= io.sw @[XADC.scala 31:19]
-    adc.io.vp_in <= UInt<1>("h0") @[XADC.scala 32:16]
-    adc.io.vn_in <= UInt<1>("h0") @[XADC.scala 33:16]
-    adc.io.vauxp5 <= anal_p @[XADC.scala 34:17]
-    adc.io.vauxn5 <= anal_n @[XADC.scala 35:17]
-    adc.io.channel_out <= channel_out @[XADC.scala 36:22]
-    adc.io.eoc_out <= eoc_out @[XADC.scala 37:18]
-    adc.io.alarm_out is invalid @[XADC.scala 38:20]
-    adc.io.eos_out is invalid @[XADC.scala 39:18]
-    adc.io.busy_out is invalid @[XADC.scala 40:19]
-    io.JA <= UInt<1>("h0") @[XADC.scala 42:9]
-    daddr_in <= UInt<1>("h0") @[XADC.scala 43:12]
-    eoc_out <= UInt<1>("h0") @[XADC.scala 44:11]
-    do_out <= UInt<1>("h0") @[XADC.scala 45:10]
-    anal_p <= UInt<1>("h0") @[XADC.scala 46:10]
-    anal_n <= UInt<1>("h0") @[XADC.scala 47:10]
-    channel_out <= UInt<1>("h0") @[XADC.scala 48:15]
+    wire daddr_in : UInt<6> @[XADC.scala 12:22]
+    wire eoc_out : UInt<1> @[XADC.scala 13:21]
+    wire do_out : UInt<16> @[XADC.scala 14:20]
+    wire anal_p : UInt<1> @[XADC.scala 15:20]
+    wire anal_n : UInt<1> @[XADC.scala 16:20]
+    wire channel_out : UInt<5> @[XADC.scala 17:25]
+    reg cntReg : UInt<16>, clock with :
+      reset => (reset, UInt<16>("h0")) @[XADC.scala 21:23]
+    node tick = eq(cntReg, UInt<16>("hfde7")) @[XADC.scala 22:21]
+    node _cntReg_T = add(cntReg, UInt<1>("h1")) @[XADC.scala 24:20]
+    node _cntReg_T_1 = tail(_cntReg_T, 1) @[XADC.scala 24:20]
+    cntReg <= _cntReg_T_1 @[XADC.scala 24:10]
+    node _T = eq(cntReg, UInt<16>("hfde8")) @[XADC.scala 25:16]
+    when _T : @[XADC.scala 25:29]
+      cntReg <= UInt<1>("h0") @[XADC.scala 26:12]
+    inst adc of xadc_wiz_0 @[XADC.scala 31:19]
+    adc.busy_out is invalid
+    adc.eos_out is invalid
+    adc.alarm_out is invalid
+    adc.eoc_out is invalid
+    adc.channel_out is invalid
+    adc.vauxn5 is invalid
+    adc.vauxp5 is invalid
+    adc.vn_in is invalid
+    adc.vp_in is invalid
+    adc.convst_in is invalid
+    adc.reset_in is invalid
+    adc.dclk_in is invalid
+    adc.do_out is invalid
+    adc.drdy_out is invalid
+    adc.dwe_in is invalid
+    adc.den_in is invalid
+    adc.daddr_in is invalid
+    adc.di_in is invalid
+    adc.di_in <= UInt<16>("h0") @[XADC.scala 33:16]
+    adc.daddr_in <= daddr_in @[XADC.scala 34:19]
+    adc.den_in <= eoc_out @[XADC.scala 35:17]
+    adc.dwe_in <= UInt<1>("h0") @[XADC.scala 36:17]
+    adc.drdy_out is invalid @[XADC.scala 37:19]
+    adc.dclk_in <= clock @[XADC.scala 38:18]
+    adc.reset_in <= reset @[XADC.scala 39:19]
+    adc.convst_in <= tick @[XADC.scala 40:20]
+    adc.vp_in <= UInt<1>("h0") @[XADC.scala 41:16]
+    adc.vn_in <= UInt<1>("h0") @[XADC.scala 42:16]
+    adc.vauxp5 <= anal_p @[XADC.scala 43:17]
+    adc.vauxn5 <= anal_n @[XADC.scala 44:17]
+    adc.alarm_out is invalid @[XADC.scala 45:20]
+    adc.eos_out is invalid @[XADC.scala 46:18]
+    adc.busy_out is invalid @[XADC.scala 47:19]
+    eoc_out <= adc.eoc_out @[XADC.scala 48:11]
+    channel_out <= adc.channel_out @[XADC.scala 49:15]
+    do_out <= adc.do_out @[XADC.scala 50:10]
     node _daddr_in_T = cat(UInt<1>("h0"), channel_out) @[Cat.scala 31:58]
-    daddr_in <= _daddr_in_T @[XADC.scala 51:12]
-    node _anal_p_T = bits(io.JA, 4, 4) @[XADC.scala 52:18]
-    anal_p <= _anal_p_T @[XADC.scala 52:10]
-    node _anal_n_T = bits(io.JA, 0, 0) @[XADC.scala 53:18]
-    anal_n <= _anal_n_T @[XADC.scala 53:10]
-    io.LED <= UInt<16>("hcccc") @[XADC.scala 54:10]
-    node _T = bits(do_out, 15, 11) @[XADC.scala 56:16]
-    node _T_1 = eq(UInt<1>("h0"), _T) @[XADC.scala 56:26]
-    when _T_1 : @[XADC.scala 56:26]
-      io.LED <= UInt<1>("h0") @[XADC.scala 58:14]
+    daddr_in <= _daddr_in_T @[XADC.scala 52:12]
+    node _anal_p_T = bits(io.JA, 4, 4) @[XADC.scala 54:18]
+    anal_p <= _anal_p_T @[XADC.scala 54:10]
+    node _anal_n_T = bits(io.JA, 0, 0) @[XADC.scala 55:18]
+    anal_n <= _anal_n_T @[XADC.scala 55:10]
+    io.LED <= UInt<16>("hcccc") @[XADC.scala 57:10]
+    node _T_1 = bits(do_out, 15, 12) @[XADC.scala 60:16]
+    node _T_2 = eq(UInt<1>("h0"), _T_1) @[XADC.scala 60:26]
+    when _T_2 : @[XADC.scala 60:26]
+      io.LED <= UInt<1>("h0") @[XADC.scala 62:14]
     else :
-      node _T_2 = eq(UInt<1>("h1"), _T) @[XADC.scala 56:26]
-      when _T_2 : @[XADC.scala 56:26]
-        io.LED <= UInt<1>("h1") @[XADC.scala 61:14]
+      node _T_3 = eq(UInt<1>("h1"), _T_1) @[XADC.scala 60:26]
+      when _T_3 : @[XADC.scala 60:26]
+        io.LED <= UInt<1>("h1") @[XADC.scala 65:14]
       else :
-        node _T_3 = eq(UInt<2>("h2"), _T) @[XADC.scala 56:26]
-        when _T_3 : @[XADC.scala 56:26]
-          io.LED <= UInt<2>("h3") @[XADC.scala 64:14]
+        node _T_4 = eq(UInt<2>("h2"), _T_1) @[XADC.scala 60:26]
+        when _T_4 : @[XADC.scala 60:26]
+          io.LED <= UInt<2>("h3") @[XADC.scala 68:14]
         else :
-          node _T_4 = eq(UInt<2>("h3"), _T) @[XADC.scala 56:26]
-          when _T_4 : @[XADC.scala 56:26]
-            io.LED <= UInt<3>("h7") @[XADC.scala 67:14]
+          node _T_5 = eq(UInt<2>("h3"), _T_1) @[XADC.scala 60:26]
+          when _T_5 : @[XADC.scala 60:26]
+            io.LED <= UInt<3>("h7") @[XADC.scala 71:14]
           else :
-            node _T_5 = eq(UInt<3>("h4"), _T) @[XADC.scala 56:26]
-            when _T_5 : @[XADC.scala 56:26]
-              io.LED <= UInt<4>("hf") @[XADC.scala 70:14]
+            node _T_6 = eq(UInt<3>("h4"), _T_1) @[XADC.scala 60:26]
+            when _T_6 : @[XADC.scala 60:26]
+              io.LED <= UInt<4>("hf") @[XADC.scala 74:14]
             else :
-              node _T_6 = eq(UInt<3>("h5"), _T) @[XADC.scala 56:26]
-              when _T_6 : @[XADC.scala 56:26]
-                io.LED <= UInt<5>("h1f") @[XADC.scala 73:14]
+              node _T_7 = eq(UInt<3>("h5"), _T_1) @[XADC.scala 60:26]
+              when _T_7 : @[XADC.scala 60:26]
+                io.LED <= UInt<5>("h1f") @[XADC.scala 77:14]
               else :
-                node _T_7 = eq(UInt<3>("h6"), _T) @[XADC.scala 56:26]
-                when _T_7 : @[XADC.scala 56:26]
-                  io.LED <= UInt<6>("h3f") @[XADC.scala 76:14]
+                node _T_8 = eq(UInt<3>("h6"), _T_1) @[XADC.scala 60:26]
+                when _T_8 : @[XADC.scala 60:26]
+                  io.LED <= UInt<6>("h3f") @[XADC.scala 80:14]
                 else :
-                  node _T_8 = eq(UInt<3>("h7"), _T) @[XADC.scala 56:26]
-                  when _T_8 : @[XADC.scala 56:26]
-                    io.LED <= UInt<7>("h7f") @[XADC.scala 79:14]
+                  node _T_9 = eq(UInt<3>("h7"), _T_1) @[XADC.scala 60:26]
+                  when _T_9 : @[XADC.scala 60:26]
+                    io.LED <= UInt<7>("h7f") @[XADC.scala 83:14]
                   else :
-                    node _T_9 = eq(UInt<4>("h8"), _T) @[XADC.scala 56:26]
-                    when _T_9 : @[XADC.scala 56:26]
-                      io.LED <= UInt<8>("hff") @[XADC.scala 82:14]
+                    node _T_10 = eq(UInt<4>("h8"), _T_1) @[XADC.scala 60:26]
+                    when _T_10 : @[XADC.scala 60:26]
+                      io.LED <= UInt<8>("hff") @[XADC.scala 86:14]
                     else :
-                      node _T_10 = eq(UInt<4>("h9"), _T) @[XADC.scala 56:26]
-                      when _T_10 : @[XADC.scala 56:26]
-                        io.LED <= UInt<9>("h1ff") @[XADC.scala 85:14]
+                      node _T_11 = eq(UInt<4>("h9"), _T_1) @[XADC.scala 60:26]
+                      when _T_11 : @[XADC.scala 60:26]
+                        io.LED <= UInt<9>("h1ff") @[XADC.scala 89:14]
                       else :
-                        node _T_11 = eq(UInt<4>("ha"), _T) @[XADC.scala 56:26]
-                        when _T_11 : @[XADC.scala 56:26]
-                          io.LED <= UInt<10>("h3ff") @[XADC.scala 88:14]
+                        node _T_12 = eq(UInt<4>("ha"), _T_1) @[XADC.scala 60:26]
+                        when _T_12 : @[XADC.scala 60:26]
+                          io.LED <= UInt<10>("h3ff") @[XADC.scala 92:14]
                         else :
-                          node _T_12 = eq(UInt<4>("hb"), _T) @[XADC.scala 56:26]
-                          when _T_12 : @[XADC.scala 56:26]
-                            io.LED <= UInt<11>("h7ff") @[XADC.scala 91:14]
+                          node _T_13 = eq(UInt<4>("hb"), _T_1) @[XADC.scala 60:26]
+                          when _T_13 : @[XADC.scala 60:26]
+                            io.LED <= UInt<11>("h7ff") @[XADC.scala 95:14]
                           else :
-                            node _T_13 = eq(UInt<4>("hc"), _T) @[XADC.scala 56:26]
-                            when _T_13 : @[XADC.scala 56:26]
-                              io.LED <= UInt<12>("hfff") @[XADC.scala 94:14]
+                            node _T_14 = eq(UInt<4>("hc"), _T_1) @[XADC.scala 60:26]
+                            when _T_14 : @[XADC.scala 60:26]
+                              io.LED <= UInt<12>("hfff") @[XADC.scala 98:14]
                             else :
-                              node _T_14 = eq(UInt<4>("hd"), _T) @[XADC.scala 56:26]
-                              when _T_14 : @[XADC.scala 56:26]
-                                io.LED <= UInt<13>("h1fff") @[XADC.scala 97:14]
+                              node _T_15 = eq(UInt<4>("hd"), _T_1) @[XADC.scala 60:26]
+                              when _T_15 : @[XADC.scala 60:26]
+                                io.LED <= UInt<13>("h1fff") @[XADC.scala 101:14]
                               else :
-                                node _T_15 = eq(UInt<4>("he"), _T) @[XADC.scala 56:26]
-                                when _T_15 : @[XADC.scala 56:26]
-                                  io.LED <= UInt<14>("h3fff") @[XADC.scala 100:14]
+                                node _T_16 = eq(UInt<4>("he"), _T_1) @[XADC.scala 60:26]
+                                when _T_16 : @[XADC.scala 60:26]
+                                  io.LED <= UInt<14>("h3fff") @[XADC.scala 104:14]
                                 else :
-                                  node _T_16 = eq(UInt<4>("hf"), _T) @[XADC.scala 56:26]
-                                  when _T_16 : @[XADC.scala 56:26]
-                                    io.LED <= UInt<15>("h7fff") @[XADC.scala 103:14]
+                                  node _T_17 = eq(UInt<4>("hf"), _T_1) @[XADC.scala 60:26]
+                                  when _T_17 : @[XADC.scala 60:26]
+                                    io.LED <= UInt<15>("h7fff") @[XADC.scala 107:14]
 
