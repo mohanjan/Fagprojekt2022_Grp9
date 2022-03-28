@@ -5,5 +5,5 @@
 .vscode/
 .scalafmt.conf
 null/
-project/
-target/
+**/project/
+**/target/
