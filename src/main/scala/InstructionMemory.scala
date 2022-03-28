@@ -9,9 +9,13 @@ class InstuctionMemory(maxCount: Int) extends Module {
     val MemWrite = Input(Bool())
 
     val Instruction = Output(UInt(18.W))
+
+    //val Instruction = Output(Bits(18.W))
+
   })
 
   val InstructionMemory = SyncReadMem(1024,UInt(10.W))
+  //val InstructionMemory = SyncReadMem(1024,Bits(10.W))
 
   loadMemoryFromFileInline(InstructionMemory,"Program.txt")
 

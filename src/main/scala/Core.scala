@@ -39,7 +39,9 @@ class Core(maxCount: Int) extends Module {
   val rs2Reg = RegInit(0.U(4.W))
   val rdReg = RegInit(0.U(4.W))
 
-  val AImmediateReg = RegInit(0.U(10.W))
+  val AImmediateReg = RegInit(0.U(11.W))
+  val ASImmediateReg = RegInit(0.S(11.W))
+
   val AOperationReg = RegInit(0.U(4.W))
 
   val MemOpReg = RegInit(0.U(1.W))
@@ -119,6 +121,8 @@ class Core(maxCount: Int) extends Module {
         rdReg := InstDec.io.rd
 
         AImmediateReg := InstDec.io.AImmidiate
+        ASImmediateReg := InstDec.io.ASImmidiate
+
         AOperationReg := InstDec.io.AOperation
 
         MemOpReg := InstDec.io.MemOp
@@ -143,11 +147,18 @@ class Core(maxCount: Int) extends Module {
             when(InstDec.io.AOperation === 3.U){
               ALU.io.rs2 := 0.U
               ALU.io.rs1 := AImmediateReg
+              ALU.io.Operation := 0.U
             }.otherwise{
-              ALU.io.rs2 := AImmediateReg
-              ALU.io.rs1 := x(rs1Reg)
+              when(ASImmediateReg < 0.S){
+                ALU.io.Operation := 1.U
+                ALU.io.rs2 := (0.S - ASImmediateReg).asUInt
+                ALU.io.rs1 := x(rdReg)
+              }.otherwise{
+                ALU.io.rs2 := ASImmediateReg.asUInt
+                ALU.io.rs1 := x(rdReg)
+                ALU.io.Operation := 0.U
+              }
             }
-            ALU.io.Operation := 0.U
             WritebackMode := Arithmetic
             WritebackRegister := rdReg
           }
@@ -205,7 +216,7 @@ class Core(maxCount: Int) extends Module {
             x(1) := x(1) + 1.U
           }
           is(Arithmetic){
-            x(WritebackRegister) := ALU.io.Out
+            x(WritebackRegister) := ALU.io.Out.asUInt
             x(1) := x(1) + 1.U
           }
           is(MemoryI){

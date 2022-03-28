@@ -14,7 +14,8 @@ class ALU(maxCount: Int) extends Module {
 
   io.Out := OutputReg
 
-  switch(io.Operation){
+  switch(io.Operation)
+  {
     is(0.U){
       OutputReg := io.rs1 + io.rs2
     }

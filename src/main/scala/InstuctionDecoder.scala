@@ -11,7 +11,9 @@ class InstuctionDecoder(maxCount: Int) extends Module {
 
     val rd = Output(UInt(4.W))
 
-    val AImmidiate = Output(UInt(10.W))
+    val AImmidiate = Output(UInt(11.W))
+    val ASImmidiate = Output(SInt(11.W))
+
     val AOperation = Output(UInt(4.W))
 
     val MemOp = Output(UInt(2.W))
@@ -26,6 +28,7 @@ class InstuctionDecoder(maxCount: Int) extends Module {
   io.rs2 := 0.U
   io.rd := 0.U
   io.AImmidiate := 0.U
+  io.ASImmidiate := 0.S
   io.AOperation := 0.U
   io.MemOp := 0.U
   io.MemAdress := 0.U
@@ -43,6 +46,7 @@ class InstuctionDecoder(maxCount: Int) extends Module {
       io.AOperation := io.Instruction(15)
       io.rd := io.Instruction(14,11)
       io.AImmidiate := io.Instruction(10,0)
+      io.ASImmidiate := io.Instruction(10,0).asSInt
     }
     is(2.U){
       io.MemOp := io.Instruction(15)

@@ -30,7 +30,7 @@ Type 2, Immidiate Arithmetic
 14,11 = Register
 10,0 = Immidiate value
 
-addi rs, imm
+addi rd, imm // Signed
 li rd, imm
 
 ////////////////////
@@ -51,7 +51,7 @@ Type 4, Conditional
 15,14 = Operation
 13,10 = Read Register 1
 9,6 = Read Register 2
-5,0 = Immediate jump value
+5,0 = Immediate jump value // Signed
 
 beq rs1, rs2, offset
 bne rs1, rs2, offset
@@ -66,7 +66,7 @@ x0 = 0.U hardcoded
 x1 = Program Counter    
 x2 = Input 
 x3 = Output
-x4 = Stack Pointer
+x4 = Temp
 x5 = Temp 
 x6 = Temp 
 x7 = Temp 
