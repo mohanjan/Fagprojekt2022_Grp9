@@ -5,3 +5,5 @@
 .vscode/
 .scalafmt.conf
 null/
+project/
+target/global-logging/
