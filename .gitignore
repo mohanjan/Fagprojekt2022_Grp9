@@ -1,2 +1,6 @@
-
-null/
+.bloop/
+.bsp/
+.idea/
+.metals/
+.vscode/
+.scalafmt.conf
