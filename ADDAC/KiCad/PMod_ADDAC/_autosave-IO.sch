@@ -376,7 +376,7 @@ F 3 "" H 3450 4850 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text Notes 2050 6750 0    50   ~ 0
--high slew rate comparators (LMP7300MAX/NOPB)\n+-12 eller ?\ninput and outputs must be at 200 ohms, with at max 3.3V (?)\n
+-high slew rate comparators (LMP7300MAX/NOPB)\n- TLV320\n- Lm339dr\n+-12 eller ?\ninput and outputs must be at 200 ohms, with at max 3.3V (?)\n
 $Comp
 L Device:C_Small C?
 U 1 1 6247D308
@@ -893,8 +893,8 @@ L Device:R R?
 U 1 1 6249EC60
 P 1700 2450
 AR Path="/6249EC60" Ref="R?"  Part="1" 
-AR Path="/62428AF7/6249EC60" Ref="R?"  Part="1" 
-F 0 "R?" H 1770 2496 50  0000 L CNN
+AR Path="/62428AF7/6249EC60" Ref="R33"  Part="1" 
+F 0 "R33" H 1770 2496 50  0000 L CNN
 F 1 "10k" H 1770 2405 50  0000 L CNN
 F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 1630 2450 50  0001 C CNN
 F 3 "~" H 1700 2450 50  0001 C CNN
@@ -905,10 +905,10 @@ Wire Wire Line
 	1700 2250 1700 2300
 Connection ~ 1700 2250
 $Comp
-L power:GND #PWR?
+L power:GND #PWR035
 U 1 1 624A41B5
 P 1700 2700
-F 0 "#PWR?" H 1700 2450 50  0001 C CNN
+F 0 "#PWR035" H 1700 2450 50  0001 C CNN
 F 1 "GND" V 1705 2572 50  0001 R CNN
 F 2 "" H 1700 2700 50  0001 C CNN
 F 3 "" H 1700 2700 50  0001 C CNN
@@ -917,4 +917,48 @@ F 3 "" H 1700 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1700 2700 1700 2600
+$Comp
+L Comparator:LM339 U?
+U 1 1 624BA0D3
+P 3200 5800
+F 0 "U?" H 3200 6167 50  0000 C CNN
+F 1 "LM339" H 3200 6076 50  0000 C CNN
+F 2 "" H 3150 5900 50  0001 C CNN
+F 3 "https://www.st.com/resource/en/datasheet/lm139.pdf" H 3250 6000 50  0001 C CNN
+	1    3200 5800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Comparator:LM339 U?
+U 2 1 624BE329
+P 2050 3850
+F 0 "U?" H 2050 4217 50  0000 C CNN
+F 1 "LM339" H 2050 4126 50  0000 C CNN
+F 2 "" H 2000 3950 50  0001 C CNN
+F 3 "https://www.st.com/resource/en/datasheet/lm139.pdf" H 2100 4050 50  0001 C CNN
+	2    2050 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Comparator:LM339 U?
+U 3 1 624BF175
+P 1100 3500
+F 0 "U?" H 1100 3867 50  0000 C CNN
+F 1 "LM339" H 1100 3776 50  0000 C CNN
+F 2 "" H 1050 3600 50  0001 C CNN
+F 3 "https://www.st.com/resource/en/datasheet/lm139.pdf" H 1150 3700 50  0001 C CNN
+	3    1100 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Comparator:LM339 U?
+U 4 1 624C0053
+P 1100 4150
+F 0 "U?" H 1100 4517 50  0000 C CNN
+F 1 "LM339" H 1100 4426 50  0000 C CNN
+F 2 "" H 1050 4250 50  0001 C CNN
+F 3 "https://www.st.com/resource/en/datasheet/lm139.pdf" H 1150 4350 50  0001 C CNN
+	4    1100 4150
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
