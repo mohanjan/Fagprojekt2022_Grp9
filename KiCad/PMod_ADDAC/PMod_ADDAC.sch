@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 5
+Sheet 1 4
 Title ""
 Date ""
 Rev ""
@@ -22,13 +22,7 @@ F0 "R2R" 50
 F1 "R2R.sch" 50
 $EndSheet
 $Sheet
-S 6050 2000 500  150 
-U 6242C1FD
-F0 "SDADC" 50
-F1 "SDADC.sch" 50
-$EndSheet
-$Sheet
-S 8000 2150 500  150 
+S 7050 2000 500  150 
 U 6244F096
 F0 "power" 50
 F1 "power.sch" 50
