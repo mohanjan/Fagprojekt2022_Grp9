@@ -3,13 +3,136 @@ import java.util.Scanner;
 
 public class Assembler {
     public static void main(String[] args) {
+        replace_pseudo();
+        demangle_identifiers();
         read_assembly();
     }
+
+    public static void replace_pseudo(){
+        try {
+            File myObj = new File("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\Program.txt");
+            FileWriter myWriter = new FileWriter("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\Program_PreAssembly.txt");
+            Scanner myReader = new Scanner(myObj);
+
+            String addedData = "";
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+
+                if(data.contains(".") && data.contains(":")) {
+                    addedData = " //" + data;
+                }else if(pseudo_instructions(data)) {
+                    if(data.contains("j")){
+                        myWriter.write("ldi x1, " + data.substring(data.indexOf("."), (data.length())) + addedData + "\n");
+                        addedData = "";
+                    }else if(data.contains("loadFir")){
+                        myWriter.write("ldi x4," + data.substring(data.indexOf(",") + 1, (data.length())) + addedData + "\n");
+                        String memorypos = data.substring(0, data.indexOf(",")).replaceAll(("[^0-9]"), "");
+                        myWriter.write("sw x4, " + (Integer.parseInt(memorypos) + 1983) + "\n");
+                        addedData = "";
+                    }
+                }else{
+                    myWriter.write(data + addedData + "\n");
+                    addedData = "";
+                }
+            }
+            myWriter.close();
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean pseudo_instructions(String instruction) {
+
+        if (instruction.contains("j") || instruction.contains("loadFir")) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public static void demangle_identifiers(){
+        String[] functionarray = new String[10];
+
+        int functionarray_index = 0;
+        int[] functionaddress = new int[10];
+
+
+        try {
+            File myObj = new File("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\Program_PreAssembly.txt");
+            Scanner myReader = new Scanner(myObj);
+
+            int instruction_address = 0;
+
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+
+                if(data.contains("//")){
+                    functionarray[functionarray_index] = data.substring(data.indexOf("/") + 2,data.indexOf(":") - 1);
+                    functionaddress[functionarray_index] = instruction_address;
+
+                    functionarray_index += 1;
+                }
+                instruction_address += 1;
+            }
+
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+        try {
+            File myObj = new File("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\Program_PreAssembly.txt");
+            FileWriter myWriter = new FileWriter("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\Program_Assembly.txt");
+            Scanner myReader = new Scanner(myObj);
+
+            int instruction_address = 0;
+
+            while(myReader.hasNextLine()){
+                String data = myReader.nextLine();
+
+                if(data.contains("//")){
+                    data = data.replace(data.substring(data.indexOf("/")), "");
+                }else{
+                    for(int i = 0; i < functionarray.length; i++){
+                        if(functionarray[i] != null){
+                            if(data.contains(functionarray[i])){
+                                data = data.replace(data.substring(data.indexOf("."),data.length()), Integer.toString(functionaddress[i]));
+                            }
+                        }
+                    }
+                }
+                myWriter.write(data + "\n");
+            }
+
+
+            myWriter.close();
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
 
     public static void read_assembly(){
         try {
             File myObj = new File("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\Program_Assembly.txt");
-            FileWriter myWriter = new FileWriter("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\Program.txt");
+            FileWriter myWriter = new FileWriter("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\MachineCode.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
@@ -25,83 +148,6 @@ public class Assembler {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-
-
-    }
-
-    public static void read_file(int[] data) {
-        //reads .bin files intended for the Ripes RISC V simulator, converts them to int values usable by IsaSim.java class
-        System.out.print("Enter binary file location:\n");
-        Scanner c = new Scanner(System.in);
-        String temp = c.nextLine();
-        String fileLoc = temp.replaceAll("[\"]", "");
-
-        try {
-            FileInputStream fis = new FileInputStream(new File(fileLoc));
-            int i=0;
-            while(true) {
-                data[i]=fis.read();
-                if(data[i]==-1) {
-                    break;
-                }
-
-                i++;
-            }
-            fis.close();
-
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-
-        c.close();
-
-
-        // below code was used during testing & debugging.
-		/*int i =0;
-		while(data[i]!=-1) {
-			System.out.println(data[i]+(data[i+1]<<8)+(data[i+2]<<16)+(data[i+3]<<24)+",");
-			System.out.println(String.format("0x%08x",data[i]+(data[i+1]<<8)+(data[i+2]<<16)+(data[i+3]<<24))+",");
-			for(int j = 0;j<=7;j++) {
-				System.out.print(((data[i]>>>j)&1) + " ");
-				System.out.print(((data[i+1]>>>j)&1) + " ");
-				System.out.print(((data[i+2]>>>j)&1) + " ");
-				System.out.print(((data[i+3]>>>j)&1) + " ");
-			}
-			System.out.println();
-			i+=4;
-		}*/
-    }
-
-    public static void init_reg(int[] array) { // Code used to initialize every element in the input array. Was used just in case there was some trash data in the arrays?
-        for(int i =0;i <array.length; i++) {
-            array[i]=0;
-        }
-    }
-
-    public static void read_res() {
-        //reads the result files created by dump_registers() in IsaSim.java, also .res files from Ripes sim
-        System.out.print("Enter result file location:\n");
-        Scanner c = new Scanner(System.in);
-        String temp = c.nextLine();
-        String fileLoc = temp.replaceAll("[\"]", "");
-        int[] data = new int[256];
-        try {
-            FileInputStream fis = new FileInputStream(new File(fileLoc));
-            for(int i=0;i<256;i++){
-                data[i]=fis.read();
-            }
-            for(int i=0;i<32;i++){
-                System.out.print("register x" +i+ ": ");
-                System.out.print(String.format("0x%08x",((data[i*4+3]<<24)+(data[i*4+2]<<16)+(data[i*4+1]<<8)+data[i*4]))+"\n");
-            }
-            fis.close();
-
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        c.close();
     }
 
     public static int find_name(String instruction){

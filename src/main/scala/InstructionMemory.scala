@@ -17,7 +17,7 @@ class InstuctionMemory(maxCount: Int) extends Module {
   val InstructionMemory = SyncReadMem(1024,UInt(10.W))
   //val InstructionMemory = SyncReadMem(1024,Bits(10.W))
 
-  loadMemoryFromFileInline(InstructionMemory,"Program.txt")
+  loadMemoryFromFileInline(InstructionMemory,"MachineCode.txt")
 
   io.Instruction := 0.U
 
