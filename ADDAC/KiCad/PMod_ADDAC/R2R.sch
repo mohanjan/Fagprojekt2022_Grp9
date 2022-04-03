@@ -16,7 +16,7 @@ $EndDescr
 Wire Wire Line
 	4000 2450 3850 2450
 Text GLabel 4000 2450 2    50   Input ~ 0
-DAC_D_out
+DAC_R2R_out
 Wire Wire Line
 	1300 3400 1850 3400
 Wire Wire Line
@@ -99,29 +99,7 @@ Connection ~ 1300 3550
 Wire Wire Line
 	1300 3550 1300 3600
 Wire Wire Line
-	1300 3700 1300 3750
-$Comp
-L power:VCC #PWR?
-U 1 1 6243F7DE
-P 1350 3750
-AR Path="/6243F7DE" Ref="#PWR?"  Part="1" 
-AR Path="/6242AFE6/6243F7DE" Ref="#PWR02"  Part="1" 
-F 0 "#PWR02" H 1350 3600 50  0001 C CNN
-F 1 "VCC" V 1367 3878 50  0000 L CNN
-F 2 "" H 1350 3750 50  0001 C CNN
-F 3 "" H 1350 3750 50  0001 C CNN
-	1    1350 3750
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	1350 3750 1300 3750
-Connection ~ 1300 3750
-Wire Wire Line
-	1300 3750 1300 3800
-Wire Wire Line
 	1850 5400 1850 3400
-Text Notes 3100 3300 0    50   ~ 0
-3R?\n
 Wire Wire Line
 	2500 2350 2500 2400
 Connection ~ 2500 2350
@@ -620,5 +598,25 @@ F 2 "" H 3050 2850 50  0001 C CNN
 F 3 "" H 3050 2850 50  0001 C CNN
 	1    3050 2850
 	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	1300 3750 1300 3800
+Wire Wire Line
+	1300 3700 1300 3750
+Connection ~ 1300 3750
+Wire Wire Line
+	1350 3750 1300 3750
+$Comp
+L power:VCC #PWR?
+U 1 1 6243F7DE
+P 1350 3750
+AR Path="/6243F7DE" Ref="#PWR?"  Part="1" 
+AR Path="/6242AFE6/6243F7DE" Ref="#PWR02"  Part="1" 
+F 0 "#PWR02" H 1350 3600 50  0001 C CNN
+F 1 "VCC" V 1367 3878 50  0000 L CNN
+F 2 "" H 1350 3750 50  0001 C CNN
+F 3 "" H 1350 3750 50  0001 C CNN
+	1    1350 3750
+	0    1    1    0   
 $EndComp
 $EndSCHEMATC
