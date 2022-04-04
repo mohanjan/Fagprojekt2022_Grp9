@@ -17,7 +17,6 @@ public class ISA{
 
         if(instruction.contains("ADD"||"add"||"Add"){
             val=0b000001;
-            
         }
 
         else if(instruction.contains("SUB"||"sub"||"Sub")){
@@ -43,8 +42,7 @@ public class ISA{
 
         /*  IMMEDIATE INSTRUCTIONS  */
         else if(instruction.contains("ADDI"||"addi"||"Addi"||"AddI")){
-            val=0b010001;
-            
+            val=0b010001;   
         }
 
         else if(instruction.contains("SUBI"||"subi"||"Subi"||"SubI")){

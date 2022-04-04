@@ -1,5 +1,21 @@
 import chisel3._
 import chisel3.util._
+import Core._
+
+object Core{
+  val Arithmetic = 0.U
+  val ImmidiateArithmetic = 1.U
+  val MemoryI = 2.U
+  val Conditional = 3.U
+  val Nil = 4.U
+  val FirRead = 5.U
+  val InstructionFetch = 0.U
+  val InstructionDecode = 1.U
+  val Execute = 2.U
+  val MemoryAccess = 3.U
+  val RegisterWriteback = 4.U
+}
+
 
 class Core(maxCount: Int) extends Module {
   val io = IO(new Bundle {
@@ -13,102 +29,212 @@ class Core(maxCount: Int) extends Module {
     val ProgramLength = Input(UInt(10.W))
   })
 
-  // x0 = 0.U hardcoded
-  // x1 = Program Counter
-  // x2 = Input
-  // x3 = Output
-
   val OpCounter = RegInit(0.U(3.W))
-  val InstructionReg = RegInit(0.U(18.W))
+
+  // Pipeline registers
+
+  val AddressReg = RegInit(0.U(10.W))
+  val TypeReg = RegInit(0.U(2.W))
+  val rs1Reg = RegInit(0.U(4.W))
+  val rs2Reg = RegInit(0.U(4.W))
+  val rdReg = RegInit(0.U(4.W))
+
+  val AImmediateReg = RegInit(0.U(11.W))
+  val ASImmediateReg = RegInit(0.S(11.W))
+
+  val AOperationReg = RegInit(0.U(4.W))
+
+  val MemOpReg = RegInit(0.U(1.W))
+  val MemAddressReg = RegInit(0.U(11.W))
+
+  val COperationReg = RegInit(0.U(2.W))
+  val COffsetReg = RegInit(0.S(6.W))
+
+  // Memory Access and Writeback registers
+
+  val WritebackMode = RegInit(0.U(4.W))
+  val WritebackRegister = RegInit(0.U(4.W))
 
   val ALU = Module(new ALU(maxCount))
-  val Memory = Module(new Memory(maxCount))
+  val DataMem = Module(new DataMemory(maxCount))
   val InstDec = Module(new InstuctionDecoder(maxCount))
   val BranchComp = Module(new BranchComp(maxCount))
+  val InstructionMem = Module(new InstuctionMemory(maxCount))
+  val FirEngine = Module(new FirEngine(maxCount))
 
-  val x = Reg(Vec(16,UInt(16.W)))
+  //Registers
+
+  val x = Reg(Vec(16,UInt(18.W)))
 
   x(0) := 0.U(16.W)
   x(2) := io.WaveIn
   io.WaveOut := x(3)
 
+  // Defaults
+
   ALU.io.rs2 := 0.U
   ALU.io.rs1 := 0.U
   ALU.io.Operation := 0.U
 
-  Memory.io.DataIn := 0.U
-  Memory.io.Address := 0.U
-  Memory.io.Valid := false.B
-  Memory.io.Operation := 0.U
+  InstructionMem.io.Address := 0.U
+  InstructionMem.io.DataIn := 0.U
+  InstructionMem.io.MemWrite := 0.U
+
+  DataMem.io.DataIn := 0.U
+  DataMem.io.Address := 0.U
+  DataMem.io.Enable := false.B
+  DataMem.io.Write := false.B
+
+  FirEngine.io.WriteData := 0.U
+  FirEngine.io.Address := 0.U
+  FirEngine.io.Enable := false.B
+  FirEngine.io.WriteEn := false.B
+  FirEngine.io.WaveIn := io.WaveIn
 
   BranchComp.io.rs2 := 0.U
   BranchComp.io.rs1 := 0.U
+  BranchComp.io.PC := 0.U
+  BranchComp.io.Offset := 0.S
   BranchComp.io.Operation := 0.U
 
   InstDec.io.Instruction := 0.U
 
+  // Processor
+
   when(io.MemWrite){
-    Memory.io.DataIn := io.MemInData
-    Memory.io.Address := io.MemInAddress
+    DataMem.io.DataIn := io.MemInData
+    DataMem.io.Address := io.MemInAddress
   }.otherwise{
+
     switch(OpCounter){
-      is(0.U){
-        Memory.io.Address := x(1)
-        Memory.io.Operation := 1.U // Read
-        InstructionReg := Memory.io.DataOut
-        OpCounter := OpCounter + 1.U
+      is(InstructionFetch){
+        InstructionMem.io.Address := x(1)
+        AddressReg := x(1)
+        OpCounter := InstructionDecode
       }
-      is(1.U){
-        InstDec.io.Instruction := InstructionReg
+      is(InstructionDecode){
+        InstDec.io.Instruction := InstructionMem.io.Instruction
 
-        //switch(InstDec.io.Type){
-        switch(InstructionReg(17,16)){
-          is(0.U){
-            ALU.io.Operation := InstDec.io.AOperation
-            ALU.io.rs2 := x(InstDec.io.rs2)
-            ALU.io.rs1 := x(InstDec.io.rs1)
-            x(InstDec.io.rd) := ALU.io.Out
-            x(1) := x(1) + 1.U
+        TypeReg := InstDec.io.Type
+        rs1Reg := InstDec.io.rs1
+        rs2Reg := InstDec.io.rs2
+        rdReg := InstDec.io.rd
+
+        AImmediateReg := InstDec.io.AImmidiate
+        ASImmediateReg := InstDec.io.ASImmidiate
+
+        AOperationReg := InstDec.io.AOperation
+
+        MemOpReg := InstDec.io.MemOp
+        MemAddressReg := InstDec.io.MemAdress
+
+        COperationReg := InstDec.io.COperation
+        COffsetReg := InstDec.io.COffset
+
+        OpCounter := Execute
+      }
+      is(Execute){
+        switch(TypeReg){
+          is(Arithmetic){
+            ALU.io.Operation := AOperationReg
+            ALU.io.rs2 := x(rs2Reg)
+            ALU.io.rs1 := x(rs1Reg)
+
+            WritebackMode := Arithmetic
+            WritebackRegister := rdReg
           }
-          is(1.U){
+          is(ImmidiateArithmetic){
             when(InstDec.io.AOperation === 3.U){
-              x(InstDec.io.rd) := InstDec.io.AImmidiate
+              ALU.io.rs2 := 0.U
+              ALU.io.rs1 := AImmediateReg
+              ALU.io.Operation := 0.U
             }.otherwise{
-              ALU.io.Operation := InstDec.io.AOperation
-              ALU.io.rs2 := InstDec.io.AImmidiate
-              ALU.io.rs1 := x(InstDec.io.rd)
-              x(InstDec.io.rd) := ALU.io.Out
+              when(ASImmediateReg < 0.S){
+                ALU.io.Operation := 1.U
+                ALU.io.rs2 := (0.S - ASImmediateReg).asUInt
+                ALU.io.rs1 := x(rdReg)
+              }.otherwise{
+                ALU.io.rs2 := ASImmediateReg.asUInt
+                ALU.io.rs1 := x(rdReg)
+                ALU.io.Operation := 0.U
+              }
             }
-            x(1) := x(1) + 1.U
+            WritebackMode := Arithmetic
+            WritebackRegister := rdReg
           }
-          is(2.U){
-            Memory.io.Valid := true.B
-            Memory.io.Operation := InstDec.io.MemOp
-            Memory.io.Address := InstDec.io.MemAdress
+          is(MemoryI){
+            when(MemAddressReg < "h7BF".U){
+              DataMem.io.Address := (MemAddressReg - "h7BF".U)
+              DataMem.io.DataIn := x(rdReg)
+              DataMem.io.Enable := true.B
+              DataMem.io.Write := MemOpReg
 
-            when(InstDec.io.MemOp === 0.U){
-              x(InstDec.io.rd) := Memory.io.DataOut
+              switch(MemOpReg){
+                is(0.U){
+                  WritebackMode := MemoryI
+                }
+                is(1.U){
+                  WritebackMode := Nil
+                }
+              }
+              WritebackRegister := rdReg
             }.otherwise{
-              Memory.io.DataIn := x(InstDec.io.rd)
+              // Read and write to FIR registers
+
+              FirEngine.io.Address := MemAddressReg
+              FirEngine.io.WriteData := x(rdReg)
+              FirEngine.io.Enable := true.B
+              FirEngine.io.WriteEn := MemOpReg
+
+              switch(MemOpReg){
+                is(0.U){
+                  WritebackMode := FirRead
+                }
+                is(1.U){
+                  WritebackMode := Nil
+                }
+              }
+              WritebackRegister := rdReg
             }
-            x(1) := x(1) + 1.U
           }
-          is(3.U){
-            BranchComp.io.rs2 := x(InstDec.io.rs2)
-            BranchComp.io.rs1 := x(InstDec.io.rs1)
-            BranchComp.io.Operation := InstDec.io.COperation
+          is(Conditional){
+            BranchComp.io.rs2 := x(rs2Reg)
+            BranchComp.io.rs1 := x(rs1Reg)
+            BranchComp.io.Operation := COperationReg
+            BranchComp.io.PC := x(1)
+            BranchComp.io.Offset := COffsetReg
 
-            when(BranchComp.io.Out){
-              x(1) := (x(1).zext + InstDec.io.Offset.asSInt).asUInt(15,0)
-            }.otherwise{
-              x(1) := x(1) + 1.U
-            }
+            WritebackMode := Conditional
+            WritebackRegister := rdReg
           }
         }
+        OpCounter := RegisterWriteback
+      }
+      is(RegisterWriteback){
+        switch(WritebackMode){
+          is(Nil){
+            x(1) := x(1) + 1.U
+          }
+          is(Arithmetic){
+            x(WritebackRegister) := ALU.io.Out.asUInt
+            x(1) := x(1) + 1.U
+          }
+          is(MemoryI){
+            x(WritebackRegister) := DataMem.io.DataOut
+            x(1) := x(1) + 1.U
+          }
+          is(FirRead){
+            x(WritebackRegister) := FirEngine.io.ReadData
+            x(1) := x(1) + 1.U
+          }
+          is(Conditional){
+            x(1) := BranchComp.io.Out
+          }
+        }
+
+        OpCounter := InstructionFetch
+
       }
     }
   }
-
-
-
 }
