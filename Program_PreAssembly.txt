@@ -6,8 +6,4 @@ bne x3, x2, -4
 ldi x1, .penis
 ldi x4, 100 //.penis:
 sw x4, 1993
-
-
-
-
-
+ldi x1, .main 

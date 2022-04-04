@@ -30,7 +30,7 @@ public class Assembler {
                         myWriter.write("sw x4, " + (Integer.parseInt(memorypos) + 1983) + "\n");
                         addedData = "";
                     }
-                }else{
+                }else if(data != ""){
                     myWriter.write(data + addedData + "\n");
                     addedData = "";
                 }
