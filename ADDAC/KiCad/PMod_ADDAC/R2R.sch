@@ -73,7 +73,7 @@ AR Path="/6243F7CD" Ref="J?"  Part="1"
 AR Path="/6242AFE6/6243F7CD" Ref="J1"  Part="1" 
 F 0 "J1" H 1208 3889 50  0000 C CNN
 F 1 "Conn_01x12_Male" H 1208 3890 50  0001 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_2x06_P2.54mm_Horizontal" H 1100 3300 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_2x06_P2.54mm_Vertical" H 1100 3300 50  0001 C CNN
 F 3 "~" H 1100 3300 50  0001 C CNN
 	1    1100 3300
 	1    0    0    1   
