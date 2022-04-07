@@ -1,11 +1,9 @@
 .bloop/
-.bsp/
-.idea/
 .metals/
-.vscode/
-.scalafmt.conf
 null/
 **/project/
 **/target/
-firrtl_black_box_resource_files.f
 *.json
+**/KiCad/
+firrtl_black_box_resource_files.f
+

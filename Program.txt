@@ -1,1 +1,15 @@
-21882
+.main:
+add x2, x1, x0
+ldi x2, 100
+addi x3, 200
+addi x3, -200
+bne x3, x2, -4
+j .penis
+
+.penis:
+loadFir 10, 100
+j .main
+
+
+
+
