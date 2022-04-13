@@ -1257,10 +1257,10 @@ Wire Wire Line
 Text Notes 4900 4250 0    50   ~ 0
 - vcc fra board ind et eller andet sted?\n- jumper så man får power fra +-12V\n
 $Comp
-L Device:R R?
+L Device:R R31
 U 1 1 6257E521
 P 4050 5300
-F 0 "R?" V 3843 5300 50  0000 C CNN
+F 0 "R31" V 3843 5300 50  0000 C CNN
 F 1 "0" V 3934 5300 50  0000 C CNN
 F 2 "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P1.90mm_Vertical" V 3980 5300 50  0001 C CNN
 F 3 "~" H 4050 5300 50  0001 C CNN
@@ -1272,10 +1272,10 @@ Wire Wire Line
 Text Notes 6600 2850 0    50   ~ 0
 - output current protection\n- diode...\n\n
 $Comp
-L Device:D_Zener D?
+L Device:D_Zener D2
 U 1 1 625A9B81
 P 6350 1800
-F 0 "D?" V 6304 1879 50  0000 L CNN
+F 0 "D2" V 6304 1879 50  0000 L CNN
 F 1 "3v9" V 6395 1879 50  0000 L CNN
 F 2 "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal" H 6350 1800 50  0001 C CNN
 F 3 "~" H 6350 1800 50  0001 C CNN
@@ -1283,10 +1283,10 @@ F 3 "~" H 6350 1800 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:GND #PWR?
+L power:GND #PWR024
 U 1 1 625AA06C
 P 6350 1950
-F 0 "#PWR?" H 6350 1700 50  0001 C CNN
+F 0 "#PWR024" H 6350 1700 50  0001 C CNN
 F 1 "GND" H 6355 1777 50  0000 C CNN
 F 2 "" H 6350 1950 50  0001 C CNN
 F 3 "" H 6350 1950 50  0001 C CNN
@@ -1296,10 +1296,10 @@ $EndComp
 Wire Wire Line
 	6350 1650 6750 1650
 $Comp
-L Device:R R?
+L Device:R R34
 U 1 1 625B7193
 P 6200 1650
-F 0 "R?" V 5993 1650 50  0000 C CNN
+F 0 "R34" V 5993 1650 50  0000 C CNN
 F 1 "1k" V 6084 1650 50  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 6130 1650 50  0001 C CNN
 F 3 "~" H 6200 1650 50  0001 C CNN
