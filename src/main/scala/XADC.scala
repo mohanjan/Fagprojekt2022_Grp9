@@ -110,8 +110,3 @@ class XADC(maxCount: Int) extends Module {
   }
 }
 
-object XADC extends App {
-  (new chisel3.stage.ChiselStage).emitVerilog(new XADC(1))
-}
-
-
