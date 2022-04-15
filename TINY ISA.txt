@@ -1,12 +1,12 @@
 Tiny ISA 
 
-18 bit instruction 
+18 bit RISC instruction-set
 
 17,16 = Type
 
 ///////////////////////
 
-Type 1, Arithmetic 
+Type 1 
 
 15,12 = Operation 
 11,8 = Write Register 
@@ -20,33 +20,37 @@ sll rd, rs1, rs2
 srl rd, rs1, rs2
 and rd, rs1, rs2
 or rd, rs1, rs2
-xor rd rs1, rs2
+xor rd, rs1, rs2
+
+lw rd, rs1
+sw rd, rs1
 
 ////////////////////
 
-Type 2, Immidiate Arithmetic 
+Type 2
 
-15 = Operation // Can be extended
-14,11 = Register
-10,0 = Immidiate value
+15,14 = Operation 
+13,10 = Register
+9,0 = Immediate value
 
 addi rd, imm // Signed
 li rd, imm
+lui rd, imm 
 
 ////////////////////
 
-Type 3, Memory
+Type 3
 
 15 = Operation, Read/Write
 14,11 = Read/Write register
 10,0 = Memory Address
 
-lw rd, address
-sw rd, address
+lwi rd, imm address
+swi rd, imm address
 
 ////////////////////
 
-Type 4, Conditional 
+Type 4
 
 15,14 = Operation
 13,10 = Read Register 1
@@ -64,9 +68,9 @@ blt rs1, rs2, offset
 
 x0 = 0.U hardcoded 
 x1 = Program Counter    
-x2 = Input 
-x3 = Output
-x4 = Temp
+x2 = Stack pointer
+x3 = Input 
+x4 = Output
 x5 = Temp 
 x6 = Temp 
 x7 = Temp 
