@@ -43,10 +43,10 @@ class InstuctionDecoder(maxCount: Int) extends Module {
       io.rs2 := io.Instruction(3,0)
     }
     is(1.U){
-      io.AOperation := io.Instruction(15)
-      io.rd := io.Instruction(14,11)
-      io.AImmidiate := io.Instruction(10,0)
-      io.ASImmidiate := io.Instruction(10,0).asSInt
+      io.AOperation := io.Instruction(15,14)
+      io.rd := io.Instruction(13,10)
+      io.AImmidiate := io.Instruction(9,0)
+      io.ASImmidiate := io.Instruction(9,0).asSInt
     }
     is(2.U){
       io.MemOp := io.Instruction(15)

@@ -1,5 +1,6 @@
 import chisel3._
 import chisel3.util._
+import chisel3.experimental.Analog
 import Core._
 
 object Core{
@@ -28,6 +29,19 @@ class Core(maxCount: Int) extends Module {
     val MemWrite = Input(Bool())
     val ProgramLength = Input(UInt(10.W))
   })
+  val SPI = IO(new Bundle{
+    val SCLK = Output(Bool())
+    val CE = Output(Bool())
+    val MOSI = Output(Bool())
+    val MISO = Input(Bool())
+  })
+  /*
+  val SPI = IO(new Bundle{
+    val SCLK = Output(Bool())
+    val CE = Output(Bool())
+    val SPIBus = Analog(4.W)
+  })
+  */
 
   val OpCounter = RegInit(0.U(3.W))
 
@@ -60,7 +74,6 @@ class Core(maxCount: Int) extends Module {
   val InstDec = Module(new InstuctionDecoder(maxCount))
   val BranchComp = Module(new BranchComp(maxCount))
   val InstructionMem = Module(new InstuctionMemory(maxCount))
-  val FirEngine = Module(new FirEngine(maxCount))
 
   //Registers
 
@@ -84,12 +97,7 @@ class Core(maxCount: Int) extends Module {
   DataMem.io.Address := 0.U
   DataMem.io.Enable := false.B
   DataMem.io.Write := false.B
-
-  FirEngine.io.WriteData := 0.U
-  FirEngine.io.Address := 0.U
-  FirEngine.io.Enable := false.B
-  FirEngine.io.WriteEn := false.B
-  FirEngine.io.WaveIn := io.WaveIn
+  DataMem.SPI <> SPI
 
   BranchComp.io.rs2 := 0.U
   BranchComp.io.rs1 := 0.U
@@ -105,7 +113,6 @@ class Core(maxCount: Int) extends Module {
     DataMem.io.DataIn := io.MemInData
     DataMem.io.Address := io.MemInAddress
   }.otherwise{
-
     switch(OpCounter){
       is(InstructionFetch){
         InstructionMem.io.Address := x(1)
@@ -135,18 +142,54 @@ class Core(maxCount: Int) extends Module {
       }
       is(Execute){
         switch(TypeReg){
-          is(Arithmetic){
-            ALU.io.Operation := AOperationReg
-            ALU.io.rs2 := x(rs2Reg)
-            ALU.io.rs1 := x(rs1Reg)
+          is(0.U){
+            when(AOperationReg <= 7.U){
+              ALU.io.Operation := AOperationReg
+              ALU.io.rs2 := x(rs2Reg)
+              ALU.io.rs1 := x(rs1Reg)
 
-            WritebackMode := Arithmetic
-            WritebackRegister := rdReg
+              WritebackMode := Arithmetic
+              WritebackRegister := rdReg
+
+              OpCounter := RegisterWriteback
+            }.elsewhen(AOperationReg === 8.U){
+              DataMem.io.Enable := true.B
+              DataMem.io.Address := x(rs1Reg)
+              WritebackMode := MemoryI
+              WritebackRegister := rdReg
+
+              when(DataMem.io.Completed){
+                OpCounter := RegisterWriteback
+              }
+            }.elsewhen(AOperationReg === 9.U){
+              DataMem.io.Enable := true.B
+              DataMem.io.Write := true.B
+              DataMem.io.Address := x(rs1Reg)
+              DataMem.io.DataIn := x(rdReg)
+              WritebackMode := Nil
+
+              when(DataMem.io.Completed){
+                OpCounter := RegisterWriteback
+              }
+            }
           }
-          is(ImmidiateArithmetic){
-            when(InstDec.io.AOperation === 3.U){
+          is(1.U){
+            when(AOperationReg === 1.U){
               ALU.io.rs2 := 0.U
               ALU.io.rs1 := AImmediateReg
+              ALU.io.Operation := 0.U
+            }.elsewhen(AOperationReg === 2.U){
+              ALU.io.rs2 := 0.U
+              //ALU.io.rs1 := (AImmediateReg << 9).asUInt
+
+              val upper = Wire(UInt(9.W))
+              upper := AImmediateReg(8,0)
+              val lower = Wire(UInt(9.W))
+              lower := x(rdReg)(8,0)
+              val cat = Wire(UInt(18.W))
+              cat := Cat(upper,lower)
+
+              ALU.io.rs1 := cat
               ALU.io.Operation := 0.U
             }.otherwise{
               when(ASImmediateReg < 0.S){
@@ -161,43 +204,26 @@ class Core(maxCount: Int) extends Module {
             }
             WritebackMode := Arithmetic
             WritebackRegister := rdReg
+            OpCounter := RegisterWriteback
           }
-          is(MemoryI){
-            when(MemAddressReg < "h7BF".U){
-              DataMem.io.Address := (MemAddressReg - "h7BF".U)
-              DataMem.io.DataIn := x(rdReg)
-              DataMem.io.Enable := true.B
-              DataMem.io.Write := MemOpReg
+          is(2.U){
+            DataMem.io.Address := MemAddressReg
+            DataMem.io.DataIn := x(rdReg)
+            DataMem.io.Enable := true.B
+            DataMem.io.Write := MemOpReg
 
-              switch(MemOpReg){
-                is(0.U){
-                  WritebackMode := MemoryI
-                }
-                is(1.U){
-                  WritebackMode := Nil
-                }
+            switch(MemOpReg){
+              is(0.U){
+                WritebackMode := MemoryI
               }
-              WritebackRegister := rdReg
-            }.otherwise{
-              // Read and write to FIR registers
-
-              FirEngine.io.Address := MemAddressReg
-              FirEngine.io.WriteData := x(rdReg)
-              FirEngine.io.Enable := true.B
-              FirEngine.io.WriteEn := MemOpReg
-
-              switch(MemOpReg){
-                is(0.U){
-                  WritebackMode := FirRead
-                }
-                is(1.U){
-                  WritebackMode := Nil
-                }
+              is(1.U){
+                WritebackMode := Nil
               }
-              WritebackRegister := rdReg
             }
+            WritebackRegister := rdReg
+            OpCounter := RegisterWriteback
           }
-          is(Conditional){
+          is(3.U){
             BranchComp.io.rs2 := x(rs2Reg)
             BranchComp.io.rs1 := x(rs1Reg)
             BranchComp.io.Operation := COperationReg
@@ -206,9 +232,10 @@ class Core(maxCount: Int) extends Module {
 
             WritebackMode := Conditional
             WritebackRegister := rdReg
+
+            OpCounter := RegisterWriteback
           }
         }
-        OpCounter := RegisterWriteback
       }
       is(RegisterWriteback){
         switch(WritebackMode){
@@ -221,10 +248,6 @@ class Core(maxCount: Int) extends Module {
           }
           is(MemoryI){
             x(WritebackRegister) := DataMem.io.DataOut
-            x(1) := x(1) + 1.U
-          }
-          is(FirRead){
-            x(WritebackRegister) := FirEngine.io.ReadData
             x(1) := x(1) + 1.U
           }
           is(Conditional){

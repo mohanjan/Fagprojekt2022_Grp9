@@ -10,8 +10,8 @@ public class Assembler {
 
     public static void replace_pseudo(){
         try {
-            File myObj = new File("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\Program.txt");
-            FileWriter myWriter = new FileWriter("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\Program_PreAssembly.txt");
+            File myObj = new File("Program.txt");
+            FileWriter myWriter = new FileWriter("Program_PreAssembly.txt");
             Scanner myReader = new Scanner(myObj);
 
             String addedData = "";
@@ -22,12 +22,47 @@ public class Assembler {
                     addedData = " //" + data;
                 }else if(pseudo_instructions(data)) {
                     if(data.contains("j")){
-                        myWriter.write("ldi x1, " + data.substring(data.indexOf("."), (data.length())) + addedData + "\n");
+                        myWriter.write("li x1, " + data.substring(data.indexOf(".")) + addedData + "\n");
                         addedData = "";
                     }else if(data.contains("loadFir")){
-                        myWriter.write("ldi x4," + data.substring(data.indexOf(",") + 1, (data.length())) + addedData + "\n");
+                        int immediate = Integer.parseInt(data.substring(data.indexOf(",") + 2));
+
+                        if(immediate > 1024){
+                            int lower = immediate & 0b000000000111111111;
+                            int upper = immediate & 0b111111111000000000;;
+
+                            myWriter.write("li x5, " + lower + addedData + "\n");
+                            myWriter.write("lui x5, " + (upper >> 9) + "\n");
+                        }else{
+                            myWriter.write("li x5, " + immediate + addedData + "\n");
+                        }
+
                         String memorypos = data.substring(0, data.indexOf(",")).replaceAll(("[^0-9]"), "");
-                        myWriter.write("sw x4, " + (Integer.parseInt(memorypos) + 1983) + "\n");
+                        myWriter.write("swi x5, " + (Integer.parseInt(memorypos) + 1983) + "\n");
+                        addedData = "";
+                    }else if(data.contains("li")){
+                        int immediate = Integer.parseInt(data.substring(data.indexOf(",") + 2));
+
+                        if(immediate > 1024){
+                            int lower = immediate & 0b000000000111111111;
+                            int upper = immediate & 0b111111111000000000;
+                            /*
+                            System.out.println(immediate);
+                            System.out.println(lower);
+                            System.out.println(upper >> 9);
+                            */
+                            int rd_index = data.indexOf("x");
+                            int rd = find_register(data.substring(rd_index, rd_index + 2));
+
+                            myWriter.write("li x" + rd + ", " + lower + addedData + "\n");
+                            myWriter.write("lui x" + rd + ", " +  (upper >> 9) + "\n");
+                            addedData = "";
+                        }else{
+                            myWriter.write("li x5, " + immediate + addedData + "\n");
+                            addedData = "";
+                        }
+                    }else if(data.contains("sw") || data.contains("lw")){
+                        myWriter.write(data + ", x0" + addedData + "\n");
                         addedData = "";
                     }
                 }else if(data != ""){
@@ -49,7 +84,7 @@ public class Assembler {
 
     public static boolean pseudo_instructions(String instruction) {
 
-        if (instruction.contains("j") || instruction.contains("loadFir")) {
+        if (instruction.contains("j") || instruction.contains("loadFir") || instruction.contains("li") || instruction.contains("sw") || instruction.contains("lw")) {
             return true;
         }
         return false;
@@ -64,7 +99,7 @@ public class Assembler {
 
 
         try {
-            File myObj = new File("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\Program_PreAssembly.txt");
+            File myObj = new File("Program_PreAssembly.txt");
             Scanner myReader = new Scanner(myObj);
 
             int instruction_address = 0;
@@ -92,8 +127,8 @@ public class Assembler {
         }
 
         try {
-            File myObj = new File("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\Program_PreAssembly.txt");
-            FileWriter myWriter = new FileWriter("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\Program_Assembly.txt");
+            File myObj = new File("Program_PreAssembly.txt");
+            FileWriter myWriter = new FileWriter("Program_Assembly.txt");
             Scanner myReader = new Scanner(myObj);
 
             int instruction_address = 0;
@@ -131,8 +166,8 @@ public class Assembler {
 
     public static void read_assembly(){
         try {
-            File myObj = new File("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\Program_Assembly.txt");
-            FileWriter myWriter = new FileWriter("C:\\Users\\Karl\\Desktop\\Skole\\Fagprojekt\\MachineCode.txt");
+            File myObj = new File("Program_Assembly.txt");
+            FileWriter myWriter = new FileWriter("MachineCode.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
@@ -160,6 +195,10 @@ public class Assembler {
                 and rd, rs1, rs2
                 or rd, rs1, rs2
                 xor rd rs1, rs2
+
+                lw rd, rs1
+                sw rd, rs1
+
                 */
 
         if(instruction.contains("add") && !instruction.contains("addi")){
@@ -211,10 +250,23 @@ public class Assembler {
             //System.out.println(val);
         }
 
+        else if(instruction.contains("lw") && !instruction.contains("lwi")){
+            val = 0b001000000000000000;
+            val = (val | find_arguments(instruction,0));
+            //System.out.println(val);
+        }
+
+        else if(instruction.contains("sw") && !instruction.contains("swi")){
+            val = 0b001001000000000000;
+            val = (val | find_arguments(instruction,0));
+            //System.out.println(val);
+        }
+
 
         /*  IMMEDIATE INSTRUCTIONS
          *   addi rd, immediate
-         *   ldi rd, immediate
+         *   li rd, immediate
+         *   lui rd, immediate
          * */
 
 
@@ -224,28 +276,32 @@ public class Assembler {
             //System.out.println(val);
         }
 
-        else if(instruction.contains("ldi")){
+        else if(instruction.contains("li")){
+            val = 0b010100000000000000;
+            val = (val | find_arguments(instruction,1));
+            //System.out.println(val);
+        }
+
+        else if(instruction.contains("lui")){
             val = 0b011000000000000000;
             val = (val | find_arguments(instruction,1));
             //System.out.println(val);
         }
 
-
-
-        /*  MEMORY INSTRUCTIONS  */
-        /*lw rd, address
-        sw rd, address
+        /*  MEMORY INSTRUCTIONS
+        lwi rd, address
+        swi rd, address
         */
 
-        else if(instruction.contains("lw")){
+        else if(instruction.contains("lwi")){
             val = 0b100000000000000000;
-            val = (val | find_arguments(instruction,1));
+            val = (val | find_arguments(instruction,2));
             //System.out.println(val);
         }
 
-        else if(instruction.contains("sw")){
+        else if(instruction.contains("swi")){
             val = 0b101000000000000000;
-            val = (val | find_arguments(instruction,1));
+            val = (val | find_arguments(instruction,2));
             //System.out.println(val);
         }
 
@@ -320,7 +376,14 @@ public class Assembler {
                     imm = -imm;
                 }
 
-                return (rd << 11) + (imm & 0b11111111111);
+                return (rd << 10) + (imm & 0b1111111111);
+            case 2:
+                rd_index = instruction.indexOf("x");
+                rd = find_register(instruction.substring(rd_index, rd_index + 2));
+
+                int imm2 = find_register(instruction.substring(rd_index + 3));
+
+                return (rd << 11) + (imm2 & 0b11111111111);
 
             case 3:
                 rs1_index = instruction.indexOf("x");

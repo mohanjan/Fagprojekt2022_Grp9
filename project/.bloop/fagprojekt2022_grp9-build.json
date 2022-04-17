@@ -2,114 +2,119 @@
     "version": "1.4.0",
     "project": {
         "name": "fagprojekt2022_grp9-build",
-        "directory": "C:\\Users\\Gamerpcen\\Dokumenter\\Fagprojekt2022_Grp9\\project",
-        "workspaceDir": "C:\\Users\\Gamerpcen\\Dokumenter\\Fagprojekt2022_Grp9\\project",
+        "directory": "C:\\Users\\Karl\\Documents\\GitHub\\Fagprojekt2022_Grp9\\project",
+        "workspaceDir": "C:\\Users\\Karl\\Documents\\GitHub\\Fagprojekt2022_Grp9\\project",
         "sources": [
-            "C:\\Users\\Gamerpcen\\Dokumenter\\Fagprojekt2022_Grp9\\project\\src\\main\\scala",
-            "C:\\Users\\Gamerpcen\\Dokumenter\\Fagprojekt2022_Grp9\\project\\src\\main\\scala-2.12",
-            "C:\\Users\\Gamerpcen\\Dokumenter\\Fagprojekt2022_Grp9\\project\\src\\main\\scala-2",
-            "C:\\Users\\Gamerpcen\\Dokumenter\\Fagprojekt2022_Grp9\\project\\src\\main\\java",
-            "C:\\Users\\Gamerpcen\\Dokumenter\\Fagprojekt2022_Grp9\\project\\src\\main\\scala-sbt-1.0",
-            "C:\\Users\\Gamerpcen\\Dokumenter\\Fagprojekt2022_Grp9\\project\\target\\scala-2.12\\sbt-1.0\\src_managed\\main"
+            "C:\\Users\\Karl\\Documents\\GitHub\\Fagprojekt2022_Grp9\\project\\src\\main\\scala",
+            "C:\\Users\\Karl\\Documents\\GitHub\\Fagprojekt2022_Grp9\\project\\src\\main\\scala-2.12",
+            "C:\\Users\\Karl\\Documents\\GitHub\\Fagprojekt2022_Grp9\\project\\src\\main\\scala-2",
+            "C:\\Users\\Karl\\Documents\\GitHub\\Fagprojekt2022_Grp9\\project\\src\\main\\java",
+            "C:\\Users\\Karl\\Documents\\GitHub\\Fagprojekt2022_Grp9\\project\\src\\main\\scala-sbt-1.0",
+            "C:\\Users\\Karl\\Documents\\GitHub\\Fagprojekt2022_Grp9\\project\\target\\scala-2.12\\sbt-1.0\\src_managed\\main"
         ],
         "dependencies": [
             
         ],
         "classpath": [
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\sbt\\1.4.9\\sbt-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\.sbt\\boot\\scala-2.12.12\\lib\\scala-library.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\sbt-bloop_2.12_1.0\\1.4.12\\sbt-bloop-1.4.12.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\main_2.12\\1.4.9\\main_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\io_2.12\\1.4.0\\io_2.12-1.4.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\java\\dev\\jna\\jna\\5.5.0\\jna-5.5.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\java\\dev\\jna\\jna-platform\\5.5.0\\jna-platform-5.5.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\code\\gson\\gson\\2.7\\gson-2.7.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\code\\findbugs\\jsr305\\3.0.2\\jsr305-3.0.2.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\logic_2.12\\1.4.9\\logic_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\actions_2.12\\1.4.9\\actions_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\main-settings_2.12\\1.4.9\\main-settings_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\run_2.12\\1.4.9\\run_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\command_2.12\\1.4.9\\command_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\collections_2.12\\1.4.9\\collections_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\scripted-plugin_2.12\\1.4.9\\scripted-plugin_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-lm-integration_2.12\\1.4.9\\zinc-lm-integration_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-logging_2.12\\1.4.9\\util-logging_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-xml_2.12\\1.3.0\\scala-xml_2.12-1.3.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\launcher-interface\\1.1.6\\launcher-interface-1.1.6.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\github\\ben-manes\\caffeine\\caffeine\\2.8.5\\caffeine-2.8.5.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\io\\get-coursier\\lm-coursier-shaded_2.12\\2.0.6\\lm-coursier-shaded_2.12-2.0.6.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\logging\\log4j\\log4j-api\\2.11.2\\log4j-api-2.11.2.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\logging\\log4j\\log4j-core\\2.11.2\\log4j-core-2.11.2.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\logging\\log4j\\log4j-slf4j-impl\\2.11.2\\log4j-slf4j-impl-2.11.2.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\swoval\\file-tree-views\\2.1.6\\file-tree-views-2.1.6.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\librarymanagement-core_2.12\\1.4.3\\librarymanagement-core_2.12-1.4.3.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\librarymanagement-ivy_2.12\\1.4.3\\librarymanagement-ivy_2.12-1.4.3.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\compiler-interface\\1.4.4\\compiler-interface-1.4.4.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-compile_2.12\\1.4.4\\zinc-compile_2.12-1.4.4.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-relation_2.12\\1.4.9\\util-relation_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\completion_2.12\\1.4.9\\completion_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\task-system_2.12\\1.4.9\\task-system_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\tasks_2.12\\1.4.9\\tasks_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\testing_2.12\\1.4.9\\testing_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-tracking_2.12\\1.4.9\\util-tracking_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-scalajson_2.12\\0.9.1\\sjson-new-scalajson_2.12-0.9.1.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal\\3.19.0\\jline-terminal-3.19.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-classpath_2.12\\1.4.4\\zinc-classpath_2.12-1.4.4.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-apiinfo_2.12\\1.4.4\\zinc-apiinfo_2.12-1.4.4.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc_2.12\\1.4.4\\zinc_2.12-1.4.4.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\core-macros_2.12\\1.4.9\\core-macros_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-cache_2.12\\1.4.9\\util-cache_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-control_2.12\\1.4.9\\util-control_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\protocol_2.12\\1.4.9\\protocol_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-core_2.12\\0.9.1\\sjson-new-core_2.12-0.9.1.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\template-resolver\\0.1\\template-resolver-0.1.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-position_2.12\\1.4.9\\util-position_2.12-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-compile-core_2.12\\1.4.4\\zinc-compile-core_2.12-1.4.4.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-interface\\1.4.9\\util-interface-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\jline\\jline\\2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493\\jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal-jna\\3.19.0\\jline-terminal-jna-3.19.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal-jansi\\3.19.0\\jline-terminal-jansi-3.19.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\lmax\\disruptor\\3.4.2\\disruptor-3.4.2.jar",
-            "C:\\Users\\Gamerpcen\\.sbt\\boot\\scala-2.12.12\\lib\\scala-reflect.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\checkerframework\\checker-qual\\3.4.1\\checker-qual-3.4.1.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\errorprone\\error_prone_annotations\\2.4.0\\error_prone_annotations-2.4.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-collection-compat_2.12\\2.3.2\\scala-collection-compat_2.12-2.3.2.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\slf4j\\slf4j-api\\1.7.26\\slf4j-api-1.7.26.jar",
-            "C:\\Users\\Gamerpcen\\.sbt\\boot\\scala-2.12.12\\lib\\scala-compiler.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\jcraft\\jsch\\0.1.54\\jsch-0.1.54.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\gigahorse-okhttp_2.12\\0.5.0\\gigahorse-okhttp_2.12-0.5.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okhttp3\\okhttp-urlconnection\\3.7.0\\okhttp-urlconnection-3.7.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\ivy\\ivy\\2.3.0-sbt-fbc4f586aeeb1591710b14eb4f41b94880dcd745\\ivy-2.3.0-sbt-fbc4f586aeeb1591710b14eb4f41b94880dcd745.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-reader\\3.19.0\\jline-reader-3.19.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-builtins\\3.19.0\\jline-builtins-3.19.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\test-agent\\1.4.9\\test-agent-1.4.9.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\test-interface\\1.0\\test-interface-1.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\shaded-jawn-parser_2.12\\0.9.1\\shaded-jawn-parser_2.12-0.9.1.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\shaded-scalajson_2.12\\1.0.0-M4\\shaded-scalajson_2.12-1.0.0-M4.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\compiler-bridge_2.12\\1.4.4\\compiler-bridge_2.12-1.4.4.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-classfile_2.12\\1.4.4\\zinc-classfile_2.12-1.4.4.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-core_2.12\\1.4.4\\zinc-core_2.12-1.4.4.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-persist_2.12\\1.4.4\\zinc-persist_2.12-1.4.4.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-murmurhash_2.12\\0.9.1\\sjson-new-murmurhash_2.12-0.9.1.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\ipcsocket\\ipcsocket\\1.3.0\\ipcsocket-1.3.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-parser-combinators_2.12\\1.1.2\\scala-parser-combinators_2.12-1.1.2.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\openhft\\zero-allocation-hashing\\0.10.1\\zero-allocation-hashing-0.10.1.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\fusesource\\jansi\\jansi\\2.1.0\\jansi-2.1.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\gigahorse-core_2.12\\0.5.0\\gigahorse-core_2.12-0.5.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okhttp3\\okhttp\\3.14.2\\okhttp-3.14.2.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-style\\3.19.0\\jline-style-3.19.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-persist-core-assembly\\1.4.4\\zinc-persist-core-assembly-1.4.4.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\sbinary_2.12\\0.5.1\\sbinary_2.12-0.5.1.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\ssl-config-core_2.12\\0.4.0\\ssl-config-core_2.12-0.4.0.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\reactivestreams\\reactive-streams\\1.0.2\\reactive-streams-1.0.2.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okio\\okio\\1.17.2\\okio-1.17.2.jar",
-            "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.3.3\\config-1.3.3.jar"
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\sbt\\1.4.9\\sbt-1.4.9.jar",
+            "C:\\Users\\Karl\\.sbt\\boot\\scala-2.12.12\\lib\\scala-library.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\sbt-bloop_2.12_1.0\\1.4.12\\sbt-bloop-1.4.12.jar",
+            "C:\\Users\\Karl\\AppData\\Roaming\\JetBrains\\IdeaIC2020.3\\plugins\\Scala\\repo\\org.jetbrains\\sbt-structure-extractor\\scala_2.12\\sbt_1.0\\2020.3\\jars\\sbt-structure-extractor.jar",
+            "C:\\Users\\Karl\\AppData\\Roaming\\JetBrains\\IdeaIC2020.3\\plugins\\Scala\\repo\\org.jetbrains\\sbt-idea-shell\\scala_2.12\\sbt_1.0\\2018.3\\jars\\sbt-idea-shell.jar",
+            "C:\\Users\\Karl\\AppData\\Roaming\\JetBrains\\IdeaIC2020.3\\plugins\\Scala\\repo\\org.jetbrains.scala\\sbt-idea-compiler-indices\\scala_2.12\\sbt_1.0\\1.0.8\\jars\\sbt-idea-compiler-indices.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\main_2.12\\1.4.9\\main_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\io_2.12\\1.4.0\\io_2.12-1.4.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\java\\dev\\jna\\jna\\5.5.0\\jna-5.5.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\java\\dev\\jna\\jna-platform\\5.5.0\\jna-platform-5.5.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\code\\gson\\gson\\2.7\\gson-2.7.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\code\\findbugs\\jsr305\\3.0.2\\jsr305-3.0.2.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jetbrains\\scala\\scala-compiler-indices-protocol_2.12\\1.0.8\\scala-compiler-indices-protocol_2.12-1.0.8.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\logic_2.12\\1.4.9\\logic_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\actions_2.12\\1.4.9\\actions_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\main-settings_2.12\\1.4.9\\main-settings_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\run_2.12\\1.4.9\\run_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\command_2.12\\1.4.9\\command_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\collections_2.12\\1.4.9\\collections_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\scripted-plugin_2.12\\1.4.9\\scripted-plugin_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-lm-integration_2.12\\1.4.9\\zinc-lm-integration_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-logging_2.12\\1.4.9\\util-logging_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-xml_2.12\\1.3.0\\scala-xml_2.12-1.3.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\launcher-interface\\1.1.6\\launcher-interface-1.1.6.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\github\\ben-manes\\caffeine\\caffeine\\2.8.5\\caffeine-2.8.5.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\io\\get-coursier\\lm-coursier-shaded_2.12\\2.0.6\\lm-coursier-shaded_2.12-2.0.6.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\logging\\log4j\\log4j-api\\2.11.2\\log4j-api-2.11.2.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\logging\\log4j\\log4j-core\\2.11.2\\log4j-core-2.11.2.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\logging\\log4j\\log4j-slf4j-impl\\2.11.2\\log4j-slf4j-impl-2.11.2.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\swoval\\file-tree-views\\2.1.6\\file-tree-views-2.1.6.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\librarymanagement-core_2.12\\1.4.3\\librarymanagement-core_2.12-1.4.3.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\librarymanagement-ivy_2.12\\1.4.3\\librarymanagement-ivy_2.12-1.4.3.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\compiler-interface\\1.4.4\\compiler-interface-1.4.4.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-compile_2.12\\1.4.4\\zinc-compile_2.12-1.4.4.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\io\\spray\\spray-json_2.12\\1.3.5\\spray-json_2.12-1.3.5.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-relation_2.12\\1.4.9\\util-relation_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\completion_2.12\\1.4.9\\completion_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\task-system_2.12\\1.4.9\\task-system_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\tasks_2.12\\1.4.9\\tasks_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\testing_2.12\\1.4.9\\testing_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-tracking_2.12\\1.4.9\\util-tracking_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-scalajson_2.12\\0.9.1\\sjson-new-scalajson_2.12-0.9.1.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal\\3.19.0\\jline-terminal-3.19.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-classpath_2.12\\1.4.4\\zinc-classpath_2.12-1.4.4.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-apiinfo_2.12\\1.4.4\\zinc-apiinfo_2.12-1.4.4.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc_2.12\\1.4.4\\zinc_2.12-1.4.4.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\core-macros_2.12\\1.4.9\\core-macros_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-cache_2.12\\1.4.9\\util-cache_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-control_2.12\\1.4.9\\util-control_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\protocol_2.12\\1.4.9\\protocol_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-core_2.12\\0.9.1\\sjson-new-core_2.12-0.9.1.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\template-resolver\\0.1\\template-resolver-0.1.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-position_2.12\\1.4.9\\util-position_2.12-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-compile-core_2.12\\1.4.4\\zinc-compile-core_2.12-1.4.4.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-interface\\1.4.9\\util-interface-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\jline\\jline\\2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493\\jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal-jna\\3.19.0\\jline-terminal-jna-3.19.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal-jansi\\3.19.0\\jline-terminal-jansi-3.19.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\lmax\\disruptor\\3.4.2\\disruptor-3.4.2.jar",
+            "C:\\Users\\Karl\\.sbt\\boot\\scala-2.12.12\\lib\\scala-reflect.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\checkerframework\\checker-qual\\3.4.1\\checker-qual-3.4.1.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\errorprone\\error_prone_annotations\\2.4.0\\error_prone_annotations-2.4.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-collection-compat_2.12\\2.3.2\\scala-collection-compat_2.12-2.3.2.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\slf4j\\slf4j-api\\1.7.26\\slf4j-api-1.7.26.jar",
+            "C:\\Users\\Karl\\.sbt\\boot\\scala-2.12.12\\lib\\scala-compiler.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\jcraft\\jsch\\0.1.54\\jsch-0.1.54.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\gigahorse-okhttp_2.12\\0.5.0\\gigahorse-okhttp_2.12-0.5.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okhttp3\\okhttp-urlconnection\\3.7.0\\okhttp-urlconnection-3.7.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\ivy\\ivy\\2.3.0-sbt-fbc4f586aeeb1591710b14eb4f41b94880dcd745\\ivy-2.3.0-sbt-fbc4f586aeeb1591710b14eb4f41b94880dcd745.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-reader\\3.19.0\\jline-reader-3.19.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-builtins\\3.19.0\\jline-builtins-3.19.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\test-agent\\1.4.9\\test-agent-1.4.9.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\test-interface\\1.0\\test-interface-1.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\shaded-jawn-parser_2.12\\0.9.1\\shaded-jawn-parser_2.12-0.9.1.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\shaded-scalajson_2.12\\1.0.0-M4\\shaded-scalajson_2.12-1.0.0-M4.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\compiler-bridge_2.12\\1.4.4\\compiler-bridge_2.12-1.4.4.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-classfile_2.12\\1.4.4\\zinc-classfile_2.12-1.4.4.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-core_2.12\\1.4.4\\zinc-core_2.12-1.4.4.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-persist_2.12\\1.4.4\\zinc-persist_2.12-1.4.4.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-murmurhash_2.12\\0.9.1\\sjson-new-murmurhash_2.12-0.9.1.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\ipcsocket\\ipcsocket\\1.3.0\\ipcsocket-1.3.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-parser-combinators_2.12\\1.1.2\\scala-parser-combinators_2.12-1.1.2.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\openhft\\zero-allocation-hashing\\0.10.1\\zero-allocation-hashing-0.10.1.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\fusesource\\jansi\\jansi\\2.1.0\\jansi-2.1.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\gigahorse-core_2.12\\0.5.0\\gigahorse-core_2.12-0.5.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okhttp3\\okhttp\\3.14.2\\okhttp-3.14.2.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-style\\3.19.0\\jline-style-3.19.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-persist-core-assembly\\1.4.4\\zinc-persist-core-assembly-1.4.4.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\sbinary_2.12\\0.5.1\\sbinary_2.12-0.5.1.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\ssl-config-core_2.12\\0.4.0\\ssl-config-core_2.12-0.4.0.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\reactivestreams\\reactive-streams\\1.0.2\\reactive-streams-1.0.2.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okio\\okio\\1.17.2\\okio-1.17.2.jar",
+            "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.3.3\\config-1.3.3.jar"
         ],
-        "out": "C:\\Users\\Gamerpcen\\Dokumenter\\Fagprojekt2022_Grp9\\project\\.bloop\\fagprojekt2022_grp9-build",
-        "classesDir": "C:\\Users\\Gamerpcen\\Dokumenter\\Fagprojekt2022_Grp9\\project\\.bloop\\fagprojekt2022_grp9-build\\scala-2.12\\sbt-1.0\\classes",
+        "out": "C:\\Users\\Karl\\Documents\\GitHub\\Fagprojekt2022_Grp9\\project\\.bloop\\fagprojekt2022_grp9-build",
+        "classesDir": "C:\\Users\\Karl\\Documents\\GitHub\\Fagprojekt2022_Grp9\\project\\.bloop\\fagprojekt2022_grp9-build\\scala-2.12\\sbt-1.0\\classes",
         "resources": [
-            "C:\\Users\\Gamerpcen\\Dokumenter\\Fagprojekt2022_Grp9\\project\\src\\main\\resources",
-            "C:\\Users\\Gamerpcen\\Dokumenter\\Fagprojekt2022_Grp9\\project\\target\\scala-2.12\\sbt-1.0\\resource_managed\\main"
+            "C:\\Users\\Karl\\Documents\\GitHub\\Fagprojekt2022_Grp9\\project\\src\\main\\resources",
+            "C:\\Users\\Karl\\Documents\\GitHub\\Fagprojekt2022_Grp9\\project\\target\\scala-2.12\\sbt-1.0\\resource_managed\\main"
         ],
         "scala": {
             "organization": "org.scala-lang",
@@ -119,12 +124,12 @@
                 "-deprecation"
             ],
             "jars": [
-                "C:\\Users\\Gamerpcen\\.sbt\\boot\\scala-2.12.12\\lib\\jansi.jar",
-                "C:\\Users\\Gamerpcen\\.sbt\\boot\\scala-2.12.12\\lib\\jline.jar",
-                "C:\\Users\\Gamerpcen\\.sbt\\boot\\scala-2.12.12\\lib\\scala-compiler.jar",
-                "C:\\Users\\Gamerpcen\\.sbt\\boot\\scala-2.12.12\\lib\\scala-library.jar",
-                "C:\\Users\\Gamerpcen\\.sbt\\boot\\scala-2.12.12\\lib\\scala-reflect.jar",
-                "C:\\Users\\Gamerpcen\\.sbt\\boot\\scala-2.12.12\\lib\\scala-xml_2.12.jar"
+                "C:\\Users\\Karl\\.sbt\\boot\\scala-2.12.12\\lib\\jansi.jar",
+                "C:\\Users\\Karl\\.sbt\\boot\\scala-2.12.12\\lib\\jline.jar",
+                "C:\\Users\\Karl\\.sbt\\boot\\scala-2.12.12\\lib\\scala-compiler.jar",
+                "C:\\Users\\Karl\\.sbt\\boot\\scala-2.12.12\\lib\\scala-library.jar",
+                "C:\\Users\\Karl\\.sbt\\boot\\scala-2.12.12\\lib\\scala-reflect.jar",
+                "C:\\Users\\Karl\\.sbt\\boot\\scala-2.12.12\\lib\\scala-xml_2.12.jar"
             ],
             "setup": {
                 "order": "mixed",
@@ -147,8 +152,8 @@
                 "import _root_.sbt._",
                 "import _root_.sbt.Keys._",
                 "import _root_.sbt.nio.Keys._",
-                "import _root_.sbt.ScriptedPlugin.autoImport._, _root_.sbt.plugins.MiniDependencyTreePlugin.autoImport._, _root_.bloop.integrations.sbt.BloopPlugin.autoImport._",
-                "import _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.ScriptedPlugin, _root_.sbt.plugins.SbtPlugin, _root_.sbt.plugins.SemanticdbPlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbt.plugins.Giter8TemplatePlugin, _root_.sbt.plugins.MiniDependencyTreePlugin, _root_.bloop.integrations.sbt.BloopPlugin"
+                "import _root_.sbt.ScriptedPlugin.autoImport._, _root_.sbt.plugins.MiniDependencyTreePlugin.autoImport._, _root_.bloop.integrations.sbt.BloopPlugin.autoImport._, _root_.org.jetbrains.sbt.IdeaShellPlugin.autoImport._, _root_.org.jetbrains.sbt.indices.SbtIntellijIndicesPlugin.autoImport._",
+                "import _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.ScriptedPlugin, _root_.sbt.plugins.SbtPlugin, _root_.sbt.plugins.SemanticdbPlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbt.plugins.Giter8TemplatePlugin, _root_.sbt.plugins.MiniDependencyTreePlugin, _root_.bloop.integrations.sbt.BloopPlugin, _root_.org.jetbrains.sbt.StructurePlugin, _root_.org.jetbrains.sbt.IdeaShellPlugin, _root_.org.jetbrains.sbt.indices.SbtIntellijIndicesPlugin"
             ]
         },
         "test": {
@@ -193,9 +198,9 @@
         "platform": {
             "name": "jvm",
             "config": {
-                "home": "C:\\Program Files\\AdoptOpenJDK\\jdk-16.0.1+9",
+                "home": "C:\\Users\\Karl\\.jdks\\openjdk-15.0.2",
                 "options": [
-                    "-Duser.dir=C:\\Users\\Gamerpcen\\Dokumenter\\Fagprojekt2022_Grp9\\project"
+                    "-Duser.dir=C:\\Users\\Karl\\Documents\\GitHub\\Fagprojekt2022_Grp9\\project"
                 ]
             },
             "mainClass": [
@@ -212,6 +217,10 @@
                     "artifacts": [
                         {
                             "name": "sbt-bloop",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\sbt-bloop_2.12_1.0\\1.4.12\\sbt-bloop-1.4.12.jar"
+                        },
+                        {
+                            "name": "sbt-bloop",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\sbt-bloop_2.12_1.0\\1.4.12\\sbt-bloop-1.4.12.jar"
                         },
                         {
@@ -226,11 +235,81 @@
                     ]
                 },
                 {
+                    "organization": "org.jetbrains",
+                    "name": "sbt-structure-extractor",
+                    "version": "2020.3",
+                    "configurations": "compile",
+                    "artifacts": [
+                        {
+                            "name": "sbt-structure-extractor",
+                            "checksum": {
+                                "type": "md5",
+                                "digest": "d0531382721b1e30a7038d12c3b0d190"
+                            },
+                            "path": "C:\\Users\\Karl\\AppData\\Roaming\\JetBrains\\IdeaIC2020.3\\plugins\\Scala\\repo\\org.jetbrains\\sbt-structure-extractor\\scala_2.12\\sbt_1.0\\2020.3\\jars\\sbt-structure-extractor.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.jetbrains",
+                    "name": "sbt-idea-shell",
+                    "version": "2018.3",
+                    "configurations": "compile",
+                    "artifacts": [
+                        {
+                            "name": "sbt-idea-shell",
+                            "checksum": {
+                                "type": "md5",
+                                "digest": "c64b2eda1becf7a84e5a842c032324c5"
+                            },
+                            "path": "C:\\Users\\Karl\\AppData\\Roaming\\JetBrains\\IdeaIC2020.3\\plugins\\Scala\\repo\\org.jetbrains\\sbt-idea-shell\\scala_2.12\\sbt_1.0\\2018.3\\jars\\sbt-idea-shell.jar"
+                        },
+                        {
+                            "name": "sbt-idea-shell",
+                            "classifier": "sources",
+                            "checksum": {
+                                "type": "md5",
+                                "digest": "b138166cb370d582c7bd9c1494fd93eb"
+                            },
+                            "path": "C:\\Users\\Karl\\AppData\\Roaming\\JetBrains\\IdeaIC2020.3\\plugins\\Scala\\repo\\org.jetbrains\\sbt-idea-shell\\scala_2.12\\sbt_1.0\\2018.3\\srcs\\sbt-idea-shell-sources.jar"
+                        },
+                        {
+                            "name": "sbt-idea-shell",
+                            "classifier": "javadoc",
+                            "checksum": {
+                                "type": "md5",
+                                "digest": "6d10f2309b835f609baa38fb82bd466b"
+                            },
+                            "path": "C:\\Users\\Karl\\AppData\\Roaming\\JetBrains\\IdeaIC2020.3\\plugins\\Scala\\repo\\org.jetbrains\\sbt-idea-shell\\scala_2.12\\sbt_1.0\\2018.3\\docs\\sbt-idea-shell-javadoc.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.jetbrains.scala",
+                    "name": "sbt-idea-compiler-indices",
+                    "version": "1.0.8",
+                    "configurations": "compile",
+                    "artifacts": [
+                        {
+                            "name": "sbt-idea-compiler-indices",
+                            "checksum": {
+                                "type": "md5",
+                                "digest": "29f13be512ceaf14d3785d6070a374a2"
+                            },
+                            "path": "C:\\Users\\Karl\\AppData\\Roaming\\JetBrains\\IdeaIC2020.3\\plugins\\Scala\\repo\\org.jetbrains.scala\\sbt-idea-compiler-indices\\scala_2.12\\sbt_1.0\\1.0.8\\jars\\sbt-idea-compiler-indices.jar"
+                        }
+                    ]
+                },
+                {
                     "organization": "com.google.code.gson",
                     "name": "gson",
                     "version": "2.7",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "gson",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\code\\gson\\gson\\2.7\\gson-2.7.jar"
+                        },
                         {
                             "name": "gson",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\code\\gson\\gson\\2.7\\gson-2.7.jar"
@@ -254,6 +333,10 @@
                     "artifacts": [
                         {
                             "name": "jsr305",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\code\\findbugs\\jsr305\\3.0.2\\jsr305-3.0.2.jar"
+                        },
+                        {
+                            "name": "jsr305",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\code\\findbugs\\jsr305\\3.0.2\\jsr305-3.0.2.jar"
                         },
                         {
@@ -268,14 +351,14 @@
                     ]
                 },
                 {
-                    "organization": "org.scala-sbt",
-                    "name": "sbt",
-                    "version": "1.4.9",
+                    "organization": "org.jetbrains.scala",
+                    "name": "scala-compiler-indices-protocol_2.12",
+                    "version": "1.0.8",
                     "configurations": "default",
                     "artifacts": [
                         {
-                            "name": "sbt",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\sbt\\1.4.9\\sbt-1.4.9.jar"
+                            "name": "scala-compiler-indices-protocol_2.12",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jetbrains\\scala\\scala-compiler-indices-protocol_2.12\\1.0.8\\scala-compiler-indices-protocol_2.12-1.0.8.jar"
                         }
                     ]
                 },
@@ -287,7 +370,31 @@
                     "artifacts": [
                         {
                             "name": "scala-library",
-                            "path": "C:\\Users\\Gamerpcen\\.sbt\\boot\\scala-2.12.12\\lib\\scala-library.jar"
+                            "path": "C:\\Users\\Karl\\.sbt\\boot\\scala-2.12.12\\lib\\scala-library.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "io.spray",
+                    "name": "spray-json_2.12",
+                    "version": "1.3.5",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "spray-json_2.12",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\io\\spray\\spray-json_2.12\\1.3.5\\spray-json_2.12-1.3.5.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scala-sbt",
+                    "name": "sbt",
+                    "version": "1.4.9",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "sbt",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\sbt\\1.4.9\\sbt-1.4.9.jar"
                         }
                     ]
                 },
@@ -299,7 +406,7 @@
                     "artifacts": [
                         {
                             "name": "main_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\main_2.12\\1.4.9\\main_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\main_2.12\\1.4.9\\main_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -311,7 +418,7 @@
                     "artifacts": [
                         {
                             "name": "io_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\io_2.12\\1.4.0\\io_2.12-1.4.0.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\io_2.12\\1.4.0\\io_2.12-1.4.0.jar"
                         }
                     ]
                 },
@@ -321,6 +428,10 @@
                     "version": "5.5.0",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "jna",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\java\\dev\\jna\\jna\\5.5.0\\jna-5.5.0.jar"
+                        },
                         {
                             "name": "jna",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\java\\dev\\jna\\jna\\5.5.0\\jna-5.5.0.jar"
@@ -344,6 +455,10 @@
                     "artifacts": [
                         {
                             "name": "jna-platform",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\java\\dev\\jna\\jna-platform\\5.5.0\\jna-platform-5.5.0.jar"
+                        },
+                        {
+                            "name": "jna-platform",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\java\\dev\\jna\\jna-platform\\5.5.0\\jna-platform-5.5.0.jar"
                         },
                         {
@@ -365,7 +480,7 @@
                     "artifacts": [
                         {
                             "name": "logic_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\logic_2.12\\1.4.9\\logic_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\logic_2.12\\1.4.9\\logic_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -377,7 +492,7 @@
                     "artifacts": [
                         {
                             "name": "actions_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\actions_2.12\\1.4.9\\actions_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\actions_2.12\\1.4.9\\actions_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -389,7 +504,7 @@
                     "artifacts": [
                         {
                             "name": "main-settings_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\main-settings_2.12\\1.4.9\\main-settings_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\main-settings_2.12\\1.4.9\\main-settings_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -401,7 +516,7 @@
                     "artifacts": [
                         {
                             "name": "run_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\run_2.12\\1.4.9\\run_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\run_2.12\\1.4.9\\run_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -413,7 +528,7 @@
                     "artifacts": [
                         {
                             "name": "command_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\command_2.12\\1.4.9\\command_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\command_2.12\\1.4.9\\command_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -425,7 +540,7 @@
                     "artifacts": [
                         {
                             "name": "collections_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\collections_2.12\\1.4.9\\collections_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\collections_2.12\\1.4.9\\collections_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -437,7 +552,7 @@
                     "artifacts": [
                         {
                             "name": "scripted-plugin_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\scripted-plugin_2.12\\1.4.9\\scripted-plugin_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\scripted-plugin_2.12\\1.4.9\\scripted-plugin_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -449,7 +564,7 @@
                     "artifacts": [
                         {
                             "name": "zinc-lm-integration_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-lm-integration_2.12\\1.4.9\\zinc-lm-integration_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-lm-integration_2.12\\1.4.9\\zinc-lm-integration_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -461,7 +576,7 @@
                     "artifacts": [
                         {
                             "name": "util-logging_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-logging_2.12\\1.4.9\\util-logging_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-logging_2.12\\1.4.9\\util-logging_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -471,6 +586,10 @@
                     "version": "1.3.0",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "scala-xml_2.12",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-xml_2.12\\1.3.0\\scala-xml_2.12-1.3.0.jar"
+                        },
                         {
                             "name": "scala-xml_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-xml_2.12\\1.3.0\\scala-xml_2.12-1.3.0.jar"
@@ -494,7 +613,7 @@
                     "artifacts": [
                         {
                             "name": "launcher-interface",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\launcher-interface\\1.1.6\\launcher-interface-1.1.6.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\launcher-interface\\1.1.6\\launcher-interface-1.1.6.jar"
                         }
                     ]
                 },
@@ -504,6 +623,10 @@
                     "version": "2.8.5",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "caffeine",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\github\\ben-manes\\caffeine\\caffeine\\2.8.5\\caffeine-2.8.5.jar"
+                        },
                         {
                             "name": "caffeine",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\github\\ben-manes\\caffeine\\caffeine\\2.8.5\\caffeine-2.8.5.jar"
@@ -527,7 +650,7 @@
                     "artifacts": [
                         {
                             "name": "lm-coursier-shaded_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\io\\get-coursier\\lm-coursier-shaded_2.12\\2.0.6\\lm-coursier-shaded_2.12-2.0.6.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\io\\get-coursier\\lm-coursier-shaded_2.12\\2.0.6\\lm-coursier-shaded_2.12-2.0.6.jar"
                         }
                     ]
                 },
@@ -539,7 +662,7 @@
                     "artifacts": [
                         {
                             "name": "log4j-api",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\logging\\log4j\\log4j-api\\2.11.2\\log4j-api-2.11.2.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\logging\\log4j\\log4j-api\\2.11.2\\log4j-api-2.11.2.jar"
                         }
                     ]
                 },
@@ -551,7 +674,7 @@
                     "artifacts": [
                         {
                             "name": "log4j-core",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\logging\\log4j\\log4j-core\\2.11.2\\log4j-core-2.11.2.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\logging\\log4j\\log4j-core\\2.11.2\\log4j-core-2.11.2.jar"
                         }
                     ]
                 },
@@ -563,7 +686,7 @@
                     "artifacts": [
                         {
                             "name": "log4j-slf4j-impl",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\logging\\log4j\\log4j-slf4j-impl\\2.11.2\\log4j-slf4j-impl-2.11.2.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\logging\\log4j\\log4j-slf4j-impl\\2.11.2\\log4j-slf4j-impl-2.11.2.jar"
                         }
                     ]
                 },
@@ -573,6 +696,10 @@
                     "version": "2.1.6",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "file-tree-views",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\swoval\\file-tree-views\\2.1.6\\file-tree-views-2.1.6.jar"
+                        },
                         {
                             "name": "file-tree-views",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\swoval\\file-tree-views\\2.1.6\\file-tree-views-2.1.6.jar"
@@ -596,7 +723,7 @@
                     "artifacts": [
                         {
                             "name": "librarymanagement-core_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\librarymanagement-core_2.12\\1.4.3\\librarymanagement-core_2.12-1.4.3.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\librarymanagement-core_2.12\\1.4.3\\librarymanagement-core_2.12-1.4.3.jar"
                         }
                     ]
                 },
@@ -608,7 +735,7 @@
                     "artifacts": [
                         {
                             "name": "librarymanagement-ivy_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\librarymanagement-ivy_2.12\\1.4.3\\librarymanagement-ivy_2.12-1.4.3.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\librarymanagement-ivy_2.12\\1.4.3\\librarymanagement-ivy_2.12-1.4.3.jar"
                         }
                     ]
                 },
@@ -620,7 +747,7 @@
                     "artifacts": [
                         {
                             "name": "compiler-interface",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\compiler-interface\\1.4.4\\compiler-interface-1.4.4.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\compiler-interface\\1.4.4\\compiler-interface-1.4.4.jar"
                         }
                     ]
                 },
@@ -632,7 +759,7 @@
                     "artifacts": [
                         {
                             "name": "zinc-compile_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-compile_2.12\\1.4.4\\zinc-compile_2.12-1.4.4.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-compile_2.12\\1.4.4\\zinc-compile_2.12-1.4.4.jar"
                         }
                     ]
                 },
@@ -644,7 +771,7 @@
                     "artifacts": [
                         {
                             "name": "util-relation_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-relation_2.12\\1.4.9\\util-relation_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-relation_2.12\\1.4.9\\util-relation_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -656,7 +783,7 @@
                     "artifacts": [
                         {
                             "name": "completion_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\completion_2.12\\1.4.9\\completion_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\completion_2.12\\1.4.9\\completion_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -668,7 +795,7 @@
                     "artifacts": [
                         {
                             "name": "task-system_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\task-system_2.12\\1.4.9\\task-system_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\task-system_2.12\\1.4.9\\task-system_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -680,7 +807,7 @@
                     "artifacts": [
                         {
                             "name": "tasks_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\tasks_2.12\\1.4.9\\tasks_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\tasks_2.12\\1.4.9\\tasks_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -692,7 +819,7 @@
                     "artifacts": [
                         {
                             "name": "testing_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\testing_2.12\\1.4.9\\testing_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\testing_2.12\\1.4.9\\testing_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -704,7 +831,7 @@
                     "artifacts": [
                         {
                             "name": "util-tracking_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-tracking_2.12\\1.4.9\\util-tracking_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-tracking_2.12\\1.4.9\\util-tracking_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -714,6 +841,10 @@
                     "version": "0.9.1",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "sjson-new-scalajson_2.12",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-scalajson_2.12\\0.9.1\\sjson-new-scalajson_2.12-0.9.1.jar"
+                        },
                         {
                             "name": "sjson-new-scalajson_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-scalajson_2.12\\0.9.1\\sjson-new-scalajson_2.12-0.9.1.jar"
@@ -737,6 +868,10 @@
                     "artifacts": [
                         {
                             "name": "jline-terminal",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal\\3.19.0\\jline-terminal-3.19.0.jar"
+                        },
+                        {
+                            "name": "jline-terminal",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal\\3.19.0\\jline-terminal-3.19.0.jar"
                         },
                         {
@@ -758,7 +893,7 @@
                     "artifacts": [
                         {
                             "name": "zinc-classpath_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-classpath_2.12\\1.4.4\\zinc-classpath_2.12-1.4.4.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-classpath_2.12\\1.4.4\\zinc-classpath_2.12-1.4.4.jar"
                         }
                     ]
                 },
@@ -770,7 +905,7 @@
                     "artifacts": [
                         {
                             "name": "zinc-apiinfo_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-apiinfo_2.12\\1.4.4\\zinc-apiinfo_2.12-1.4.4.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-apiinfo_2.12\\1.4.4\\zinc-apiinfo_2.12-1.4.4.jar"
                         }
                     ]
                 },
@@ -782,7 +917,7 @@
                     "artifacts": [
                         {
                             "name": "zinc_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc_2.12\\1.4.4\\zinc_2.12-1.4.4.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc_2.12\\1.4.4\\zinc_2.12-1.4.4.jar"
                         }
                     ]
                 },
@@ -794,7 +929,7 @@
                     "artifacts": [
                         {
                             "name": "core-macros_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\core-macros_2.12\\1.4.9\\core-macros_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\core-macros_2.12\\1.4.9\\core-macros_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -806,7 +941,7 @@
                     "artifacts": [
                         {
                             "name": "util-cache_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-cache_2.12\\1.4.9\\util-cache_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-cache_2.12\\1.4.9\\util-cache_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -818,7 +953,7 @@
                     "artifacts": [
                         {
                             "name": "util-control_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-control_2.12\\1.4.9\\util-control_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-control_2.12\\1.4.9\\util-control_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -830,7 +965,7 @@
                     "artifacts": [
                         {
                             "name": "protocol_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\protocol_2.12\\1.4.9\\protocol_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\protocol_2.12\\1.4.9\\protocol_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -840,6 +975,10 @@
                     "version": "0.9.1",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "sjson-new-core_2.12",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-core_2.12\\0.9.1\\sjson-new-core_2.12-0.9.1.jar"
+                        },
                         {
                             "name": "sjson-new-core_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-core_2.12\\0.9.1\\sjson-new-core_2.12-0.9.1.jar"
@@ -863,6 +1002,10 @@
                     "artifacts": [
                         {
                             "name": "template-resolver",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\template-resolver\\0.1\\template-resolver-0.1.jar"
+                        },
+                        {
+                            "name": "template-resolver",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\template-resolver\\0.1\\template-resolver-0.1.jar"
                         },
                         {
@@ -884,7 +1027,7 @@
                     "artifacts": [
                         {
                             "name": "util-position_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-position_2.12\\1.4.9\\util-position_2.12-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-position_2.12\\1.4.9\\util-position_2.12-1.4.9.jar"
                         }
                     ]
                 },
@@ -896,7 +1039,7 @@
                     "artifacts": [
                         {
                             "name": "zinc-compile-core_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-compile-core_2.12\\1.4.4\\zinc-compile-core_2.12-1.4.4.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-compile-core_2.12\\1.4.4\\zinc-compile-core_2.12-1.4.4.jar"
                         }
                     ]
                 },
@@ -908,7 +1051,7 @@
                     "artifacts": [
                         {
                             "name": "util-interface",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-interface\\1.4.9\\util-interface-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-interface\\1.4.9\\util-interface-1.4.9.jar"
                         }
                     ]
                 },
@@ -918,6 +1061,10 @@
                     "version": "2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "jline",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\jline\\jline\\2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493\\jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493.jar"
+                        },
                         {
                             "name": "jline",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\jline\\jline\\2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493\\jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493.jar"
@@ -941,6 +1088,10 @@
                     "artifacts": [
                         {
                             "name": "jline-terminal-jna",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal-jna\\3.19.0\\jline-terminal-jna-3.19.0.jar"
+                        },
+                        {
+                            "name": "jline-terminal-jna",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal-jna\\3.19.0\\jline-terminal-jna-3.19.0.jar"
                         },
                         {
@@ -960,6 +1111,10 @@
                     "version": "3.19.0",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "jline-terminal-jansi",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal-jansi\\3.19.0\\jline-terminal-jansi-3.19.0.jar"
+                        },
                         {
                             "name": "jline-terminal-jansi",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal-jansi\\3.19.0\\jline-terminal-jansi-3.19.0.jar"
@@ -983,6 +1138,10 @@
                     "artifacts": [
                         {
                             "name": "disruptor",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\lmax\\disruptor\\3.4.2\\disruptor-3.4.2.jar"
+                        },
+                        {
+                            "name": "disruptor",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\lmax\\disruptor\\3.4.2\\disruptor-3.4.2.jar"
                         },
                         {
@@ -1004,7 +1163,7 @@
                     "artifacts": [
                         {
                             "name": "scala-reflect",
-                            "path": "C:\\Users\\Gamerpcen\\.sbt\\boot\\scala-2.12.12\\lib\\scala-reflect.jar"
+                            "path": "C:\\Users\\Karl\\.sbt\\boot\\scala-2.12.12\\lib\\scala-reflect.jar"
                         }
                     ]
                 },
@@ -1014,6 +1173,10 @@
                     "version": "3.4.1",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "checker-qual",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\checkerframework\\checker-qual\\3.4.1\\checker-qual-3.4.1.jar"
+                        },
                         {
                             "name": "checker-qual",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\checkerframework\\checker-qual\\3.4.1\\checker-qual-3.4.1.jar"
@@ -1037,6 +1200,10 @@
                     "artifacts": [
                         {
                             "name": "error_prone_annotations",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\errorprone\\error_prone_annotations\\2.4.0\\error_prone_annotations-2.4.0.jar"
+                        },
+                        {
+                            "name": "error_prone_annotations",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\errorprone\\error_prone_annotations\\2.4.0\\error_prone_annotations-2.4.0.jar"
                         },
                         {
@@ -1058,7 +1225,7 @@
                     "artifacts": [
                         {
                             "name": "scala-collection-compat_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-collection-compat_2.12\\2.3.2\\scala-collection-compat_2.12-2.3.2.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-collection-compat_2.12\\2.3.2\\scala-collection-compat_2.12-2.3.2.jar"
                         }
                     ]
                 },
@@ -1068,6 +1235,10 @@
                     "version": "1.7.26",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "slf4j-api",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\slf4j\\slf4j-api\\1.7.26\\slf4j-api-1.7.26.jar"
+                        },
                         {
                             "name": "slf4j-api",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\slf4j\\slf4j-api\\1.7.26\\slf4j-api-1.7.26.jar"
@@ -1091,7 +1262,7 @@
                     "artifacts": [
                         {
                             "name": "scala-compiler",
-                            "path": "C:\\Users\\Gamerpcen\\.sbt\\boot\\scala-2.12.12\\lib\\scala-compiler.jar"
+                            "path": "C:\\Users\\Karl\\.sbt\\boot\\scala-2.12.12\\lib\\scala-compiler.jar"
                         }
                     ]
                 },
@@ -1101,6 +1272,10 @@
                     "version": "0.1.54",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "jsch",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\jcraft\\jsch\\0.1.54\\jsch-0.1.54.jar"
+                        },
                         {
                             "name": "jsch",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\jcraft\\jsch\\0.1.54\\jsch-0.1.54.jar"
@@ -1124,6 +1299,10 @@
                     "artifacts": [
                         {
                             "name": "gigahorse-okhttp_2.12",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\gigahorse-okhttp_2.12\\0.5.0\\gigahorse-okhttp_2.12-0.5.0.jar"
+                        },
+                        {
+                            "name": "gigahorse-okhttp_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\gigahorse-okhttp_2.12\\0.5.0\\gigahorse-okhttp_2.12-0.5.0.jar"
                         },
                         {
@@ -1143,6 +1322,10 @@
                     "version": "3.7.0",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "okhttp-urlconnection",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okhttp3\\okhttp-urlconnection\\3.7.0\\okhttp-urlconnection-3.7.0.jar"
+                        },
                         {
                             "name": "okhttp-urlconnection",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okhttp3\\okhttp-urlconnection\\3.7.0\\okhttp-urlconnection-3.7.0.jar"
@@ -1166,6 +1349,10 @@
                     "artifacts": [
                         {
                             "name": "ivy",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\ivy\\ivy\\2.3.0-sbt-fbc4f586aeeb1591710b14eb4f41b94880dcd745\\ivy-2.3.0-sbt-fbc4f586aeeb1591710b14eb4f41b94880dcd745.jar"
+                        },
+                        {
+                            "name": "ivy",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\ivy\\ivy\\2.3.0-sbt-fbc4f586aeeb1591710b14eb4f41b94880dcd745\\ivy-2.3.0-sbt-fbc4f586aeeb1591710b14eb4f41b94880dcd745.jar"
                         },
                         {
@@ -1185,6 +1372,10 @@
                     "version": "3.19.0",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "jline-reader",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-reader\\3.19.0\\jline-reader-3.19.0.jar"
+                        },
                         {
                             "name": "jline-reader",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-reader\\3.19.0\\jline-reader-3.19.0.jar"
@@ -1208,6 +1399,10 @@
                     "artifacts": [
                         {
                             "name": "jline-builtins",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-builtins\\3.19.0\\jline-builtins-3.19.0.jar"
+                        },
+                        {
+                            "name": "jline-builtins",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-builtins\\3.19.0\\jline-builtins-3.19.0.jar"
                         },
                         {
@@ -1229,7 +1424,7 @@
                     "artifacts": [
                         {
                             "name": "test-agent",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\test-agent\\1.4.9\\test-agent-1.4.9.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\test-agent\\1.4.9\\test-agent-1.4.9.jar"
                         }
                     ]
                 },
@@ -1239,6 +1434,10 @@
                     "version": "1.0",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "test-interface",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\test-interface\\1.0\\test-interface-1.0.jar"
+                        },
                         {
                             "name": "test-interface",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\test-interface\\1.0\\test-interface-1.0.jar"
@@ -1262,6 +1461,10 @@
                     "artifacts": [
                         {
                             "name": "shaded-jawn-parser_2.12",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\shaded-jawn-parser_2.12\\0.9.1\\shaded-jawn-parser_2.12-0.9.1.jar"
+                        },
+                        {
+                            "name": "shaded-jawn-parser_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\shaded-jawn-parser_2.12\\0.9.1\\shaded-jawn-parser_2.12-0.9.1.jar"
                         },
                         {
@@ -1281,6 +1484,10 @@
                     "version": "1.0.0-M4",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "shaded-scalajson_2.12",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\shaded-scalajson_2.12\\1.0.0-M4\\shaded-scalajson_2.12-1.0.0-M4.jar"
+                        },
                         {
                             "name": "shaded-scalajson_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\shaded-scalajson_2.12\\1.0.0-M4\\shaded-scalajson_2.12-1.0.0-M4.jar"
@@ -1304,7 +1511,7 @@
                     "artifacts": [
                         {
                             "name": "compiler-bridge_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\compiler-bridge_2.12\\1.4.4\\compiler-bridge_2.12-1.4.4.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\compiler-bridge_2.12\\1.4.4\\compiler-bridge_2.12-1.4.4.jar"
                         }
                     ]
                 },
@@ -1316,7 +1523,7 @@
                     "artifacts": [
                         {
                             "name": "zinc-classfile_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-classfile_2.12\\1.4.4\\zinc-classfile_2.12-1.4.4.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-classfile_2.12\\1.4.4\\zinc-classfile_2.12-1.4.4.jar"
                         }
                     ]
                 },
@@ -1328,7 +1535,7 @@
                     "artifacts": [
                         {
                             "name": "zinc-core_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-core_2.12\\1.4.4\\zinc-core_2.12-1.4.4.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-core_2.12\\1.4.4\\zinc-core_2.12-1.4.4.jar"
                         }
                     ]
                 },
@@ -1340,7 +1547,7 @@
                     "artifacts": [
                         {
                             "name": "zinc-persist_2.12",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-persist_2.12\\1.4.4\\zinc-persist_2.12-1.4.4.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-persist_2.12\\1.4.4\\zinc-persist_2.12-1.4.4.jar"
                         }
                     ]
                 },
@@ -1350,6 +1557,10 @@
                     "version": "0.9.1",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "sjson-new-murmurhash_2.12",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-murmurhash_2.12\\0.9.1\\sjson-new-murmurhash_2.12-0.9.1.jar"
+                        },
                         {
                             "name": "sjson-new-murmurhash_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-murmurhash_2.12\\0.9.1\\sjson-new-murmurhash_2.12-0.9.1.jar"
@@ -1373,7 +1584,7 @@
                     "artifacts": [
                         {
                             "name": "ipcsocket",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\ipcsocket\\ipcsocket\\1.3.0\\ipcsocket-1.3.0.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\ipcsocket\\ipcsocket\\1.3.0\\ipcsocket-1.3.0.jar"
                         }
                     ]
                 },
@@ -1383,6 +1594,10 @@
                     "version": "1.1.2",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "scala-parser-combinators_2.12",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-parser-combinators_2.12\\1.1.2\\scala-parser-combinators_2.12-1.1.2.jar"
+                        },
                         {
                             "name": "scala-parser-combinators_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-parser-combinators_2.12\\1.1.2\\scala-parser-combinators_2.12-1.1.2.jar"
@@ -1406,6 +1621,10 @@
                     "artifacts": [
                         {
                             "name": "zero-allocation-hashing",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\openhft\\zero-allocation-hashing\\0.10.1\\zero-allocation-hashing-0.10.1.jar"
+                        },
+                        {
+                            "name": "zero-allocation-hashing",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\openhft\\zero-allocation-hashing\\0.10.1\\zero-allocation-hashing-0.10.1.jar"
                         },
                         {
@@ -1425,6 +1644,10 @@
                     "version": "2.1.0",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "jansi",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\fusesource\\jansi\\jansi\\2.1.0\\jansi-2.1.0.jar"
+                        },
                         {
                             "name": "jansi",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\fusesource\\jansi\\jansi\\2.1.0\\jansi-2.1.0.jar"
@@ -1448,6 +1671,10 @@
                     "artifacts": [
                         {
                             "name": "gigahorse-core_2.12",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\gigahorse-core_2.12\\0.5.0\\gigahorse-core_2.12-0.5.0.jar"
+                        },
+                        {
+                            "name": "gigahorse-core_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\gigahorse-core_2.12\\0.5.0\\gigahorse-core_2.12-0.5.0.jar"
                         },
                         {
@@ -1467,6 +1694,10 @@
                     "version": "3.14.2",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "okhttp",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okhttp3\\okhttp\\3.14.2\\okhttp-3.14.2.jar"
+                        },
                         {
                             "name": "okhttp",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okhttp3\\okhttp\\3.14.2\\okhttp-3.14.2.jar"
@@ -1490,6 +1721,10 @@
                     "artifacts": [
                         {
                             "name": "jline-style",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-style\\3.19.0\\jline-style-3.19.0.jar"
+                        },
+                        {
+                            "name": "jline-style",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-style\\3.19.0\\jline-style-3.19.0.jar"
                         },
                         {
@@ -1511,7 +1746,7 @@
                     "artifacts": [
                         {
                             "name": "zinc-persist-core-assembly",
-                            "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-persist-core-assembly\\1.4.4\\zinc-persist-core-assembly-1.4.4.jar"
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-persist-core-assembly\\1.4.4\\zinc-persist-core-assembly-1.4.4.jar"
                         }
                     ]
                 },
@@ -1521,6 +1756,10 @@
                     "version": "0.5.1",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "sbinary_2.12",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\sbinary_2.12\\0.5.1\\sbinary_2.12-0.5.1.jar"
+                        },
                         {
                             "name": "sbinary_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\sbinary_2.12\\0.5.1\\sbinary_2.12-0.5.1.jar"
@@ -1544,6 +1783,10 @@
                     "artifacts": [
                         {
                             "name": "ssl-config-core_2.12",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\ssl-config-core_2.12\\0.4.0\\ssl-config-core_2.12-0.4.0.jar"
+                        },
+                        {
+                            "name": "ssl-config-core_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\ssl-config-core_2.12\\0.4.0\\ssl-config-core_2.12-0.4.0.jar"
                         },
                         {
@@ -1563,6 +1806,10 @@
                     "version": "1.0.2",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "reactive-streams",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\reactivestreams\\reactive-streams\\1.0.2\\reactive-streams-1.0.2.jar"
+                        },
                         {
                             "name": "reactive-streams",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\reactivestreams\\reactive-streams\\1.0.2\\reactive-streams-1.0.2.jar"
@@ -1586,6 +1833,10 @@
                     "artifacts": [
                         {
                             "name": "okio",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okio\\okio\\1.17.2\\okio-1.17.2.jar"
+                        },
+                        {
+                            "name": "okio",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okio\\okio\\1.17.2\\okio-1.17.2.jar"
                         },
                         {
@@ -1605,6 +1856,10 @@
                     "version": "1.3.3",
                     "configurations": "default",
                     "artifacts": [
+                        {
+                            "name": "config",
+                            "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.3.3\\config-1.3.3.jar"
+                        },
                         {
                             "name": "config",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.3.3\\config-1.3.3.jar"
@@ -1628,7 +1883,7 @@
                     "artifacts": [
                         {
                             "name": "scala-compiler",
-                            "path": "C:\\Users\\Gamerpcen\\.sbt\\boot\\scala-2.12.12\\lib\\scala-compiler.jar"
+                            "path": "C:\\Users\\Karl\\.sbt\\boot\\scala-2.12.12\\lib\\scala-compiler.jar"
                         }
                     ]
                 },
@@ -1640,7 +1895,7 @@
                     "artifacts": [
                         {
                             "name": "scala-library",
-                            "path": "C:\\Users\\Gamerpcen\\.sbt\\boot\\scala-2.12.12\\lib\\scala-library.jar"
+                            "path": "C:\\Users\\Karl\\.sbt\\boot\\scala-2.12.12\\lib\\scala-library.jar"
                         }
                     ]
                 }

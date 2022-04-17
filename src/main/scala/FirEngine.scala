@@ -27,12 +27,4 @@ class FirEngine(maxCount: Int) extends Module {
       io.ReadData := ReadWritePort
     }
   }
-
-
-
-
-
-
-
-
 }

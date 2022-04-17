@@ -1,13 +1,16 @@
 .main:
 add x2, x1, x0
-ldi x2, 100
+li x2, 20000
 addi x3, 200
 addi x3, -200
 bne x3, x2, -4
 j .penis
 
 .penis:
-loadFir 10, 100
+loadFir 10, 10000
+li x6, 100000
+sw x3, x6
+lw x3, x6
 j .main
 
 

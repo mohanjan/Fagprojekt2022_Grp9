@@ -1,9 +1,15 @@
 add x2, x1, x0 //.main:
-ldi x2, 100
+li x2, 32
+lui x2, 39
 addi x3, 200
 addi x3, -200
 bne x3, x2, -4
-ldi x1, .penis
-ldi x4, 100 //.penis:
-sw x4, 1993
-ldi x1, .main 
+li x1, .penis
+li x5, 272 //.penis:
+lui x5, 19
+swi x5, 1993
+li x6, 160
+lui x6, 195
+sw x3, x6, x0
+lw x3, x6, x0
+li x1, .main
