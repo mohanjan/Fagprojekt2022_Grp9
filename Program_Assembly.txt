@@ -8,8 +8,9 @@ li x1, 7
 li x5, 272 
 lui x5, 19
 swi x5, 1993
-li x6, 160
-lui x6, 195
-sw x3, x6, x0
-lw x3, x6, x0
+li x6, 304
+lui x6, 58
+li x7, 1000
+sw x7, x6, x0
+lw x7, x6, x0
 li x1, 0

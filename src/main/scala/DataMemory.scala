@@ -17,9 +17,18 @@ class DataMemory(maxCount: Int) extends Module {
   val SPI = IO(new Bundle{
     val SCLK = Output(Bool())
     val CE = Output(Bool())
+    val SO = Input(Vec(4,Bool()))
+    val SI = Output(Vec(4,Bool()))
+    val Drive = Output(Bool())
+  })
+  /*
+  val SPI = IO(new Bundle{
+    val SCLK = Output(Bool())
+    val CE = Output(Bool())
     val MOSI = Output(Bool())
     val MISO = Input(Bool())
   })
+  */
   /*
   val SPI = IO(new Bundle{
     val SCLK = Output(Bool())

@@ -43,6 +43,9 @@ public class Assembler {
                     }else if(data.contains("li")){
                         int immediate = Integer.parseInt(data.substring(data.indexOf(",") + 2));
 
+                        int rd_index = data.indexOf("x");
+                        int rd = find_register(data.substring(rd_index, rd_index + 2));
+
                         if(immediate > 1024){
                             int lower = immediate & 0b000000000111111111;
                             int upper = immediate & 0b111111111000000000;
@@ -51,14 +54,12 @@ public class Assembler {
                             System.out.println(lower);
                             System.out.println(upper >> 9);
                             */
-                            int rd_index = data.indexOf("x");
-                            int rd = find_register(data.substring(rd_index, rd_index + 2));
 
                             myWriter.write("li x" + rd + ", " + lower + addedData + "\n");
                             myWriter.write("lui x" + rd + ", " +  (upper >> 9) + "\n");
                             addedData = "";
                         }else{
-                            myWriter.write("li x5, " + immediate + addedData + "\n");
+                            myWriter.write("li x" + rd + ", " + immediate + addedData + "\n");
                             addedData = "";
                         }
                     }else if(data.contains("sw") || data.contains("lw")){

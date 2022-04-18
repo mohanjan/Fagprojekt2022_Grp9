@@ -8,9 +8,10 @@ j .penis
 
 .penis:
 loadFir 10, 10000
-li x6, 100000
-sw x3, x6
-lw x3, x6
+li x6, 30000
+li x7, 1000
+sw x7, x6
+lw x7, x6
 j .main
 
 
