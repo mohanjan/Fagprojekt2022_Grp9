@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-class InstuctionDecoder(maxCount: Int) extends Module {
+class InstuctionDecoder() extends Module {
   val io = IO(new Bundle {
     val Instruction = Input(UInt(18.W))
 

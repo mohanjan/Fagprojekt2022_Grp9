@@ -17,24 +17,22 @@ object Core{
   val RegisterWriteback = 4.U
 }
 
-
-class Core(maxCount: Int) extends Module {
+class Core() extends Module {
   val io = IO(new Bundle {
     val WaveIn = Input(UInt(16.W))
     val WaveOut = Output(UInt(16.W))
 
-    val MemInData = Input(UInt(18.W))
-    val MemInAddress = Input(UInt(10.W))
-
-    val MemWrite = Input(Bool())
+    val Stall = Input(Bool())
     val ProgramLength = Input(UInt(10.W))
   })
-  val SPI = IO(new Bundle{
-    val SCLK = Output(Bool())
-    val CE = Output(Bool())
-    val SO = Input(Vec(4,Bool()))
-    val SI = Output(Vec(4,Bool()))
-    val Drive = Output(Bool())
+  val DataMem = IO(new Bundle {
+    val Address = Output(UInt(18.W))
+    val DataIn = Output(UInt(18.W))
+    val Enable = Output(Bool())
+    val Write = Output(Bool())
+
+    val DataOut = Input(UInt(18.W))
+    val Completed = Input(Bool())
   })
 
   val OpCounter = RegInit(0.U(3.W))
@@ -65,11 +63,11 @@ class Core(maxCount: Int) extends Module {
 
   // Modules
 
-  val ALU = Module(new ALU(maxCount))
-  val DataMem = Module(new DataMemory(maxCount))
-  val InstDec = Module(new InstuctionDecoder(maxCount))
-  val BranchComp = Module(new BranchComp(maxCount))
-  val InstructionMem = Module(new InstuctionMemory(maxCount))
+  val ALU = Module(new ALU())
+  val DataMemory = Module(new DataMemory())
+  val InstDec = Module(new InstuctionDecoder())
+  val BranchComp = Module(new BranchComp())
+  val InstructionMem = Module(new InstuctionMemory())
 
   //Registers
 
@@ -89,11 +87,10 @@ class Core(maxCount: Int) extends Module {
   InstructionMem.io.DataIn := 0.U
   InstructionMem.io.MemWrite := 0.U
 
-  DataMem.io.DataIn := 0.U
-  DataMem.io.Address := 0.U
-  DataMem.io.Enable := false.B
-  DataMem.io.Write := false.B
-  DataMem.SPI <> SPI
+  DataMem.DataIn := 0.U
+  DataMem.Address := 0.U
+  DataMem.Enable := false.B
+  DataMem.Write := false.B
 
   BranchComp.io.rs2 := 0.U
   BranchComp.io.rs1 := 0.U
@@ -105,9 +102,13 @@ class Core(maxCount: Int) extends Module {
 
   // Processor
 
-  when(io.MemWrite){
-    DataMem.io.DataIn := io.MemInData
-    DataMem.io.Address := io.MemInAddress
+  when(io.Stall){
+
+    /*
+    DataMem.DataIn := io.MemInData
+    DataMem.Address := io.MemInAddress
+    */
+
   }.otherwise{
     switch(OpCounter){
       is(InstructionFetch){
@@ -149,22 +150,22 @@ class Core(maxCount: Int) extends Module {
 
               OpCounter := RegisterWriteback
             }.elsewhen(AOperationReg === 8.U){
-              DataMem.io.Enable := true.B
-              DataMem.io.Address := x(rs1Reg)
+              DataMemory.DataMem.Enable := true.B
+              DataMemory.DataMem.Address := x(rs1Reg)
               WritebackMode := MemoryI
               WritebackRegister := rdReg
 
-              when(DataMem.io.Completed){
+              when(DataMem.Completed){
                 OpCounter := RegisterWriteback
               }
             }.elsewhen(AOperationReg === 9.U){
-              DataMem.io.Enable := true.B
-              DataMem.io.Write := true.B
-              DataMem.io.Address := x(rs1Reg)
-              DataMem.io.DataIn := x(rdReg)
+              DataMem.Enable := true.B
+              DataMem.Write := true.B
+              DataMem.Address := x(rs1Reg)
+              DataMem.DataIn := x(rdReg)
               WritebackMode := Nil
 
-              when(DataMem.io.Completed){
+              when(DataMem.Completed){
                 OpCounter := RegisterWriteback
               }
             }
@@ -203,10 +204,10 @@ class Core(maxCount: Int) extends Module {
             OpCounter := RegisterWriteback
           }
           is(2.U){
-            DataMem.io.Address := MemAddressReg
-            DataMem.io.DataIn := x(rdReg)
-            DataMem.io.Enable := true.B
-            DataMem.io.Write := MemOpReg
+            DataMem.Address := MemAddressReg
+            DataMem.DataIn := x(rdReg)
+            DataMem.Enable := true.B
+            DataMem.Write := MemOpReg
 
             switch(MemOpReg){
               is(0.U){
@@ -243,7 +244,7 @@ class Core(maxCount: Int) extends Module {
             x(1) := x(1) + 1.U
           }
           is(MemoryI){
-            x(WritebackRegister) := DataMem.io.DataOut
+            x(WritebackRegister) := DataMem.DataOut
             x(1) := x(1) + 1.U
           }
           is(Conditional){

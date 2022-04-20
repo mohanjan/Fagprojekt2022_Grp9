@@ -8,7 +8,7 @@ import chisel3._
  * 
  * nothing else is needed
  */
-class xadc_wiz_0(maxCount: Int) extends BlackBox {
+class xadc_wiz_0() extends BlackBox {
   val io = IO(new Bundle {
     val di_in = Input(UInt(16.W))   //DRP input data
     val daddr_in = Input(UInt(7.W)) //DRP address bus

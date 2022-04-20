@@ -1,30 +1,46 @@
 import chisel3._
 import chisel3.util._
 
-class FirEngine(maxCount: Int) extends Module {
-  val io = IO(new Bundle {
-    val WaveIn = Input(UInt(16.W))
-    val WaveOut = Output(UInt(16.W))
-
+class FirEngine() extends Module {
+  val Registers = IO(new Bundle {
     val Enable = Input(Bool())
     val WriteEn = Input(Bool())
+    val ReadData = Output(Bool())
+    val Address = Input(UInt(7.W))
     val WriteData = Input(UInt(18.W))
-    val Address = Input(UInt(6.W))
+  })
+  val DataMemory = IO(new Bundle {
+    val Enable = Output(Bool())
+    val WriteEn = Output(Bool())
+    val WriteData = Output(UInt(18.W))
+    val Address = Output(UInt(6.W))
 
-    val ReadData = Output(UInt(18.W))
+    val ReadData = Input(UInt(18.W))
+  })
+  val io = IO(new Bundle {
+    val WaveIn = Input(UInt(18.W))
+    val WaveOut = Output(UInt(18.W))
   })
 
-  io.ReadData := DontCare
+  // Datamemory
+
+  DataMemory.Enable := false.B
+  DataMemory.WriteEn := false.B
+  DataMemory.WriteData := 0.U
+  DataMemory.Address := 0.U
+
+  Registers.ReadData := 0.U
+
   io.WaveOut := 0.U
 
   val DataReg = Reg(Vec(128,UInt(18.W)))
 
-  when(io.Enable){
-    val ReadWritePort = DataReg(io.Address)
-    when(io.WriteEn){
-      ReadWritePort := io.WriteData
+  when(Registers.Enable){
+    val ReadWritePort = DataReg(Registers.Address)
+    when(Registers.WriteEn){
+      ReadWritePort := Registers.WriteData
     }.otherwise{
-      io.ReadData := ReadWritePort
+      Registers.ReadData := ReadWritePort
     }
   }
 }

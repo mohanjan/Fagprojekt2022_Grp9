@@ -2,7 +2,7 @@ import chisel3._
 import chisel3.util._
 import chisel3.util.experimental.loadMemoryFromFileInline
 
-class InstuctionMemory(maxCount: Int) extends Module {
+class InstuctionMemory() extends Module {
   val io = IO(new Bundle {
     val Address = Input(UInt(10.W))
     val DataIn = Input(UInt(18.W))
