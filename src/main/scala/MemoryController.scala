@@ -1,7 +1,6 @@
 import chisel3._
 import chisel3.util._
 import chisel3.experimental.Analog
-import chisel3.util.HasBlackBoxInline
 import SPI_CMDS._
 
 
@@ -35,7 +34,7 @@ class MemoryController(Count: Int) extends Module {
     val Drive = Output(Bool())
   })
 
-  // Default
+  // Register and state machine definitions.
 
   val DataReg = RegInit(0.U(16.W))
 
@@ -45,9 +44,7 @@ class MemoryController(Count: Int) extends Module {
 
   io.ReadData := DataReg
 
-  for(i <- 0 until 4){
-    SPI.SI(i) := false.B
-  }
+  SPI.SI := 0.U.asBools
 
   SPI.Drive := false.B
 
@@ -63,9 +60,6 @@ class MemoryController(Count: Int) extends Module {
   val AddressReg = RegInit(0.U(24.W))
 
   val SPI_mode = RegInit(1.U(1.W))
-
-  val OutQPI = Wire(UInt(4.W))
-  OutQPI := 0.U
 
   // Clock stuff
 
@@ -122,7 +116,6 @@ class MemoryController(Count: Int) extends Module {
   when(!ClkReg.asBool && ClkRegDelay.asBool){
     FallingEdge := true.B
   }
-
 
   // Actual state machine
 
@@ -181,7 +174,6 @@ class MemoryController(Count: Int) extends Module {
       when(CntReg === 7.U && NextStateInv) {
         SPI.CE := true.B
         CntReg := 0.U
-        //io.Completed := true.B
 
         StateReg := idle
       }
@@ -229,7 +221,6 @@ class MemoryController(Count: Int) extends Module {
           SPI.Drive := true.B
 
           SPI.SI(1) := CMDSPIRead(7.U - CntReg)
-          SubStateReg := transmitCMD
 
           when(NextStateInv){
             CntReg := CntReg + 1.U
@@ -244,11 +235,9 @@ class MemoryController(Count: Int) extends Module {
         is(transmitAddress) {
           SPI.CE := false.B
           ClockEn := true.B
-          //TriState.io.drive := true.B
           SPI.Drive := true.B
 
           SPI.SI(1) := AddressReg(23.U - CntReg)
-          SubStateReg := transmitAddress
 
           when(NextStateInv){
             CntReg := CntReg + 1.U
@@ -282,11 +271,9 @@ class MemoryController(Count: Int) extends Module {
         is(transmitCMD) {
           SPI.CE := false.B
           ClockEn := true.B
-          //TriState.io.drive := true.B
           SPI.Drive := true.B
 
           SPI.SI(1) := CMDSPIWrite(7.U - CntReg)
-          SubStateReg := transmitCMD
 
           when(NextStateInv){
             CntReg := CntReg + 1.U
@@ -300,11 +287,9 @@ class MemoryController(Count: Int) extends Module {
         is(transmitAddress) {
           SPI.CE := false.B
           ClockEn := true.B
-          //TriState.io.drive := true.B
           SPI.Drive := true.B
 
           SPI.SI(1) := AddressReg(23.U - CntReg)
-          SubStateReg := transmitAddress
 
           when(NextStateInv){
             CntReg := CntReg + 1.U
@@ -318,11 +303,9 @@ class MemoryController(Count: Int) extends Module {
         is(transmitData) {
           SPI.CE := false.B
           ClockEn := true.B
-          //TriState.io.drive := true.B
           SPI.Drive := true.B
 
           SPI.SI(1) := WriteDataReg(CntReg)
-          SubStateReg := transmitData
 
           when(NextStateInv){
             CntReg := CntReg + 1.U
@@ -345,7 +328,6 @@ class MemoryController(Count: Int) extends Module {
           SPI.Drive := true.B
 
           SPI.SI(1) := CMDQPIRead(7.U - CntReg)
-          SubStateReg := transmitCMD
 
           when(NextStateInv){
             CntReg := CntReg + 1.U
@@ -362,22 +344,13 @@ class MemoryController(Count: Int) extends Module {
           ClockEn := true.B
           SPI.Drive := true.B
 
-          //SPI.SI(1) := io.Address(23.U - CntReg)
-
           for(i <- 0 until 24 by 4){
             switch(CntReg){
               is(i.U){
-                //SPI.SI := io.Address(23-i,20-i)
-                OutQPI := AddressReg(23-i,20-i)
+                SPI.SI := AddressReg(23-i,20-i).asBools
               }
             }
           }
-
-          for(i <- 0 until 4){
-            SPI.SI(i) := OutQPI(i)
-          }
-
-          SubStateReg := transmitAddress
 
           when(NextStateInv){
             CntReg := CntReg + 4.U
@@ -412,7 +385,6 @@ class MemoryController(Count: Int) extends Module {
           SPI.Drive := true.B
 
           SPI.SI(1) := CMDQPIWrite(7.U - CntReg)
-          SubStateReg := transmitCMD
 
           when(NextStateInv){
             CntReg := CntReg + 1.U
@@ -426,25 +398,15 @@ class MemoryController(Count: Int) extends Module {
         is(transmitAddress) {
           SPI.CE := false.B
           ClockEn := true.B
-          //TriState.io.drive := true.B
           SPI.Drive := true.B
-
-          //SPI.SI(1) := io.Address(23.U - CntReg)
 
           for(i <- 0 until 24 by 4){
             switch(CntReg){
               is(i.U){
-                //SPI.SI := io.Address(23-i,20-i)
-                OutQPI := AddressReg(23-i,20-i)
+                SPI.SI := AddressReg(23-i,20-i).asBools
               }
             }
           }
-
-          for(i <- 0 until 4){
-            SPI.SI(i) := OutQPI(i)
-          }
-
-          SubStateReg := transmitAddress
 
           when(NextStateInv){
             CntReg := CntReg + 4.U
@@ -460,23 +422,13 @@ class MemoryController(Count: Int) extends Module {
           ClockEn := true.B
           SPI.Drive := true.B
 
-          //SPI.SI(1) := io.WriteData(CntReg)
-
-
           for(i <- 0 until 16 by 4){
             switch(CntReg){
               is(i.U){
-                //SPI.SI := io.Address(23-i,20-i)
-                OutQPI := WriteDataReg(15-i,12-i)
+                SPI.SI := WriteDataReg(15-i,12-i).asBools
               }
             }
           }
-
-          for(i <- 0 until 4){
-            SPI.SI(i) := OutQPI(i)
-          }
-
-          SubStateReg := transmitData
 
           when(NextStateInv){
             CntReg := CntReg + 4.U

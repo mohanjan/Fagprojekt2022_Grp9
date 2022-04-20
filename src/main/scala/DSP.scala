@@ -14,23 +14,12 @@ class DSP(maxCount: Int) extends Module {
     val SI = Output(Vec(4,Bool()))
     val Drive = Output(Bool())
   })
-  /*
-  val SPI = IO(new Bundle{
-    val SCLK = Output(Bool())
-    val CE = Output(Bool())
-    val MOSI = Output(Bool())
-    val MISO = Input(Bool())
-  })
-  */
-  /*
-  val SPI = IO(new Bundle{
-    val SCLK = Output(Bool())
-    val CE = Output(Bool())
-    val SPIBus = Analog(4.W)
-  })
-  */
+
+  // Single Core
 
   val Core = Module(new Core(200000000))
+
+  // Interconnections
 
   Core.io.WaveIn := 0.U
   Core.io.MemInAddress := 0.U

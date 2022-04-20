@@ -36,21 +36,6 @@ class Core(maxCount: Int) extends Module {
     val SI = Output(Vec(4,Bool()))
     val Drive = Output(Bool())
   })
-  /*
-  val SPI = IO(new Bundle{
-    val SCLK = Output(Bool())
-    val CE = Output(Bool())
-    val MOSI = Output(Bool())
-    val MISO = Input(Bool())
-  })
-  */
-  /*
-  val SPI = IO(new Bundle{
-    val SCLK = Output(Bool())
-    val CE = Output(Bool())
-    val SPIBus = Analog(4.W)
-  })
-  */
 
   val OpCounter = RegInit(0.U(3.W))
 
@@ -77,6 +62,8 @@ class Core(maxCount: Int) extends Module {
 
   val WritebackMode = RegInit(0.U(4.W))
   val WritebackRegister = RegInit(0.U(4.W))
+
+  // Modules
 
   val ALU = Module(new ALU(maxCount))
   val DataMem = Module(new DataMemory(maxCount))

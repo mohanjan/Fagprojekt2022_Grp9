@@ -21,21 +21,8 @@ class DataMemory(maxCount: Int) extends Module {
     val SI = Output(Vec(4,Bool()))
     val Drive = Output(Bool())
   })
-  /*
-  val SPI = IO(new Bundle{
-    val SCLK = Output(Bool())
-    val CE = Output(Bool())
-    val MOSI = Output(Bool())
-    val MISO = Input(Bool())
-  })
-  */
-  /*
-  val SPI = IO(new Bundle{
-    val SCLK = Output(Bool())
-    val CE = Output(Bool())
-    val SPIBus = Analog(4.W)
-  })
-  */
+
+  // Module Definitions
 
   val Memory = SyncReadMem(2048, UInt(18.W))
   val ExternalMemory = Module(new MemoryController(1))
@@ -57,8 +44,10 @@ class DataMemory(maxCount: Int) extends Module {
   ExternalMemory.io.Address := 0.U
   ExternalMemory.SPI <> SPI
 
+  // Address space partition
+
   when(io.Enable){
-    when(io.Address <= 2047.U){
+    when(io.Address <= 2047.U){ // Internal data memory
       val ReadWritePort = Memory(io.Address)
       io.Completed := true.B
 
@@ -67,7 +56,7 @@ class DataMemory(maxCount: Int) extends Module {
       }.otherwise{
         io.DataOut := ReadWritePort
       }
-    }.elsewhen(io.Address <= 2175.U){
+    }.elsewhen(io.Address <= 2175.U){ // Fir Registers
       FirEngine.io.Address := io.Address
       FirEngine.io.WriteEn := true.B
       io.Completed := true.B
@@ -77,7 +66,7 @@ class DataMemory(maxCount: Int) extends Module {
       }.otherwise{
         io.DataOut := FirEngine.io.ReadData
       }
-    }.otherwise{
+    }.otherwise{ // External Memory
       ExternalMemory.io.Address := io.Address
 
       when(io.Write){
