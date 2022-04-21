@@ -3,16 +3,11 @@ import chisel3.util._
 import chisel3.experimental.Analog
 import chisel3.util.experimental.loadMemoryFromFile
 
-class DataMemory(maxCount: Int) extends Module {
+class DataMemory() extends Module {
   val io = IO(new Bundle {
-    val Address = Input(UInt(18.W))
-    val DataIn = Input(UInt(18.W))
-    val DataOut = Output(UInt(18.W))
-
-    val Enable = Input(Bool())
-    val Write = Input(Bool())
-
-    val Completed = Output(Bool())
+    val DataMem = Flipped(new DataMem)
+    val FIR = Flipped(new DataMem)
+    val Registers = Flipped(new Registers)
   })
   val SPI = IO(new Bundle{
     val SCLK = Output(Bool())
@@ -26,63 +21,66 @@ class DataMemory(maxCount: Int) extends Module {
 
   val Memory = SyncReadMem(2048, UInt(18.W))
   val ExternalMemory = Module(new MemoryController(1))
-  val FirEngine = Module(new FirEngine(maxCount))
 
   // Defaults
 
-  FirEngine.io.WriteData := 0.U
-  FirEngine.io.Enable := false.B
-  FirEngine.io.Address := 0.U
-  FirEngine.io.WaveIn := 0.U
-  FirEngine.io.WriteEn := false.B
+  io.Registers.Address := 0.U
+  io.Registers.WriteData := 0.U
+  io.Registers.Enable := false.B
+  io.Registers.WriteEn := false.B
 
-  io.DataOut := DontCare
-  io.Completed := false.B
+  io.DataMem.ReadData := 0.U
+  io.DataMem.Completed := false.B
+
+  io.FIR.ReadData := 0.U
+  io.FIR.Completed := false.B
+
   ExternalMemory.io.WriteData := 0.U
   ExternalMemory.io.ReadEnable := false.B
   ExternalMemory.io.WriteEnable := false.B
   ExternalMemory.io.Address := 0.U
   ExternalMemory.SPI <> SPI
 
+
   // Address space partition
 
-  when(io.Enable){
-    when(io.Address <= 2047.U){ // Internal data memory
-      val ReadWritePort = Memory(io.Address)
-      io.Completed := true.B
+  when(io.DataMem.Enable){
+    when(io.DataMem.Address <= 2047.U){ // Internal data memory
+      val ReadWritePort = Memory(io.DataMem.Address)
+      io.DataMem.Completed := true.B
 
-      when(io.Write){
-        ReadWritePort := io.DataIn
+      when(io.DataMem.WriteEn){
+        ReadWritePort := io.DataMem.WriteData
       }.otherwise{
-        io.DataOut := ReadWritePort
+        io.DataMem.ReadData := ReadWritePort
       }
-    }.elsewhen(io.Address <= 2175.U){ // Fir Registers
-      FirEngine.io.Address := io.Address
-      FirEngine.io.WriteEn := true.B
-      io.Completed := true.B
+    }.elsewhen(io.DataMem.Address <= 2175.U){ // Fir Registers
+      io.Registers.Address := (io.DataMem.Address - 2175.U)(5,0)
+      io.Registers.WriteEn := true.B
+      io.DataMem.Completed := true.B
 
-      when(io.Write){
-        FirEngine.io.WriteData := io.DataIn
+      when(io.DataMem.WriteEn){
+        io.Registers.WriteData := io.DataMem.WriteData
       }.otherwise{
-        io.DataOut := FirEngine.io.ReadData
+        io.DataMem.ReadData := io.Registers.ReadData
       }
     }.otherwise{ // External Memory
-      ExternalMemory.io.Address := io.Address
+      ExternalMemory.io.Address := io.DataMem.Address
 
-      when(io.Write){
+      when(io.DataMem.WriteEn){
         when(ExternalMemory.io.Ready){
           ExternalMemory.io.WriteEnable := true.B
-          ExternalMemory.io.WriteData := io.DataIn
+          ExternalMemory.io.WriteData := io.DataMem.WriteData
         }
 
-        io.Completed := ExternalMemory.io.Completed
+        io.DataMem.Completed := ExternalMemory.io.Completed
       }.otherwise{
         when(ExternalMemory.io.Ready){
           ExternalMemory.io.ReadEnable := true.B
         }
 
-        io.Completed := ExternalMemory.io.Completed
-        io.DataOut := ExternalMemory.io.ReadData
+        io.DataMem.Completed := ExternalMemory.io.Completed
+        io.DataMem.ReadData := ExternalMemory.io.ReadData
       }
     }
   }

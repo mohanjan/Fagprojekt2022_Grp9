@@ -5,11 +5,11 @@ import SPI_CMDS._
 
 
 object SPI_CMDS {
-  val CMDResetEnable = 102.U(8.W)
-  val CMDReset = 153.U(8.W)
+  val CMDResetEnable = "h66".U(8.W)
+  val CMDReset = "h99".U(8.W)
   val CMDQuadMode = "h35".U(8.W)
-  val CMDSPIRead = 3.U(8.W)
-  val CMDSPIWrite = 2.U(8.W)
+  val CMDSPIRead = "h03".U(8.W)
+  val CMDSPIWrite = "h02".U(8.W)
   val CMDQPIRead = "hEB".U(8.W)
   val CMDQPIWrite = "h38".U(8.W)
 }
@@ -26,6 +26,7 @@ class MemoryController(Count: Int) extends Module {
     val Ready = Output(Bool())
     val Completed = Output(Bool())
   })
+
   val SPI = IO(new Bundle{
     val SCLK = Output(Bool())
     val CE = Output(Bool())
@@ -33,6 +34,8 @@ class MemoryController(Count: Int) extends Module {
     val SI = Output(Vec(4,Bool()))
     val Drive = Output(Bool())
   })
+
+
 
   // Register and state machine definitions.
 
@@ -44,7 +47,7 @@ class MemoryController(Count: Int) extends Module {
 
   io.ReadData := DataReg
 
-  SPI.SI := 0.U.asBools
+  SPI.SI := 0.U(4.W).asBools
 
   SPI.Drive := false.B
 
@@ -77,7 +80,6 @@ class MemoryController(Count: Int) extends Module {
 
   val RisingEdge = Wire(Bool())
   val FallingEdge = Wire(Bool())
-
 
   NextState := false.B
   NextStateInv := false.B

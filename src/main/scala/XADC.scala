@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-class XADC(maxCount: Int) extends Module {
+class XADC() extends Module {
   val io = IO(new Bundle {
     val LED = Output(UInt(16.W))
     val JA = Input(UInt(8.W))
@@ -28,7 +28,7 @@ class XADC(maxCount: Int) extends Module {
 
 
   //instantiation of adc blackbox module and subsequent connection of signals
-  val adc = Module(new xadc_wiz_0(maxCount))
+  val adc = Module(new xadc_wiz_0())
 
   adc.io.di_in := 0.U(16.W)
   adc.io.daddr_in := daddr_in

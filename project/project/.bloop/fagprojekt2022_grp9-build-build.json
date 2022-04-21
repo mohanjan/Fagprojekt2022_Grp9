@@ -216,6 +216,10 @@
                         },
                         {
                             "name": "sbt-bloop",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\sbt-bloop_2.12_1.0\\1.4.12\\sbt-bloop-1.4.12.jar"
+                        },
+                        {
+                            "name": "sbt-bloop",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\sbt-bloop_2.12_1.0\\1.4.12\\sbt-bloop-1.4.12.jar"
                         },
                         {
@@ -241,6 +245,10 @@
                         },
                         {
                             "name": "gson",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\code\\gson\\gson\\2.7\\gson-2.7.jar"
+                        },
+                        {
+                            "name": "gson",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\code\\gson\\gson\\2.7\\gson-2.7.jar"
                         },
                         {
@@ -263,6 +271,10 @@
                         {
                             "name": "jsr305",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\code\\findbugs\\jsr305\\3.0.2\\jsr305-3.0.2.jar"
+                        },
+                        {
+                            "name": "jsr305",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\code\\findbugs\\jsr305\\3.0.2\\jsr305-3.0.2.jar"
                         },
                         {
                             "name": "jsr305",
@@ -339,6 +351,10 @@
                         },
                         {
                             "name": "jna",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\net\\java\\dev\\jna\\jna\\5.5.0\\jna-5.5.0.jar"
+                        },
+                        {
+                            "name": "jna",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\java\\dev\\jna\\jna\\5.5.0\\jna-5.5.0.jar"
                         },
                         {
@@ -361,6 +377,10 @@
                         {
                             "name": "jna-platform",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\java\\dev\\jna\\jna-platform\\5.5.0\\jna-platform-5.5.0.jar"
+                        },
+                        {
+                            "name": "jna-platform",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\net\\java\\dev\\jna\\jna-platform\\5.5.0\\jna-platform-5.5.0.jar"
                         },
                         {
                             "name": "jna-platform",
@@ -497,6 +517,10 @@
                         },
                         {
                             "name": "scala-xml_2.12",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-xml_2.12\\1.3.0\\scala-xml_2.12-1.3.0.jar"
+                        },
+                        {
+                            "name": "scala-xml_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-xml_2.12\\1.3.0\\scala-xml_2.12-1.3.0.jar"
                         },
                         {
@@ -531,6 +555,10 @@
                         {
                             "name": "caffeine",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\github\\ben-manes\\caffeine\\caffeine\\2.8.5\\caffeine-2.8.5.jar"
+                        },
+                        {
+                            "name": "caffeine",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\github\\ben-manes\\caffeine\\caffeine\\2.8.5\\caffeine-2.8.5.jar"
                         },
                         {
                             "name": "caffeine",
@@ -604,6 +632,10 @@
                         {
                             "name": "file-tree-views",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\swoval\\file-tree-views\\2.1.6\\file-tree-views-2.1.6.jar"
+                        },
+                        {
+                            "name": "file-tree-views",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\swoval\\file-tree-views\\2.1.6\\file-tree-views-2.1.6.jar"
                         },
                         {
                             "name": "file-tree-views",
@@ -752,6 +784,10 @@
                         },
                         {
                             "name": "sjson-new-scalajson_2.12",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-scalajson_2.12\\0.9.1\\sjson-new-scalajson_2.12-0.9.1.jar"
+                        },
+                        {
+                            "name": "sjson-new-scalajson_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-scalajson_2.12\\0.9.1\\sjson-new-scalajson_2.12-0.9.1.jar"
                         },
                         {
@@ -774,6 +810,10 @@
                         {
                             "name": "jline-terminal",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal\\3.19.0\\jline-terminal-3.19.0.jar"
+                        },
+                        {
+                            "name": "jline-terminal",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal\\3.19.0\\jline-terminal-3.19.0.jar"
                         },
                         {
                             "name": "jline-terminal",
@@ -886,6 +926,10 @@
                         },
                         {
                             "name": "sjson-new-core_2.12",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-core_2.12\\0.9.1\\sjson-new-core_2.12-0.9.1.jar"
+                        },
+                        {
+                            "name": "sjson-new-core_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-core_2.12\\0.9.1\\sjson-new-core_2.12-0.9.1.jar"
                         },
                         {
@@ -908,6 +952,10 @@
                         {
                             "name": "template-resolver",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\template-resolver\\0.1\\template-resolver-0.1.jar"
+                        },
+                        {
+                            "name": "template-resolver",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\template-resolver\\0.1\\template-resolver-0.1.jar"
                         },
                         {
                             "name": "template-resolver",
@@ -972,6 +1020,10 @@
                         },
                         {
                             "name": "jline",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\jline\\jline\\2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493\\jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493.jar"
+                        },
+                        {
+                            "name": "jline",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\jline\\jline\\2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493\\jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493.jar"
                         },
                         {
@@ -994,6 +1046,10 @@
                         {
                             "name": "jline-terminal-jna",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal-jna\\3.19.0\\jline-terminal-jna-3.19.0.jar"
+                        },
+                        {
+                            "name": "jline-terminal-jna",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal-jna\\3.19.0\\jline-terminal-jna-3.19.0.jar"
                         },
                         {
                             "name": "jline-terminal-jna",
@@ -1022,6 +1078,10 @@
                         },
                         {
                             "name": "jline-terminal-jansi",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal-jansi\\3.19.0\\jline-terminal-jansi-3.19.0.jar"
+                        },
+                        {
+                            "name": "jline-terminal-jansi",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal-jansi\\3.19.0\\jline-terminal-jansi-3.19.0.jar"
                         },
                         {
@@ -1044,6 +1104,10 @@
                         {
                             "name": "disruptor",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\lmax\\disruptor\\3.4.2\\disruptor-3.4.2.jar"
+                        },
+                        {
+                            "name": "disruptor",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\lmax\\disruptor\\3.4.2\\disruptor-3.4.2.jar"
                         },
                         {
                             "name": "disruptor",
@@ -1084,6 +1148,10 @@
                         },
                         {
                             "name": "checker-qual",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\checkerframework\\checker-qual\\3.4.1\\checker-qual-3.4.1.jar"
+                        },
+                        {
+                            "name": "checker-qual",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\checkerframework\\checker-qual\\3.4.1\\checker-qual-3.4.1.jar"
                         },
                         {
@@ -1106,6 +1174,10 @@
                         {
                             "name": "error_prone_annotations",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\errorprone\\error_prone_annotations\\2.4.0\\error_prone_annotations-2.4.0.jar"
+                        },
+                        {
+                            "name": "error_prone_annotations",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\errorprone\\error_prone_annotations\\2.4.0\\error_prone_annotations-2.4.0.jar"
                         },
                         {
                             "name": "error_prone_annotations",
@@ -1146,6 +1218,10 @@
                         },
                         {
                             "name": "slf4j-api",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\slf4j\\slf4j-api\\1.7.26\\slf4j-api-1.7.26.jar"
+                        },
+                        {
+                            "name": "slf4j-api",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\slf4j\\slf4j-api\\1.7.26\\slf4j-api-1.7.26.jar"
                         },
                         {
@@ -1183,6 +1259,10 @@
                         },
                         {
                             "name": "jsch",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\jcraft\\jsch\\0.1.54\\jsch-0.1.54.jar"
+                        },
+                        {
+                            "name": "jsch",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\jcraft\\jsch\\0.1.54\\jsch-0.1.54.jar"
                         },
                         {
@@ -1205,6 +1285,10 @@
                         {
                             "name": "gigahorse-okhttp_2.12",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\gigahorse-okhttp_2.12\\0.5.0\\gigahorse-okhttp_2.12-0.5.0.jar"
+                        },
+                        {
+                            "name": "gigahorse-okhttp_2.12",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\gigahorse-okhttp_2.12\\0.5.0\\gigahorse-okhttp_2.12-0.5.0.jar"
                         },
                         {
                             "name": "gigahorse-okhttp_2.12",
@@ -1233,6 +1317,10 @@
                         },
                         {
                             "name": "okhttp-urlconnection",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okhttp3\\okhttp-urlconnection\\3.7.0\\okhttp-urlconnection-3.7.0.jar"
+                        },
+                        {
+                            "name": "okhttp-urlconnection",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okhttp3\\okhttp-urlconnection\\3.7.0\\okhttp-urlconnection-3.7.0.jar"
                         },
                         {
@@ -1255,6 +1343,10 @@
                         {
                             "name": "ivy",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\ivy\\ivy\\2.3.0-sbt-fbc4f586aeeb1591710b14eb4f41b94880dcd745\\ivy-2.3.0-sbt-fbc4f586aeeb1591710b14eb4f41b94880dcd745.jar"
+                        },
+                        {
+                            "name": "ivy",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\ivy\\ivy\\2.3.0-sbt-fbc4f586aeeb1591710b14eb4f41b94880dcd745\\ivy-2.3.0-sbt-fbc4f586aeeb1591710b14eb4f41b94880dcd745.jar"
                         },
                         {
                             "name": "ivy",
@@ -1283,6 +1375,10 @@
                         },
                         {
                             "name": "jline-reader",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-reader\\3.19.0\\jline-reader-3.19.0.jar"
+                        },
+                        {
+                            "name": "jline-reader",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-reader\\3.19.0\\jline-reader-3.19.0.jar"
                         },
                         {
@@ -1305,6 +1401,10 @@
                         {
                             "name": "jline-builtins",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-builtins\\3.19.0\\jline-builtins-3.19.0.jar"
+                        },
+                        {
+                            "name": "jline-builtins",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-builtins\\3.19.0\\jline-builtins-3.19.0.jar"
                         },
                         {
                             "name": "jline-builtins",
@@ -1345,6 +1445,10 @@
                         },
                         {
                             "name": "test-interface",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\test-interface\\1.0\\test-interface-1.0.jar"
+                        },
+                        {
+                            "name": "test-interface",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\test-interface\\1.0\\test-interface-1.0.jar"
                         },
                         {
@@ -1370,6 +1474,10 @@
                         },
                         {
                             "name": "shaded-jawn-parser_2.12",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\shaded-jawn-parser_2.12\\0.9.1\\shaded-jawn-parser_2.12-0.9.1.jar"
+                        },
+                        {
+                            "name": "shaded-jawn-parser_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\shaded-jawn-parser_2.12\\0.9.1\\shaded-jawn-parser_2.12-0.9.1.jar"
                         },
                         {
@@ -1392,6 +1500,10 @@
                         {
                             "name": "shaded-scalajson_2.12",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\shaded-scalajson_2.12\\1.0.0-M4\\shaded-scalajson_2.12-1.0.0-M4.jar"
+                        },
+                        {
+                            "name": "shaded-scalajson_2.12",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\shaded-scalajson_2.12\\1.0.0-M4\\shaded-scalajson_2.12-1.0.0-M4.jar"
                         },
                         {
                             "name": "shaded-scalajson_2.12",
@@ -1468,6 +1580,10 @@
                         },
                         {
                             "name": "sjson-new-murmurhash_2.12",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-murmurhash_2.12\\0.9.1\\sjson-new-murmurhash_2.12-0.9.1.jar"
+                        },
+                        {
+                            "name": "sjson-new-murmurhash_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\sjson-new-murmurhash_2.12\\0.9.1\\sjson-new-murmurhash_2.12-0.9.1.jar"
                         },
                         {
@@ -1505,6 +1621,10 @@
                         },
                         {
                             "name": "scala-parser-combinators_2.12",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-parser-combinators_2.12\\1.1.2\\scala-parser-combinators_2.12-1.1.2.jar"
+                        },
+                        {
+                            "name": "scala-parser-combinators_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-parser-combinators_2.12\\1.1.2\\scala-parser-combinators_2.12-1.1.2.jar"
                         },
                         {
@@ -1527,6 +1647,10 @@
                         {
                             "name": "zero-allocation-hashing",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\net\\openhft\\zero-allocation-hashing\\0.10.1\\zero-allocation-hashing-0.10.1.jar"
+                        },
+                        {
+                            "name": "zero-allocation-hashing",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\net\\openhft\\zero-allocation-hashing\\0.10.1\\zero-allocation-hashing-0.10.1.jar"
                         },
                         {
                             "name": "zero-allocation-hashing",
@@ -1555,6 +1679,10 @@
                         },
                         {
                             "name": "jansi",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\fusesource\\jansi\\jansi\\2.1.0\\jansi-2.1.0.jar"
+                        },
+                        {
+                            "name": "jansi",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\fusesource\\jansi\\jansi\\2.1.0\\jansi-2.1.0.jar"
                         },
                         {
@@ -1577,6 +1705,10 @@
                         {
                             "name": "gigahorse-core_2.12",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\gigahorse-core_2.12\\0.5.0\\gigahorse-core_2.12-0.5.0.jar"
+                        },
+                        {
+                            "name": "gigahorse-core_2.12",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\gigahorse-core_2.12\\0.5.0\\gigahorse-core_2.12-0.5.0.jar"
                         },
                         {
                             "name": "gigahorse-core_2.12",
@@ -1605,6 +1737,10 @@
                         },
                         {
                             "name": "okhttp",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okhttp3\\okhttp\\3.14.2\\okhttp-3.14.2.jar"
+                        },
+                        {
+                            "name": "okhttp",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okhttp3\\okhttp\\3.14.2\\okhttp-3.14.2.jar"
                         },
                         {
@@ -1627,6 +1763,10 @@
                         {
                             "name": "jline-style",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-style\\3.19.0\\jline-style-3.19.0.jar"
+                        },
+                        {
+                            "name": "jline-style",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-style\\3.19.0\\jline-style-3.19.0.jar"
                         },
                         {
                             "name": "jline-style",
@@ -1667,6 +1807,10 @@
                         },
                         {
                             "name": "sbinary_2.12",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\sbinary_2.12\\0.5.1\\sbinary_2.12-0.5.1.jar"
+                        },
+                        {
+                            "name": "sbinary_2.12",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\sbinary_2.12\\0.5.1\\sbinary_2.12-0.5.1.jar"
                         },
                         {
@@ -1689,6 +1833,10 @@
                         {
                             "name": "ssl-config-core_2.12",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\ssl-config-core_2.12\\0.4.0\\ssl-config-core_2.12-0.4.0.jar"
+                        },
+                        {
+                            "name": "ssl-config-core_2.12",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\ssl-config-core_2.12\\0.4.0\\ssl-config-core_2.12-0.4.0.jar"
                         },
                         {
                             "name": "ssl-config-core_2.12",
@@ -1717,6 +1865,10 @@
                         },
                         {
                             "name": "reactive-streams",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\org\\reactivestreams\\reactive-streams\\1.0.2\\reactive-streams-1.0.2.jar"
+                        },
+                        {
+                            "name": "reactive-streams",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\org\\reactivestreams\\reactive-streams\\1.0.2\\reactive-streams-1.0.2.jar"
                         },
                         {
@@ -1742,6 +1894,10 @@
                         },
                         {
                             "name": "okio",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okio\\okio\\1.17.2\\okio-1.17.2.jar"
+                        },
+                        {
+                            "name": "okio",
                             "path": "C:\\Users\\Gamerpcen\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\squareup\\okio\\okio\\1.17.2\\okio-1.17.2.jar"
                         },
                         {
@@ -1764,6 +1920,10 @@
                         {
                             "name": "config",
                             "path": "C:\\Users\\Karl\\AppData\\Local\\Coursier\\cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.3.3\\config-1.3.3.jar"
+                        },
+                        {
+                            "name": "config",
+                            "path": "\\Users\\karlkrause\\Library\\Caches\\Coursier\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.3.3\\config-1.3.3.jar"
                         },
                         {
                             "name": "config",
