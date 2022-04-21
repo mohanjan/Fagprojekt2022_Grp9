@@ -29,12 +29,13 @@ val interpolate_reg = RegInit(0.U,(4.W))
 
 
   //            SIGMA BALLS
-
-  // step 1: connect ALU_1with DDC & IN_FIR
+  // step 0: declare different components
+  // step 1: connect ALU_1 with DDC & IN_FIR
   // step 2: connect ALU_2 with ALU_1 & z^-1 register
   // step 3: connect z^-1 register with c_in
   // step 4: connect wire from ALU_2 to OUT_PWM (MSB), same wire to DDC. This signal goes to the pin connector, then it is sent to an analog Integrator outside the chip
   // step 5: DDC is a 16 bit NOR connector
+  // step 6: dab on the haters
 
 
 
