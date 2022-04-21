@@ -17,16 +17,6 @@ object Core{
   val RegisterWriteback = 4.U
 }
 
-class DataMem extends Bundle{
-  val Address = Output(UInt(18.W))
-  val WriteData = Output(UInt(18.W))
-  val Enable = Output(Bool())
-  val WriteEn = Output(Bool())
-
-  val ReadData = Input(UInt(18.W))
-  val Completed = Input(Bool())
-}
-
 class Core() extends Module {
   val io = IO(new Bundle {
     val WaveIn = Input(UInt(16.W))
@@ -67,7 +57,6 @@ class Core() extends Module {
   // Modules
 
   val ALU = Module(new ALU())
-  val DataMemory = Module(new DataMemory())
   val InstDec = Module(new InstuctionDecoder())
   val BranchComp = Module(new BranchComp())
   val InstructionMem = Module(new InstuctionMemory())
@@ -153,8 +142,8 @@ class Core() extends Module {
 
               OpCounter := RegisterWriteback
             }.elsewhen(AOperationReg === 8.U){
-              DataMemory.io.DataMem.Enable := true.B
-              DataMemory.io.DataMem.Address := x(rs1Reg)
+              io.DataMem.Enable := true.B
+              io.DataMem.Address := x(rs1Reg)
               WritebackMode := MemoryI
               WritebackRegister := rdReg
 

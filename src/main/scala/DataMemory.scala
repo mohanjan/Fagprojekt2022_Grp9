@@ -2,12 +2,11 @@ import chisel3._
 import chisel3.util._
 import chisel3.experimental.Analog
 import chisel3.util.experimental.loadMemoryFromFile
-import chisel3.stage.ChiselStage
 
 class DataMemory() extends Module {
   val io = IO(new Bundle {
-    val FIR_ = Flipped(new FIR)
     val DataMem = Flipped(new DataMem)
+    val FIR = Flipped(new DataMem)
     val Registers = Flipped(new Registers)
   })
   val SPI = IO(new Bundle{
@@ -22,7 +21,6 @@ class DataMemory() extends Module {
 
   val Memory = SyncReadMem(2048, UInt(18.W))
   val ExternalMemory = Module(new MemoryController(1))
-  val FirEngine = Module(new FirEngine())
 
   // Defaults
 
@@ -30,17 +28,18 @@ class DataMemory() extends Module {
   io.Registers.WriteData := 0.U
   io.Registers.Enable := false.B
   io.Registers.WriteEn := false.B
-  io.FIR_.ReadData := 0.U
 
-  io.DataMem.ReadData := DontCare
+  io.DataMem.ReadData := 0.U
   io.DataMem.Completed := false.B
+
+  io.FIR.ReadData := 0.U
+  io.FIR.Completed := false.B
+
   ExternalMemory.io.WriteData := 0.U
   ExternalMemory.io.ReadEnable := false.B
   ExternalMemory.io.WriteEnable := false.B
   ExternalMemory.io.Address := 0.U
   ExternalMemory.SPI <> SPI
-
-
 
 
   // Address space partition
