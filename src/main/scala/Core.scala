@@ -17,6 +17,16 @@ object Core{
   val RegisterWriteback = 4.U
 }
 
+class DataMem extends Bundle{
+  val Address = Output(UInt(18.W))
+  val WriteData = Output(UInt(18.W))
+  val Enable = Output(Bool())
+  val WriteEn = Output(Bool())
+
+  val ReadData = Input(UInt(18.W))
+  val Completed = Input(Bool())
+}
+
 class Core() extends Module {
   val io = IO(new Bundle {
     val WaveIn = Input(UInt(16.W))
@@ -24,15 +34,8 @@ class Core() extends Module {
 
     val Stall = Input(Bool())
     val ProgramLength = Input(UInt(10.W))
-  })
-  val DataMem = IO(new Bundle {
-    val Address = Output(UInt(18.W))
-    val DataIn = Output(UInt(18.W))
-    val Enable = Output(Bool())
-    val Write = Output(Bool())
 
-    val DataOut = Input(UInt(18.W))
-    val Completed = Input(Bool())
+    val DataMem = new DataMem
   })
 
   val OpCounter = RegInit(0.U(3.W))
@@ -87,10 +90,10 @@ class Core() extends Module {
   InstructionMem.io.DataIn := 0.U
   InstructionMem.io.MemWrite := 0.U
 
-  DataMem.DataIn := 0.U
-  DataMem.Address := 0.U
-  DataMem.Enable := false.B
-  DataMem.Write := false.B
+  io.DataMem.WriteData := 0.U
+  io.DataMem.Address := 0.U
+  io.DataMem.Enable := false.B
+  io.DataMem.WriteEn := false.B
 
   BranchComp.io.rs2 := 0.U
   BranchComp.io.rs1 := 0.U
@@ -150,22 +153,22 @@ class Core() extends Module {
 
               OpCounter := RegisterWriteback
             }.elsewhen(AOperationReg === 8.U){
-              DataMemory.DataMem.Enable := true.B
-              DataMemory.DataMem.Address := x(rs1Reg)
+              DataMemory.io.DataMem.Enable := true.B
+              DataMemory.io.DataMem.Address := x(rs1Reg)
               WritebackMode := MemoryI
               WritebackRegister := rdReg
 
-              when(DataMem.Completed){
+              when(io.DataMem.Completed){
                 OpCounter := RegisterWriteback
               }
             }.elsewhen(AOperationReg === 9.U){
-              DataMem.Enable := true.B
-              DataMem.Write := true.B
-              DataMem.Address := x(rs1Reg)
-              DataMem.DataIn := x(rdReg)
+              io.DataMem.Enable := true.B
+              io.DataMem.WriteEn := true.B
+              io.DataMem.Address := x(rs1Reg)
+              io.DataMem.WriteData := x(rdReg)
               WritebackMode := Nil
 
-              when(DataMem.Completed){
+              when(io.DataMem.Completed){
                 OpCounter := RegisterWriteback
               }
             }
@@ -204,10 +207,10 @@ class Core() extends Module {
             OpCounter := RegisterWriteback
           }
           is(2.U){
-            DataMem.Address := MemAddressReg
-            DataMem.DataIn := x(rdReg)
-            DataMem.Enable := true.B
-            DataMem.Write := MemOpReg
+            io.DataMem.Address := MemAddressReg
+            io.DataMem.WriteData := x(rdReg)
+            io.DataMem.Enable := true.B
+            io.DataMem.WriteEn := MemOpReg
 
             switch(MemOpReg){
               is(0.U){
@@ -244,7 +247,7 @@ class Core() extends Module {
             x(1) := x(1) + 1.U
           }
           is(MemoryI){
-            x(WritebackRegister) := DataMem.DataOut
+            x(WritebackRegister) := io.DataMem.ReadData
             x(1) := x(1) + 1.U
           }
           is(Conditional){

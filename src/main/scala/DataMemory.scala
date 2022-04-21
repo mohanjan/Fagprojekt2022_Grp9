@@ -5,31 +5,10 @@ import chisel3.util.experimental.loadMemoryFromFile
 import chisel3.stage.ChiselStage
 
 class DataMemory() extends Module {
-  val DataMem = IO(new Bundle {
-    val Address = Input(UInt(18.W))
-    val DataIn = Input(UInt(18.W))
-    val DataOut = Output(UInt(18.W))
-
-    val Enable = Input(Bool())
-    val Write = Input(Bool())
-
-    val Completed = Output(Bool())
-  })
-  val FIR = IO(new Bundle {
-    val Enable = Input(Bool())
-    val WriteEn = Input(Bool())
-    val WriteData = Input(UInt(18.W))
-    val Address = Input(UInt(6.W))
-
-    val ReadData = Output(UInt(18.W))
-  })
-  val FirRegisters = IO(new Bundle {
-    val Enable = Output(Bool())
-    val WriteEn = Output(Bool())
-    val Address = Output(UInt(7.W))
-    val WriteData = Output(UInt(18.W))
-
-    val ReadData = Input(Bool())
+  val io = IO(new Bundle {
+    val FIR_ = Flipped(new FIR)
+    val DataMem = Flipped(new DataMem)
+    val Registers = Flipped(new Registers)
   })
   val SPI = IO(new Bundle{
     val SCLK = Output(Bool())
@@ -47,59 +26,62 @@ class DataMemory() extends Module {
 
   // Defaults
 
-  FirRegisters.Address := 0.U
-  FirRegisters.WriteData := 0.U
-  FirRegisters.Enable := false.B
-  FirRegisters.WriteEn := false.B
-  FIR.ReadData := 0.U
+  io.Registers.Address := 0.U
+  io.Registers.WriteData := 0.U
+  io.Registers.Enable := false.B
+  io.Registers.WriteEn := false.B
+  io.FIR_.ReadData := 0.U
 
-  DataMem.DataOut := DontCare
-  DataMem.Completed := false.B
+  io.DataMem.ReadData := DontCare
+  io.DataMem.Completed := false.B
   ExternalMemory.io.WriteData := 0.U
   ExternalMemory.io.ReadEnable := false.B
   ExternalMemory.io.WriteEnable := false.B
   ExternalMemory.io.Address := 0.U
   ExternalMemory.SPI <> SPI
 
+
+
+
   // Address space partition
 
-  when(DataMem.Enable){
-    when(DataMem.Address <= 2047.U){ // Internal data memory
-      val ReadWritePort = Memory(DataMem.Address)
-      DataMem.Completed := true.B
+  when(io.DataMem.Enable){
+    when(io.DataMem.Address <= 2047.U){ // Internal data memory
+      val ReadWritePort = Memory(io.DataMem.Address)
+      io.DataMem.Completed := true.B
 
-      when(DataMem.Write){
-        ReadWritePort := DataMem.DataIn
+      when(io.DataMem.WriteEn){
+        ReadWritePort := io.DataMem.WriteData
       }.otherwise{
-        DataMem.DataOut := ReadWritePort
+        io.DataMem.ReadData := ReadWritePort
       }
-    }.elsewhen(DataMem.Address <= 2175.U){ // Fir Registers
-      FirRegisters.Address := (DataMem.Address - 2175.U)(5,0)
-      FirRegisters.WriteEn := true.B
-      DataMem.Completed := true.B
+    }.elsewhen(io.DataMem.Address <= 2175.U){ // Fir Registers
+      io.Registers.Address := (io.DataMem.Address - 2175.U)(5,0)
+      io.Registers.WriteEn := true.B
+      io.DataMem.Completed := true.B
 
-      when(DataMem.Write){
-        FirRegisters.WriteData := DataMem.DataIn
+      when(io.DataMem.WriteEn){
+        io.Registers.WriteData := io.DataMem.WriteData
       }.otherwise{
-        DataMem.DataOut := FirRegisters.ReadData
+        io.DataMem.ReadData := io.Registers.ReadData
       }
     }.otherwise{ // External Memory
-      ExternalMemory.io.Address := DataMem.Address
+      ExternalMemory.io.Address := io.DataMem.Address
 
-      when(DataMem.Write){
+      when(io.DataMem.WriteEn){
         when(ExternalMemory.io.Ready){
           ExternalMemory.io.WriteEnable := true.B
-          ExternalMemory.io.WriteData := DataMem.DataIn
+          ExternalMemory.io.WriteData := io.DataMem.WriteData
         }
 
-        DataMem.Completed := ExternalMemory.io.Completed
+        io.DataMem.Completed := ExternalMemory.io.Completed
       }.otherwise{
         when(ExternalMemory.io.Ready){
           ExternalMemory.io.ReadEnable := true.B
         }
 
-        DataMem.Completed := ExternalMemory.io.Completed
-        DataMem.DataOut := ExternalMemory.io.ReadData
+        io.DataMem.Completed := ExternalMemory.io.Completed
+        io.DataMem.ReadData := ExternalMemory.io.ReadData
       }
     }
   }

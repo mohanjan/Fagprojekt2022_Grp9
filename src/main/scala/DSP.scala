@@ -2,7 +2,6 @@ import chisel3._
 import chisel3.experimental.Analog
 import chisel3.util._
 
-
 class DSP(maxCount: Int) extends Module {
   val io = IO(new Bundle {
     val In = Input(UInt(16.W))
@@ -22,23 +21,25 @@ class DSP(maxCount: Int) extends Module {
   val FirEngine = Module(new FirEngine())
   val DataMemory = Module(new DataMemory())
 
+  // IO
+
+  io.Out := Core.io.WaveOut
+  FirEngine.io.WaveIn := io.In
+
+
   // Interconnections
 
   Core.io.WaveIn := 0.U
   Core.io.Stall := false.B
   Core.io.ProgramLength := 0.U
-  Core.DataMem <> DataMemory.DataMem
+  Core.io.DataMem <> DataMemory.io.DataMem
 
-  io.Out := Core.io.WaveOut
-
-  FirEngine.DataMemory <> DataMemory.FIR
-  FirEngine.Registers <> DataMemory.FirRegisters
+  FirEngine.io.Registers <> DataMemory.io.Registers
   FirEngine.io.WaveIn := 0.U
 
   SPI <> DataMemory.SPI
 
-  //Core.io.Data <> DataMemory.io.Data
-
+  DataMemory.io.FIR_ <> FirEngine.io.FIR_
 
 }
 // generate Verilog

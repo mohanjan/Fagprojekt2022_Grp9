@@ -26,6 +26,7 @@ class MemoryController(Count: Int) extends Module {
     val Ready = Output(Bool())
     val Completed = Output(Bool())
   })
+
   val SPI = IO(new Bundle{
     val SCLK = Output(Bool())
     val CE = Output(Bool())
@@ -33,6 +34,8 @@ class MemoryController(Count: Int) extends Module {
     val SI = Output(Vec(4,Bool()))
     val Drive = Output(Bool())
   })
+
+
 
   // Register and state machine definitions.
 
