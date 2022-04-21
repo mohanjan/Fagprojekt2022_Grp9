@@ -1,30 +1,34 @@
 import chisel3._
 import chisel3.util._
 
-class FirEngine(maxCount: Int) extends Module {
+class FirEngine() extends Module {
   val io = IO(new Bundle {
-    val WaveIn = Input(UInt(16.W))
-    val WaveOut = Output(UInt(16.W))
-
-    val Enable = Input(Bool())
-    val WriteEn = Input(Bool())
-    val WriteData = Input(UInt(18.W))
-    val Address = Input(UInt(6.W))
-
-    val ReadData = Output(UInt(18.W))
+    val WaveIn = Input(UInt(18.W))
+    val WaveOut = Output(UInt(18.W))
+    val Registers = Flipped(new MemPort)
+    val MemPort = new MemPort
   })
 
-  io.ReadData := DontCare
+  // Defaults
+
   io.WaveOut := 0.U
+
+  io.MemPort.Enable := false.B
+  io.MemPort.WriteEn := false.B
+  io.MemPort.WriteData := 0.U
+  io.MemPort.Address := 0.U
+
+  io.Registers.ReadData := 0.U
+  io.Registers.Completed := false.B
 
   val DataReg = Reg(Vec(128,UInt(18.W)))
 
-  when(io.Enable){
-    val ReadWritePort = DataReg(io.Address)
-    when(io.WriteEn){
-      ReadWritePort := io.WriteData
+  when(io.Registers.Enable){
+    val ReadWritePort = DataReg(io.Registers.Address)
+    when(io.Registers.WriteEn){
+      ReadWritePort := io.Registers.WriteData
     }.otherwise{
-      io.ReadData := ReadWritePort
+      io.Registers.ReadData := ReadWritePort
     }
   }
 }

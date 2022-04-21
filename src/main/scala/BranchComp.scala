@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-class BranchComp(maxCount: Int) extends Module {
+class BranchComp() extends Module {
   val io = IO(new Bundle {
     val rs2 = Input(UInt(16.W))
     val rs1 = Input(UInt(16.W))

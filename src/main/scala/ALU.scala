@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-class ALU(maxCount: Int) extends Module {
+class ALU() extends Module {
   val io = IO(new Bundle {
     val rs1 = Input(UInt(18.W))
     val rs2 = Input(UInt(18.W))

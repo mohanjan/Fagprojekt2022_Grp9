@@ -44,7 +44,7 @@ class MemoryController(Count: Int) extends Module {
 
   io.ReadData := DataReg
 
-  SPI.SI := 0.U.asBools
+  SPI.SI := 0.U(4.W).asBools
 
   SPI.Drive := false.B
 

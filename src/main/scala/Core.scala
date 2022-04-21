@@ -17,24 +17,15 @@ object Core{
   val RegisterWriteback = 4.U
 }
 
-
-class Core(maxCount: Int) extends Module {
+class Core() extends Module {
   val io = IO(new Bundle {
     val WaveIn = Input(UInt(16.W))
     val WaveOut = Output(UInt(16.W))
 
-    val MemInData = Input(UInt(18.W))
-    val MemInAddress = Input(UInt(10.W))
-
-    val MemWrite = Input(Bool())
+    val Stall = Input(Bool())
     val ProgramLength = Input(UInt(10.W))
-  })
-  val SPI = IO(new Bundle{
-    val SCLK = Output(Bool())
-    val CE = Output(Bool())
-    val SO = Input(Vec(4,Bool()))
-    val SI = Output(Vec(4,Bool()))
-    val Drive = Output(Bool())
+
+    val MemPort = new MemPort
   })
 
   val OpCounter = RegInit(0.U(3.W))
@@ -65,11 +56,10 @@ class Core(maxCount: Int) extends Module {
 
   // Modules
 
-  val ALU = Module(new ALU(maxCount))
-  val DataMem = Module(new DataMemory(maxCount))
-  val InstDec = Module(new InstuctionDecoder(maxCount))
-  val BranchComp = Module(new BranchComp(maxCount))
-  val InstructionMem = Module(new InstuctionMemory(maxCount))
+  val ALU = Module(new ALU())
+  val InstDec = Module(new InstuctionDecoder())
+  val BranchComp = Module(new BranchComp())
+  val InstructionMem = Module(new InstuctionMemory())
 
   //Registers
 
@@ -89,11 +79,10 @@ class Core(maxCount: Int) extends Module {
   InstructionMem.io.DataIn := 0.U
   InstructionMem.io.MemWrite := 0.U
 
-  DataMem.io.DataIn := 0.U
-  DataMem.io.Address := 0.U
-  DataMem.io.Enable := false.B
-  DataMem.io.Write := false.B
-  DataMem.SPI <> SPI
+  io.MemPort.WriteData := 0.U
+  io.MemPort.Address := 0.U
+  io.MemPort.Enable := false.B
+  io.MemPort.WriteEn := false.B
 
   BranchComp.io.rs2 := 0.U
   BranchComp.io.rs1 := 0.U
@@ -105,9 +94,13 @@ class Core(maxCount: Int) extends Module {
 
   // Processor
 
-  when(io.MemWrite){
-    DataMem.io.DataIn := io.MemInData
-    DataMem.io.Address := io.MemInAddress
+  when(io.Stall){
+
+    /*
+    DataMem.DataIn := io.MemInData
+    DataMem.Address := io.MemInAddress
+    */
+
   }.otherwise{
     switch(OpCounter){
       is(InstructionFetch){
@@ -149,22 +142,22 @@ class Core(maxCount: Int) extends Module {
 
               OpCounter := RegisterWriteback
             }.elsewhen(AOperationReg === 8.U){
-              DataMem.io.Enable := true.B
-              DataMem.io.Address := x(rs1Reg)
+              io.MemPort.Enable := true.B
+              io.MemPort.Address := x(rs1Reg)
               WritebackMode := MemoryI
               WritebackRegister := rdReg
 
-              when(DataMem.io.Completed){
+              when(io.MemPort.Completed){
                 OpCounter := RegisterWriteback
               }
             }.elsewhen(AOperationReg === 9.U){
-              DataMem.io.Enable := true.B
-              DataMem.io.Write := true.B
-              DataMem.io.Address := x(rs1Reg)
-              DataMem.io.DataIn := x(rdReg)
+              io.MemPort.Enable := true.B
+              io.MemPort.WriteEn := true.B
+              io.MemPort.Address := x(rs1Reg)
+              io.MemPort.WriteData := x(rdReg)
               WritebackMode := Nil
 
-              when(DataMem.io.Completed){
+              when(io.MemPort.Completed){
                 OpCounter := RegisterWriteback
               }
             }
@@ -203,10 +196,10 @@ class Core(maxCount: Int) extends Module {
             OpCounter := RegisterWriteback
           }
           is(2.U){
-            DataMem.io.Address := MemAddressReg
-            DataMem.io.DataIn := x(rdReg)
-            DataMem.io.Enable := true.B
-            DataMem.io.Write := MemOpReg
+            io.MemPort.Address := MemAddressReg
+            io.MemPort.WriteData := x(rdReg)
+            io.MemPort.Enable := true.B
+            io.MemPort.WriteEn := MemOpReg
 
             switch(MemOpReg){
               is(0.U){
@@ -243,7 +236,7 @@ class Core(maxCount: Int) extends Module {
             x(1) := x(1) + 1.U
           }
           is(MemoryI){
-            x(WritebackRegister) := DataMem.io.DataOut
+            x(WritebackRegister) := io.MemPort.ReadData
             x(1) := x(1) + 1.U
           }
           is(Conditional){

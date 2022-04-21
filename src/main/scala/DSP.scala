@@ -2,6 +2,16 @@ import chisel3._
 import chisel3.experimental.Analog
 import chisel3.util._
 
+class MemPort extends Bundle{
+  val Address = Output(UInt(18.W))
+  val WriteData = Output(UInt(18.W))
+  val Enable = Output(Bool())
+  val WriteEn = Output(Bool())
+
+  val ReadData = Input(UInt(18.W))
+  val Completed = Input(Bool())
+}
+
 class DSP(maxCount: Int) extends Module {
   val io = IO(new Bundle {
     val In = Input(UInt(16.W))
@@ -17,22 +27,33 @@ class DSP(maxCount: Int) extends Module {
 
   // Single Core
 
-  val Core = Module(new Core(200000000))
+  val Core = Module(new Core())
+  val FirEngine = Module(new FirEngine())
+  val DataMemory = Module(new DataMemory())
+
+  // IO
+
+  io.Out := Core.io.WaveOut
+  FirEngine.io.WaveIn := io.In
 
   // Interconnections
 
   Core.io.WaveIn := 0.U
-  Core.io.MemInAddress := 0.U
-  Core.io.MemInData := 0.U
-  Core.io.MemWrite := false.B
+  Core.io.Stall := false.B
   Core.io.ProgramLength := 0.U
-  Core.SPI <> SPI
 
-  io.Out := Core.io.WaveOut
+  Core.io.MemPort <> DataMemory.io.MemPort
+
+  FirEngine.io.Registers <> DataMemory.io.Registers
+
+  FirEngine.io.MemPort <> DataMemory.io.FIRMemPort
+  FirEngine.io.WaveIn := 0.U
+
+  SPI <> DataMemory.SPI
 
 }
 // generate Verilog
-object Synth extends App {
+object DSP extends App {
   (new chisel3.stage.ChiselStage).emitVerilog(new DSP(200000000))
 }
 
