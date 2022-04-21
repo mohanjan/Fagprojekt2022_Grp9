@@ -1,20 +1,45 @@
 // støjen bliver skubbet op i høje frekvenser, men det er også de høje frekvenser der bliver dæmpet
+//lav et fælles modul det styrer filter ressourcen
 import chisel3._
 import chisel3.util._
 
-class DSP(maxCount: Int) extends Module {
+class InController(bufferWidth: Int) extends Module {
   val io = IO(new Bundle {
-    val In = Input(UInt(16.W))
+    val In = Input(UInt(1.W))
+    val In_FIR = Input(UInt(16.W))
+    val Clk = Input(Bool())
     val Out = Output(UInt(16.W))
-
-    val SCL = Input(Bool())
-    val SDA = Input(Bool())
+    val Out_FIR = Output(UInt(16.W))
+    
   })
 
- 
+  //serial to prallel buffer
+  val outReg = RegInit(0.U(bufferWidth.W))
+  
+  when(io.Clk){outReg := Cat(io.In, outReg(bufferWidth - 1, 1))}
+  val q = outReg
+
+  //Counter for generating a 'do a sample' flag
+  val cntReg = RegInit(0.U(3.W))
+  val tick = cntReg === 0.U
+
+  when(io.Clk) {cntReg := cntReg + 1.U}
+
+  when (cntReg === bufferWidth.U) {
+    cntReg := 0.U
+  }
+
+  //send word to fir
+  //FIRquery := tick
+  when(tick){
+    io.Out_FIR := q
+  }
+
+  iO.Out := io.In_FIR
+
 }
 // generate Verilog
-object Synth extends App {
-  (new chisel3.stage.ChiselStage).emitVerilog(new DSP(200000000))
+object Inp extends App {
+  (new chisel3.stage.ChiselStage).emitVerilog(new InController(18))
 }
 
