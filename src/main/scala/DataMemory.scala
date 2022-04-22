@@ -44,6 +44,8 @@ class DataMemory() extends Module {
 
   // Address space partition
 
+  // TODO Enable read and write from FIR, possibly via Queue (Decoupled MemPort)
+
   when(io.MemPort.Enable){
     when(io.MemPort.Address <= 2047.U){ // Internal data memory
       val ReadWritePort = Memory(io.MemPort.Address)

@@ -51,6 +51,8 @@ class DSP(maxCount: Int) extends Module {
 
   SPI <> DataMemory.SPI
 
+  // TODO Add new top module so this one is only a single Core
+
 }
 // generate Verilog
 object DSP extends App {

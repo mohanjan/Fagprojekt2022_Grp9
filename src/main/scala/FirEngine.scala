@@ -21,6 +21,8 @@ class FirEngine() extends Module {
   io.Registers.ReadData := 0.U
   io.Registers.Completed := false.B
 
+  // Communication Registers
+
   val DataReg = Reg(Vec(128,UInt(18.W)))
 
   when(io.Registers.Enable){
@@ -31,4 +33,21 @@ class FirEngine() extends Module {
       io.Registers.ReadData := ReadWritePort
     }
   }
+
+  // Free space for actual FIR engine
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
