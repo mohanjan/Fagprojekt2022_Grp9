@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-class FirEngine() extends Module {
+class FirEngine extends Module {
   val io = IO(new Bundle {
     val WaveIn = Input(UInt(18.W))
     val WaveOut = Output(UInt(18.W))

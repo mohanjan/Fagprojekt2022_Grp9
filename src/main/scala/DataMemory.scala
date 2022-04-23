@@ -3,10 +3,10 @@ import chisel3.util._
 import chisel3.experimental.Analog
 import chisel3.util.experimental.loadMemoryFromFile
 
-class DataMemory() extends Module {
+class DataMemory(Memports: Int) extends Module {
   val io = IO(new Bundle {
-    val MemPort = Flipped(new MemPort)
-    val FIRMemPort = Flipped(new MemPort)
+    val MemPort = Vec(Memports,Flipped(new MemPort))
+
     val Registers = new MemPort
   })
   val SPI = IO(new Bundle{
@@ -29,11 +29,10 @@ class DataMemory() extends Module {
   io.Registers.Enable := false.B
   io.Registers.WriteEn := false.B
 
-  io.MemPort.ReadData := 0.U
-  io.MemPort.Completed := false.B
-
-  io.FIRMemPort.ReadData := 0.U
-  io.FIRMemPort.Completed := false.B
+  for(i <- 0 until Memports){
+    io.MemPort(i).ReadData := 0.U
+    io.MemPort(i).Completed := false.B
+  }
 
   ExternalMemory.io.WriteData := 0.U
   ExternalMemory.io.ReadEnable := false.B
@@ -41,48 +40,59 @@ class DataMemory() extends Module {
   ExternalMemory.io.Address := 0.U
   ExternalMemory.SPI <> SPI
 
+  val Producer = RegInit(0.U(2.W))
+  val Taken = RegInit(0.U(1.W))
+
+  for(i <- 0 until Memports){
+    when(!Taken.asBool && io.MemPort(i).Enable){
+      Taken := true.B
+      Producer := i.U
+    }
+  }
+
+  when(io.MemPort(Producer).Completed === true.B){
+    Taken := 0.U
+  }
 
   // Address space partition
 
-  // TODO Enable read and write from FIR, possibly via Queue (Decoupled MemPort)
+  when(io.MemPort(Producer).Enable){
+    when(io.MemPort(Producer).Address <= 2047.U){ // Internal data memory
+      val ReadWritePort = Memory(io.MemPort(Producer).Address)
+      io.MemPort(Producer).Completed := true.B
 
-  when(io.MemPort.Enable){
-    when(io.MemPort.Address <= 2047.U){ // Internal data memory
-      val ReadWritePort = Memory(io.MemPort.Address)
-      io.MemPort.Completed := true.B
-
-      when(io.MemPort.WriteEn){
-        ReadWritePort := io.MemPort.WriteData
+      when(io.MemPort(Producer).WriteEn){
+        ReadWritePort := io.MemPort(Producer).WriteData
       }.otherwise{
-        io.MemPort.ReadData := ReadWritePort
+        io.MemPort(Producer).ReadData := ReadWritePort
       }
-    }.elsewhen(io.MemPort.Address <= 2175.U){ // Fir Registers
-      io.Registers.Address := (io.MemPort.Address - 2175.U)(5,0)
+    }.elsewhen(io.MemPort(Producer).Address <= 2175.U){ // Fir Registers
+      io.Registers.Address := (io.MemPort(Producer).Address - 2175.U)(5,0)
       io.Registers.WriteEn := true.B
-      io.MemPort.Completed := true.B
+      io.MemPort(Producer).Completed := true.B
 
-      when(io.MemPort.WriteEn){
-        io.Registers.WriteData := io.MemPort.WriteData
+      when(io.MemPort(Producer).WriteEn){
+        io.Registers.WriteData := io.MemPort(Producer).WriteData
       }.otherwise{
-        io.MemPort.ReadData := io.Registers.ReadData
+        io.MemPort(Producer).ReadData := io.Registers.ReadData
       }
     }.otherwise{ // External Memory
-      ExternalMemory.io.Address := io.MemPort.Address
+      ExternalMemory.io.Address := io.MemPort(Producer).Address
 
-      when(io.MemPort.WriteEn){
+      when(io.MemPort(Producer).WriteEn){
         when(ExternalMemory.io.Ready){
           ExternalMemory.io.WriteEnable := true.B
-          ExternalMemory.io.WriteData := io.MemPort.WriteData
+          ExternalMemory.io.WriteData := io.MemPort(Producer).WriteData
         }
 
-        io.MemPort.Completed := ExternalMemory.io.Completed
+        io.MemPort(Producer).Completed := ExternalMemory.io.Completed
       }.otherwise{
         when(ExternalMemory.io.Ready){
           ExternalMemory.io.ReadEnable := true.B
         }
 
-        io.MemPort.Completed := ExternalMemory.io.Completed
-        io.MemPort.ReadData := ExternalMemory.io.ReadData
+        io.MemPort(Producer).Completed := ExternalMemory.io.Completed
+        io.MemPort(Producer).ReadData := ExternalMemory.io.ReadData
       }
     }
   }

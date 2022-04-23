@@ -15,6 +15,9 @@ class MemPort extends Bundle{
 class SubDSP extends Module {
   val io = IO(new Bundle {
     val In = Input(UInt(16.W))
+    //val Stall = Input(Bool())
+    //val MasterWrite = Flipped(new MemPort)
+
     val Out = Output(UInt(16.W))
   })
   val SPI = IO(new Bundle{
@@ -29,26 +32,25 @@ class SubDSP extends Module {
 
   val Core = Module(new Core())
   val FirEngine = Module(new FirEngine())
-  val DataMemory = Module(new DataMemory())
+  val DataMemory = Module(new DataMemory(2))
 
   // IO
 
-  io.Out := Core.io.WaveOut
+  io.Out := Core.io.WaveOut + FirEngine.io.WaveOut
   FirEngine.io.WaveIn := io.In
+  Core.io.WaveIn := io.In
 
   // Interconnections
 
-  Core.io.WaveIn := 0.U
   Core.io.Stall := false.B
   Core.io.ProgramLength := 0.U
 
-  Core.io.MemPort <> DataMemory.io.MemPort
+  Core.io.MemPort <> DataMemory.io.MemPort(0)
 
   FirEngine.io.Registers <> DataMemory.io.Registers
 
-  FirEngine.io.MemPort <> DataMemory.io.FIRMemPort
+  FirEngine.io.MemPort <> DataMemory.io.MemPort(1)
   FirEngine.io.WaveIn := 0.U
 
   SPI <> DataMemory.SPI
-
 }
