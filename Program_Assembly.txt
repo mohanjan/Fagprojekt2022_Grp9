@@ -1,16 +1,16 @@
-add x2, x1, x0 
-li x2, 32
-lui x2, 39
-addi x3, 200
-addi x3, -200
-bne x3, x2, -4
+add x5, x1, x0 
+li x5, 464
+lui x5, 3
+addi x6, 503
+addi x6, -3
+bne x6, x5, -4
 li x1, 7
 li x5, 272 
 lui x5, 19
 swi x5, 1993
-li x6, 304
-lui x6, 58
-li x7, 1000
-sw x7, x6, x0
-lw x7, x6, x0
+li x7, 304
+lui x7, 58
+li x8, 1000
+sw x8, x7, x0
+lw x8, x7, x0
 li x1, 0

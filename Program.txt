@@ -1,17 +1,17 @@
 .main:
-add x2, x1, x0
-li x2, 20000
-addi x3, 200
-addi x3, -200
-bne x3, x2, -4
+add x5, x1, x0
+li x5, 2000
+addi x6, 503
+addi x6, -3
+bne x6, x5, -4
 j .penis
 
 .penis:
 loadFir 10, 10000
-li x6, 30000
-li x7, 1000
-sw x7, x6
-lw x7, x6
+li x7, 30000
+li x8, 1000
+sw x8, x7
+lw x8, x7
 j .main
 
 
