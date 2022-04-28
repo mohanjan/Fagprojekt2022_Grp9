@@ -13,9 +13,9 @@ class InController(bufferWidth: Int) extends Module {
     
   })
 
-
-  //send word to fir
-  //FIRquery := tick
+    val Input = Module(new InController(bufferlength))
+    val Output = Module(new OutController(bufferlength))
+    val Filter = Module(new FirEngine(bufferlength))
   when(conversionReady){
     læs værdi fra out mem
     input ny værdi til hukommelse

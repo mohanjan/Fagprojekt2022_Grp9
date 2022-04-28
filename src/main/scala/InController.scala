@@ -6,10 +6,11 @@ import chisel3.util._
 class InController(bufferWidth: Int) extends Module {
   val io = IO(new Bundle {
     val In = Input(UInt(1.W))
-    val In_FIR = Input(UInt(16.W))
+    val In_FIR = Input(UInt(bufferwidth.W))
     val Clk = Input(Bool())
-    val Out = Output(UInt(16.W))
-    val Out_FIR = Output(UInt(16.W))
+    val Out = Output(UInt(bufferwidth.W))
+    val Out_FIR = Output(UInt(bufferwidth.W))
+    val FIRQuery = Output(Bool())
     
   })
 
@@ -17,7 +18,7 @@ class InController(bufferWidth: Int) extends Module {
   val outReg = RegInit(0.U(bufferWidth.W))
   
   when(io.Clk){outReg := Cat(io.In, outReg(bufferWidth - 1, 1))}
-  val q = outReg
+  val sample = outReg
 
   //Counter for generating a 'do a sample' flag
   val cntReg = RegInit(0.U(3.W))
@@ -30,12 +31,12 @@ class InController(bufferWidth: Int) extends Module {
   }
 
   //send word to fir
-  //FIRquery := tick
+  io.FIRquery := tick
   when(tick){
-    io.Out_FIR := q
+    io.Out_FIR := sample
   }
 
-  iO.Out := io.In_FIR
+  //master will then put filtered value onto io.Out
 
 }
 // generate Verilog
