@@ -4,7 +4,6 @@ null/
 **/project/
 **/target/
 *.json
-**/KiCad/
 firrtl_black_box_resource_files.f
 
 /.idea/libraries/sbt__org_scala_lang_modules_scala_xml_2_13_1_2_0_jar.xml
