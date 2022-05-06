@@ -21,7 +21,7 @@ class DSP(maxCount: Int) extends Module {
   SubDSP.SPI <> SPI
 
 }
-// generate Verilog
+// generate Verilogggg
 object DSP extends App {
   (new chisel3.stage.ChiselStage).emitVerilog(new DSP(100000000))
 }
