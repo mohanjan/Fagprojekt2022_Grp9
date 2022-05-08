@@ -4,8 +4,8 @@ import chisel3.util._
 
 class DSP(maxCount: Int) extends Module {
   val io = IO(new Bundle {
-    val In = Input(UInt(16.W))
-    val Out = Output(UInt(16.W))
+    val In = Input(UInt(1.W))
+    val Out = Output(UInt(1.W))
   })
   val SPI = IO(new Bundle{
     val SCLK = Output(Bool())
@@ -15,13 +15,18 @@ class DSP(maxCount: Int) extends Module {
     val Drive = Output(Bool())
   })
 
-  val SubDSP = Module(new SubDSP())
+  val SDSP = Module(new SubDSP())
+  val IOC = Module(new IOMaster(16))
 
-  SubDSP.io <> io
-  SubDSP.SPI <> SPI
+  
+  io.In := IOC.io.In_ADC
+  io.Out := IOC.io.Out_DAC
+  SDSP.io.In := IOC.io.Out_ADC
+  SDSP.io.Out := IOC.io.In_DAC
+  SDSP.SPI <> SPI
 
 }
-// generate Verilogggg
+// generate Verilog
 object DSP extends App {
   (new chisel3.stage.ChiselStage).emitVerilog(new DSP(100000000))
 }

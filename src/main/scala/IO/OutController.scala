@@ -12,19 +12,19 @@ class OutController(bufferWidth: Int) extends Module {
     val Out_PWM = Output(UInt(16.W)) //
 
   })
-
-val interpolate_reg = RegInit(0.U,(4.W))
-  when(c_in){
+/*
+val interpolate_reg = RegInit(0.U(4.W))
+  when(io.c_in){
     interpolate_reg = interpolate_reg + 1
   }
 
   when(interpolate_reg===0){  //alternatively just build a mux
     //connect wire from in to Out_FIR
-  }else{
+  //}else{
     //connect wire from value 0 to Out_FIR
   }
 //interpolation -> OUT_FIR
-
+*/
 //shared FIR filter with IN controller
 
 
@@ -42,8 +42,3 @@ val interpolate_reg = RegInit(0.U,(4.W))
 
 
 }
-// generate Verilog
-object Synth extends App {
-  (new chisel3.stage.ChiselStage).emitVerilog(new OutController(18))
-}
-

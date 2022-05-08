@@ -6,15 +6,15 @@ import chisel3.util._
 class InController(bufferWidth: Int) extends Module {
   val io = IO(new Bundle {
     val In = Input(UInt(1.W))
-    val In_FIR = Input(UInt(bufferwidth.W))
+    val In_FIR = Input(UInt(bufferWidth.W))
     val Clk = Input(Bool())
-    val Out = Output(UInt(bufferwidth.W))
-    val Out_FIR = Output(UInt(bufferwidth.W))
+    val Out = Output(UInt(bufferWidth.W))
+    val Out_FIR = Output(UInt(bufferWidth.W))
     val FIRQuery = Output(Bool())
     
   })
 
-  //serial to prallel buffer
+  //serial to parallel buffer
   val outReg = RegInit(0.U(bufferWidth.W))
   
   when(io.Clk){outReg := Cat(io.In, outReg(bufferWidth - 1, 1))}
@@ -31,7 +31,7 @@ class InController(bufferWidth: Int) extends Module {
   }
 
   //send word to fir
-  io.FIRquery := tick
+  io.FIRQuery := tick
   when(tick){
     io.Out_FIR := sample
   }
@@ -39,8 +39,3 @@ class InController(bufferWidth: Int) extends Module {
   //master will then put filtered value onto io.Out
 
 }
-// generate Verilog
-object Inp extends App {
-  (new chisel3.stage.ChiselStage).emitVerilog(new InController(18))
-}
-
