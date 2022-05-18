@@ -1,19 +1,7 @@
 .main:
-add x5, x1, x0
-li x5, 2000
-addi x6, 503
-addi x6, -3
-bne x6, x5, -4
-j .penis
-
-.penis:
-loadFir 10, 10000
-li x7, 30000
-li x8, 1000
-sw x8, x7
-lw x8, x7
+li x4, 6
+mult x3, x2, x4
 j .main
-
 
 
 

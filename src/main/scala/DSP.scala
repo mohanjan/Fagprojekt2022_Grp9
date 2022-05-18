@@ -4,8 +4,8 @@ import chisel3.util._
 
 class DSP(maxCount: Int) extends Module {
   val io = IO(new Bundle {
-    val In = Input(UInt(16.W))
-    val Out = Output(UInt(16.W))
+    val In = Input(SInt(16.W))
+    val Out = Output(SInt(16.W))
   })
   val SPI = IO(new Bundle{
     val SCLK = Output(Bool())
@@ -17,7 +17,9 @@ class DSP(maxCount: Int) extends Module {
 
   val SubDSP = Module(new SubDSP())
 
-  SubDSP.io <> io
+  SubDSP.io.In := io.In.asUInt
+  io.Out := SubDSP.io.Out.asSInt
+
   SubDSP.SPI <> SPI
 
 }

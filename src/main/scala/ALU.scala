@@ -12,8 +12,7 @@ class ALU() extends Module {
 
   io.Out := 0.U
 
-  switch(io.Operation)
-  {
+  switch(io.Operation) {
     is(0.U){
       io.Out := io.rs1 + io.rs2
     }
@@ -28,6 +27,15 @@ class ALU() extends Module {
     }
     is(4.U){
       io.Out := io.rs1 >> io.rs2
+    }
+    is(5.U){
+      io.Out := io.rs1 & io.rs2
+    }
+    is(6.U){
+      io.Out := io.rs1 | io.rs2
+    }
+    is(7.U){
+      io.Out := io.rs1 ^ io.rs2
     }
   }
 }
