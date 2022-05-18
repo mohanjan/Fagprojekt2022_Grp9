@@ -1,16 +1,3 @@
-add x2, x1, x0 //.main:
-li x2, 32
-lui x2, 39
-addi x3, 200
-addi x3, -200
-bne x3, x2, -4
-li x1, .penis
-li x5, 272 //.penis:
-lui x5, 19
-swi x5, 1993
-li x6, 304
-lui x6, 58
-li x7, 1000
-sw x7, x6, x0
-lw x7, x6, x0
+li x4, 6 //.main:
+mult x3, x2, x4
 li x1, .main

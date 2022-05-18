@@ -6,7 +6,6 @@ import chisel3.util.experimental.loadMemoryFromFile
 class DataMemory(Memports: Int) extends Module {
   val io = IO(new Bundle {
     val MemPort = Vec(Memports,Flipped(new MemPort))
-
     val Registers = new MemPort
   })
   val SPI = IO(new Bundle{
@@ -40,13 +39,17 @@ class DataMemory(Memports: Int) extends Module {
   ExternalMemory.io.Address := 0.U
   ExternalMemory.SPI <> SPI
 
-  val Producer = RegInit(0.U(2.W))
+  val Producer = Wire(UInt(2.W))
+  val ProducerReg = RegInit(0.U(2.W))
   val Taken = RegInit(0.U(1.W))
+
+  Producer := ProducerReg
 
   for(i <- 0 until Memports){
     when(!Taken.asBool && io.MemPort(i).Enable){
       Taken := true.B
       Producer := i.U
+      ProducerReg := i.U
     }
   }
 

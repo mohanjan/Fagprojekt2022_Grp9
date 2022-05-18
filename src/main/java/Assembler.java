@@ -168,7 +168,7 @@ public class Assembler {
     public static void read_assembly(){
         try {
             File myObj = new File("Program_Assembly.txt");
-            FileWriter myWriter = new FileWriter("MachineCode.txt");
+            FileWriter myWriter = new FileWriter("MachineCode.mem");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();

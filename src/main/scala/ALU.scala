@@ -10,26 +10,32 @@ class ALU() extends Module {
     val Out = Output(UInt(18.W))
   })
 
-  val OutputReg = RegInit(0.U(18.W))
+  io.Out := 0.U
 
-  io.Out := OutputReg
-
-  switch(io.Operation)
-  {
+  switch(io.Operation) {
     is(0.U){
-      OutputReg := io.rs1 + io.rs2
+      io.Out := io.rs1 + io.rs2
     }
     is(1.U){
-      OutputReg := io.rs1 - io.rs2
+      io.Out := io.rs1 - io.rs2
     }
     is(2.U){
-      OutputReg := io.rs1 * io.rs2
+      io.Out := io.rs1 * io.rs2
     }
     is(3.U){
-      OutputReg := io.rs1 << io.rs2
+      io.Out := io.rs1 << io.rs2
     }
     is(4.U){
-      OutputReg := io.rs1 >> io.rs2
+      io.Out := io.rs1 >> io.rs2
+    }
+    is(5.U){
+      io.Out := io.rs1 & io.rs2
+    }
+    is(6.U){
+      io.Out := io.rs1 | io.rs2
+    }
+    is(7.U){
+      io.Out := io.rs1 ^ io.rs2
     }
   }
 }
