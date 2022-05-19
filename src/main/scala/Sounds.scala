@@ -1,5 +1,3 @@
-
-
 import Sounds._
 
 import java.io.{File, ByteArrayInputStream}

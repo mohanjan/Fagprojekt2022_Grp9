@@ -57,9 +57,6 @@ class InstuctionMemory() extends Module {
   */
 
 
-
-
-
   //val InstructionMemory = Mem(1024,UInt(18.W))
 
   val InstructionMemory = SyncReadMem(1024,Bits(18.W))
