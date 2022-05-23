@@ -1,0 +1,283 @@
+Index: src/main/scala/FirEngine.scala
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import chisel3._\r\nimport chisel3.util._\r\n\r\nclass FirEngine() extends Module {\r\n  val io = IO(new Bundle {\r\n    val WaveIn = Input(UInt(18.W))\r\n    val WaveOut = Output(UInt(18.W))\r\n    val Registers = new Registers\r\n    val DataMem = new DataMem\r\n  })\r\n\r\n  // Defaults\r\n\r\n  io.WaveOut := 0.U\r\n\r\n  io.DataMem.Enable := false.B\r\n  io.DataMem.WriteEn := false.B\r\n  io.DataMem.WriteData := 0.U\r\n  io.DataMem.Address := 0.U\r\n\r\n  io.Registers.ReadData := 0.U\r\n\r\n  val DataReg = Reg(Vec(128,UInt(18.W)))\r\n\r\n  when(io.Registers.Enable){\r\n    val ReadWritePort = DataReg(io.Registers.Address)\r\n    when(io.Registers.WriteEn){\r\n      ReadWritePort := io.Registers.WriteData\r\n    }.otherwise{\r\n      io.Registers.ReadData := ReadWritePort\r\n    }\r\n  }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/scala/FirEngine.scala b/src/main/scala/FirEngine.scala
+--- a/src/main/scala/FirEngine.scala	
++++ b/src/main/scala/FirEngine.scala	
+@@ -5,20 +5,21 @@
+   val io = IO(new Bundle {
+     val WaveIn = Input(UInt(18.W))
+     val WaveOut = Output(UInt(18.W))
+-    val Registers = new Registers
+-    val DataMem = new DataMem
++    val Registers = Flipped(new MemPort)
++    val MemPort = new MemPort
+   })
+ 
+   // Defaults
+ 
+   io.WaveOut := 0.U
+ 
+-  io.DataMem.Enable := false.B
+-  io.DataMem.WriteEn := false.B
+-  io.DataMem.WriteData := 0.U
+-  io.DataMem.Address := 0.U
++  io.MemPort.Enable := false.B
++  io.MemPort.WriteEn := false.B
++  io.MemPort.WriteData := 0.U
++  io.MemPort.Address := 0.U
+ 
+   io.Registers.ReadData := 0.U
++  io.Registers.Completed := true.B
+ 
+   val DataReg = Reg(Vec(128,UInt(18.W)))
+ 
+Index: src/main/scala/DSP.scala
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import chisel3._\r\nimport chisel3.experimental.Analog\r\nimport chisel3.util._\r\n\r\nclass Registers extends Bundle{\r\n  val Enable = Input(Bool())\r\n  val WriteEn = Input(Bool())\r\n  val Address = Input(UInt(7.W))\r\n  val WriteData = Input(UInt(18.W))\r\n\r\n  val ReadData = Output(Bool())\r\n}\r\n\r\nclass DataMem extends Bundle{\r\n  val Address = Output(UInt(18.W))\r\n  val WriteData = Output(UInt(18.W))\r\n  val Enable = Output(Bool())\r\n  val WriteEn = Output(Bool())\r\n\r\n  val ReadData = Input(UInt(18.W))\r\n  val Completed = Input(Bool())\r\n}\r\n\r\nclass DSP(maxCount: Int) extends Module {\r\n  val io = IO(new Bundle {\r\n    val In = Input(UInt(16.W))\r\n    val Out = Output(UInt(16.W))\r\n  })\r\n  val SPI = IO(new Bundle{\r\n    val SCLK = Output(Bool())\r\n    val CE = Output(Bool())\r\n    val SO = Input(Vec(4,Bool()))\r\n    val SI = Output(Vec(4,Bool()))\r\n    val Drive = Output(Bool())\r\n  })\r\n\r\n  // Single Core\r\n\r\n  val Core = Module(new Core())\r\n  val FirEngine = Module(new FirEngine())\r\n  val DataMemory = Module(new DataMemory())\r\n\r\n  // IO\r\n\r\n  io.Out := Core.io.WaveOut\r\n  FirEngine.io.WaveIn := io.In\r\n\r\n  // Interconnections\r\n\r\n  Core.io.WaveIn := 0.U\r\n  Core.io.Stall := false.B\r\n  Core.io.ProgramLength := 0.U\r\n\r\n  Core.io.DataMem <> DataMemory.io.DataMem\r\n\r\n  FirEngine.io.Registers <> DataMemory.io.Registers\r\n\r\n  FirEngine.io.DataMem <> DataMemory.io.FIR\r\n  FirEngine.io.WaveIn := 0.U\r\n\r\n  SPI <> DataMemory.SPI\r\n\r\n}\r\n// generate Verilog\r\nobject DSP extends App {\r\n  (new chisel3.stage.ChiselStage).emitVerilog(new DSP(200000000))\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/scala/DSP.scala b/src/main/scala/DSP.scala
+--- a/src/main/scala/DSP.scala	
++++ b/src/main/scala/DSP.scala	
+@@ -2,16 +2,7 @@
+ import chisel3.experimental.Analog
+ import chisel3.util._
+ 
+-class Registers extends Bundle{
+-  val Enable = Input(Bool())
+-  val WriteEn = Input(Bool())
+-  val Address = Input(UInt(7.W))
+-  val WriteData = Input(UInt(18.W))
+-
+-  val ReadData = Output(Bool())
+-}
+-
+-class DataMem extends Bundle{
++class MemPort extends Bundle{
+   val Address = Output(UInt(18.W))
+   val WriteData = Output(UInt(18.W))
+   val Enable = Output(Bool())
+@@ -51,11 +42,11 @@
+   Core.io.Stall := false.B
+   Core.io.ProgramLength := 0.U
+ 
+-  Core.io.DataMem <> DataMemory.io.DataMem
++  Core.io.MemPort <> DataMemory.io.MemPort
+ 
+   FirEngine.io.Registers <> DataMemory.io.Registers
+ 
+-  FirEngine.io.DataMem <> DataMemory.io.FIR
++  FirEngine.io.MemPort <> DataMemory.io.FIRMemPort
+   FirEngine.io.WaveIn := 0.U
+ 
+   SPI <> DataMemory.SPI
+Index: src/main/scala/DataMemory.scala
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import chisel3._\r\nimport chisel3.util._\r\nimport chisel3.experimental.Analog\r\nimport chisel3.util.experimental.loadMemoryFromFile\r\n\r\nclass DataMemory() extends Module {\r\n  val io = IO(new Bundle {\r\n    val DataMem = Flipped(new DataMem)\r\n    val FIR = Flipped(new DataMem)\r\n    val Registers = Flipped(new Registers)\r\n  })\r\n  val SPI = IO(new Bundle{\r\n    val SCLK = Output(Bool())\r\n    val CE = Output(Bool())\r\n    val SO = Input(Vec(4,Bool()))\r\n    val SI = Output(Vec(4,Bool()))\r\n    val Drive = Output(Bool())\r\n  })\r\n\r\n  // Module Definitions\r\n\r\n  val Memory = SyncReadMem(2048, UInt(18.W))\r\n  val ExternalMemory = Module(new MemoryController(1))\r\n\r\n  // Defaults\r\n\r\n  io.Registers.Address := 0.U\r\n  io.Registers.WriteData := 0.U\r\n  io.Registers.Enable := false.B\r\n  io.Registers.WriteEn := false.B\r\n\r\n  io.DataMem.ReadData := 0.U\r\n  io.DataMem.Completed := false.B\r\n\r\n  io.FIR.ReadData := 0.U\r\n  io.FIR.Completed := false.B\r\n\r\n  ExternalMemory.io.WriteData := 0.U\r\n  ExternalMemory.io.ReadEnable := false.B\r\n  ExternalMemory.io.WriteEnable := false.B\r\n  ExternalMemory.io.Address := 0.U\r\n  ExternalMemory.SPI <> SPI\r\n\r\n\r\n  // Address space partition\r\n\r\n  when(io.DataMem.Enable){\r\n    when(io.DataMem.Address <= 2047.U){ // Internal data memory\r\n      val ReadWritePort = Memory(io.DataMem.Address)\r\n      io.DataMem.Completed := true.B\r\n\r\n      when(io.DataMem.WriteEn){\r\n        ReadWritePort := io.DataMem.WriteData\r\n      }.otherwise{\r\n        io.DataMem.ReadData := ReadWritePort\r\n      }\r\n    }.elsewhen(io.DataMem.Address <= 2175.U){ // Fir Registers\r\n      io.Registers.Address := (io.DataMem.Address - 2175.U)(5,0)\r\n      io.Registers.WriteEn := true.B\r\n      io.DataMem.Completed := true.B\r\n\r\n      when(io.DataMem.WriteEn){\r\n        io.Registers.WriteData := io.DataMem.WriteData\r\n      }.otherwise{\r\n        io.DataMem.ReadData := io.Registers.ReadData\r\n      }\r\n    }.otherwise{ // External Memory\r\n      ExternalMemory.io.Address := io.DataMem.Address\r\n\r\n      when(io.DataMem.WriteEn){\r\n        when(ExternalMemory.io.Ready){\r\n          ExternalMemory.io.WriteEnable := true.B\r\n          ExternalMemory.io.WriteData := io.DataMem.WriteData\r\n        }\r\n\r\n        io.DataMem.Completed := ExternalMemory.io.Completed\r\n      }.otherwise{\r\n        when(ExternalMemory.io.Ready){\r\n          ExternalMemory.io.ReadEnable := true.B\r\n        }\r\n\r\n        io.DataMem.Completed := ExternalMemory.io.Completed\r\n        io.DataMem.ReadData := ExternalMemory.io.ReadData\r\n      }\r\n    }\r\n  }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/scala/DataMemory.scala b/src/main/scala/DataMemory.scala
+--- a/src/main/scala/DataMemory.scala	
++++ b/src/main/scala/DataMemory.scala	
+@@ -5,9 +5,9 @@
+ 
+ class DataMemory() extends Module {
+   val io = IO(new Bundle {
+-    val DataMem = Flipped(new DataMem)
+-    val FIR = Flipped(new DataMem)
+-    val Registers = Flipped(new Registers)
++    val MemPort = Flipped(new MemPort)
++    val FIRMemPort = Flipped(new MemPort)
++    val Registers = new MemPort
+   })
+   val SPI = IO(new Bundle{
+     val SCLK = Output(Bool())
+@@ -24,16 +24,11 @@
+ 
+   // Defaults
+ 
+-  io.Registers.Address := 0.U
+-  io.Registers.WriteData := 0.U
+-  io.Registers.Enable := false.B
+-  io.Registers.WriteEn := false.B
++  io.MemPort.ReadData := 0.U
++  io.MemPort.Completed := false.B
+ 
+-  io.DataMem.ReadData := 0.U
+-  io.DataMem.Completed := false.B
+-
+-  io.FIR.ReadData := 0.U
+-  io.FIR.Completed := false.B
++  io.FIRMemPort.ReadData := 0.U
++  io.FIRMemPort.Completed := false.B
+ 
+   ExternalMemory.io.WriteData := 0.U
+   ExternalMemory.io.ReadEnable := false.B
+@@ -41,46 +36,50 @@
+   ExternalMemory.io.Address := 0.U
+   ExternalMemory.SPI <> SPI
+ 
++  io.Registers.WriteData := 0.U
++  io.Registers.Enable := false.B
++  io.Registers.WriteEn := false.B
++  io.Registers.Address := 0.U
+ 
+   // Address space partition
+ 
+-  when(io.DataMem.Enable){
+-    when(io.DataMem.Address <= 2047.U){ // Internal data memory
+-      val ReadWritePort = Memory(io.DataMem.Address)
+-      io.DataMem.Completed := true.B
++  when(io.MemPort.Enable){
++    when(io.MemPort.Address <= 2047.U){ // Internal data memory
++      val ReadWritePort = Memory(io.MemPort.Address)
++      io.MemPort.Completed := true.B
+ 
+-      when(io.DataMem.WriteEn){
+-        ReadWritePort := io.DataMem.WriteData
++      when(io.MemPort.WriteEn){
++        ReadWritePort := io.MemPort.WriteData
+       }.otherwise{
+-        io.DataMem.ReadData := ReadWritePort
++        io.MemPort.ReadData := ReadWritePort
+       }
+-    }.elsewhen(io.DataMem.Address <= 2175.U){ // Fir Registers
+-      io.Registers.Address := (io.DataMem.Address - 2175.U)(5,0)
++    }.elsewhen(io.MemPort.Address <= 2175.U){ // Fir Registers
++      io.Registers.Address := (io.MemPort.Address - 2175.U)(5,0)
+       io.Registers.WriteEn := true.B
+-      io.DataMem.Completed := true.B
++      io.MemPort.Completed := true.B
+ 
+-      when(io.DataMem.WriteEn){
+-        io.Registers.WriteData := io.DataMem.WriteData
++      when(io.MemPort.WriteEn){
++        io.Registers.WriteData := io.MemPort.WriteData
+       }.otherwise{
+-        io.DataMem.ReadData := io.Registers.ReadData
++        io.MemPort.ReadData := io.Registers.ReadData
+       }
+     }.otherwise{ // External Memory
+-      ExternalMemory.io.Address := io.DataMem.Address
++      ExternalMemory.io.Address := io.MemPort.Address
+ 
+-      when(io.DataMem.WriteEn){
++      when(io.MemPort.WriteEn){
+         when(ExternalMemory.io.Ready){
+           ExternalMemory.io.WriteEnable := true.B
+-          ExternalMemory.io.WriteData := io.DataMem.WriteData
++          ExternalMemory.io.WriteData := io.MemPort.WriteData
+         }
+ 
+-        io.DataMem.Completed := ExternalMemory.io.Completed
++        io.MemPort.Completed := ExternalMemory.io.Completed
+       }.otherwise{
+         when(ExternalMemory.io.Ready){
+           ExternalMemory.io.ReadEnable := true.B
+         }
+ 
+-        io.DataMem.Completed := ExternalMemory.io.Completed
+-        io.DataMem.ReadData := ExternalMemory.io.ReadData
++        io.MemPort.Completed := ExternalMemory.io.Completed
++        io.MemPort.ReadData := ExternalMemory.io.ReadData
+       }
+     }
+   }
+Index: src/main/scala/Core.scala
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import chisel3._\r\nimport chisel3.util._\r\nimport chisel3.experimental.Analog\r\nimport Core._\r\n\r\nobject Core{\r\n  val Arithmetic = 0.U\r\n  val ImmidiateArithmetic = 1.U\r\n  val MemoryI = 2.U\r\n  val Conditional = 3.U\r\n  val Nil = 4.U\r\n  val FirRead = 5.U\r\n  val InstructionFetch = 0.U\r\n  val InstructionDecode = 1.U\r\n  val Execute = 2.U\r\n  val MemoryAccess = 3.U\r\n  val RegisterWriteback = 4.U\r\n}\r\n\r\nclass Core() extends Module {\r\n  val io = IO(new Bundle {\r\n    val WaveIn = Input(UInt(16.W))\r\n    val WaveOut = Output(UInt(16.W))\r\n\r\n    val Stall = Input(Bool())\r\n    val ProgramLength = Input(UInt(10.W))\r\n\r\n    val DataMem = new DataMem\r\n  })\r\n\r\n  val OpCounter = RegInit(0.U(3.W))\r\n\r\n  // Pipeline registers\r\n\r\n  val AddressReg = RegInit(0.U(10.W))\r\n  val TypeReg = RegInit(0.U(2.W))\r\n  val rs1Reg = RegInit(0.U(4.W))\r\n  val rs2Reg = RegInit(0.U(4.W))\r\n  val rdReg = RegInit(0.U(4.W))\r\n\r\n  val AImmediateReg = RegInit(0.U(11.W))\r\n  val ASImmediateReg = RegInit(0.S(11.W))\r\n\r\n  val AOperationReg = RegInit(0.U(4.W))\r\n\r\n  val MemOpReg = RegInit(0.U(1.W))\r\n  val MemAddressReg = RegInit(0.U(11.W))\r\n\r\n  val COperationReg = RegInit(0.U(2.W))\r\n  val COffsetReg = RegInit(0.S(6.W))\r\n\r\n  // Memory Access and Writeback registers\r\n\r\n  val WritebackMode = RegInit(0.U(4.W))\r\n  val WritebackRegister = RegInit(0.U(4.W))\r\n\r\n  // Modules\r\n\r\n  val ALU = Module(new ALU())\r\n  val InstDec = Module(new InstuctionDecoder())\r\n  val BranchComp = Module(new BranchComp())\r\n  val InstructionMem = Module(new InstuctionMemory())\r\n\r\n  //Registers\r\n\r\n  val x = Reg(Vec(16,UInt(18.W)))\r\n\r\n  x(0) := 0.U(16.W)\r\n  x(2) := io.WaveIn\r\n  io.WaveOut := x(3)\r\n\r\n  // Defaults\r\n\r\n  ALU.io.rs2 := 0.U\r\n  ALU.io.rs1 := 0.U\r\n  ALU.io.Operation := 0.U\r\n\r\n  InstructionMem.io.Address := 0.U\r\n  InstructionMem.io.DataIn := 0.U\r\n  InstructionMem.io.MemWrite := 0.U\r\n\r\n  io.DataMem.WriteData := 0.U\r\n  io.DataMem.Address := 0.U\r\n  io.DataMem.Enable := false.B\r\n  io.DataMem.WriteEn := false.B\r\n\r\n  BranchComp.io.rs2 := 0.U\r\n  BranchComp.io.rs1 := 0.U\r\n  BranchComp.io.PC := 0.U\r\n  BranchComp.io.Offset := 0.S\r\n  BranchComp.io.Operation := 0.U\r\n\r\n  InstDec.io.Instruction := 0.U\r\n\r\n  // Processor\r\n\r\n  when(io.Stall){\r\n\r\n    /*\r\n    DataMem.DataIn := io.MemInData\r\n    DataMem.Address := io.MemInAddress\r\n    */\r\n\r\n  }.otherwise{\r\n    switch(OpCounter){\r\n      is(InstructionFetch){\r\n        InstructionMem.io.Address := x(1)\r\n        AddressReg := x(1)\r\n        OpCounter := InstructionDecode\r\n      }\r\n      is(InstructionDecode){\r\n        InstDec.io.Instruction := InstructionMem.io.Instruction\r\n\r\n        TypeReg := InstDec.io.Type\r\n        rs1Reg := InstDec.io.rs1\r\n        rs2Reg := InstDec.io.rs2\r\n        rdReg := InstDec.io.rd\r\n\r\n        AImmediateReg := InstDec.io.AImmidiate\r\n        ASImmediateReg := InstDec.io.ASImmidiate\r\n\r\n        AOperationReg := InstDec.io.AOperation\r\n\r\n        MemOpReg := InstDec.io.MemOp\r\n        MemAddressReg := InstDec.io.MemAdress\r\n\r\n        COperationReg := InstDec.io.COperation\r\n        COffsetReg := InstDec.io.COffset\r\n\r\n        OpCounter := Execute\r\n      }\r\n      is(Execute){\r\n        switch(TypeReg){\r\n          is(0.U){\r\n            when(AOperationReg <= 7.U){\r\n              ALU.io.Operation := AOperationReg\r\n              ALU.io.rs2 := x(rs2Reg)\r\n              ALU.io.rs1 := x(rs1Reg)\r\n\r\n              WritebackMode := Arithmetic\r\n              WritebackRegister := rdReg\r\n\r\n              OpCounter := RegisterWriteback\r\n            }.elsewhen(AOperationReg === 8.U){\r\n              io.DataMem.Enable := true.B\r\n              io.DataMem.Address := x(rs1Reg)\r\n              WritebackMode := MemoryI\r\n              WritebackRegister := rdReg\r\n\r\n              when(io.DataMem.Completed){\r\n                OpCounter := RegisterWriteback\r\n              }\r\n            }.elsewhen(AOperationReg === 9.U){\r\n              io.DataMem.Enable := true.B\r\n              io.DataMem.WriteEn := true.B\r\n              io.DataMem.Address := x(rs1Reg)\r\n              io.DataMem.WriteData := x(rdReg)\r\n              WritebackMode := Nil\r\n\r\n              when(io.DataMem.Completed){\r\n                OpCounter := RegisterWriteback\r\n              }\r\n            }\r\n          }\r\n          is(1.U){\r\n            when(AOperationReg === 1.U){\r\n              ALU.io.rs2 := 0.U\r\n              ALU.io.rs1 := AImmediateReg\r\n              ALU.io.Operation := 0.U\r\n            }.elsewhen(AOperationReg === 2.U){\r\n              ALU.io.rs2 := 0.U\r\n              //ALU.io.rs1 := (AImmediateReg << 9).asUInt\r\n\r\n              val upper = Wire(UInt(9.W))\r\n              upper := AImmediateReg(8,0)\r\n              val lower = Wire(UInt(9.W))\r\n              lower := x(rdReg)(8,0)\r\n              val cat = Wire(UInt(18.W))\r\n              cat := Cat(upper,lower)\r\n\r\n              ALU.io.rs1 := cat\r\n              ALU.io.Operation := 0.U\r\n            }.otherwise{\r\n              when(ASImmediateReg < 0.S){\r\n                ALU.io.Operation := 1.U\r\n                ALU.io.rs2 := (0.S - ASImmediateReg).asUInt\r\n                ALU.io.rs1 := x(rdReg)\r\n              }.otherwise{\r\n                ALU.io.rs2 := ASImmediateReg.asUInt\r\n                ALU.io.rs1 := x(rdReg)\r\n                ALU.io.Operation := 0.U\r\n              }\r\n            }\r\n            WritebackMode := Arithmetic\r\n            WritebackRegister := rdReg\r\n            OpCounter := RegisterWriteback\r\n          }\r\n          is(2.U){\r\n            io.DataMem.Address := MemAddressReg\r\n            io.DataMem.WriteData := x(rdReg)\r\n            io.DataMem.Enable := true.B\r\n            io.DataMem.WriteEn := MemOpReg\r\n\r\n            switch(MemOpReg){\r\n              is(0.U){\r\n                WritebackMode := MemoryI\r\n              }\r\n              is(1.U){\r\n                WritebackMode := Nil\r\n              }\r\n            }\r\n            WritebackRegister := rdReg\r\n            OpCounter := RegisterWriteback\r\n          }\r\n          is(3.U){\r\n            BranchComp.io.rs2 := x(rs2Reg)\r\n            BranchComp.io.rs1 := x(rs1Reg)\r\n            BranchComp.io.Operation := COperationReg\r\n            BranchComp.io.PC := x(1)\r\n            BranchComp.io.Offset := COffsetReg\r\n\r\n            WritebackMode := Conditional\r\n            WritebackRegister := rdReg\r\n\r\n            OpCounter := RegisterWriteback\r\n          }\r\n        }\r\n      }\r\n      is(RegisterWriteback){\r\n        switch(WritebackMode){\r\n          is(Nil){\r\n            x(1) := x(1) + 1.U\r\n          }\r\n          is(Arithmetic){\r\n            x(WritebackRegister) := ALU.io.Out.asUInt\r\n            x(1) := x(1) + 1.U\r\n          }\r\n          is(MemoryI){\r\n            x(WritebackRegister) := io.DataMem.ReadData\r\n            x(1) := x(1) + 1.U\r\n          }\r\n          is(Conditional){\r\n            x(1) := BranchComp.io.Out\r\n          }\r\n        }\r\n\r\n        OpCounter := InstructionFetch\r\n\r\n      }\r\n    }\r\n  }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/scala/Core.scala b/src/main/scala/Core.scala
+--- a/src/main/scala/Core.scala	
++++ b/src/main/scala/Core.scala	
+@@ -25,7 +25,7 @@
+     val Stall = Input(Bool())
+     val ProgramLength = Input(UInt(10.W))
+ 
+-    val DataMem = new DataMem
++    val MemPort = new MemPort
+   })
+ 
+   val OpCounter = RegInit(0.U(3.W))
+@@ -79,10 +79,10 @@
+   InstructionMem.io.DataIn := 0.U
+   InstructionMem.io.MemWrite := 0.U
+ 
+-  io.DataMem.WriteData := 0.U
+-  io.DataMem.Address := 0.U
+-  io.DataMem.Enable := false.B
+-  io.DataMem.WriteEn := false.B
++  io.MemPort.WriteData := 0.U
++  io.MemPort.Address := 0.U
++  io.MemPort.Enable := false.B
++  io.MemPort.WriteEn := false.B
+ 
+   BranchComp.io.rs2 := 0.U
+   BranchComp.io.rs1 := 0.U
+@@ -142,22 +142,22 @@
+ 
+               OpCounter := RegisterWriteback
+             }.elsewhen(AOperationReg === 8.U){
+-              io.DataMem.Enable := true.B
+-              io.DataMem.Address := x(rs1Reg)
++              io.MemPort.Enable := true.B
++              io.MemPort.Address := x(rs1Reg)
+               WritebackMode := MemoryI
+               WritebackRegister := rdReg
+ 
+-              when(io.DataMem.Completed){
++              when(io.MemPort.Completed){
+                 OpCounter := RegisterWriteback
+               }
+             }.elsewhen(AOperationReg === 9.U){
+-              io.DataMem.Enable := true.B
+-              io.DataMem.WriteEn := true.B
+-              io.DataMem.Address := x(rs1Reg)
+-              io.DataMem.WriteData := x(rdReg)
++              io.MemPort.Enable := true.B
++              io.MemPort.WriteEn := true.B
++              io.MemPort.Address := x(rs1Reg)
++              io.MemPort.WriteData := x(rdReg)
+               WritebackMode := Nil
+ 
+-              when(io.DataMem.Completed){
++              when(io.MemPort.Completed){
+                 OpCounter := RegisterWriteback
+               }
+             }
+@@ -196,10 +196,10 @@
+             OpCounter := RegisterWriteback
+           }
+           is(2.U){
+-            io.DataMem.Address := MemAddressReg
+-            io.DataMem.WriteData := x(rdReg)
+-            io.DataMem.Enable := true.B
+-            io.DataMem.WriteEn := MemOpReg
++            io.MemPort.Address := MemAddressReg
++            io.MemPort.WriteData := x(rdReg)
++            io.MemPort.Enable := true.B
++            io.MemPort.WriteEn := MemOpReg
+ 
+             switch(MemOpReg){
+               is(0.U){
+@@ -236,7 +236,7 @@
+             x(1) := x(1) + 1.U
+           }
+           is(MemoryI){
+-            x(WritebackRegister) := io.DataMem.ReadData
++            x(WritebackRegister) := io.MemPort.ReadData
+             x(1) := x(1) + 1.U
+           }
+           is(Conditional){
