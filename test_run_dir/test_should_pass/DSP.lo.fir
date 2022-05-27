@@ -2,44 +2,36 @@ circuit DSP :
   module InstuctionMemory :
     input clock : Clock
     input reset : UInt<1>
+    input io_enable : UInt<1>
+    input io_write : UInt<1>
     input io_Address : UInt<10>
     input io_DataIn : UInt<18>
-    input io_MemWrite : UInt<1>
     output io_Instruction : UInt<18>
 
-    mem InstructionMemory : @[InstructionMemory.scala 65:38]
+    mem mem : @[InstructionMemory.scala 28:24]
       data-type => UInt<18>
       depth => 1024
       read-latency => 1
       write-latency => 1
-      reader => io_Instruction_MPORT
-      writer => MPORT
+      readwriter => rdwrPort
       read-under-write => undefined
-    node _GEN_0 = validif(UInt<1>("h1"), io_Address) @[InstructionMemory.scala 76:{45,45}]
-    node _io_Instruction_WIRE = _GEN_0 @[InstructionMemory.scala 76:45]
-    node _io_Instruction_T = or(_io_Instruction_WIRE, UInt<10>("h0")) @[InstructionMemory.scala 76:45]
-    node _io_Instruction_T_1 = bits(_io_Instruction_T, 9, 0) @[InstructionMemory.scala 76:45]
-    node _GEN_1 = mux(UInt<1>("h1"), UInt<1>("h1"), UInt<1>("h0")) @[InstructionMemory.scala 65:38 76:{45,45}]
-    node _GEN_2 = validif(UInt<1>("h1"), _io_Instruction_T_1) @[InstructionMemory.scala 76:{45,45}]
-    node _GEN_3 = validif(UInt<1>("h1"), clock) @[InstructionMemory.scala 76:{45,45}]
-    node _GEN_4 = validif(io_MemWrite, io_Address) @[InstructionMemory.scala 73:20]
-    node _GEN_5 = validif(io_MemWrite, clock) @[InstructionMemory.scala 73:20]
-    node _GEN_6 = mux(io_MemWrite, UInt<1>("h1"), UInt<1>("h0")) @[InstructionMemory.scala 73:20 65:38]
-    node _GEN_7 = validif(io_MemWrite, UInt<1>("h1")) @[InstructionMemory.scala 73:20]
-    node _GEN_8 = validif(io_MemWrite, io_DataIn) @[InstructionMemory.scala 73:20]
-    node _GEN_9 = mux(io_MemWrite, UInt<1>("h0"), _GEN_1) @[InstructionMemory.scala 73:20 65:38]
-    node _GEN_10 = validif(eq(io_MemWrite, UInt<1>("h0")), _GEN_2) @[InstructionMemory.scala 73:20]
-    node _GEN_11 = validif(eq(io_MemWrite, UInt<1>("h0")), _GEN_3) @[InstructionMemory.scala 73:20]
-    node _GEN_12 = mux(io_MemWrite, UInt<1>("h0"), InstructionMemory.io_Instruction_MPORT.data) @[InstructionMemory.scala 71:18 73:20 76:20]
-    io_Instruction <= _GEN_12
-    InstructionMemory.io_Instruction_MPORT.addr <= _GEN_10
-    InstructionMemory.io_Instruction_MPORT.en <= _GEN_9
-    InstructionMemory.io_Instruction_MPORT.clk <= _GEN_11
-    InstructionMemory.MPORT.addr <= _GEN_4
-    InstructionMemory.MPORT.en <= _GEN_6
-    InstructionMemory.MPORT.clk <= _GEN_5
-    InstructionMemory.MPORT.data <= _GEN_8
-    InstructionMemory.MPORT.mask <= _GEN_7
+    node _GEN_0 = validif(io_write, io_DataIn) @[InstructionMemory.scala 35:{21,32}]
+    node _GEN_1 = mux(io_write, UInt<1>("h1"), UInt<1>("h0")) @[InstructionMemory.scala 35:21 34:23 35:32]
+    node _GEN_2 = validif(eq(io_write, UInt<1>("h0")), mem.rdwrPort.rdata) @[InstructionMemory.scala 35:21 36:38]
+    node _GEN_3 = validif(io_enable, io_Address) @[InstructionMemory.scala 33:19 34:23]
+    node _GEN_4 = validif(io_enable, clock) @[InstructionMemory.scala 33:19 34:23]
+    node _GEN_5 = mux(io_enable, UInt<1>("h1"), UInt<1>("h0")) @[InstructionMemory.scala 33:19 34:23 28:24]
+    node _GEN_6 = validif(io_enable, _GEN_1) @[InstructionMemory.scala 33:19]
+    node _GEN_7 = validif(io_enable, _GEN_0) @[InstructionMemory.scala 33:19]
+    node _GEN_8 = mux(io_enable, _GEN_1, UInt<1>("h0")) @[InstructionMemory.scala 33:19 28:24]
+    node _GEN_9 = validif(io_enable, _GEN_2) @[InstructionMemory.scala 33:19]
+    io_Instruction <= _GEN_9
+    mem.rdwrPort.addr <= _GEN_3
+    mem.rdwrPort.en <= _GEN_5
+    mem.rdwrPort.clk <= _GEN_4
+    mem.rdwrPort.wmode <= _GEN_8
+    mem.rdwrPort.wdata <= _GEN_7
+    mem.rdwrPort.wmask <= _GEN_6
 
   module FetchStage :
     input clock : Clock
@@ -52,15 +44,16 @@ circuit DSP :
     inst InstructionMem of InstuctionMemory @[FetchStage.scala 21:30]
     reg ClearDelay : UInt<1>, clock with :
       reset => (UInt<1>("h0"), ClearDelay) @[FetchStage.scala 18:27]
-    node _T = or(io_Clear, ClearDelay) @[FetchStage.scala 41:17]
-    node _GEN_0 = mux(_T, UInt<1>("h0"), InstructionMem.io_Instruction) @[FetchStage.scala 39:19 41:31 42:21]
-    Out_Instruction <= _GEN_0
+    node _T = or(io_Clear, ClearDelay) @[FetchStage.scala 43:17]
+    node _GEN_0 = mux(_T, UInt<1>("h0"), UInt<1>("h1")) @[FetchStage.scala 32:28 43:31 44:30]
+    Out_Instruction <= InstructionMem.io_Instruction @[FetchStage.scala 41:19]
     ClearDelay <= io_Clear @[FetchStage.scala 18:27]
     InstructionMem.clock <= clock
     InstructionMem.reset <= reset
-    InstructionMem.io_Address <= bits(In_PC, 9, 0) @[FetchStage.scala 29:29]
-    InstructionMem.io_DataIn <= UInt<18>("h0") @[FetchStage.scala 30:28]
-    InstructionMem.io_MemWrite <= UInt<1>("h0") @[FetchStage.scala 31:30]
+    InstructionMem.io_enable <= _GEN_0
+    InstructionMem.io_write <= UInt<1>("h0") @[FetchStage.scala 26:27]
+    InstructionMem.io_Address <= bits(In_PC, 9, 0) @[FetchStage.scala 30:29]
+    InstructionMem.io_DataIn <= UInt<18>("h0") @[FetchStage.scala 31:28]
 
   module InstuctionDecoder :
     input clock : Clock

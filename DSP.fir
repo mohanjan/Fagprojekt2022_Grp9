@@ -2,22 +2,16 @@ circuit DSP :
   module InstuctionMemory :
     input clock : Clock
     input reset : Reset
-    output io : { flip Address : UInt<10>, flip DataIn : UInt<18>, flip MemWrite : UInt<1>, Instruction : UInt<18>}
+    output io : { flip enable : UInt<1>, flip write : UInt<1>, flip Address : UInt<10>, flip DataIn : UInt<18>, Instruction : UInt<18>}
 
-    smem InstructionMemory : UInt<18> [1024] @[InstructionMemory.scala 65:38]
-    io.Instruction <= UInt<1>("h0") @[InstructionMemory.scala 71:18]
-    when io.MemWrite : @[InstructionMemory.scala 73:20]
-      write mport MPORT = InstructionMemory[io.Address], clock
-      MPORT <= io.DataIn
-    else :
-      wire _io_Instruction_WIRE : UInt @[InstructionMemory.scala 76:45]
-      _io_Instruction_WIRE is invalid @[InstructionMemory.scala 76:45]
-      when UInt<1>("h1") : @[InstructionMemory.scala 76:45]
-        _io_Instruction_WIRE <= io.Address @[InstructionMemory.scala 76:45]
-        node _io_Instruction_T = or(_io_Instruction_WIRE, UInt<10>("h0")) @[InstructionMemory.scala 76:45]
-        node _io_Instruction_T_1 = bits(_io_Instruction_T, 9, 0) @[InstructionMemory.scala 76:45]
-        read mport io_Instruction_MPORT = InstructionMemory[_io_Instruction_T_1], clock @[InstructionMemory.scala 76:45]
-      io.Instruction <= io_Instruction_MPORT @[InstructionMemory.scala 76:20]
+    smem mem : UInt<18> [1024] @[InstructionMemory.scala 28:24]
+    io.Instruction is invalid @[InstructionMemory.scala 32:18]
+    when io.enable : @[InstructionMemory.scala 33:19]
+      infer mport rdwrPort = mem[io.Address], clock @[InstructionMemory.scala 34:23]
+      when io.write : @[InstructionMemory.scala 35:21]
+        rdwrPort <= io.DataIn @[InstructionMemory.scala 35:32]
+      else :
+        io.Instruction <= rdwrPort @[InstructionMemory.scala 36:38]
 
   module FetchStage :
     input clock : Clock
@@ -34,14 +28,15 @@ circuit DSP :
     InstructionMem.reset <= reset
     InstructionMem.io.Address <= UInt<1>("h0") @[FetchStage.scala 23:29]
     InstructionMem.io.DataIn <= UInt<1>("h0") @[FetchStage.scala 24:28]
-    InstructionMem.io.MemWrite <= UInt<1>("h0") @[FetchStage.scala 25:30]
-    InstructionMem.io.Address <= In.PC @[FetchStage.scala 29:29]
-    InstructionMem.io.DataIn <= UInt<1>("h0") @[FetchStage.scala 30:28]
-    InstructionMem.io.MemWrite <= UInt<1>("h0") @[FetchStage.scala 31:30]
-    Out.Instruction <= InstructionMem.io.Instruction @[FetchStage.scala 39:19]
-    node _T = or(io.Clear, ClearDelay) @[FetchStage.scala 41:17]
-    when _T : @[FetchStage.scala 41:31]
-      Out.Instruction <= UInt<1>("h0") @[FetchStage.scala 42:21]
+    InstructionMem.io.enable <= UInt<1>("h0") @[FetchStage.scala 25:28]
+    InstructionMem.io.write <= UInt<1>("h0") @[FetchStage.scala 26:27]
+    InstructionMem.io.Address <= In.PC @[FetchStage.scala 30:29]
+    InstructionMem.io.DataIn <= UInt<1>("h0") @[FetchStage.scala 31:28]
+    InstructionMem.io.enable <= UInt<1>("h1") @[FetchStage.scala 32:28]
+    Out.Instruction <= InstructionMem.io.Instruction @[FetchStage.scala 41:19]
+    node _T = or(io.Clear, ClearDelay) @[FetchStage.scala 43:17]
+    when _T : @[FetchStage.scala 43:31]
+      InstructionMem.io.enable <= UInt<1>("h0") @[FetchStage.scala 44:30]
 
   module InstuctionDecoder :
     input clock : Clock

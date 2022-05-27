@@ -1,5 +1,6 @@
 module InstuctionMemory(
   input         clock,
+  input         io_enable,
   input  [9:0]  io_Address,
   output [17:0] io_Instruction
 );
@@ -7,31 +8,31 @@ module InstuctionMemory(
   reg [31:0] _RAND_0;
   reg [31:0] _RAND_1;
 `endif // RANDOMIZE_REG_INIT
-  reg [17:0] InstructionMemory [0:1023]; // @[InstructionMemory.scala 65:38]
-  wire  InstructionMemory_io_Instruction_MPORT_en; // @[InstructionMemory.scala 65:38]
-  wire [9:0] InstructionMemory_io_Instruction_MPORT_addr; // @[InstructionMemory.scala 65:38]
-  wire [17:0] InstructionMemory_io_Instruction_MPORT_data; // @[InstructionMemory.scala 65:38]
-  wire [17:0] InstructionMemory_MPORT_data; // @[InstructionMemory.scala 65:38]
-  wire [9:0] InstructionMemory_MPORT_addr; // @[InstructionMemory.scala 65:38]
-  wire  InstructionMemory_MPORT_mask; // @[InstructionMemory.scala 65:38]
-  wire  InstructionMemory_MPORT_en; // @[InstructionMemory.scala 65:38]
-  reg  InstructionMemory_io_Instruction_MPORT_en_pipe_0;
-  reg [9:0] InstructionMemory_io_Instruction_MPORT_addr_pipe_0;
-  assign InstructionMemory_io_Instruction_MPORT_en = InstructionMemory_io_Instruction_MPORT_en_pipe_0;
-  assign InstructionMemory_io_Instruction_MPORT_addr = InstructionMemory_io_Instruction_MPORT_addr_pipe_0;
-  assign InstructionMemory_io_Instruction_MPORT_data = InstructionMemory[InstructionMemory_io_Instruction_MPORT_addr]; // @[InstructionMemory.scala 65:38]
-  assign InstructionMemory_MPORT_data = 18'h0;
-  assign InstructionMemory_MPORT_addr = io_Address;
-  assign InstructionMemory_MPORT_mask = 1'h1;
-  assign InstructionMemory_MPORT_en = 1'h0;
-  assign io_Instruction = InstructionMemory_io_Instruction_MPORT_data; // @[InstructionMemory.scala 71:18 73:20 76:20]
+  reg [17:0] mem [0:1023]; // @[InstructionMemory.scala 28:24]
+  wire  mem_rdwrPort_r_en; // @[InstructionMemory.scala 28:24]
+  wire [9:0] mem_rdwrPort_r_addr; // @[InstructionMemory.scala 28:24]
+  wire [17:0] mem_rdwrPort_r_data; // @[InstructionMemory.scala 28:24]
+  wire [17:0] mem_rdwrPort_w_data; // @[InstructionMemory.scala 28:24]
+  wire [9:0] mem_rdwrPort_w_addr; // @[InstructionMemory.scala 28:24]
+  wire  mem_rdwrPort_w_mask; // @[InstructionMemory.scala 28:24]
+  wire  mem_rdwrPort_w_en; // @[InstructionMemory.scala 28:24]
+  reg  mem_rdwrPort_r_en_pipe_0;
+  reg [9:0] mem_rdwrPort_r_addr_pipe_0;
+  assign mem_rdwrPort_r_en = mem_rdwrPort_r_en_pipe_0;
+  assign mem_rdwrPort_r_addr = mem_rdwrPort_r_addr_pipe_0;
+  assign mem_rdwrPort_r_data = mem[mem_rdwrPort_r_addr]; // @[InstructionMemory.scala 28:24]
+  assign mem_rdwrPort_w_data = 18'h0;
+  assign mem_rdwrPort_w_addr = io_Address;
+  assign mem_rdwrPort_w_mask = 1'h0;
+  assign mem_rdwrPort_w_en = io_enable & 1'h0;
+  assign io_Instruction = mem_rdwrPort_r_data; // @[InstructionMemory.scala 35:21 36:38]
   always @(posedge clock) begin
-    if (InstructionMemory_MPORT_en & InstructionMemory_MPORT_mask) begin
-      InstructionMemory[InstructionMemory_MPORT_addr] <= InstructionMemory_MPORT_data; // @[InstructionMemory.scala 65:38]
+    if (mem_rdwrPort_w_en & mem_rdwrPort_w_mask) begin
+      mem[mem_rdwrPort_w_addr] <= mem_rdwrPort_w_data; // @[InstructionMemory.scala 28:24]
     end
-    InstructionMemory_io_Instruction_MPORT_en_pipe_0 <= 1'h1;
-    if (1'h1) begin
-      InstructionMemory_io_Instruction_MPORT_addr_pipe_0 <= io_Address;
+    mem_rdwrPort_r_en_pipe_0 <= io_enable & ~1'h0;
+    if (io_enable & ~1'h0) begin
+      mem_rdwrPort_r_addr_pipe_0 <= io_Address;
     end
   end
 // Register and memory initialization
@@ -69,17 +70,19 @@ initial begin
     `endif
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {1{`RANDOM}};
-  InstructionMemory_io_Instruction_MPORT_en_pipe_0 = _RAND_0[0:0];
+  mem_rdwrPort_r_en_pipe_0 = _RAND_0[0:0];
   _RAND_1 = {1{`RANDOM}};
-  InstructionMemory_io_Instruction_MPORT_addr_pipe_0 = _RAND_1[9:0];
+  mem_rdwrPort_r_addr_pipe_0 = _RAND_1[9:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
-  $readmemh("C:/Users/Karl/Documents/GitHub/Fagprojekt2022_Grp9/MachineCode.mem", InstructionMemory);
 end // initial
 `ifdef FIRRTL_AFTER_INITIAL
 `FIRRTL_AFTER_INITIAL
 `endif
 `endif // SYNTHESIS
+initial begin
+  $readmemh("MachineCode.mem", mem);
+end
 endmodule
 module FetchStage(
   input         clock,
@@ -91,17 +94,20 @@ module FetchStage(
   reg [31:0] _RAND_0;
 `endif // RANDOMIZE_REG_INIT
   wire  InstructionMem_clock; // @[FetchStage.scala 21:30]
+  wire  InstructionMem_io_enable; // @[FetchStage.scala 21:30]
   wire [9:0] InstructionMem_io_Address; // @[FetchStage.scala 21:30]
   wire [17:0] InstructionMem_io_Instruction; // @[FetchStage.scala 21:30]
   reg  ClearDelay; // @[FetchStage.scala 18:27]
   InstuctionMemory InstructionMem ( // @[FetchStage.scala 21:30]
     .clock(InstructionMem_clock),
+    .io_enable(InstructionMem_io_enable),
     .io_Address(InstructionMem_io_Address),
     .io_Instruction(InstructionMem_io_Instruction)
   );
-  assign Out_Instruction = io_Clear | ClearDelay ? 18'h0 : InstructionMem_io_Instruction; // @[FetchStage.scala 39:19 41:31 42:21]
+  assign Out_Instruction = InstructionMem_io_Instruction; // @[FetchStage.scala 41:19]
   assign InstructionMem_clock = clock;
-  assign InstructionMem_io_Address = In_PC[9:0]; // @[FetchStage.scala 29:29]
+  assign InstructionMem_io_enable = io_Clear | ClearDelay ? 1'h0 : 1'h1; // @[FetchStage.scala 32:28 43:31 44:30]
+  assign InstructionMem_io_Address = In_PC[9:0]; // @[FetchStage.scala 30:29]
   always @(posedge clock) begin
     ClearDelay <= io_Clear; // @[FetchStage.scala 18:27]
   end

@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51bae164-994b-4153-bed7-62d60b20bb19" name="Default Changelist" comment="small changes" />
+    <list default="true" id="51bae164-994b-4153-bed7-62d60b20bb19" name="Default Changelist" comment="small changes">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_04_2022_22_20__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_04_2022_22_20__Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DSP.fir" beforeDir="false" afterPath="$PROJECT_DIR$/DSP.fir" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DSP.v" beforeDir="false" afterPath="$PROJECT_DIR$/DSP.v" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MachineCode.mem" beforeDir="false" afterPath="$PROJECT_DIR$/MachineCode.mem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program_Assembly.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program_Assembly.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program_PreAssembly.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program_PreAssembly.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sample_distortion_out.wav" beforeDir="false" afterPath="$PROJECT_DIR$/sample_distortion_out.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/FetchStage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/FetchStage.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/InstructionMemory.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/InstructionMemory.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_run_dir/DSP_should_play/DSP.lo.fir" beforeDir="false" afterPath="$PROJECT_DIR$/test_run_dir/DSP_should_play/DSP.lo.fir" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_run_dir/test_should_pass/DSP.lo.fir" beforeDir="false" afterPath="$PROJECT_DIR$/test_run_dir/test_should_pass/DSP.lo.fir" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_run_dir/test_should_pass/DSP.vcd" beforeDir="false" afterPath="$PROJECT_DIR$/test_run_dir/test_should_pass/DSP.vcd" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,6 +67,26 @@
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="SampleTest" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="%NAME%" />
+      <option name="allowRunningInParallel" value="false" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="testKind" value="Class" />
+      <option name="testClassPath" value="SampleTest" />
+      <option name="workingDirectory" value="C:\Users\Karl\Documents\GitHub\Fagprojekt2022_Grp9" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="ScalaTest.SampleTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -146,7 +181,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652965552813</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="small changes">
+      <created>1653332933679</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1653332933680</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

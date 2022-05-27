@@ -1,6 +1,10 @@
 .main:
 li x4, 6
-mult x3, x2, x4
+mult x5, x2, x4
+add x5, x5, x4
+li x4, 1
+srl x5, x5, x4
+or x5, x5, x4
 j .main
 
 

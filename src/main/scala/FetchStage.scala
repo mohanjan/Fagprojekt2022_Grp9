@@ -18,17 +18,19 @@ class FetchStage extends Module {
   val ClearDelay = RegNext(io.Clear)
 
   //val OutputReg = RegInit(0.U(18.W))
-  val InstructionMem = Module(new InstuctionMemory())
+  val InstructionMem = Module(new InstuctionMemory("MachineCode.mem"))
 
   InstructionMem.io.Address := 0.U
   InstructionMem.io.DataIn := 0.U
-  InstructionMem.io.MemWrite := 0.U
+  InstructionMem.io.enable := 0.U
+  InstructionMem.io.write := false.B
 
   // Logic
 
   InstructionMem.io.Address := In.PC
   InstructionMem.io.DataIn := 0.U
-  InstructionMem.io.MemWrite := false.B
+  InstructionMem.io.enable := true.B
+
 
   /*
   when(!io.Stall){
@@ -39,6 +41,6 @@ class FetchStage extends Module {
   Out.Instruction := InstructionMem.io.Instruction
 
   when(io.Clear | ClearDelay) {
-    Out.Instruction := 0.U
+    InstructionMem.io.enable := false.B
   }
 }
