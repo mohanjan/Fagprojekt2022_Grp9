@@ -20,13 +20,13 @@ class ALU() extends Module {
       io.Out := io.rs1 - io.rs2
     }
     is(2.U){
-      io.Out := io.rs1 * io.rs2
+      io.Out := (io.rs1 * io.rs2)(17,0)
     }
     is(3.U){
-      io.Out := io.rs1 << io.rs2
+      io.Out := (io.rs1 << io.rs2(5,0))(17,0)
     }
     is(4.U){
-      io.Out := io.rs1 >> io.rs2
+      io.Out := (io.rs1 >> io.rs2)(17,0)
     }
     is(5.U){
       io.Out := io.rs1 & io.rs2

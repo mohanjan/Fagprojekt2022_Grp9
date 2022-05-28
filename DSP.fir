@@ -204,33 +204,37 @@ circuit DSP :
       else :
         node _T_2 = eq(UInt<2>("h2"), io.Operation) @[ALU.scala 15:24]
         when _T_2 : @[ALU.scala 15:24]
-          node _io_Out_T_4 = mul(io.rs1, io.rs2) @[ALU.scala 23:24]
-          io.Out <= _io_Out_T_4 @[ALU.scala 23:14]
+          node _io_Out_T_4 = mul(io.rs1, io.rs2) @[ALU.scala 23:25]
+          node _io_Out_T_5 = bits(_io_Out_T_4, 17, 0) @[ALU.scala 23:34]
+          io.Out <= _io_Out_T_5 @[ALU.scala 23:14]
         else :
           node _T_3 = eq(UInt<2>("h3"), io.Operation) @[ALU.scala 15:24]
           when _T_3 : @[ALU.scala 15:24]
-            node _io_Out_T_5 = dshl(io.rs1, io.rs2) @[ALU.scala 26:24]
-            io.Out <= _io_Out_T_5 @[ALU.scala 26:14]
+            node _io_Out_T_6 = bits(io.rs2, 5, 0) @[ALU.scala 26:34]
+            node _io_Out_T_7 = dshl(io.rs1, _io_Out_T_6) @[ALU.scala 26:25]
+            node _io_Out_T_8 = bits(_io_Out_T_7, 17, 0) @[ALU.scala 26:40]
+            io.Out <= _io_Out_T_8 @[ALU.scala 26:14]
           else :
             node _T_4 = eq(UInt<3>("h4"), io.Operation) @[ALU.scala 15:24]
             when _T_4 : @[ALU.scala 15:24]
-              node _io_Out_T_6 = dshr(io.rs1, io.rs2) @[ALU.scala 29:24]
-              io.Out <= _io_Out_T_6 @[ALU.scala 29:14]
+              node _io_Out_T_9 = dshr(io.rs1, io.rs2) @[ALU.scala 29:25]
+              node _io_Out_T_10 = bits(_io_Out_T_9, 17, 0) @[ALU.scala 29:35]
+              io.Out <= _io_Out_T_10 @[ALU.scala 29:14]
             else :
               node _T_5 = eq(UInt<3>("h5"), io.Operation) @[ALU.scala 15:24]
               when _T_5 : @[ALU.scala 15:24]
-                node _io_Out_T_7 = and(io.rs1, io.rs2) @[ALU.scala 32:24]
-                io.Out <= _io_Out_T_7 @[ALU.scala 32:14]
+                node _io_Out_T_11 = and(io.rs1, io.rs2) @[ALU.scala 32:24]
+                io.Out <= _io_Out_T_11 @[ALU.scala 32:14]
               else :
                 node _T_6 = eq(UInt<3>("h6"), io.Operation) @[ALU.scala 15:24]
                 when _T_6 : @[ALU.scala 15:24]
-                  node _io_Out_T_8 = or(io.rs1, io.rs2) @[ALU.scala 35:24]
-                  io.Out <= _io_Out_T_8 @[ALU.scala 35:14]
+                  node _io_Out_T_12 = or(io.rs1, io.rs2) @[ALU.scala 35:24]
+                  io.Out <= _io_Out_T_12 @[ALU.scala 35:14]
                 else :
                   node _T_7 = eq(UInt<3>("h7"), io.Operation) @[ALU.scala 15:24]
                   when _T_7 : @[ALU.scala 15:24]
-                    node _io_Out_T_9 = xor(io.rs1, io.rs2) @[ALU.scala 38:24]
-                    io.Out <= _io_Out_T_9 @[ALU.scala 38:14]
+                    node _io_Out_T_13 = xor(io.rs1, io.rs2) @[ALU.scala 38:24]
+                    io.Out <= _io_Out_T_13 @[ALU.scala 38:14]
 
   module BranchComp :
     input clock : Clock
