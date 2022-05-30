@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-class FirEngine(numberOfDSPSLices:Int) extends Module {
+class FirEngine() extends Module {
   val io = IO(new Bundle {
     val WaveIn = Input(UInt(18.W))
     val WaveOut = Output(UInt(18.W))
@@ -36,12 +36,12 @@ class FirEngine(numberOfDSPSLices:Int) extends Module {
 
   //FIR Engine controll logic
   //TODO Make control logic controlling the control bits
-  
+  //
 
 
   //FIR Engine
-  //TODO describe the DSP-slice in logic and instantiate the number of engines using parameter
-//
+  //TODO Assuming memory is valid describe MACC
+
 
 
 
