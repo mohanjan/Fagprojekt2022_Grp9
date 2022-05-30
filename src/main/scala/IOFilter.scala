@@ -75,8 +75,13 @@ class IOFilter(filterLength: Int) extends Module {
   //Input/output mode
   //Output mode
   when(io.SampleType){
-    FIRInput:=OutputSampleMemory(SampleCount)
+    FIRInput:=OutputSampleMemory(SampleAdress)
 
+    when(OutputSamplePointer+SampleCount<CountMax) {
+      SampleAdress := OutputSamplePointer + SampleCount
+    }.otherwise{
+      SampleAdress := OutputSamplePointer+SampleCount-CountMax
+    }
 
     //sample pointer
     when(OutputSamplePointer<=CountMax & SampleCount===0.U){
@@ -89,13 +94,20 @@ class IOFilter(filterLength: Int) extends Module {
 
   //Input mode
   }.otherwise{
-    FIRInput:=InputSampleMemory(SampleCount)
+    FIRInput:=InputSampleMemory(SampleAdress)
+
+    when(InputSamplePointer+SampleCount<CountMax) {
+      SampleAdress := InputSamplePointer + SampleCount
+    }.otherwise{
+      SampleAdress := InputSamplePointer+SampleCount-CountMax
+    }
 
     //sample pointer
     when(InputSamplePointer<=CountMax & SampleCount===0.U){
       InputSamplePointer:=InputSamplePointer + 1.U
     }.elsewhen(SampleCount===0.U){
       InputSamplePointer:=0.U
+      SampleAdress
     }
 
   }
