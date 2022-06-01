@@ -139,9 +139,6 @@ class ExecuteStage extends Module {
       when(In.AOperation <= 7.U){
         ALU.io.Operation := In.AOperation
 
-        //ALU.io.rs2 := io.x(In.rs2)
-        //ALU.io.rs1 := io.x(In.rs1)
-
         ALU.io.rs2 := rs2
         ALU.io.rs1 := rs1
 
@@ -150,6 +147,9 @@ class ExecuteStage extends Module {
 
         DataHazard := In.rd
       }.elsewhen(In.AOperation === 8.U){
+
+        // lw rd, rs1
+
         io.MemPort.Enable := true.B
 
         //io.MemPort.Address := io.x(In.rs1)
@@ -165,6 +165,8 @@ class ExecuteStage extends Module {
               io.MemPort.Address := ALUOutReg
             }
           }
+        }.otherwise{
+          io.MemPort.Address := io.x(In.rs1)
         }
 
         WritebackMode := MemoryI
@@ -176,6 +178,9 @@ class ExecuteStage extends Module {
           io.Stall := true.B
         }
       }.elsewhen(In.AOperation === 9.U){
+
+        // sw rd, rs1
+
         io.MemPort.Enable := true.B
         io.MemPort.WriteEn := true.B
 
@@ -191,9 +196,12 @@ class ExecuteStage extends Module {
               io.MemPort.Address := ALUOutReg
             }
           }
+        }.otherwise{
+          io.MemPort.Address := io.x(In.rs1)
         }
 
         io.MemPort.WriteData := rd
+        //io.MemPort.Address := rs1
 
         WritebackMode := Nil
 
@@ -241,7 +249,6 @@ class ExecuteStage extends Module {
     }
     is(2.U){
       io.MemPort.Address := In.MemAddress
-      //io.MemPort.WriteData := io.x(In.rd)
       io.MemPort.WriteData := rd
       io.MemPort.Enable := true.B
       io.MemPort.WriteEn := In.MemOp
@@ -263,9 +270,6 @@ class ExecuteStage extends Module {
       WritebackRegister := In.rd
     }
     is(3.U){
-      //BranchComp.io.rs2 := io.x(In.rs2)
-      //BranchComp.io.rs1 := io.x(In.rs1)
-
       BranchComp.io.rs2 := rs2
       BranchComp.io.rs1 := rs1
 

@@ -2,7 +2,7 @@ import chisel3._
 import chiseltest._
 import org.scalatest.flatspec.AnyFlatSpec
 //import chiseltest.experimental.TestOptionBuilder._
-//import chiseltest.internal.WriteVcdAnnotation
+//import chiseltest.internal.WriteVcdAnnotation._
 import org.scalatest.FlatSpec
 import Sounds._
 

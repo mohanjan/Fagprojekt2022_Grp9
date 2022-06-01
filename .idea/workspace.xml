@@ -4,11 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51bae164-994b-4153-bed7-62d60b20bb19" name="Default Changelist" comment="changed instructionmemory">
+    <list default="true" id="51bae164-994b-4153-bed7-62d60b20bb19" name="Default Changelist" comment="fixed ALU bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DSP.fir" beforeDir="false" afterPath="$PROJECT_DIR$/DSP.fir" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DSP.v" beforeDir="false" afterPath="$PROJECT_DIR$/DSP.v" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/ALU.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/ALU.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MachineCode.mem" beforeDir="false" afterPath="$PROJECT_DIR$/MachineCode.mem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program_Assembly.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program_Assembly.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program_PreAssembly.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program_PreAssembly.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/ExecuteStage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/ExecuteStage.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/MemoryController.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/MemoryController.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/scala/SampleTest_Verilator.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/SampleTest_Verilator.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_run_dir/DSP_should_play/DSP.lo.fir" beforeDir="false" afterPath="$PROJECT_DIR$/test_run_dir/DSP_should_play/DSP.lo.fir" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_run_dir/test_should_pass/DSP.lo.fir" beforeDir="false" afterPath="$PROJECT_DIR$/test_run_dir/test_should_pass/DSP.lo.fir" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_run_dir/test_should_pass/DSP.vcd" beforeDir="false" afterPath="$PROJECT_DIR$/test_run_dir/test_should_pass/DSP.vcd" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,7 +194,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653689538632</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="fixed ALU bug">
+      <created>1653734228207</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1653734228207</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -222,6 +238,7 @@
     <MESSAGE value="Added verilator tester" />
     <MESSAGE value="small changes" />
     <MESSAGE value="changed instructionmemory" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed instructionmemory" />
+    <MESSAGE value="fixed ALU bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed ALU bug" />
   </component>
 </project>

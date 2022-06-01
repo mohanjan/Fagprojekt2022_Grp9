@@ -35,8 +35,6 @@ class MemoryController(Count: Int) extends Module {
     val Drive = Output(Bool())
   })
 
-
-
   // Register and state machine definitions.
 
   val DataReg = RegInit(0.U(16.W))

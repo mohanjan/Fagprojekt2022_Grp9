@@ -1,7 +1,5 @@
-li x4, 6 //.main:
-mult x5, x2, x4
-add x5, x5, x4
-li x4, 1
-srl x5, x5, x4
-or x5, x5, x4
+li x4, 392 //.main:
+lui x4, 9
+li x5, 69
+sw x5, x4, x0
 li x1, .main
