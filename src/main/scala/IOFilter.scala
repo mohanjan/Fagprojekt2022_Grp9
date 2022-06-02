@@ -16,14 +16,15 @@ class IOFilter(filterLength: Int) extends Module {
 
 
   //Wire definitions
-
   val FIRInput = Wire(SInt())
   val CoeffCount = Wire(UInt())
   val SampleAdress = Wire(UInt())
 
+  //test wires
+  val Fircomputation = Wire(SInt())
+
 
   // Memory definitions
-
   val InputSampleMemory = SyncReadMem(2048, SInt(18.W))
   val OutputSampleMemory = SyncReadMem(2048, SInt(18.W))
   val CoeffMemory = SyncReadMem(1024, SInt(18.W))
@@ -32,14 +33,14 @@ class IOFilter(filterLength: Int) extends Module {
   val MAccReg = Reg(SInt(36.W))
 
   val CountMax = (filterLength-1).U
-  val HalfCount = ((filterLength+2-1)/2-1).U
+  val HalfCount = ((filterLength-1)>>2-1).U
   val SampleCount = Reg(UInt(11.W))
 
   val InputSamplePointer = Reg(UInt(11.W))
   val OutputSamplePointer = Reg(UInt(11.W))
 
-  // Defaults
 
+  // Defaults
   io.WaveOut := OutputReg
   io.Completed := false.B
   SampleCount:=0.U
@@ -51,11 +52,18 @@ class IOFilter(filterLength: Int) extends Module {
   }
 
 
+  //FIR filtering
+  //todo make sure that the timing of coeffMemory is ok
+  //todo below something is UInt instead of Int (:
+  //note first filterlength of samples are garbage, but since they are gone in a split second it is fine
+  Fircomputation:=MAccReg + CoeffMemory.read(CoeffCount)*FIRInput
+  MAccReg:=Fircomputation
+
   //Counter
 
   //output state:
   when(SampleCount === CountMax){
-    OutputReg:=(MAccReg >> 17.U) & 131.071.U //bitshift and mask aka bit extract
+    OutputReg:=(MAccReg >> 17).asSInt & 131071.S //bitshift and mask aka bit extract
     SampleCount:=0.U
     MAccReg:=0.S
 
@@ -84,7 +92,7 @@ class IOFilter(filterLength: Int) extends Module {
     when(OutputSamplePointer+SampleCount<CountMax) {
       SampleAdress := OutputSamplePointer + SampleCount
     }.otherwise{
-      SampleAdress := OutputSamplePointer+SampleCount-CountMax
+      SampleAdress := OutputSamplePointer+SampleCount-CountMax //måske ineffektiv
     }
 
     //sample pointer
@@ -95,8 +103,8 @@ class IOFilter(filterLength: Int) extends Module {
     }
 
     //sample handling
-    //todo check this out
     when(SampleCount===1.U){
+      //todo fix wraparound bug
       OutputSampleMemory.write(OutputSamplePointer-1.U,io.WaveIn)
     }
 
@@ -107,7 +115,7 @@ class IOFilter(filterLength: Int) extends Module {
     }
 
 
-  //Input mode
+    //Input mode
   }.otherwise{
 
     when(SampleCount===0.U){
@@ -128,17 +136,13 @@ class IOFilter(filterLength: Int) extends Module {
     }.elsewhen(SampleCount===0.U){
       InputSamplePointer:=0.U
     }
+
     //sample handling
     when(io.Enable & SampleCount===0.U){
-      OutputSampleMemory.write(OutputSamplePointer-1.U,io.WaveIn)
+      InputSampleMemory.write(InputSamplePointer-1.U,io.WaveIn)
     }
   }
 
-
-  //FIR filtering
-  //todo make sure that the timing of  coeffMemory is ok
-  //todo below something is UInt instead of Int (:
-  MAccReg:=MAccReg + CoeffMemory.read(CoeffCount)*FIRInput     //note first filterlength of samples are garbage, but since they are gone in a split second it is fine
 
 
 
