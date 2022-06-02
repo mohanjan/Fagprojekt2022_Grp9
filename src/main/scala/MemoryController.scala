@@ -60,7 +60,7 @@ class MemoryController(Count: Int) extends Module {
   val WriteDataReg = RegInit(0.U(16.W))
   val AddressReg = RegInit(0.U(24.W))
 
-  val SPI_mode = RegInit(1.U(1.W))
+  val SPI_mode = RegInit(0.U(1.W))
 
   // Clock stuff
 

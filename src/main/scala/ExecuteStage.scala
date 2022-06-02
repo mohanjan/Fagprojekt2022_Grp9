@@ -2,10 +2,6 @@ import chisel3._
 import chisel3.util._
 import Core._
 
-// TODO Pipeline stall
-
-// TODO Data hazard detection
-
 class ExecuteStage extends Module {
   val io = IO(new Bundle {
     val x = Input(Vec(16,UInt(18.W)))

@@ -5,6 +5,47 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51bae164-994b-4153-bed7-62d60b20bb19" name="Default Changelist" comment="fixed ALU bug">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__com_github_nscala_time_nscala_time_2_13_2_22_0_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_github_nscala_time_nscala_time_2_13_2_22_0_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__com_github_scopt_scopt_2_13_3_7_1_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_github_scopt_scopt_2_13_3_7_1_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__com_google_protobuf_protobuf_java_3_18_0_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_google_protobuf_protobuf_java_3_18_0_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__com_lihaoyi_geny_2_13_0_7_0_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_lihaoyi_geny_2_13_0_7_0_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__com_lihaoyi_os_lib_2_13_0_8_0_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_lihaoyi_os_lib_2_13_0_8_0_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__com_lihaoyi_utest_2_13_0_7_9_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_lihaoyi_utest_2_13_0_7_9_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__com_thoughtworks_paranamer_paranamer_2_8_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_thoughtworks_paranamer_paranamer_2_8_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__edu_berkeley_cs_chisel3_2_13_3_5_1_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__edu_berkeley_cs_chisel3_2_13_3_5_1_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__edu_berkeley_cs_chisel3_core_2_13_3_5_1_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__edu_berkeley_cs_chisel3_core_2_13_3_5_1_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__edu_berkeley_cs_chisel3_macros_2_13_3_5_1_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__edu_berkeley_cs_chisel3_macros_2_13_3_5_1_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__edu_berkeley_cs_chiseltest_2_13_0_5_1_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__edu_berkeley_cs_chiseltest_2_13_0_5_1_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__edu_berkeley_cs_firrtl_2_13_1_5_1_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__edu_berkeley_cs_firrtl_2_13_1_5_1_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__edu_berkeley_cs_treadle_2_13_1_5_1_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__edu_berkeley_cs_treadle_2_13_1_5_1_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__io_github_alexarchambault_data_class_2_13_0_2_5_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__io_github_alexarchambault_data_class_2_13_0_2_5_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__joda_time_joda_time_2_10_1_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__joda_time_joda_time_2_10_1_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__net_java_dev_jna_jna_5_10_0_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__net_java_dev_jna_jna_5_10_0_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__net_jcazevedo_moultingyaml_2_13_0_4_2_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__net_jcazevedo_moultingyaml_2_13_0_4_2_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_antlr_antlr4_runtime_4_9_3_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_antlr_antlr4_runtime_4_9_3_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_apache_commons_commons_lang3_3_11_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_apache_commons_commons_lang3_3_11_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_apache_commons_commons_text_1_9_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_apache_commons_commons_text_1_9_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_fusesource_jansi_jansi_1_11_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_fusesource_jansi_jansi_1_11_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_joda_joda_convert_2_2_0_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_joda_joda_convert_2_2_0_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_json4s_json4s_ast_2_13_3_6_12_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_json4s_json4s_ast_2_13_3_6_12_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_json4s_json4s_core_2_13_3_6_12_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_json4s_json4s_core_2_13_3_6_12_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_json4s_json4s_native_2_13_3_6_12_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_json4s_json4s_native_2_13_3_6_12_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_json4s_json4s_scalap_2_13_3_6_12_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_json4s_json4s_scalap_2_13_3_6_12_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_portable_scala_portable_scala_reflect_2_13_0_1_1_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_portable_scala_portable_scala_reflect_2_13_0_1_1_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_modules_scala_jline_2_12_1_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_modules_scala_jline_2_12_1_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_modules_scala_parallel_collections_2_13_1_0_4_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_modules_scala_parallel_collections_2_13_1_0_4_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_modules_scala_xml_2_13_1_2_0_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_modules_scala_xml_2_13_1_2_0_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_scala_library_2_13_8_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_scala_library_2_13_8_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_scala_reflect_2_13_8_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_scala_reflect_2_13_8_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_sbt_test_interface_1_0_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_sbt_test_interface_1_0_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_scalactic_scalactic_2_13_3_1_4_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_scalactic_scalactic_2_13_3_1_4_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_scalatest_scalatest_2_13_3_1_4_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_scalatest_scalatest_2_13_3_1_4_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_yaml_snakeyaml_1_26_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_yaml_snakeyaml_1_26_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/%NAME%-build.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/%NAME%-build.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/%NAME%.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/%NAME%.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sbt.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sbt.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/scala_compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/scala_compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DSP.fir" beforeDir="false" afterPath="$PROJECT_DIR$/DSP.fir" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DSP.v" beforeDir="false" afterPath="$PROJECT_DIR$/DSP.v" afterDir="false" />
@@ -12,9 +53,9 @@
       <change beforePath="$PROJECT_DIR$/Program.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Program_Assembly.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program_Assembly.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Program_PreAssembly.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program_PreAssembly.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/DataMemory.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/DataMemory.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/ExecuteStage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/ExecuteStage.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/MemoryController.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/MemoryController.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/scala/SampleTest_Verilator.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/SampleTest_Verilator.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_run_dir/DSP_should_play/DSP.lo.fir" beforeDir="false" afterPath="$PROJECT_DIR$/test_run_dir/DSP_should_play/DSP.lo.fir" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_run_dir/test_should_pass/DSP.lo.fir" beforeDir="false" afterPath="$PROJECT_DIR$/test_run_dir/test_should_pass/DSP.lo.fir" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_run_dir/test_should_pass/DSP.vcd" beforeDir="false" afterPath="$PROJECT_DIR$/test_run_dir/test_should_pass/DSP.vcd" afterDir="false" />
@@ -50,8 +91,11 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectCodeStyleSettingsMigration">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="ProjectId" id="27q2cQUyDs4x7CdqFHXgeia8mch" />
   <component name="ProjectViewState">
@@ -71,12 +115,13 @@
     <configuration name="SampleTest" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
       <module name="%NAME%" />
       <option name="allowRunningInParallel" value="false" />
+      <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
       </option>
       <option name="testKind" value="Class" />
       <option name="testClassPath" value="SampleTest" />
-      <option name="workingDirectory" value="C:\Users\Karl\Documents\GitHub\Fagprojekt2022_Grp9" />
+      <option name="workingDirectory" value="C:$PROJECT_DIR$/../../../../Karl/Documents/GitHub/Fagprojekt2022_Grp9" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -224,7 +269,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="changed IS, updated assembler, added SPI RAM controller" />

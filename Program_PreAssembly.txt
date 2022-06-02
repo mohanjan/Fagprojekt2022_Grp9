@@ -2,4 +2,12 @@ li x4, 392 //.main:
 lui x4, 9
 li x5, 69
 sw x5, x4, x0
+li x4, 416
+lui x4, 7
+li x5, 392
+lui x5, 9
+sw x5, x4, x0
 li x1, .main
+
+
+

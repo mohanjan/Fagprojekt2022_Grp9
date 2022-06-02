@@ -19,7 +19,7 @@ class DataMemory(Memports: Int) extends Module {
   // Module Definitions
 
   val Memory = SyncReadMem(2048, UInt(18.W))
-  val ExternalMemory = Module(new MemoryController(1))
+  val ExternalMemory = Module(new MemoryController(0))
 
   // Defaults
 
