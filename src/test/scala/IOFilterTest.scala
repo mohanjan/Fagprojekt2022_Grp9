@@ -3,10 +3,11 @@ import chiseltest._
 import org.scalatest.flatspec.AnyFlatSpec
 
 class IOFilterTest extends AnyFlatSpec with ChiselScalatestTester {
-  "test " should "pass" in {
+  "IOtest " should "pass" in {
     test(new IOFilter(5)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
 
       //Load coeff
+      dut.io.Enable.poke(0.U)
       dut.io.Coeffdata.poke(0.S)
       dut.io.CoeffAdress.poke(0.U)
       dut.io.CoeffLoadEN.poke(true.B)
@@ -23,12 +24,13 @@ class IOFilterTest extends AnyFlatSpec with ChiselScalatestTester {
       dut.io.CoeffAdress.poke(4.U)
       dut.io.Coeffdata.poke(4.S)
       dut.clock.step()
-      dut.io.CoeffLoadEN.poke(false.B) //input samples
+      dut.io.CoeffLoadEN.poke(false.B)
+      //input samples
       dut.io.WaveIn.poke(0.S)       //testing inputmemory
       dut.io.SampleType.poke(0.U)
-      dut.io.Enable(true.B)            //start conv
+      dut.io.Enable.poke(true.B)            //start conv
       dut.clock.step()
-      dut.io.Enable(0.U)            //check enable switch while convolving
+      dut.io.Enable.poke(0.U)            //check enable switch while convolving
       dut.clock.step()
       dut.io.WaveIn.poke(55.S)      //check inputdata switch while convolving
       dut.clock.step()

@@ -20,6 +20,8 @@ class IOFilter(filterLength: Int) extends Module {
   val FIRInput = Wire(SInt())
   val CoeffCount = Wire(UInt())
   val SampleAdress = Wire(UInt())
+
+
   // Memory definitions
 
   val InputSampleMemory = SyncReadMem(2048, SInt(18.W))
@@ -30,6 +32,7 @@ class IOFilter(filterLength: Int) extends Module {
   val MAccReg = Reg(SInt(36.W))
 
   val CountMax = (filterLength-1).U
+  val HalfCount = ((filterLength+2-1)/2-1).U
   val SampleCount = Reg(UInt(11.W))
 
   val InputSamplePointer = Reg(UInt(11.W))
@@ -52,17 +55,17 @@ class IOFilter(filterLength: Int) extends Module {
 
   //output state:
   when(SampleCount === CountMax){
-    OutputReg:=MAccReg << 18.U
+    OutputReg:=(MAccReg >> 17.U) & 131.071.U //bitshift and mask aka bit extract
     SampleCount:=0.U
     MAccReg:=0.S
 
     //CountUp state:
-  }.elsewhen(SampleCount > 0.U | io.Enable){
+  }.elsewhen((SampleCount > 0.U) | io.Enable){
     SampleCount := SampleCount+1.U
     CoeffCount := SampleCount
 
     //CountDown state:
-  }.elsewhen(SampleCount > CountMax < 1.U){
+  }.elsewhen(SampleCount > HalfCount){
     SampleCount:=SampleCount+1.U
     CoeffCount := CountMax-SampleCount
 
