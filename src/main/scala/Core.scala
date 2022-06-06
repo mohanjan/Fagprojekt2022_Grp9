@@ -17,9 +17,6 @@ class Core() extends Module {
     val WaveIn = Input(UInt(16.W))
     val WaveOut = Output(UInt(16.W))
 
-    val Stall = Input(Bool())
-    val ProgramLength = Input(UInt(10.W))
-
     val MemPort = new MemPort
   })
 
@@ -56,7 +53,9 @@ class Core() extends Module {
   FetchStage.In.PC := x(1)
   FetchStage.io.Stall := ExecuteStage.io.Stall
 
-  when(!ExecuteStage.io.Stall){
+  
+
+  when(!ExecuteStage.io.Stall && !DecodeStage.io.MiniStall){
     x(1) := x(1) + 1.U
   }
 

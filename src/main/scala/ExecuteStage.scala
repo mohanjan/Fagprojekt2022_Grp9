@@ -64,6 +64,9 @@ class ExecuteStage extends Module {
   val rs2 = Wire(UInt(18.W))
   val rd = Wire(UInt(18.W))
 
+  val swStall = RegInit(0.U(1.W))
+  val lwStall = RegInit(0.U(1.W))
+
   // Data hazard protection
 
   rs1 := io.x(In.rs1)
@@ -130,6 +133,7 @@ class ExecuteStage extends Module {
 
   // Logic
 
+  
   switch(In.Type){
     is(0.U){
       when(In.AOperation <= 7.U){
@@ -176,7 +180,7 @@ class ExecuteStage extends Module {
       }.elsewhen(In.AOperation === 9.U){
 
         // sw rd, rs1
-
+ 
         io.MemPort.Enable := true.B
         io.MemPort.WriteEn := true.B
 

@@ -69,7 +69,8 @@ class DataMemory(Memports: Int) extends Module {
       }.otherwise{
         io.MemPort(Producer).ReadData := ReadWritePort
       }
-    }.elsewhen(io.MemPort(Producer).Address <= 2175.U){ // Fir Registers
+
+    }.elsewhen(io.MemPort(Producer).Address <= 2175.U){ // FIR Registers
       io.Registers.Address := (io.MemPort(Producer).Address - 2175.U)(5,0)
       io.Registers.WriteEn := true.B
       io.MemPort(Producer).Completed := true.B
@@ -79,6 +80,7 @@ class DataMemory(Memports: Int) extends Module {
       }.otherwise{
         io.MemPort(Producer).ReadData := io.Registers.ReadData
       }
+
     }.otherwise{ // External Memory
       ExternalMemory.io.Address := io.MemPort(Producer).Address
 
@@ -96,6 +98,7 @@ class DataMemory(Memports: Int) extends Module {
 
         io.MemPort(Producer).Completed := ExternalMemory.io.Completed
         io.MemPort(Producer).ReadData := ExternalMemory.io.ReadData
+        
       }
     }
   }

@@ -5,6 +5,7 @@ class DecodeStage extends Module {
   val io = IO(new Bundle{
     val Clear = Input(Bool())
     val Stall = Input(Bool())
+    val MiniStall = Output(Bool())
   })
   val In = IO(new Bundle {
     val Instruction = Input(UInt(18.W))
@@ -24,6 +25,8 @@ class DecodeStage extends Module {
   })
 
   // Init
+
+  io.MiniStall := false.B
 
   val InstDec = Module(new InstuctionDecoder())
 
@@ -117,4 +120,14 @@ class DecodeStage extends Module {
     Out.COperation := 0.U
     Out.COffset := 0.S
   }
+
+
+  
+
+  // Inserts bubble in pipeline in case of memory access. 
+
+  when(InstDec.io.AOperation === 8.U || InstDec.io.AOperation === 9.U){
+    io.MiniStall := true.B
+  }
+  
 }

@@ -42,9 +42,6 @@ class SubDSP extends Module {
 
   // Interconnections
 
-  Core.io.Stall := false.B
-  Core.io.ProgramLength := 0.U
-
   Core.io.MemPort <> DataMemory.io.MemPort(0)
 
   FirEngine.io.Registers <> DataMemory.io.Registers

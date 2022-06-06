@@ -64,7 +64,7 @@ class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
       //playArray(outSamples)      
       //stopPlayer
 
-      saveArray(outSamples, "sample_distortion_out.wav")
+      saveArray(outSamples, "sample_out.wav")
     }
   }
 }
