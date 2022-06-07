@@ -4,29 +4,38 @@ import chisel3.util._
 
 class OutController(bufferWidth: Int) extends Module {
   val io = IO(new Bundle {
-    val In = Input(UInt(16.W))
-    val In_FIR = Input(UInt(16.W)) //input from FIR filter
+    val In    = Input(UInt(16.W))
+    val InFIR = Input(UInt(16.W)) // input from FIR filter
 
-    val c_in = Input(Bool())//oversampling clock in
-    val Out_FIR = Output(UInt(16.W)) // output from interpolator to FIR
-    val Out_PWM = Output(UInt(16.W)) //
+    val OutFIR = Output(UInt(16.W)) // output from interpolator to FIR
+    val OutPWM = Output(UInt(1.W))  //
 
   })
-/*
-val interpolate_reg = RegInit(0.U(4.W))
-  when(io.c_in){
-    interpolate_reg = interpolate_reg + 1
+
+  val scale = 5.U
+  val ZReg  = RegInit(0.U(bufferWidth.W))
+  val Diff  = Wire(UInt(16.W))
+  val ZIn   = Wire(UInt(16.W))
+  val DDC   = WireDefault(32.U(bufferWidth.W))
+
+  val cntReg = RegInit(0.U(3.W))
+  cntReg := cntReg + 1.U
+  val tick = cntReg === 0.U
+
+  when(cntReg === scale) {
+    cntReg := 0.U
   }
 
-  when(interpolate_reg===0){  //alternatively just build a mux
-    //connect wire from in to Out_FIR
-  //}else{
-    //connect wire from value 0 to Out_FIR
-  }
-//interpolation -> OUT_FIR
-*/
+  Diff := io.InFIR - DDC
+  ZIn  := ZReg + Diff
+  ZReg := ZIn
+
+  DDC := Mux(io.OutPWM === 1.U, Fill(bufferWidth, 1.U), 0.U)
+  
+  io.OutFIR := Mux(tick, io.In, 0.U)
+  io.OutPWM := ZReg(bufferWidth - 1)
+
 //shared FIR filter with IN controller
-
 
   //            SIGMA BALLS
   // step 0: declare different components
@@ -36,9 +45,5 @@ val interpolate_reg = RegInit(0.U(4.W))
   // step 4: connect wire from ALU_2 to OUT_PWM (MSB), same wire to DDC. This signal goes to the pin connector, then it is sent to an analog Integrator outside the chip
   // step 5: DDC is a 16 bit NOR connector
   // step 6: dab on the haters
-
-
-
-
 
 }
