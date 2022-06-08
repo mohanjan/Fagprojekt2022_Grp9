@@ -16,7 +16,7 @@ $EndDescr
 Wire Wire Line
 	4000 2450 3850 2450
 Text GLabel 4000 2450 2    50   Input ~ 0
-DAC_R2R_out
+DAC_D_out
 Wire Wire Line
 	1300 3400 1850 3400
 Wire Wire Line
@@ -73,7 +73,7 @@ AR Path="/6243F7CD" Ref="J?"  Part="1"
 AR Path="/6242AFE6/6243F7CD" Ref="J1"  Part="1" 
 F 0 "J1" H 1208 3889 50  0000 C CNN
 F 1 "Conn_01x12_Male" H 1208 3890 50  0001 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_2x06_P2.54mm_Vertical" H 1100 3300 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_2x06_P2.54mm_Horizontal" H 1100 3300 50  0001 C CNN
 F 3 "~" H 1100 3300 50  0001 C CNN
 	1    1100 3300
 	1    0    0    1   
@@ -99,7 +99,29 @@ Connection ~ 1300 3550
 Wire Wire Line
 	1300 3550 1300 3600
 Wire Wire Line
+	1300 3700 1300 3750
+$Comp
+L power:VCC #PWR?
+U 1 1 6243F7DE
+P 1350 3750
+AR Path="/6243F7DE" Ref="#PWR?"  Part="1" 
+AR Path="/6242AFE6/6243F7DE" Ref="#PWR02"  Part="1" 
+F 0 "#PWR02" H 1350 3600 50  0001 C CNN
+F 1 "VCC" V 1367 3878 50  0000 L CNN
+F 2 "" H 1350 3750 50  0001 C CNN
+F 3 "" H 1350 3750 50  0001 C CNN
+	1    1350 3750
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1350 3750 1300 3750
+Connection ~ 1300 3750
+Wire Wire Line
+	1300 3750 1300 3800
+Wire Wire Line
 	1850 5400 1850 3400
+Text Notes 3100 3300 0    50   ~ 0
+3R?\n
 Wire Wire Line
 	2500 2350 2500 2400
 Connection ~ 2500 2350
@@ -203,7 +225,7 @@ P 3150 2800
 AR Path="/6243F824" Ref="C?"  Part="1" 
 AR Path="/6242AFE6/6243F824" Ref="C1"  Part="1" 
 F 0 "C1" V 2921 2800 50  0000 C CNN
-F 1 "100n" V 3012 2800 50  0000 C CNN
+F 1 "100" V 3012 2800 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3150 2800 50  0001 C CNN
 F 3 "~" H 3150 2800 50  0001 C CNN
 	1    3150 2800
@@ -519,104 +541,36 @@ F 3 "~" H 2500 2900 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3300 1850 3250 1850
+	3300 1650 3250 1650
 $Comp
 L power:GND #PWR?
 U 1 1 624B4305
-P 3300 1850
+P 3300 1650
 AR Path="/624B4305" Ref="#PWR?"  Part="1" 
-AR Path="/6242AFE6/624B4305" Ref="#PWR026"  Part="1" 
-F 0 "#PWR026" H 3300 1600 50  0001 C CNN
-F 1 "GND" V 3305 1722 50  0000 R CNN
-F 2 "" H 3300 1850 50  0001 C CNN
-F 3 "" H 3300 1850 50  0001 C CNN
-	1    3300 1850
+AR Path="/6242AFE6/624B4305" Ref="#PWR?"  Part="1" 
+F 0 "#PWR?" H 3300 1400 50  0001 C CNN
+F 1 "GND" V 3305 1522 50  0000 R CNN
+F 2 "" H 3300 1650 50  0001 C CNN
+F 3 "" H 3300 1650 50  0001 C CNN
+	1    3300 1650
 	0    -1   -1   0   
 $EndComp
 Wire Wire Line
-	3050 1850 3050 1800
-Connection ~ 3050 1850
+	3050 1650 3050 1600
+Connection ~ 3050 1650
+Wire Wire Line
+	3050 1700 3050 1650
 $Comp
 L Device:C_Small C?
 U 1 1 624B430E
-P 3150 1850
+P 3150 1650
 AR Path="/624B430E" Ref="C?"  Part="1" 
-AR Path="/6242AFE6/624B430E" Ref="C15"  Part="1" 
-F 0 "C15" V 2921 1850 50  0000 C CNN
-F 1 "100" V 3012 1850 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3150 1850 50  0001 C CNN
-F 3 "~" H 3150 1850 50  0001 C CNN
-	1    3150 1850
-	0    1    1    0   
-$EndComp
-$Comp
-L Amplifier_Operational:TL072 U?
-U 2 1 624F45B4
-P 3150 2450
-AR Path="/62428AF7/624F45B4" Ref="U?"  Part="2" 
-AR Path="/6242AFE6/624F45B4" Ref="U2"  Part="2" 
-F 0 "U2" H 3150 2817 50  0000 C CNN
-F 1 "TL072" H 3150 2726 50  0000 C CNN
-F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 3150 2450 50  0001 C CNN
-F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 3150 2450 50  0001 C CNN
-	2    3150 2450
-	1    0    0    -1  
-$EndComp
-$Comp
-L Amplifier_Operational:TL072 U?
-U 3 1 624FA022
-P 3150 2450
-AR Path="/62428AF7/624FA022" Ref="U?"  Part="3" 
-AR Path="/6242AFE6/624FA022" Ref="U2"  Part="3" 
-F 0 "U2" H 3108 2496 50  0001 L CNN
-F 1 "TL072" H 3108 2405 50  0001 L CNN
-F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 3150 2450 50  0001 C CNN
-F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 3150 2450 50  0001 C CNN
-	3    3150 2450
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3050 1850 3050 2150
-$Comp
-L power:+12V #PWR015
-U 1 1 62501996
-P 3050 1800
-F 0 "#PWR015" H 3050 1650 50  0001 C CNN
-F 1 "+12V" H 3065 1973 50  0000 C CNN
-F 2 "" H 3050 1800 50  0001 C CNN
-F 3 "" H 3050 1800 50  0001 C CNN
-	1    3050 1800
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:-12V #PWR016
-U 1 1 62502338
-P 3050 2850
-F 0 "#PWR016" H 3050 2950 50  0001 C CNN
-F 1 "-12V" H 3065 3023 50  0000 C CNN
-F 2 "" H 3050 2850 50  0001 C CNN
-F 3 "" H 3050 2850 50  0001 C CNN
-	1    3050 2850
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	1300 3750 1300 3800
-Wire Wire Line
-	1300 3700 1300 3750
-Connection ~ 1300 3750
-Wire Wire Line
-	1350 3750 1300 3750
-$Comp
-L power:VCC #PWR?
-U 1 1 6243F7DE
-P 1350 3750
-AR Path="/6243F7DE" Ref="#PWR?"  Part="1" 
-AR Path="/6242AFE6/6243F7DE" Ref="#PWR02"  Part="1" 
-F 0 "#PWR02" H 1350 3600 50  0001 C CNN
-F 1 "VCC" V 1367 3878 50  0000 L CNN
-F 2 "" H 1350 3750 50  0001 C CNN
-F 3 "" H 1350 3750 50  0001 C CNN
-	1    1350 3750
-	0    1    1    0   
+AR Path="/6242AFE6/624B430E" Ref="C?"  Part="1" 
+F 0 "C?" V 2921 1650 50  0000 C CNN
+F 1 "100" V 3012 1650 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3150 1650 50  0001 C CNN
+F 3 "~" H 3150 1650 50  0001 C CNN
+	1    3150 1650
+	0    -1   -1   0   
 $EndComp
 $EndSCHEMATC

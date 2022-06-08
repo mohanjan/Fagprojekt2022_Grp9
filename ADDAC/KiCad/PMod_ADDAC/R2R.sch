@@ -203,7 +203,7 @@ P 3150 2800
 AR Path="/6243F824" Ref="C?"  Part="1" 
 AR Path="/6242AFE6/6243F824" Ref="C1"  Part="1" 
 F 0 "C1" V 2921 2800 50  0000 C CNN
-F 1 "100" V 3012 2800 50  0000 C CNN
+F 1 "100n" V 3012 2800 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3150 2800 50  0001 C CNN
 F 3 "~" H 3150 2800 50  0001 C CNN
 	1    3150 2800
@@ -518,8 +518,6 @@ F 3 "~" H 2500 2900 50  0001 C CNN
 	1    2500 2900
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	3300 1850 3250 1850
 $Comp
 L power:GND #PWR?
 U 1 1 624B4305
@@ -532,22 +530,6 @@ F 2 "" H 3300 1850 50  0001 C CNN
 F 3 "" H 3300 1850 50  0001 C CNN
 	1    3300 1850
 	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	3050 1850 3050 1800
-Connection ~ 3050 1850
-$Comp
-L Device:C_Small C?
-U 1 1 624B430E
-P 3150 1850
-AR Path="/624B430E" Ref="C?"  Part="1" 
-AR Path="/6242AFE6/624B430E" Ref="C15"  Part="1" 
-F 0 "C15" V 2921 1850 50  0000 C CNN
-F 1 "100" V 3012 1850 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3150 1850 50  0001 C CNN
-F 3 "~" H 3150 1850 50  0001 C CNN
-	1    3150 1850
-	0    1    1    0   
 $EndComp
 $Comp
 L Amplifier_Operational:TL072 U?
@@ -575,8 +557,6 @@ F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 3150 2450 50  0001 C CNN
 	3    3150 2450
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	3050 1850 3050 2150
 $Comp
 L power:+12V #PWR015
 U 1 1 62501996
@@ -619,4 +599,24 @@ F 3 "" H 1350 3750 50  0001 C CNN
 	1    1350 3750
 	0    1    1    0   
 $EndComp
+Connection ~ 3050 1850
+Wire Wire Line
+	3050 1850 3050 2150
+Wire Wire Line
+	3050 1850 3050 1800
+$Comp
+L Device:C_Small C?
+U 1 1 624B430E
+P 3150 1850
+AR Path="/624B430E" Ref="C?"  Part="1" 
+AR Path="/6242AFE6/624B430E" Ref="C15"  Part="1" 
+F 0 "C15" V 2921 1850 50  0000 C CNN
+F 1 "100n" V 3012 1850 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3150 1850 50  0001 C CNN
+F 3 "~" H 3150 1850 50  0001 C CNN
+	1    3150 1850
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3300 1850 3250 1850
 $EndSCHEMATC
