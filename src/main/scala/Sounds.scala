@@ -109,16 +109,4 @@ object Sounds {
     sdl.drain()
   	println("drained")
   }
-
-
-}
-
-object PlaySounds extends App {
-  val samples = getSamples
-  startPlayer
-
-  for (s <- samples) {
-    play(s)
-  }
-  stopPlayer
 }

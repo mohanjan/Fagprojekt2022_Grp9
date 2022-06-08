@@ -1,7 +1,8 @@
 import chisel3._
 import chisel3.util._
+import chisel3.experimental._
 
-class FetchStage extends Module {
+class FetchStage(Program: String) extends Module {
   val io = IO(new Bundle{
     val Stall = Input(Bool())
     val Clear = Input(Bool())
@@ -18,7 +19,10 @@ class FetchStage extends Module {
   val ClearDelay = RegNext(io.Clear)
 
   //val OutputReg = RegInit(0.U(18.W))
-  val InstructionMem = Module(new InstuctionMemory("MachineCode.mem"))
+  val InstructionMem = Module(new InstuctionMemory(Program))
+
+  doNotDedup(InstructionMem)
+
 
   InstructionMem.io.Address := 0.U
   InstructionMem.io.DataIn := 0.U

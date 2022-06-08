@@ -305,7 +305,7 @@ class MemoryController(Count: Int) extends Module {
           ClockEn := true.B
           SPI.Drive := true.B
 
-          SPI.SI(1) := WriteDataReg(CntReg)
+          SPI.SI(1) := WriteDataReg(15.U - CntReg)
 
           when(NextStateInv){
             CntReg := CntReg + 1.U

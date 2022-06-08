@@ -68,9 +68,9 @@ blt rs1, rs2, offset
 
 x0 = 0.U hardcoded 
 x1 = Program Counter    
-x2 = Stack pointer
-x3 = Input 
-x4 = Output
+x2 = Input
+x3 = Output 
+x4 = Temp
 x5 = Temp 
 x6 = Temp 
 x7 = Temp 

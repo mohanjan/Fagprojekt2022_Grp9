@@ -1,5 +1,6 @@
 import chisel3._
-import chisel3.experimental.Analog
+//import chisel3.experimental.Analog
+import chisel3.experimental._
 import chisel3.util._
 
 class MemPort extends Bundle{
@@ -12,14 +13,15 @@ class MemPort extends Bundle{
   val Completed = Input(Bool())
 }
 
-class SubDSP extends Module {
+class SubDSP(Program: String) extends Module {
   val io = IO(new Bundle {
     val In = Input(UInt(16.W))
-    //val Stall = Input(Bool())
-    //val MasterWrite = Flipped(new MemPort)
 
     val Out = Output(UInt(16.W))
+    val SPIMemPort = new MemPort
   })
+
+  /*
   val SPI = IO(new Bundle{
     val SCLK = Output(Bool())
     val CE = Output(Bool())
@@ -27,12 +29,21 @@ class SubDSP extends Module {
     val SI = Output(Vec(4,Bool()))
     val Drive = Output(Bool())
   })
+  */
 
   // Single Core
 
-  val Core = Module(new Core())
+  val dedupBlock = WireInit(Program.hashCode.S)
+
+  val Core = Module(new Core(Program))
   val FirEngine = Module(new FirEngine())
   val DataMemory = Module(new DataMemory(2))
+
+  /*
+  doNotDedup(Core)
+  doNotDedup(FirEngine)
+  doNotDedup(DataMemory)
+  */
 
   // IO
 
@@ -49,5 +60,7 @@ class SubDSP extends Module {
   FirEngine.io.MemPort <> DataMemory.io.MemPort(1)
   FirEngine.io.WaveIn := 0.U
 
-  SPI <> DataMemory.SPI
+  io.SPIMemPort <> DataMemory.io.SPIMemPort
+
+  //SPI <> DataMemory.SPI
 }

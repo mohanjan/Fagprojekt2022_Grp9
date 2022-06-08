@@ -12,7 +12,7 @@ object Core{
   val FirRead = 5.U
 }
 
-class Core() extends Module {
+class Core(Program: String) extends Module {
   val io = IO(new Bundle {
     val WaveIn = Input(UInt(16.W))
     val WaveOut = Output(UInt(16.W))
@@ -22,7 +22,7 @@ class Core() extends Module {
 
   // Init
 
-  val FetchStage = Module(new FetchStage)
+  val FetchStage = Module(new FetchStage(Program))
   val DecodeStage = Module(new DecodeStage)
   val ExecuteStage = Module(new ExecuteStage)
 
@@ -52,8 +52,6 @@ class Core() extends Module {
 
   FetchStage.In.PC := x(1)
   FetchStage.io.Stall := ExecuteStage.io.Stall
-
-  
 
   when(!ExecuteStage.io.Stall && !DecodeStage.io.MiniStall){
     x(1) := x(1) + 1.U
