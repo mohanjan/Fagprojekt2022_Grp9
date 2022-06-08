@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "PMod_ADDAC-rescue")(type "Legacy")(uri "${KIPRJMOD}/PMod_ADDAC-rescue.lib")(options "")(descr ""))
+)
