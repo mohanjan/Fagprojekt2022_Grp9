@@ -21,7 +21,10 @@ class IOFilter(filterLength: Int) extends Module {
   val SampleAdress = Wire(UInt())
 
   //test wires
-  val Fircomputation = Wire(SInt())
+  val Fircomputation36 = Wire(SInt())
+  val Fircomputation18 = Wire(SInt())
+  val Halfcountwire = Wire(UInt())
+  val maxcountwire = Wire(UInt())
 
 
   // Memory definitions
@@ -30,10 +33,10 @@ class IOFilter(filterLength: Int) extends Module {
   val CoeffMemory = SyncReadMem(1024, SInt(18.W))
 
   val OutputReg = Reg(SInt(18.W))
-  val MAccReg = Reg(SInt(36.W))
+  val MAccReg = Reg(SInt(18.W))
 
   val CountMax = (filterLength-1).U
-  val HalfCount = ((filterLength-1)>>2-1).U
+  val HalfCount = ((filterLength-1+1)>>1).U
   val SampleCount = Reg(UInt(11.W))
 
   val InputSamplePointer = Reg(UInt(11.W))
@@ -45,7 +48,8 @@ class IOFilter(filterLength: Int) extends Module {
   io.Completed := false.B
   SampleCount:=0.U
   CoeffCount := 0.U
-
+  Halfcountwire:=HalfCount
+  maxcountwire:=CountMax
   //TEMP COEFF MEMORY CONTROL
   when(io.CoeffLoadEN){
     CoeffMemory.write(io.CoeffAdress,io.Coeffdata)
@@ -53,29 +57,29 @@ class IOFilter(filterLength: Int) extends Module {
 
 
   //FIR filtering
-  //todo make sure that the timing of coeffMemory is ok
-  //todo below something is UInt instead of Int (:
+  //todo make sure that io.completed is high when data is ready
   //note first filterlength of samples are garbage, but since they are gone in a split second it is fine
-  Fircomputation:=MAccReg + CoeffMemory.read(CoeffCount)*FIRInput
-  MAccReg:=Fircomputation
+  Fircomputation36:= CoeffMemory.read(CoeffCount)*FIRInput
+  Fircomputation18:= ((Fircomputation36)>>17)(17,0).asSInt //bitshift
+  MAccReg:=MAccReg + Fircomputation18
 
   //Counter
 
   //output state:
-  when(SampleCount === CountMax){
-    OutputReg:=(MAccReg >> 17).asSInt & 131071.S //bitshift and mask aka bit extract
+  when(SampleCount === maxcountwire){
+    OutputReg:=MAccReg
     SampleCount:=0.U
     MAccReg:=0.S
 
     //CountUp state:
-  }.elsewhen((SampleCount > 0.U) | io.Enable){
+  }.elsewhen((SampleCount > 0.U) & (SampleCount <= Halfcountwire) | (io.Enable & SampleCount === 0.U)){
     SampleCount := SampleCount+1.U
     CoeffCount := SampleCount
 
     //CountDown state:
-  }.elsewhen(SampleCount > HalfCount){
+  }.elsewhen(SampleCount > Halfcountwire){
     SampleCount:=SampleCount+1.U
-    CoeffCount := CountMax-SampleCount
+    CoeffCount := maxcountwire-SampleCount
 
     //Ready state:
   }.otherwise{
@@ -89,30 +93,31 @@ class IOFilter(filterLength: Int) extends Module {
   //Output mode
   when(io.SampleType){
 
-    when(OutputSamplePointer+SampleCount<CountMax) {
+    when(OutputSamplePointer+SampleCount<maxcountwire) {
       SampleAdress := OutputSamplePointer + SampleCount
     }.otherwise{
-      SampleAdress := OutputSamplePointer+SampleCount-CountMax //måske ineffektiv
+      SampleAdress := OutputSamplePointer+SampleCount-maxcountwire //måske ineffektiv
     }
 
     //sample pointer
-    when(OutputSamplePointer<=CountMax & SampleCount===0.U & io.Enable){
+    when(OutputSamplePointer<=maxcountwire & SampleCount===0.U & io.Enable){
       OutputSamplePointer:=OutputSamplePointer + 1.U
     }.elsewhen(SampleCount===0.U & io.Enable){
       OutputSamplePointer:=0.U
     }
 
     //sample handling
-    when(SampleCount===1.U){
-      //todo fix wraparound bug
-      OutputSampleMemory.write(OutputSamplePointer-1.U,io.WaveIn)
-    }
-
     when(SampleCount===0.U){
       FIRInput:=io.WaveIn
+      when(OutputSamplePointer===0.U){
+        OutputSampleMemory.write(maxcountwire,io.WaveIn)
+      }.otherwise{
+        OutputSampleMemory.write(OutputSamplePointer-1.U,io.WaveIn)
+      }
     }.otherwise{
       FIRInput:=OutputSampleMemory.read(SampleAdress)
     }
+
 
 
     //Input mode
@@ -124,19 +129,30 @@ class IOFilter(filterLength: Int) extends Module {
       FIRInput:=InputSampleMemory.read(SampleAdress)
     }
 
-    when(InputSamplePointer+SampleCount<CountMax) {
+    when(InputSamplePointer+SampleCount<maxcountwire) {
       SampleAdress := InputSamplePointer + SampleCount
     }.otherwise{
-      SampleAdress := InputSamplePointer+SampleCount-CountMax
+      SampleAdress := InputSamplePointer+SampleCount-maxcountwire
     }
 
     //sample pointer
-    when(InputSamplePointer<=CountMax & SampleCount===0.U){
+    when(InputSamplePointer<maxcountwire & SampleCount===0.U & io.Enable){
       InputSamplePointer:=InputSamplePointer + 1.U
-    }.elsewhen(SampleCount===0.U){
+    }.elsewhen(SampleCount===0.U & io.Enable){
       InputSamplePointer:=0.U
     }
 
+    //sample handling
+    when(SampleCount===0.U){
+      FIRInput:=io.WaveIn
+      when(InputSamplePointer===0.U){
+        InputSampleMemory.write(maxcountwire,io.WaveIn)
+      }.otherwise{
+        InputSampleMemory.write(InputSamplePointer-1.U,io.WaveIn)
+      }
+    }.otherwise{
+      FIRInput:=InputSampleMemory.read(SampleAdress)
+    }
     //sample handling
     when(io.Enable & SampleCount===0.U){
       InputSampleMemory.write(InputSamplePointer-1.U,io.WaveIn)
