@@ -71,8 +71,13 @@ class IOFilter(filterLength: Int) extends Module {
     SampleCount:=0.U
     MAccReg:=0.S
 
-    //CountUp state:
-  }.elsewhen((SampleCount > 0.U) & (SampleCount <= Halfcountwire) | (io.Enable & SampleCount === 0.U)){
+    //CountUp start state:
+  }.elsewhen( (io.Enable & SampleCount === 0.U)){
+    SampleCount := SampleCount+1.U
+    CoeffCount := SampleCount
+    io.Completed:=1.U
+    //Countup state:
+  }.elsewhen((SampleCount > 0.U) & (SampleCount <= Halfcountwire)){
     SampleCount := SampleCount+1.U
     CoeffCount := SampleCount
 
@@ -84,7 +89,6 @@ class IOFilter(filterLength: Int) extends Module {
     //Ready state:
   }.otherwise{
     io.Completed := 1.U
-    MAccReg:=0.S
   }
 
 

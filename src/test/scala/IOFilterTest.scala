@@ -40,13 +40,13 @@ class IOFilterTest extends AnyFlatSpec with ChiselScalatestTester {
       dut.clock.step()
       dut.clock.step()              //checking if it stops when enable is missing
       dut.io.Enable.poke(1.U)       //stop conv - check enable switch while convolving
-      dut.io.WaveIn.poke(("b0001_1111_1111_1111_1111".U).asSInt)
+      dut.io.WaveIn.poke(65536.S)
       dut.clock.step()
       dut.clock.step()
       dut.clock.step()
       dut.clock.step()
       dut.clock.step()
-      dut.io.WaveIn.poke(("b0011_1111_1111_1111_1111".U).asSInt)
+      dut.io.WaveIn.poke(65536.S)
       dut.clock.step()
       dut.clock.step()
       dut.clock.step()
@@ -103,13 +103,13 @@ class IOFilterTest extends AnyFlatSpec with ChiselScalatestTester {
 
       //Output samples
       dut.io.SampleType.poke(1.U)
-      dut.io.WaveIn.poke(("b0001_1111_1111_1111_1111".U).asSInt)
+      dut.io.WaveIn.poke(65536.S)
       dut.clock.step()
       dut.clock.step()
       dut.clock.step()
       dut.clock.step()
       dut.clock.step()
-      dut.io.WaveIn.poke(("b0011_1111_1111_1111_1111".U).asSInt)
+      dut.io.WaveIn.poke(65536.S)
       dut.clock.step()
       dut.clock.step()
       dut.clock.step()
