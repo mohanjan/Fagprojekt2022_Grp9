@@ -1,0 +1,4 @@
+li x4, 0 //.main:
+lui x4, 96
+and x3, x2, x4  //.loop: 
+li x1, .loop 

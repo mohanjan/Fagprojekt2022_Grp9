@@ -4,10 +4,14 @@ import chiseltest.iotesters.PeekPokeTester
 import org.scalatest._
 import org.scalatest.flatspec.AnyFlatSpec
 import chiseltest._
+import scala.xml._
 
 class test extends AnyFlatSpec with ChiselScalatestTester {
   "test " should "pass" in {
-    test(new DSP(20)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
+
+    val xml = XML.loadFile("config.xml")
+
+    test(new DSP(20,xml)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
       dut.clock.setTimeout(1000000)
 
       for(i <- 0 until 1000){

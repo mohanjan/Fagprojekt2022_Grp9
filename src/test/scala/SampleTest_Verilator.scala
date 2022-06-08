@@ -3,15 +3,18 @@ import chiseltest._
 import org.scalatest.flatspec.AnyFlatSpec
 //import chiseltest.experimental.TestOptionBuilder._
 //import chiseltest.internal.WriteVcdAnnotation._
+import scala.xml._
 import org.scalatest.FlatSpec
 import Sounds._
 
 class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
 
+  val xml = XML.loadFile("config.xml")
+  
   behavior of "DSP"
 
   it should "play" in {
-    test(new DSP(100000000)).withAnnotations(Seq(VerilatorBackendAnnotation, WriteVcdAnnotation)) { dut =>
+    test(new DSP(100000000,xml)).withAnnotations(Seq(VerilatorBackendAnnotation, WriteVcdAnnotation)) { dut =>
     //test(new DSP(100000000)) { dut =>
       val samples = getFileSamples("sample.wav")
       val outSamples = new Array[Short](samples.length)

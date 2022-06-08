@@ -1,10 +1,6 @@
 <CAPNA>
   <CAP core="true">
-    <Program>MachineCode.mem</Program>
-    <Inputs>In</Inputs>
-  </CAP>
-  <CAP core="true">
-    <Program>Penis.mem</Program>
+    <Program>Bitcrusher</Program>
     <Inputs>In</Inputs>
   </CAP>
 </CAPNA>

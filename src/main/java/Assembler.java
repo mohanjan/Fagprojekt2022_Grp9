@@ -2,16 +2,19 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Assembler {
-    public static void main(String[] args) {
-        replace_pseudo();
-        demangle_identifiers();
-        read_assembly();
-    }
 
-    public static void replace_pseudo(){
+    /*
+    public static void main(String[] args) {
+        replace_pseudo("Program");
+        demangle_identifiers("Program");
+        read_assembly("Program");
+    }
+    */
+
+    public static void replace_pseudo(String Program){
         try {
-            File myObj = new File("Program.txt");
-            FileWriter myWriter = new FileWriter("Program_PreAssembly.txt");
+            File myObj = new File("Programs/" + Program + ".txt");
+            FileWriter myWriter = new FileWriter("Programs/Intermediates/PreAssembly/" + Program + "_PreAssembly.txt");
             Scanner myReader = new Scanner(myObj);
 
             String addedData = "";
@@ -92,7 +95,7 @@ public class Assembler {
     }
 
 
-    public static void demangle_identifiers(){
+    public static void demangle_identifiers(String Program){
         String[] functionarray = new String[10];
 
         int functionarray_index = 0;
@@ -100,7 +103,7 @@ public class Assembler {
 
 
         try {
-            File myObj = new File("Program_PreAssembly.txt");
+            File myObj = new File("Programs/Intermediates/PreAssembly/" + Program + "_PreAssembly.txt");
             Scanner myReader = new Scanner(myObj);
 
             int instruction_address = 0;
@@ -128,8 +131,8 @@ public class Assembler {
         }
 
         try {
-            File myObj = new File("Program_PreAssembly.txt");
-            FileWriter myWriter = new FileWriter("Program_Assembly.txt");
+            File myObj = new File("Programs/Intermediates/PreAssembly/" + Program + "_PreAssembly.txt");
+            FileWriter myWriter = new FileWriter("Programs/Intermediates/Assembly/" + Program + "_Assembly.txt");
             Scanner myReader = new Scanner(myObj);
 
             int instruction_address = 0;
@@ -165,10 +168,10 @@ public class Assembler {
     }
 
 
-    public static void read_assembly(){
+    public static void read_assembly(String Program){
         try {
-            File myObj = new File("Program_Assembly.txt");
-            FileWriter myWriter = new FileWriter("MachineCode.mem");
+            File myObj = new File("Programs/Intermediates/Assembly/" + Program + "_Assembly.txt");
+            FileWriter myWriter = new FileWriter("Programs/MachineCode/" + Program + ".mem");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();

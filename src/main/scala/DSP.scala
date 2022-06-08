@@ -3,7 +3,7 @@ import chisel3.experimental._
 import chisel3.util._
 import scala.xml._
 import java.io._
-
+import Assembler._
 
 class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
   val io = IO(new Bundle {
@@ -16,9 +16,7 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
     val SO = Input(Vec(4,Bool()))
     val SI = Output(Vec(4,Bool()))
     val Drive = Output(Bool())
-  })
-
-  
+  })  
 
   var CoreCount = 0 
 
@@ -35,7 +33,11 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
   for (CAP <- (xml \\ "CAP")) {
     val Program = (CAP \ "Program").text
 
-    val SubDSP = Module(new SubDSP(Program))
+    replace_pseudo(Program);
+    demangle_identifiers(Program);
+    read_assembly(Program);
+
+    val SubDSP = Module(new SubDSP("Programs/MachineCode/" + Program + ".mem"))
 
     doNotDedup(SubDSP)
 
@@ -47,40 +49,22 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
     CORE += 1 
   }
 
-  
-
-  /*
-
-  val SPIArbiter = Module(new SPIArbiter(2))
-
-  SPIArbiter.SPI <> SPI
-
-  val SubDSP = Module(new SubDSP("MachineCode.mem"))
-
-  doNotDedup(SubDSP)
-
-  SubDSP.io.In := io.In.asUInt
-  //io.Out := SubDSP.io.Out.asSInt    
-
-  SubDSP.io.SPIMemPort <> SPIArbiter.io.MemPort(0)
-
-  val SubDSP2 = Module(new SubDSP("Penis.mem"))
-
-  doNotDedup(SubDSP2)
-
-  SubDSP2.io.In := io.In.asUInt
-  //io.Out := SubDSP2.io.Out.asSInt    
-
-  SubDSP2.io.SPIMemPort <> SPIArbiter.io.MemPort(1)
-
-  io.Out := (SubDSP.io.Out.asSInt + SubDSP2.io.Out.asSInt )
-
-  */
-
 }
+
+
+class ScalaAssembler(Program: String) extends Module{
+  replace_pseudo(Program);
+  demangle_identifiers(Program);
+  read_assembly(Program);
+}
+
+
 // generate Verilog
 object DSP extends App {
   val xml = XML.loadFile("config.xml")
   (new chisel3.stage.ChiselStage).emitVerilog(new DSP(100000000, xml))
 }
+
+
+
 

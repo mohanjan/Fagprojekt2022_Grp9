@@ -1,0 +1,4 @@
+li x4, 0 
+lui x4, 96
+and x3, x2, x4  
+li x1, 2
