@@ -1184,8 +1184,6 @@ F 3 "~" H 9150 1900 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	9300 2250 9900 2250
-Text Notes 4800 5300 0    50   ~ 0
-- diode skal tillade strøm fra R_logic igennem
 $Comp
 L pspice:DIODE D1
 U 1 1 624C22BA
