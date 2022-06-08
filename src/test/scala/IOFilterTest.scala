@@ -27,6 +27,24 @@ class IOFilterTest extends AnyFlatSpec with ChiselScalatestTester {
       dut.io.Coeffdata.poke(4096.S)
       dut.clock.step()
       dut.io.CoeffLoadEN.poke(false.B)
+
+      /*convolution check table:
+      * convolution pr sample:
+      * Coeff: 0.5,0.25,0.125,0.0625,0.03125
+      * Samples: 65536,65536,0,0,0
+      * 1 samples: 32768
+      * 2 samples: 49152
+      * 3 samples: 24576
+      * 4 samples: 12288
+      * 5 samples: 6144
+      * 6 samples: 1548
+      * 7 samples: -1250
+      * 8 samples: -625
+      * 9 samples: -2312.5
+      * 10 samples -1156.25
+      * */
+
+
       //input samples
       dut.io.WaveIn.poke(0.S)       //testing inputmemory
       dut.io.SampleType.poke(0.U)
