@@ -1,0 +1,5 @@
+.main:
+li x4, 1
+.loop: 
+mul x3, x2, x4 
+j .loop 

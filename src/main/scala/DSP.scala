@@ -19,6 +19,7 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
   })  
 
   var CoreCount = 0 
+  var OutputCount = 0
 
   for (CAP <- (xml \\ "CAP")) {
     CoreCount += 1
@@ -30,8 +31,14 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
   var CORE = 0
 
-  for (CAP <- (xml \\ "CAP")) {
+  val CAP_IOs = Wire(Vec(CoreCount, new CAP_IO))
+
+  for (CAP <- (xml \\ "CAP")){
     val Program = (CAP \ "Program").text
+
+    if((CAP \ "@top").text == "true"){
+      OutputCount += 1
+    }
 
     replace_pseudo(Program);
     demangle_identifiers(Program);
@@ -41,23 +48,73 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
     doNotDedup(SubDSP)
 
-    SubDSP.io.In := io.In.asUInt
-    io.Out := SubDSP.io.Out.asSInt    
+    SubDSP.SPI.SPIMemPort <> SPIArbiter.io.MemPort(CORE)
 
-    SubDSP.io.SPIMemPort <> SPIArbiter.io.MemPort(CORE)
+    CAP_IOs(CORE) <> SubDSP.io.Sub_IO
 
     CORE += 1 
   }
 
+  CORE = 0
+
+  // Input Connector
+
+  var OutputCNT = 0
+
+  val OutputConnector = Module(new NodeConnector(OutputCount))
+
+  for (CAP <- (xml \\ "CAP")){
+    var NODECOUNT = (CAP \\ "Input" \\ "@node").size
+
+    if(NODECOUNT > 1){
+
+      val NodeConnector = Module(new NodeConnector(NODECOUNT))
+
+      for(i <- 0 until NODECOUNT){
+        val NODE = (CAP \\ "Input" \\ "@node")(i).text
+
+        if(NODE == "In"){
+          //CAP_IOs(CORE).In := io.In.asUInt
+          NodeConnector.io.In(i) := io.In.asUInt
+        }else{
+          var INPUT = NODE.toInt
+          //CAP_IOs(CORE).In := CAP_IOs(INPUT).Out
+          NodeConnector.io.In(i) := CAP_IOs(INPUT).Out
+        }
+      }  
+
+      CAP_IOs(CORE).In := NodeConnector.io.Out
+
+    }else{
+      val NODE = (CAP \\ "Input" \\ "@node").text
+
+      if(NODE == "In"){
+        //CAP_IOs(CORE).In := io.In.asUInt
+        CAP_IOs(CORE).In  := io.In.asUInt
+      }else{
+        var INPUT = NODE.toInt
+        //CAP_IOs(CORE).In := CAP_IOs(INPUT).Out
+        CAP_IOs(CORE).In := CAP_IOs(INPUT).Out
+      }
+    }
+
+    // Output connection 
+
+    if((CAP \ "@top").text == "true"){
+      OutputConnector.io.In(OutputCNT) := CAP_IOs(CORE).Out
+      OutputCNT += 1
+    }
+    
+    CORE += 1
+
+  }
+
+  io.Out := OutputConnector.io.Out(15,0).asSInt
+
+  //io.Out := CAP_IOs(1).Out.asSInt
+
+
 }
-
-
-class ScalaAssembler(Program: String) extends Module{
-  replace_pseudo(Program);
-  demangle_identifiers(Program);
-  read_assembly(Program);
-}
-
 
 // generate Verilog
 object DSP extends App {

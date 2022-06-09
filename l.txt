@@ -1,6 +1,0 @@
- As mentioned, these registers
-can be read and written through the DRP or JTAG ports. It is also possible to initialize the
-contents of these registers during the configuration of the FPGA. This enables the XADC to
-start operating in a user-defined mode after configuration is complete. 
-
-https://www.xilinx.com/support/documentation/user_guides/ug480_7Series_XADC.pdf

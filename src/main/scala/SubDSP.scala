@@ -13,23 +13,18 @@ class MemPort extends Bundle{
   val Completed = Input(Bool())
 }
 
+class CAP_IO extends Bundle{
+  val In = Input(UInt(18.W))
+  val Out = Output(UInt(18.W))
+}
+
 class SubDSP(Program: String) extends Module {
   val io = IO(new Bundle {
-    val In = Input(UInt(16.W))
-
-    val Out = Output(UInt(16.W))
+    val Sub_IO = new CAP_IO
+  })
+  val SPI = IO(new Bundle {
     val SPIMemPort = new MemPort
   })
-
-  /*
-  val SPI = IO(new Bundle{
-    val SCLK = Output(Bool())
-    val CE = Output(Bool())
-    val SO = Input(Vec(4,Bool()))
-    val SI = Output(Vec(4,Bool()))
-    val Drive = Output(Bool())
-  })
-  */
 
   // Single Core
 
@@ -47,9 +42,9 @@ class SubDSP(Program: String) extends Module {
 
   // IO
 
-  io.Out := Core.io.WaveOut + FirEngine.io.WaveOut
-  FirEngine.io.WaveIn := io.In
-  Core.io.WaveIn := io.In
+  io.Sub_IO.Out := Core.io.WaveOut + FirEngine.io.WaveOut
+  FirEngine.io.WaveIn := io.Sub_IO.In
+  Core.io.WaveIn := io.Sub_IO.In
 
   // Interconnections
 
@@ -60,7 +55,7 @@ class SubDSP(Program: String) extends Module {
   FirEngine.io.MemPort <> DataMemory.io.MemPort(1)
   FirEngine.io.WaveIn := 0.U
 
-  io.SPIMemPort <> DataMemory.io.SPIMemPort
+  SPI.SPIMemPort <> DataMemory.io.SPIMemPort
 
   //SPI <> DataMemory.SPI
 }

@@ -1,6 +1,14 @@
 <CAPNA>
-  <CAP core="true">
+  <CAP top="false" id="0">
     <Program>Bitcrusher</Program>
-    <Inputs>In</Inputs>
+    <Inputs>
+      <Input node="In"/>
+    </Inputs>
+  </CAP>
+  <CAP top="true" id="1">
+    <Program>Distortion</Program>
+    <Inputs>
+      <Input node="0"/>
+    </Inputs>
   </CAP>
 </CAPNA>

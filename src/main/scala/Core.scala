@@ -14,8 +14,8 @@ object Core{
 
 class Core(Program: String) extends Module {
   val io = IO(new Bundle {
-    val WaveIn = Input(UInt(16.W))
-    val WaveOut = Output(UInt(16.W))
+    val WaveIn = Input(UInt(18.W))
+    val WaveOut = Output(UInt(18.W))
 
     val MemPort = new MemPort
   })
