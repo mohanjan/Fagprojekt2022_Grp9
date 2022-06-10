@@ -21,16 +21,15 @@ void setup() {
 void loop() {
   
  inRead = (digitalRead(4));
- 
- //delay(0);
- 
+
+
   switch(inRead){
-    case 0:
+    case  0:
       
       digitalWrite(2, HIGH);
       digitalWrite(LED_BUILTIN, HIGH);
       shiftReg = shiftReg >> 1;
-      shiftReg |= (inRead << 15) ;
+      shiftReg |= (inRead << 7) ;
       Serial.println(inRead);
       break;
     default:
@@ -41,16 +40,4 @@ void loop() {
      Serial.println(inRead);
      break;
  }
-
- 
- /*switch (i){
-  case 10:
-  Serial.println(shiftReg);
-   Serial.println(inRead);
-   i=0;
-   break;
-  default:
-    i++;
-    break;
- }*/
 }
