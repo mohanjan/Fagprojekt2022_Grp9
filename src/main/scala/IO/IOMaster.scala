@@ -13,7 +13,7 @@ class IOMaster(bufferWidth: Int) extends Module {
 
   val ADC = Module(new InController(bufferWidth))
   val DAC = Module(new OutController(bufferWidth))
-  val Filter = Module(new IOFilter(bufferWidth))
+  val Filter = Module(new IOFilter(100)) //827 filterlængde 414 koefficienter
 
   val sampleType = RegInit(0.U(1.W))
   val lastSampleType = RegInit(0.U(1.W))
@@ -32,11 +32,11 @@ class IOMaster(bufferWidth: Int) extends Module {
   DACReg := DAC.io.OutFIR
 
   DAC.io.convReady := false.B
-  Filter.io.enable := 0.U
+  Filter.io.Enable := 0.U
   sampleType := 0.U
   lastSampleType := sampleType
-  Filter.io.sampleType := sampleType
-  Filter.io.waveIn := ADCReg
+  Filter.io.SampleType := sampleType
+  Filter.io.WaveIn := ADCReg
 
   // decide if adc or dac gets filter resource
   cond := DAC.io.OutFIR === 0.S
@@ -44,24 +44,25 @@ class IOMaster(bufferWidth: Int) extends Module {
     sampleType := 1.U
   }
 
-  when(Filter.io.complete === 1.U) {
+  when(Filter.io.Completed === 1.U) {
 
     // when a sample is ready send it to either adc or dac
     switch(lastSampleType) {
       is(0.U) {
-        ADC.io.InFIR := Filter.io.waveOut
+        ADC.io.InFIR := Filter.io.WaveOut
       }
       is(1.U) {
-        DAC.io.InFIR := Filter.io.waveOut
+        DAC.io.InFIR := Filter.io.WaveOut
         // DAC.io.convReady := true.B // needs a flag bc of decimation
       }
     }
-    
-    //send a new signal to the filter
+
+    // send a new signal to the filter
     when(sampleType === 1.U) {
-        Filter.io.waveIn := DACReg
-      }
-    Filter.io.enable := 1.U
+      Filter.io.WaveIn := DACReg
+    }
+    Filter.io.Enable := 1.U
   }
+
 
 }

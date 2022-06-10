@@ -16,7 +16,7 @@ class DSP(maxCount: Int) extends Module {
   })*/
 
   //val SDSP = Module(new SubDSP())
-  val IOC  = Module(new IOMaster(16))
+  val IOC  = Module(new IOMaster(18))
 
   IOC.io.In_ADC := io.In
   //SDSP.io.In     := IOC.io.Out_ADC

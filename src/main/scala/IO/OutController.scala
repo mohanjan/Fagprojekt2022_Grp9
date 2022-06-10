@@ -13,7 +13,7 @@ class OutController(bufferWidth: Int) extends Module {
 
   })
 
-  val scale = 5.U
+  val scale = 16.U
   val ZReg  = RegInit(0.S(bufferWidth.W))
   val Diff  = Wire(SInt(16.W))
   val ZIn   = Wire(SInt(16.W))
@@ -33,7 +33,7 @@ class OutController(bufferWidth: Int) extends Module {
 
   DDC := Mux(io.OutPWM === 1.U, Fill(bufferWidth, 1.U).asUInt, 0.U)
   
-  io.OutFIR := Mux(tick, io.In - 0x1000.S, 0.S)
+  io.OutFIR := Mux(tick, io.In, 0.S)
   io.OutPWM := ~ZReg(bufferWidth - 1)
 
 //shared FIR filter with IN controller
