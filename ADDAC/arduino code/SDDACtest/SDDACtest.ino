@@ -1,6 +1,8 @@
+const int P_O =7;
+
 void setup() {
-  pinMode(LED_BUILTIN, OUTPUT); 
-  pinMode(2, OUTPUT);  //sets D2 to output mode
+  //pinMode(LED_BUILTIN, OUTPUT); 
+  pinMode(P_O, OUTPUT);  //sets D2 to output mode
   pinMode(A0, INPUT);
 }
 
@@ -13,7 +15,7 @@ int z = 0; //current sample
     int i = 0;
 
   
-  long int SIN_LUT[NS] = {32768, 36030, 39260, 42426, 45496, 48439, 51226, 53830, 56225, 58386, 60293, 61926, 63270, 64310, 65037, 
+  long int sin_LUT[NS] = {32768, 36030, 39260, 42426, 45496, 48439, 51226, 53830, 56225, 58386, 60293, 61926, 63270, 64310, 65037, 
 65443, 65525, 65281, 64713, 63829, 62635, 61145, 59373, 57336, 55055, 52553, 49854, 46985, 43975, 40853, 
 37651, 34401, 31134, 27884, 24682, 21560, 18550, 15681, 12982, 10480, 8199, 6162, 4390, 2900, 1706, 
 822, 254, 10, 92, 498, 1225, 2265, 3609, 5242, 7149, 9310, 11705, 14309, 17096, 20039, 
@@ -32,7 +34,7 @@ long int saw_LUT[NS]={
 void loop() {
   //p = analogRead(A0);
  
-  z = SIN_LUT[i]-ddc; //delta
+  z = saw_LUT[i]-ddc; //delta
   
   zneg += z;          //z-1 sample value
   //zneg &= 0xffff; 
@@ -41,16 +43,16 @@ void loop() {
   //pwm part
   
   if((zneg & 0x8000) == 0x8000){
-    digitalWrite(2, HIGH);
+    digitalWrite(P_O, HIGH);
     //digitalWrite(LED_BUILTIN, HIGH);
     ddc=0xffff;
   }else{
-    digitalWrite(2, LOW);
+    digitalWrite(P_O, LOW);
     //digitalWrite(LED_BUILTIN, LOW);
     ddc=0x0000;
   }
 
-  delayMicroseconds(80);
+  delayMicroseconds(0);
   
  switch (i){
   case NS-1:
