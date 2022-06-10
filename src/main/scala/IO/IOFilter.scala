@@ -116,7 +116,7 @@ class IOFilter(filterLength: Int) extends Module {
 
     //sample handling
     when(SampleCount===0.U){
-      FIRInput:=io.WaveIn
+      FIRInput:=io.DACWaveIn
     }.otherwise{
       FIRInput:=ReadOutputSample
     }
@@ -150,7 +150,7 @@ class IOFilter(filterLength: Int) extends Module {
 
     //sample handling
     when(SampleCount===0.U){
-      FIRInput:=io.WaveIn
+      FIRInput:=io.ADCWaveIn
     }.otherwise{
       FIRInput:=ReadInputSample
     }
