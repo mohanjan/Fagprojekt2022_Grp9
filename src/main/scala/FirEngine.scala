@@ -35,12 +35,7 @@ class FirEngine() extends Module {
   }
 
   //FIR Engine controll logic
-  //TODO Make control logic controlling the control bits
-  //
 
-
-  //FIR Engine
-  //TODO Assuming memory is valid describe MACC
 
 
 
