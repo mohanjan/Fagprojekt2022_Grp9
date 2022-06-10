@@ -242,7 +242,7 @@ public class Assembler {
             //System.out.println(val);
         }
 
-        else if(instruction.contains("or")){
+        else if(instruction.contains("or") && !instruction.contains("xor")){
             val = 0b000110000000000000;
             val = (val | find_arguments(instruction,0));
             //System.out.println(val);
@@ -250,7 +250,7 @@ public class Assembler {
 
         else if(instruction.contains("xor")){
             val = 0b000111000000000000;
-            val = (val | find_arguments(instruction,0));
+            val = (val | find_arguments(instruction.replace("xor", "or"),0));
             //System.out.println(val);
         }
 
