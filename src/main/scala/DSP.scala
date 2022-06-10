@@ -35,6 +35,8 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
   for (CAP <- (xml \\ "CAP")){
     val Program = (CAP \ "Program").text
+    var Memsize = (CAP \\ "BRAM" \\ "@size").text.toInt
+    var SPIRAM_Offset = (CAP \\ "DRAM" \\ "@offset").text.toInt
 
     if((CAP \ "@top").text == "true"){
       OutputCount += 1
@@ -44,7 +46,7 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
     demangle_identifiers(Program);
     read_assembly(Program);
 
-    val SubDSP = Module(new SubDSP("Programs/MachineCode/" + Program + ".mem"))
+    val SubDSP = Module(new SubDSP("Programs/MachineCode/" + Program + ".mem", Memsize, SPIRAM_Offset))
 
     doNotDedup(SubDSP)
 

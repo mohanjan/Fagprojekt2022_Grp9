@@ -1,14 +1,10 @@
 <CAPNA>
-  <CAP top="false" id="0">
-    <Program>Bitcrusher</Program>
+  <CAP top="true" id="0">
+    <Program>TestProgram</Program>
     <Inputs>
       <Input node="In"/>
     </Inputs>
-  </CAP>
-  <CAP top="true" id="1">
-    <Program>Distortion</Program>
-    <Inputs>
-      <Input node="0"/>
-    </Inputs>
+    <BRAM size="2048"/>
+    <DRAM offset="0"/>
   </CAP>
 </CAPNA>

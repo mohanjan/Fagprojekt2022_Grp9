@@ -3,7 +3,7 @@ import chisel3.util._
 import chisel3.experimental.Analog
 import chisel3.util.experimental.loadMemoryFromFile
 
-class DataMemory(Memports: Int) extends Module {
+class DataMemory(Memports: Int, Memsize: Int, SPIRAM_Offset: Int) extends Module {
   val io = IO(new Bundle {
     val MemPort = Vec(Memports,Flipped(new MemPort))
     val Registers = new MemPort
@@ -22,7 +22,7 @@ class DataMemory(Memports: Int) extends Module {
 
   // Module Definitions
 
-  val Memory = SyncReadMem(2048, UInt(18.W))
+  val Memory = SyncReadMem(Memsize, UInt(18.W))
   //val ExternalMemory = Module(new MemoryController(0))
 
   // Defaults
@@ -116,7 +116,15 @@ class DataMemory(Memports: Int) extends Module {
       }
       */
 
-      io.SPIMemPort <> io.MemPort(Producer)
+      io.MemPort(Producer).ReadData := io.SPIMemPort.ReadData
+      io.MemPort(Producer).Completed := io.SPIMemPort.Completed
+
+      io.SPIMemPort.Address := io.MemPort(Producer).Address + SPIRAM_Offset.U
+      io.SPIMemPort.WriteData := io.MemPort(Producer).WriteData
+      io.SPIMemPort.Enable := io.MemPort(Producer).Enable
+      io.SPIMemPort.WriteEn := io.MemPort(Producer).WriteEn
+
+      //io.SPIMemPort <> io.MemPort(Producer)
 
     }
   }

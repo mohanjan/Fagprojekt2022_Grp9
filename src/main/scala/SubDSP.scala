@@ -18,7 +18,7 @@ class CAP_IO extends Bundle{
   val Out = Output(UInt(18.W))
 }
 
-class SubDSP(Program: String) extends Module {
+class SubDSP(Program: String, Memsize: Int, SPIRAM_Offset: Int) extends Module {
   val io = IO(new Bundle {
     val Sub_IO = new CAP_IO
   })
@@ -32,7 +32,7 @@ class SubDSP(Program: String) extends Module {
 
   val Core = Module(new Core(Program))
   val FirEngine = Module(new FirEngine())
-  val DataMemory = Module(new DataMemory(2))
+  val DataMemory = Module(new DataMemory(2, Memsize, SPIRAM_Offset))
 
   /*
   doNotDedup(Core)
