@@ -4,19 +4,20 @@ import chisel3.util._
 
 class OutController(bufferWidth: Int) extends Module {
   val io = IO(new Bundle {
-    val In    = Input(UInt(16.W))
-    val InFIR = Input(UInt(16.W)) // input from FIR filter
+    val In    = Input(SInt(16.W))
+    val InFIR = Input(SInt(16.W)) // input from FIR filter
+    val convReady = Input(Bool())
 
-    val OutFIR = Output(UInt(16.W)) // output from interpolator to FIR
+    val OutFIR = Output(SInt(16.W)) // output from interpolator to FIR
     val OutPWM = Output(UInt(1.W))  //
 
   })
 
   val scale = 5.U
-  val ZReg  = RegInit(0.U(bufferWidth.W))
-  val Diff  = Wire(UInt(16.W))
-  val ZIn   = Wire(UInt(16.W))
-  val DDC   = WireDefault(32.U(bufferWidth.W))
+  val ZReg  = RegInit(0.S(bufferWidth.W))
+  val Diff  = Wire(SInt(16.W))
+  val ZIn   = Wire(SInt(16.W))
+  val DDC   = WireDefault(0.U(bufferWidth.W))
 
   val cntReg = RegInit(0.U(3.W))
   cntReg := cntReg + 1.U
@@ -26,14 +27,14 @@ class OutController(bufferWidth: Int) extends Module {
     cntReg := 0.U
   }
 
-  Diff := io.InFIR - DDC
+  Diff := io.InFIR - DDC.asSInt //Mux(io.convReady, io.InFIR - DDC.asSInt, 0.S)
   ZIn  := ZReg + Diff
   ZReg := ZIn
 
-  DDC := Mux(io.OutPWM === 1.U, Fill(bufferWidth, 1.U), 0.U)
+  DDC := Mux(io.OutPWM === 1.U, Fill(bufferWidth, 1.U).asUInt, 0.U)
   
-  io.OutFIR := Mux(tick, io.In, 0.U)
-  io.OutPWM := ZReg(bufferWidth - 1)
+  io.OutFIR := Mux(tick, io.In - 0x1000.S, 0.S)
+  io.OutPWM := ~ZReg(bufferWidth - 1)
 
 //shared FIR filter with IN controller
 

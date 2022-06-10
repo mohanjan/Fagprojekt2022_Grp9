@@ -5,17 +5,17 @@ import chisel3.util._
 
 class InController(bufferWidth: Int) extends Module {
   val io = IO(new Bundle {
-    val In      = Input(UInt(1.W))
-    val In_FIR  = Input(UInt(bufferWidth.W))
-    val Out     = Output(UInt(bufferWidth.W))
-    val Out_FIR = Output(UInt(bufferWidth.W))
+    val In = Input(UInt(1.W))
+    val InFIR = Input(SInt(bufferWidth.W))
+    val Out = Output(SInt(bufferWidth.W))
+    val OutFIR = Output(SInt(bufferWidth.W))
   })
 
-  val scale = 4.U
+  val scaler = 4.U
 
   // serial to parallel buffer
   val outReg = RegInit(0.U(bufferWidth.W))
-  val sample = RegInit(0.U(bufferWidth.W))
+  val sample= RegInit(0.S(bufferWidth.W))
 
   // Counter for generating a 'do a sample' flag
   val cntReg = RegInit(0.U(3.W))
@@ -23,16 +23,16 @@ class InController(bufferWidth: Int) extends Module {
   val tick = cntReg === 0.U
 
   outReg := Cat(io.In, outReg(bufferWidth - 1, 1))
-  when(cntReg === scale) {
+  when(cntReg === scaler) {
     cntReg := 0.U
 
-    sample := outReg
+    sample := ~outReg.asSInt + 1.S
 
   }
 
   // send word to fir
-  io.Out_FIR := Mux(tick, outReg, sample)
-  io.Out     := io.In_FIR
+  io.OutFIR := sample
+  io.Out := io.InFIR
 
   // master will then put filtered value onto io.Out
 
