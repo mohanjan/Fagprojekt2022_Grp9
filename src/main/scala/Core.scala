@@ -72,7 +72,9 @@ class Core(Program: String) extends Module {
     is(Arithmetic){
       x(ExecuteStage.Out.WritebackRegister) := ExecuteStage.Out.ALUOut
 
-      when(ExecuteStage.Out.WritebackRegister=== 1.U){
+      // In case of jump, the pipeline is cleared
+
+      when(ExecuteStage.Out.WritebackRegister === 1.U){
         FetchStage.io.Clear := true.B
         DecodeStage.io.Clear := true.B
         ExecuteStage.io.Clear := true.B

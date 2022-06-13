@@ -74,6 +74,9 @@ class ExecuteStage extends Module {
   rs2 := io.x(In.rs2)
   rd := io.x(In.rd)
 
+  // If the current instructions uses the result of a previous calculation, that isnt written to the register
+  // the following code fetches the result from the internal pipeline registers
+
   when(In.rs1 === DataHazard){
     switch(WritebackMode){
       is(Arithmetic){
@@ -148,6 +151,9 @@ class ExecuteStage extends Module {
 
         DataHazard := In.rd
       }.elsewhen(In.AOperation === 9.U){
+
+        // mac (multiply accumalate takes 3 values)
+
         ALU.io.Operation := In.AOperation
 
         ALU.io.rs2 := rs2
@@ -166,7 +172,7 @@ class ExecuteStage extends Module {
 
         //io.MemPort.Address := io.x(In.rs1)
 
-        // Was causing combinational loop.
+        // Was causing combinational loop 
 
         when(In.rs1 === DataHazard && In.rs1 =/= 0.U){
           switch(WritebackMode){
@@ -196,9 +202,6 @@ class ExecuteStage extends Module {
         io.MemPort.Enable := true.B
         io.MemPort.WriteEn := true.B
 
-        //io.MemPort.Address := io.x(In.rs1)
-        //io.MemPort.WriteData := io.x(In.rd)
-
         when(In.rs1 === DataHazard){
           switch(WritebackMode){
             is(Arithmetic){
@@ -213,7 +216,6 @@ class ExecuteStage extends Module {
         }
 
         io.MemPort.WriteData := rd
-        //io.MemPort.Address := rs1
 
         WritebackMode := Nil
 
@@ -224,10 +226,16 @@ class ExecuteStage extends Module {
     }
     is(1.U){
       when(In.AOperation === 1.U){
+
+        // li 
+
         ALU.io.rs2 := 0.U
         ALU.io.rs1 := In.AImmediate
         ALU.io.Operation := 0.U
       }.elsewhen(In.AOperation === 2.U){
+
+        // lui 
+
         ALU.io.rs2 := 0.U
 
         val upper = Wire(UInt(9.W))
@@ -244,12 +252,10 @@ class ExecuteStage extends Module {
         when(In.ASImmediate < 0.S){
           ALU.io.Operation := 1.U
           ALU.io.rs2 := (0.S - In.ASImmediate).asUInt
-          //ALU.io.rs1 := io.x(In.rd)
           ALU.io.rs1 := rd
 
         }.otherwise{
           ALU.io.rs2 := In.ASImmediate.asUInt
-          //ALU.io.rs1 := io.x(In.rd)
           ALU.io.rs1 := rd
           ALU.io.Operation := 0.U
         }

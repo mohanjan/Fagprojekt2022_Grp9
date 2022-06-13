@@ -33,7 +33,8 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
   SPI.SCLK := SPIArbiter.SPI.SCLK
   SPI.CE := SPIArbiter.SPI.CE
 
-  //SPIArbiter.SPI <> SPI
+  // The following code reads from the config xml file, and instatiates a variable amount 
+  // of SubDSP's. 
 
   var CORE = 0
 
@@ -67,6 +68,9 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
   // Input Connector
 
+  // The following code configures the inputs and outputs of the SubDSP's in accordance with the
+  // config XML file
+
   var OutputCNT = 0
 
   val OutputConnector = Module(new NodeConnector(OutputCount))
@@ -82,11 +86,9 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
         val NODE = (CAP \\ "Input" \\ "@node")(i).text
 
         if(NODE == "In"){
-          //CAP_IOs(CORE).In := io.In.asUInt
           NodeConnector.io.In(i) := io.In.asUInt
         }else{
           var INPUT = NODE.toInt
-          //CAP_IOs(CORE).In := CAP_IOs(INPUT).Out
           NodeConnector.io.In(i) := CAP_IOs(INPUT).Out
         }
       }  
@@ -97,11 +99,9 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
       val NODE = (CAP \\ "Input" \\ "@node").text
 
       if(NODE == "In"){
-        //CAP_IOs(CORE).In := io.In.asUInt
         CAP_IOs(CORE).In  := io.In.asUInt
       }else{
         var INPUT = NODE.toInt
-        //CAP_IOs(CORE).In := CAP_IOs(INPUT).Out
         CAP_IOs(CORE).In := CAP_IOs(INPUT).Out
       }
     }
@@ -118,8 +118,6 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
   }
 
   io.Out := OutputConnector.io.Out(15,0).asSInt
-
-  //io.Out := CAP_IOs(1).Out.asSInt
 
 }
 
