@@ -8,13 +8,10 @@ class IOFilter(filterLength: Int) extends Module {
     val DACWaveIn = Input(SInt(18.W))
     val WaveOut = Output(SInt(18.W))
     val SampleType = Input(Bool()) // [input=0/output=1]
-    val FilterEnable = Input(Bool())
     val ADCEnable = Input(Bool())
     val DACEnable = Input(Bool())
     val Completed = Output(Bool())
-
   })
-
 
   //Wire definitions
   val FIRInput = Wire(SInt())
@@ -47,7 +44,6 @@ class IOFilter(filterLength: Int) extends Module {
 
   loadMemoryFromFileInline(CoeffMemory, "IOFilterCoeffsQ0_17.txt")
 
-
   // Defaults
   io.WaveOut := OutputReg
   io.Completed := false.B
@@ -55,7 +51,7 @@ class IOFilter(filterLength: Int) extends Module {
   CoeffCount := 0.U
   ReadInputSample := InputSampleMemory.read(SampleAdress)
   ReadOutputSample := OutputSampleMemory.read(SampleAdress)
-  Halfcountwire := (((filterLength - 1 + 2) / 2) - 1).U
+  Halfcountwire := (((filterLength - 1 + 2) / 2) - 1).U //CeilDivide
   maxcountwire := CountMax
 
   //TestWires
@@ -63,17 +59,13 @@ class IOFilter(filterLength: Int) extends Module {
   Fircomputation36 := 0.S
   Fircomputation18 := 0.S
 
-
-  when(SampleCount > 0.U | io.FilterEnable & SampleCount === 0.U) {
+  when(SampleCount > 0.U | !io.ADCEnable && !io.DACEnable && (SampleCount === 0.U)) {
     //FIR filtering
     //note first filterlength of samples are garbage, but since they are gone in a split second it is fine
     Fircomputation36 := CoeffWire * FIRInput
     Fircomputation18 := ((Fircomputation36) >> 17) (17, 0).asSInt //bitshift
     MAccReg := MAccReg + Fircomputation18
   }
-
-
-
 
   //Counter
   //Ready state:
@@ -86,7 +78,7 @@ class IOFilter(filterLength: Int) extends Module {
     MAccReg := 0.S
 
     //CountUp start state:
-  }.elsewhen((SampleCount > 0.U) & (SampleCount < Halfcountwire) | io.FilterEnable & SampleCount === 0.U) {
+  }.elsewhen((SampleCount > 0.U) & (SampleCount < Halfcountwire) | !io.ADCEnable && !io.DACEnable && SampleCount === 0.U) {
     SampleCount := SampleCount + 1.U
     CoeffCount := SampleCount + 1.U
 
@@ -99,7 +91,7 @@ class IOFilter(filterLength: Int) extends Module {
   //Input/output mode logic
   //Logic controling Output mode
   when(io.SampleType) {
-
+    //todo make sure to output zeros everywhere there is
     when(OutputSamplePointer + SampleCount <= maxcountwire) {
       SampleAdress := OutputSamplePointer + SampleCount
     }.otherwise {
@@ -131,8 +123,6 @@ class IOFilter(filterLength: Int) extends Module {
 
     //Logic controling Input mode
   }.otherwise {
-
-
     when(InputSamplePointer + SampleCount <= maxcountwire) {
       SampleAdress := InputSamplePointer + SampleCount
     }.otherwise {
@@ -160,10 +150,7 @@ class IOFilter(filterLength: Int) extends Module {
       }.otherwise {
         InputSampleMemory.write(maxcountwire, io.ADCWaveIn)
       }
-
     }
   }
-
-
 }
 
