@@ -18,11 +18,9 @@ class FetchStage(Program: String) extends Module {
 
   val ClearDelay = RegNext(io.Clear)
 
-  //val OutputReg = RegInit(0.U(18.W))
   val InstructionMem = Module(new InstuctionMemory(Program))
 
   doNotDedup(InstructionMem)
-
 
   InstructionMem.io.Address := 0.U
   InstructionMem.io.DataIn := 0.U
@@ -35,20 +33,7 @@ class FetchStage(Program: String) extends Module {
   InstructionMem.io.DataIn := 0.U
   InstructionMem.io.enable := true.B
 
-
-  /*
-  when(!io.Stall){
-    OutputReg := InstructionMem.io.Instruction
-  }
-  */
-
   Out.Instruction := InstructionMem.io.Instruction
-
-  /*
-  when(io.Clear | ClearDelay) {
-    InstructionMem.io.enable := false.B
-  }
-  */
 
   when(io.Clear) {
     InstructionMem.io.enable := false.B

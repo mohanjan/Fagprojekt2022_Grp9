@@ -9,6 +9,8 @@ class NodeConnector(nodeCount: Int) extends Module {
     val Out = Output(UInt(18.W))
   })
   
+  // Parametriziable mixer 
+
   val Carry = Wire(Vec(nodeCount, UInt(18.W)))
   Carry(0) := io.In(0)
 

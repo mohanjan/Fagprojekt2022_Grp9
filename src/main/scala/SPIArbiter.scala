@@ -30,15 +30,13 @@ class SPIArbiter(Memports: Int) extends Module {
   ExternalMemory.io.Address := 0.U
   ExternalMemory.SPI <> SPI
 
-
-
-
-
   val Producer = Wire(UInt(2.W))
   val ProducerReg = RegInit(0.U(2.W))
   val Taken = RegInit(0.U(1.W))
 
   Producer := ProducerReg
+
+  // Arbiter 
 
   for(i <- 0 until Memports){
     when(!Taken.asBool && io.MemPort(i).Enable){
@@ -51,6 +49,8 @@ class SPIArbiter(Memports: Int) extends Module {
   when(io.MemPort(Producer).Completed === true.B){
     Taken := 0.U
   }
+
+  // SPI module controller
 
   when(io.MemPort(Producer).Enable){
     ExternalMemory.io.Address := io.MemPort(Producer).Address

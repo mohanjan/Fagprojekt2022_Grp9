@@ -19,7 +19,9 @@ class InstuctionMemory(memoryFile: String = "") extends Module {
     val Instruction = Output(UInt(18.W))
   })
 
-  // Notice the annotation below
+
+  // Instruction memory Instatiation 
+
   annotate(new ChiselAnnotation {
     override def toFirrtl =
       MemorySynthInit
