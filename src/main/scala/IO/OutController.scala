@@ -13,13 +13,13 @@ class OutController(bufferWidth: Int) extends Module {
 
   })
 
-  val scale = 16.U
+  val scale = bufferWidth.U //shoud be fixed 16 or bufferwidth?
   val ZReg  = RegInit(0.S(bufferWidth.W))
   val Diff  = Wire(SInt(16.W))
   val ZIn   = Wire(SInt(16.W))
   val DDC   = WireDefault(0.U(bufferWidth.W))
 
-  val cntReg = RegInit(0.U(3.W))
+  val cntReg = RegInit(0.U(4.W))
   cntReg := cntReg + 1.U
   val tick = cntReg === 0.U
 
