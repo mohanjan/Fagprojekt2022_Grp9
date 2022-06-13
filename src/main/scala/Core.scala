@@ -20,14 +20,20 @@ class Core(Program: String) extends Module {
     val MemPort = new MemPort
   })
 
-  // Init
+  // Initializing pipeline 
 
   val FetchStage = Module(new FetchStage(Program))
   val DecodeStage = Module(new DecodeStage)
   val ExecuteStage = Module(new ExecuteStage)
 
-  //Registers
-
+  //Initializing Registers
+  //x = register bank
+  // x0 = 0
+  // x01 = PC
+  // x02 = input
+  // x03 = output
+  // x04 - x15 = temp
+ 
   val x = Reg(Vec(16,UInt(18.W)))
 
   x(0) := 0.U(16.W)
@@ -35,6 +41,7 @@ class Core(Program: String) extends Module {
   io.WaveOut := x(3)
 
   // Default
+  //asserting fetch decode to be false by default
 
   FetchStage.io.Stall := false.B
   FetchStage.io.Clear := false.B
@@ -51,11 +58,12 @@ class Core(Program: String) extends Module {
   // Instruction Fetch
 
   FetchStage.In.PC := x(1)
-  FetchStage.io.Stall := ExecuteStage.io.Stall
+  FetchStage.io.Stall := ExecuteStage.io.Stall 
 
   when(!ExecuteStage.io.Stall && !DecodeStage.io.MiniStall){
     x(1) := x(1) + 1.U
   }
+  // easiest way to avoid pipelining error in memory access
 
   // Instruction Decode
 
@@ -63,10 +71,12 @@ class Core(Program: String) extends Module {
   DecodeStage.io.Stall := ExecuteStage.io.Stall
 
   // Execute
+  // sends instruction from decode to execute
 
   ExecuteStage.In := DecodeStage.Out
 
   // Writeback
+  // Execute stage actions
 
   switch(ExecuteStage.Out.WritebackMode){
     is(Arithmetic){
