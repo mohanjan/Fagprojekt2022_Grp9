@@ -39,6 +39,9 @@ class ALU() extends Module {
       io.Out := io.rs1 ^ io.rs2
     }
     is(8.U){
+      io.Out := (io.rs1 * io.rs2) >> 9
+    }
+    is(9.U){
       io.Out := io.rd + (io.rs1 * io.rs2)(17,0)
     }
   }

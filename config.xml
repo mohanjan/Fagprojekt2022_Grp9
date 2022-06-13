@@ -1,6 +1,6 @@
 <CAPNA>
   <CAP top="true" id="0">
-    <Program>Distortion</Program>
+    <Program>TestProgram</Program>
     <Inputs>
       <Input node="In"/>
     </Inputs>
@@ -8,7 +8,7 @@
     <DRAM offset="0"/>
   </CAP>
   <TEST>
-    <CLK count="15"/>
+    <CLK count="1"/>
     <SOUND sample="sample.wav"/>
   </TEST>
 </CAPNA>

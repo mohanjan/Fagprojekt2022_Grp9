@@ -13,10 +13,8 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
   val SPI = IO(new Bundle{
     val SCLK = Output(Bool())
     val CE = Output(Bool())
-    val SO = Input(Vec(4,Bool()))
-    val SI = Output(Vec(4,Bool()))
-    val Drive = Output(Bool())
-  })  
+    val MOSI_MISO = Analog(4.W)   
+  })    
 
   var CoreCount = 0 
   var OutputCount = 0
@@ -26,8 +24,16 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
   }
 
   val SPIArbiter = Module(new SPIArbiter(CoreCount))
+  val LCDBusDriver = Module(new LCDBusDriver)
 
-  SPIArbiter.SPI <> SPI
+  SPI.MOSI_MISO <> LCDBusDriver.io.bus
+  LCDBusDriver.io.drive := SPIArbiter.SPI.Drive
+  LCDBusDriver.io.driveData := SPIArbiter.SPI.SI.asUInt
+  SPIArbiter.SPI.SO := LCDBusDriver.io.busData.asBools
+  SPI.SCLK := SPIArbiter.SPI.SCLK
+  SPI.CE := SPIArbiter.SPI.CE
+
+  //SPIArbiter.SPI <> SPI
 
   var CORE = 0
 

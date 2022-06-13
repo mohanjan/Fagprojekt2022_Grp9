@@ -331,8 +331,8 @@ module MemoryController(
   wire  _GEN_357 = 4'h1 == StateReg ? 1'h0 : _GEN_341; // @[MemoryController.scala 123:20 48:10]
   wire [17:0] _GEN_368 = 4'h0 == StateReg ? {{2'd0}, WriteDataReg} : _GEN_352; // @[MemoryController.scala 123:20 60:29]
   wire [19:0] _GEN_369 = 4'h0 == StateReg ? {{4'd0}, DataReg} : _GEN_353; // @[MemoryController.scala 123:20 40:24]
-  wire [19:0] _GEN_374 = reset ? 20'h0 : _GEN_369; // @[MemoryController.scala 40:{24,24}]
-  wire [17:0] _GEN_375 = reset ? 18'h0 : _GEN_368; // @[MemoryController.scala 60:{29,29}]
+  wire [19:0] _GEN_0 = reset ? 20'h0 : _GEN_369; // @[MemoryController.scala 40:{24,24}]
+  wire [17:0] _GEN_4 = reset ? 18'h0 : _GEN_368; // @[MemoryController.scala 60:{29,29}]
   assign io_ReadData = {{2'd0}, DataReg}; // @[MemoryController.scala 46:15]
   assign io_Ready = 4'h0 == StateReg ? 1'h0 : _GEN_349; // @[MemoryController.scala 123:20 44:12]
   assign io_Completed = 4'h0 == StateReg ? 1'h0 : _GEN_354; // @[MemoryController.scala 123:20 43:16]
@@ -344,7 +344,7 @@ module MemoryController(
   assign SPI_SI_3 = 4'h0 == StateReg ? 1'h0 : _GEN_357; // @[MemoryController.scala 123:20 48:10]
   assign SPI_Drive = 4'h0 == StateReg ? 1'h0 : _GEN_344; // @[MemoryController.scala 123:20 50:13]
   always @(posedge clock) begin
-    DataReg <= _GEN_374[15:0]; // @[MemoryController.scala 40:{24,24}]
+    DataReg <= _GEN_0[15:0]; // @[MemoryController.scala 40:{24,24}]
     if (reset) begin // @[MemoryController.scala 53:25]
       StateReg <= 4'h0; // @[MemoryController.scala 53:25]
     end else if (4'h0 == StateReg) begin // @[MemoryController.scala 123:20]
@@ -386,7 +386,7 @@ module MemoryController(
     end else if (!(4'h2 == StateReg)) begin // @[MemoryController.scala 123:20]
       CntReg <= _GEN_314;
     end
-    WriteDataReg <= _GEN_375[15:0]; // @[MemoryController.scala 60:{29,29}]
+    WriteDataReg <= _GEN_4[15:0]; // @[MemoryController.scala 60:{29,29}]
     if (reset) begin // @[MemoryController.scala 61:27]
       AddressReg <= 24'h0; // @[MemoryController.scala 61:27]
     end else if (!(4'h0 == StateReg)) begin // @[MemoryController.scala 123:20]
@@ -521,14 +521,14 @@ module SPIArbiter(
   wire  ExternalMemory_SPI_SI_2; // @[SPIArbiter.scala 25:30]
   wire  ExternalMemory_SPI_SI_3; // @[SPIArbiter.scala 25:30]
   wire  ExternalMemory_SPI_Drive; // @[SPIArbiter.scala 25:30]
-  wire  _GEN_3 = ExternalMemory_io_Ready; // @[SPIArbiter.scala 29:33 55:36 56:39]
-  wire [17:0] _GEN_4 = ExternalMemory_io_Ready ? io_MemPort_0_WriteData : 18'h0; // @[SPIArbiter.scala 27:31 55:36 57:37]
-  wire  _GEN_5 = io_MemPort_0_WriteEn & _GEN_3; // @[SPIArbiter.scala 29:33 54:39]
-  wire [17:0] _GEN_6 = io_MemPort_0_WriteEn ? _GEN_4 : 18'h0; // @[SPIArbiter.scala 27:31 54:39]
-  wire  _GEN_7 = ExternalMemory_io_Completed; // @[SPIArbiter.scala 54:39 60:38 66:38]
-  wire  _GEN_8 = io_MemPort_0_WriteEn ? 1'h0 : _GEN_3; // @[SPIArbiter.scala 28:32 54:39]
-  wire [17:0] _GEN_9 = io_MemPort_0_WriteEn ? 18'h0 : ExternalMemory_io_ReadData; // @[SPIArbiter.scala 21:28 54:39 67:37]
-  wire [17:0] _GEN_10 = io_MemPort_0_Enable ? io_MemPort_0_Address : 18'h0; // @[SPIArbiter.scala 30:29 51:36 52:31]
+  wire  _GEN_3 = ExternalMemory_io_Ready; // @[SPIArbiter.scala 29:33 59:36 60:39]
+  wire [17:0] _GEN_4 = ExternalMemory_io_Ready ? io_MemPort_0_WriteData : 18'h0; // @[SPIArbiter.scala 27:31 59:36 61:37]
+  wire  _GEN_5 = io_MemPort_0_WriteEn & _GEN_3; // @[SPIArbiter.scala 29:33 58:39]
+  wire [17:0] _GEN_6 = io_MemPort_0_WriteEn ? _GEN_4 : 18'h0; // @[SPIArbiter.scala 27:31 58:39]
+  wire  _GEN_7 = ExternalMemory_io_Completed; // @[SPIArbiter.scala 58:39 64:38 70:38]
+  wire  _GEN_8 = io_MemPort_0_WriteEn ? 1'h0 : _GEN_3; // @[SPIArbiter.scala 28:32 58:39]
+  wire [17:0] _GEN_9 = io_MemPort_0_WriteEn ? 18'h0 : ExternalMemory_io_ReadData; // @[SPIArbiter.scala 21:28 58:39 71:37]
+  wire [17:0] _GEN_10 = io_MemPort_0_Enable ? io_MemPort_0_Address : 18'h0; // @[SPIArbiter.scala 30:29 55:36 56:31]
   MemoryController ExternalMemory ( // @[SPIArbiter.scala 25:30]
     .clock(ExternalMemory_clock),
     .reset(ExternalMemory_reset),
@@ -551,8 +551,8 @@ module SPIArbiter(
     .SPI_SI_3(ExternalMemory_SPI_SI_3),
     .SPI_Drive(ExternalMemory_SPI_Drive)
   );
-  assign io_MemPort_0_ReadData = io_MemPort_0_Enable ? _GEN_9 : 18'h0; // @[SPIArbiter.scala 21:28 51:36]
-  assign io_MemPort_0_Completed = io_MemPort_0_Enable & _GEN_7; // @[SPIArbiter.scala 22:29 51:36]
+  assign io_MemPort_0_ReadData = io_MemPort_0_Enable ? _GEN_9 : 18'h0; // @[SPIArbiter.scala 21:28 55:36]
+  assign io_MemPort_0_Completed = io_MemPort_0_Enable & _GEN_7; // @[SPIArbiter.scala 22:29 55:36]
   assign SPI_SCLK = ExternalMemory_SPI_SCLK; // @[SPIArbiter.scala 31:22]
   assign SPI_CE = ExternalMemory_SPI_CE; // @[SPIArbiter.scala 31:22]
   assign SPI_SI_0 = ExternalMemory_SPI_SI_0; // @[SPIArbiter.scala 31:22]
@@ -562,10 +562,10 @@ module SPIArbiter(
   assign SPI_Drive = ExternalMemory_SPI_Drive; // @[SPIArbiter.scala 31:22]
   assign ExternalMemory_clock = clock;
   assign ExternalMemory_reset = reset;
-  assign ExternalMemory_io_ReadEnable = io_MemPort_0_Enable & _GEN_8; // @[SPIArbiter.scala 28:32 51:36]
-  assign ExternalMemory_io_WriteEnable = io_MemPort_0_Enable & _GEN_5; // @[SPIArbiter.scala 29:33 51:36]
+  assign ExternalMemory_io_ReadEnable = io_MemPort_0_Enable & _GEN_8; // @[SPIArbiter.scala 28:32 55:36]
+  assign ExternalMemory_io_WriteEnable = io_MemPort_0_Enable & _GEN_5; // @[SPIArbiter.scala 29:33 55:36]
   assign ExternalMemory_io_Address = {{6'd0}, _GEN_10};
-  assign ExternalMemory_io_WriteData = io_MemPort_0_Enable ? _GEN_6 : 18'h0; // @[SPIArbiter.scala 27:31 51:36]
+  assign ExternalMemory_io_WriteData = io_MemPort_0_Enable ? _GEN_6 : 18'h0; // @[SPIArbiter.scala 27:31 55:36]
   assign ExternalMemory_SPI_SO_0 = SPI_SO_0; // @[SPIArbiter.scala 31:22]
   assign ExternalMemory_SPI_SO_1 = SPI_SO_1; // @[SPIArbiter.scala 31:22]
   assign ExternalMemory_SPI_SO_2 = SPI_SO_2; // @[SPIArbiter.scala 31:22]
@@ -654,7 +654,7 @@ end // initial
 `endif
 `endif // SYNTHESIS
 initial begin
-  $readmemh("Programs/MachineCode/FIR.mem", mem);
+  $readmemh("Programs/MachineCode/TestProgram.mem", mem);
 end
 endmodule
 module FetchStage(
@@ -964,22 +964,24 @@ module ALU(
   wire [17:0] _io_Out_T_1 = io_rs1 + io_rs2; // @[ALU.scala 18:24]
   wire [17:0] _io_Out_T_3 = io_rs1 - io_rs2; // @[ALU.scala 21:24]
   wire [35:0] _io_Out_T_4 = io_rs1 * io_rs2; // @[ALU.scala 24:25]
-  wire [80:0] _GEN_8 = {{63'd0}, io_rs1}; // @[ALU.scala 27:25]
-  wire [80:0] _io_Out_T_7 = _GEN_8 << io_rs2[5:0]; // @[ALU.scala 27:25]
+  wire [80:0] _GEN_10 = {{63'd0}, io_rs1}; // @[ALU.scala 27:25]
+  wire [80:0] _io_Out_T_7 = _GEN_10 << io_rs2[5:0]; // @[ALU.scala 27:25]
   wire [17:0] _io_Out_T_9 = io_rs1 >> io_rs2; // @[ALU.scala 30:25]
   wire [17:0] _io_Out_T_11 = io_rs1 & io_rs2; // @[ALU.scala 33:24]
   wire [17:0] _io_Out_T_12 = io_rs1 | io_rs2; // @[ALU.scala 36:24]
   wire [17:0] _io_Out_T_13 = io_rs1 ^ io_rs2; // @[ALU.scala 39:24]
-  wire [17:0] _io_Out_T_17 = io_rd + _io_Out_T_4[17:0]; // @[ALU.scala 42:23]
-  wire [17:0] _GEN_0 = 8'h8 == io_Operation ? _io_Out_T_17 : 18'h0; // @[ALU.scala 14:10 16:24 42:14]
-  wire [17:0] _GEN_1 = 8'h7 == io_Operation ? _io_Out_T_13 : _GEN_0; // @[ALU.scala 16:24 39:14]
-  wire [17:0] _GEN_2 = 8'h6 == io_Operation ? _io_Out_T_12 : _GEN_1; // @[ALU.scala 16:24 36:14]
-  wire [17:0] _GEN_3 = 8'h5 == io_Operation ? _io_Out_T_11 : _GEN_2; // @[ALU.scala 16:24 33:14]
-  wire [17:0] _GEN_4 = 8'h4 == io_Operation ? _io_Out_T_9 : _GEN_3; // @[ALU.scala 16:24 30:14]
-  wire [17:0] _GEN_5 = 8'h3 == io_Operation ? _io_Out_T_7[17:0] : _GEN_4; // @[ALU.scala 16:24 27:14]
-  wire [17:0] _GEN_6 = 8'h2 == io_Operation ? _io_Out_T_4[17:0] : _GEN_5; // @[ALU.scala 16:24 24:14]
-  wire [17:0] _GEN_7 = 8'h1 == io_Operation ? _io_Out_T_3 : _GEN_6; // @[ALU.scala 16:24 21:14]
-  assign io_Out = 8'h0 == io_Operation ? _io_Out_T_1 : _GEN_7; // @[ALU.scala 16:24 18:14]
+  wire [17:0] _io_Out_T_19 = io_rd + _io_Out_T_4[17:0]; // @[ALU.scala 45:23]
+  wire [17:0] _GEN_0 = 8'h9 == io_Operation ? _io_Out_T_19 : 18'h0; // @[ALU.scala 14:10 16:24 45:14]
+  wire [26:0] _GEN_1 = 8'h8 == io_Operation ? _io_Out_T_4[35:9] : {{9'd0}, _GEN_0}; // @[ALU.scala 16:24 42:14]
+  wire [26:0] _GEN_2 = 8'h7 == io_Operation ? {{9'd0}, _io_Out_T_13} : _GEN_1; // @[ALU.scala 16:24 39:14]
+  wire [26:0] _GEN_3 = 8'h6 == io_Operation ? {{9'd0}, _io_Out_T_12} : _GEN_2; // @[ALU.scala 16:24 36:14]
+  wire [26:0] _GEN_4 = 8'h5 == io_Operation ? {{9'd0}, _io_Out_T_11} : _GEN_3; // @[ALU.scala 16:24 33:14]
+  wire [26:0] _GEN_5 = 8'h4 == io_Operation ? {{9'd0}, _io_Out_T_9} : _GEN_4; // @[ALU.scala 16:24 30:14]
+  wire [26:0] _GEN_6 = 8'h3 == io_Operation ? {{9'd0}, _io_Out_T_7[17:0]} : _GEN_5; // @[ALU.scala 16:24 27:14]
+  wire [26:0] _GEN_7 = 8'h2 == io_Operation ? {{9'd0}, _io_Out_T_4[17:0]} : _GEN_6; // @[ALU.scala 16:24 24:14]
+  wire [26:0] _GEN_8 = 8'h1 == io_Operation ? {{9'd0}, _io_Out_T_3} : _GEN_7; // @[ALU.scala 16:24 21:14]
+  wire [26:0] _GEN_9 = 8'h0 == io_Operation ? {{9'd0}, _io_Out_T_1} : _GEN_8; // @[ALU.scala 16:24 18:14]
+  assign io_Out = _GEN_9[17:0];
 endmodule
 module BranchComp(
   input  [17:0] io_rs2,
@@ -1135,38 +1137,38 @@ module ExecuteStage(
   wire [17:0] _GEN_65 = _T_1 ? ALUOutReg : _GEN_64; // @[ExecuteStage.scala 172:32 174:34]
   wire [17:0] _GEN_66 = _T & In_rs1 != 4'h0 ? _GEN_65 : _GEN_15; // @[ExecuteStage.scala 171:54 181:30]
   wire  _T_21 = ~io_MemPort_Completed; // @[ExecuteStage.scala 189:14]
-  wire  _T_22 = In_AOperation == 4'ha; // @[ExecuteStage.scala 192:32]
+  wire  _T_22 = In_AOperation == 4'hb; // @[ExecuteStage.scala 192:32]
   wire [17:0] _GEN_70 = _T ? _GEN_65 : _GEN_15; // @[ExecuteStage.scala 202:36 212:30]
-  wire [17:0] _GEN_73 = In_AOperation == 4'ha ? _GEN_70 : 18'h0; // @[ExecuteStage.scala 192:41 40:22]
-  wire [17:0] _GEN_74 = In_AOperation == 4'ha ? rd : 18'h0; // @[ExecuteStage.scala 192:41 215:30 41:24]
-  wire [3:0] _GEN_75 = In_AOperation == 4'ha ? 4'h0 : _GEN_61; // @[ExecuteStage.scala 192:41 218:23]
-  wire  _GEN_76 = In_AOperation == 4'ha & _T_21; // @[ExecuteStage.scala 192:41 44:12]
-  wire  _GEN_77 = In_AOperation == 4'h9 | _T_22; // @[ExecuteStage.scala 161:40 165:27]
-  wire [17:0] _GEN_78 = In_AOperation == 4'h9 ? _GEN_66 : _GEN_73; // @[ExecuteStage.scala 161:40]
-  wire [3:0] _GEN_79 = In_AOperation == 4'h9 ? 4'h3 : _GEN_75; // @[ExecuteStage.scala 161:40 184:23]
-  wire [3:0] _GEN_80 = In_AOperation == 4'h9 ? In_rd : _GEN_62; // @[ExecuteStage.scala 161:40 185:27]
-  wire [3:0] _GEN_81 = In_AOperation == 4'h9 ? In_rd : DataHazard; // @[ExecuteStage.scala 161:40 187:20 62:27]
-  wire  _GEN_82 = In_AOperation == 4'h9 ? _T_21 : _GEN_76; // @[ExecuteStage.scala 161:40]
-  wire  _GEN_83 = In_AOperation == 4'h9 ? 1'h0 : _T_22; // @[ExecuteStage.scala 161:40 42:22]
-  wire [17:0] _GEN_84 = In_AOperation == 4'h9 ? 18'h0 : _GEN_74; // @[ExecuteStage.scala 161:40 41:24]
-  wire [3:0] _GEN_85 = In_AOperation == 4'h8 ? In_AOperation : 4'h0; // @[ExecuteStage.scala 150:40 151:26 49:20]
-  wire [17:0] _GEN_86 = In_AOperation == 4'h8 ? rs2 : 18'h0; // @[ExecuteStage.scala 150:40 153:20 46:14]
-  wire [17:0] _GEN_87 = In_AOperation == 4'h8 ? rs1 : 18'h0; // @[ExecuteStage.scala 150:40 154:20 47:14]
-  wire [17:0] _GEN_88 = In_AOperation == 4'h8 ? rd : 18'h0; // @[ExecuteStage.scala 150:40 155:19 48:13]
-  wire  _GEN_92 = In_AOperation == 4'h8 ? 1'h0 : _GEN_77; // @[ExecuteStage.scala 150:40 39:21]
-  wire [17:0] _GEN_93 = In_AOperation == 4'h8 ? 18'h0 : _GEN_78; // @[ExecuteStage.scala 150:40 40:22]
-  wire  _GEN_94 = In_AOperation == 4'h8 ? 1'h0 : _GEN_82; // @[ExecuteStage.scala 150:40 44:12]
-  wire  _GEN_95 = In_AOperation == 4'h8 ? 1'h0 : _GEN_83; // @[ExecuteStage.scala 150:40 42:22]
-  wire [17:0] _GEN_96 = In_AOperation == 4'h8 ? 18'h0 : _GEN_84; // @[ExecuteStage.scala 150:40 41:24]
-  wire [3:0] _GEN_97 = In_AOperation <= 4'h7 ? In_AOperation : _GEN_85; // @[ExecuteStage.scala 140:33 141:26]
-  wire [17:0] _GEN_98 = In_AOperation <= 4'h7 ? rs2 : _GEN_86; // @[ExecuteStage.scala 140:33 143:20]
-  wire [17:0] _GEN_99 = In_AOperation <= 4'h7 ? rs1 : _GEN_87; // @[ExecuteStage.scala 140:33 144:20]
-  wire [17:0] _GEN_103 = In_AOperation <= 4'h7 ? 18'h0 : _GEN_88; // @[ExecuteStage.scala 140:33 48:13]
-  wire  _GEN_104 = In_AOperation <= 4'h7 ? 1'h0 : _GEN_92; // @[ExecuteStage.scala 140:33 39:21]
-  wire [17:0] _GEN_105 = In_AOperation <= 4'h7 ? 18'h0 : _GEN_93; // @[ExecuteStage.scala 140:33 40:22]
-  wire  _GEN_106 = In_AOperation <= 4'h7 ? 1'h0 : _GEN_94; // @[ExecuteStage.scala 140:33 44:12]
-  wire  _GEN_107 = In_AOperation <= 4'h7 ? 1'h0 : _GEN_95; // @[ExecuteStage.scala 140:33 42:22]
-  wire [17:0] _GEN_108 = In_AOperation <= 4'h7 ? 18'h0 : _GEN_96; // @[ExecuteStage.scala 140:33 41:24]
+  wire [17:0] _GEN_73 = In_AOperation == 4'hb ? _GEN_70 : 18'h0; // @[ExecuteStage.scala 192:41 40:22]
+  wire [17:0] _GEN_74 = In_AOperation == 4'hb ? rd : 18'h0; // @[ExecuteStage.scala 192:41 215:30 41:24]
+  wire [3:0] _GEN_75 = In_AOperation == 4'hb ? 4'h0 : _GEN_61; // @[ExecuteStage.scala 192:41 218:23]
+  wire  _GEN_76 = In_AOperation == 4'hb & _T_21; // @[ExecuteStage.scala 192:41 44:12]
+  wire  _GEN_77 = In_AOperation == 4'ha | _T_22; // @[ExecuteStage.scala 161:41 165:27]
+  wire [17:0] _GEN_78 = In_AOperation == 4'ha ? _GEN_66 : _GEN_73; // @[ExecuteStage.scala 161:41]
+  wire [3:0] _GEN_79 = In_AOperation == 4'ha ? 4'h3 : _GEN_75; // @[ExecuteStage.scala 161:41 184:23]
+  wire [3:0] _GEN_80 = In_AOperation == 4'ha ? In_rd : _GEN_62; // @[ExecuteStage.scala 161:41 185:27]
+  wire [3:0] _GEN_81 = In_AOperation == 4'ha ? In_rd : DataHazard; // @[ExecuteStage.scala 161:41 187:20 62:27]
+  wire  _GEN_82 = In_AOperation == 4'ha ? _T_21 : _GEN_76; // @[ExecuteStage.scala 161:41]
+  wire  _GEN_83 = In_AOperation == 4'ha ? 1'h0 : _T_22; // @[ExecuteStage.scala 161:41 42:22]
+  wire [17:0] _GEN_84 = In_AOperation == 4'ha ? 18'h0 : _GEN_74; // @[ExecuteStage.scala 161:41 41:24]
+  wire [3:0] _GEN_85 = In_AOperation == 4'h9 ? In_AOperation : 4'h0; // @[ExecuteStage.scala 150:40 151:26 49:20]
+  wire [17:0] _GEN_86 = In_AOperation == 4'h9 ? rs2 : 18'h0; // @[ExecuteStage.scala 150:40 153:20 46:14]
+  wire [17:0] _GEN_87 = In_AOperation == 4'h9 ? rs1 : 18'h0; // @[ExecuteStage.scala 150:40 154:20 47:14]
+  wire [17:0] _GEN_88 = In_AOperation == 4'h9 ? rd : 18'h0; // @[ExecuteStage.scala 150:40 155:19 48:13]
+  wire  _GEN_92 = In_AOperation == 4'h9 ? 1'h0 : _GEN_77; // @[ExecuteStage.scala 150:40 39:21]
+  wire [17:0] _GEN_93 = In_AOperation == 4'h9 ? 18'h0 : _GEN_78; // @[ExecuteStage.scala 150:40 40:22]
+  wire  _GEN_94 = In_AOperation == 4'h9 ? 1'h0 : _GEN_82; // @[ExecuteStage.scala 150:40 44:12]
+  wire  _GEN_95 = In_AOperation == 4'h9 ? 1'h0 : _GEN_83; // @[ExecuteStage.scala 150:40 42:22]
+  wire [17:0] _GEN_96 = In_AOperation == 4'h9 ? 18'h0 : _GEN_84; // @[ExecuteStage.scala 150:40 41:24]
+  wire [3:0] _GEN_97 = In_AOperation <= 4'h8 ? In_AOperation : _GEN_85; // @[ExecuteStage.scala 140:33 141:26]
+  wire [17:0] _GEN_98 = In_AOperation <= 4'h8 ? rs2 : _GEN_86; // @[ExecuteStage.scala 140:33 143:20]
+  wire [17:0] _GEN_99 = In_AOperation <= 4'h8 ? rs1 : _GEN_87; // @[ExecuteStage.scala 140:33 144:20]
+  wire [17:0] _GEN_103 = In_AOperation <= 4'h8 ? 18'h0 : _GEN_88; // @[ExecuteStage.scala 140:33 48:13]
+  wire  _GEN_104 = In_AOperation <= 4'h8 ? 1'h0 : _GEN_92; // @[ExecuteStage.scala 140:33 39:21]
+  wire [17:0] _GEN_105 = In_AOperation <= 4'h8 ? 18'h0 : _GEN_93; // @[ExecuteStage.scala 140:33 40:22]
+  wire  _GEN_106 = In_AOperation <= 4'h8 ? 1'h0 : _GEN_94; // @[ExecuteStage.scala 140:33 44:12]
+  wire  _GEN_107 = In_AOperation <= 4'h8 ? 1'h0 : _GEN_95; // @[ExecuteStage.scala 140:33 42:22]
+  wire [17:0] _GEN_108 = In_AOperation <= 4'h8 ? 18'h0 : _GEN_96; // @[ExecuteStage.scala 140:33 41:24]
   wire [8:0] upper = In_AImmediate[8:0]; // @[ExecuteStage.scala 234:31]
   wire [8:0] lower = rd[8:0]; // @[ExecuteStage.scala 237:20]
   wire [17:0] cat = {upper,lower}; // @[Cat.scala 31:58]
@@ -1258,9 +1260,9 @@ module ExecuteStage(
     if (reset) begin // @[ExecuteStage.scala 57:30]
       WritebackMode <= 4'h0; // @[ExecuteStage.scala 57:30]
     end else if (2'h0 == In_Type) begin // @[ExecuteStage.scala 138:18]
-      if (In_AOperation <= 4'h7) begin // @[ExecuteStage.scala 140:33]
+      if (In_AOperation <= 4'h8) begin // @[ExecuteStage.scala 140:33]
         WritebackMode <= 4'h1; // @[ExecuteStage.scala 146:23]
-      end else if (In_AOperation == 4'h8) begin // @[ExecuteStage.scala 150:40]
+      end else if (In_AOperation == 4'h9) begin // @[ExecuteStage.scala 150:40]
         WritebackMode <= 4'h1; // @[ExecuteStage.scala 157:23]
       end else begin
         WritebackMode <= _GEN_79;
@@ -1275,9 +1277,9 @@ module ExecuteStage(
     if (reset) begin // @[ExecuteStage.scala 58:34]
       WritebackRegister <= 4'h0; // @[ExecuteStage.scala 58:34]
     end else if (2'h0 == In_Type) begin // @[ExecuteStage.scala 138:18]
-      if (In_AOperation <= 4'h7) begin // @[ExecuteStage.scala 140:33]
+      if (In_AOperation <= 4'h8) begin // @[ExecuteStage.scala 140:33]
         WritebackRegister <= In_rd; // @[ExecuteStage.scala 147:27]
-      end else if (In_AOperation == 4'h8) begin // @[ExecuteStage.scala 150:40]
+      end else if (In_AOperation == 4'h9) begin // @[ExecuteStage.scala 150:40]
         WritebackRegister <= In_rd; // @[ExecuteStage.scala 158:27]
       end else begin
         WritebackRegister <= _GEN_80;
@@ -1300,9 +1302,9 @@ module ExecuteStage(
     if (reset) begin // @[ExecuteStage.scala 62:27]
       DataHazard <= 4'h0; // @[ExecuteStage.scala 62:27]
     end else if (2'h0 == In_Type) begin // @[ExecuteStage.scala 138:18]
-      if (In_AOperation <= 4'h7) begin // @[ExecuteStage.scala 140:33]
+      if (In_AOperation <= 4'h8) begin // @[ExecuteStage.scala 140:33]
         DataHazard <= In_rd; // @[ExecuteStage.scala 149:20]
-      end else if (In_AOperation == 4'h8) begin // @[ExecuteStage.scala 150:40]
+      end else if (In_AOperation == 4'h9) begin // @[ExecuteStage.scala 150:40]
         DataHazard <= In_rd; // @[ExecuteStage.scala 160:20]
       end else begin
         DataHazard <= _GEN_81;
@@ -2053,49 +2055,46 @@ module DSP(
   output [15:0] io_Out,
   output        SPI_SCLK,
   output        SPI_CE,
-  input         SPI_SO_0,
-  input         SPI_SO_1,
-  input         SPI_SO_2,
-  input         SPI_SO_3,
-  output        SPI_SI_0,
-  output        SPI_SI_1,
-  output        SPI_SI_2,
-  output        SPI_SI_3,
-  output        SPI_Drive
+  inout  [3:0]  SPI_MOSI_MISO
 );
-  wire  SPIArbiter_clock; // @[DSP.scala 28:26]
-  wire  SPIArbiter_reset; // @[DSP.scala 28:26]
-  wire [17:0] SPIArbiter_io_MemPort_0_Address; // @[DSP.scala 28:26]
-  wire [17:0] SPIArbiter_io_MemPort_0_WriteData; // @[DSP.scala 28:26]
-  wire  SPIArbiter_io_MemPort_0_Enable; // @[DSP.scala 28:26]
-  wire  SPIArbiter_io_MemPort_0_WriteEn; // @[DSP.scala 28:26]
-  wire [17:0] SPIArbiter_io_MemPort_0_ReadData; // @[DSP.scala 28:26]
-  wire  SPIArbiter_io_MemPort_0_Completed; // @[DSP.scala 28:26]
-  wire  SPIArbiter_SPI_SCLK; // @[DSP.scala 28:26]
-  wire  SPIArbiter_SPI_CE; // @[DSP.scala 28:26]
-  wire  SPIArbiter_SPI_SO_0; // @[DSP.scala 28:26]
-  wire  SPIArbiter_SPI_SO_1; // @[DSP.scala 28:26]
-  wire  SPIArbiter_SPI_SO_2; // @[DSP.scala 28:26]
-  wire  SPIArbiter_SPI_SO_3; // @[DSP.scala 28:26]
-  wire  SPIArbiter_SPI_SI_0; // @[DSP.scala 28:26]
-  wire  SPIArbiter_SPI_SI_1; // @[DSP.scala 28:26]
-  wire  SPIArbiter_SPI_SI_2; // @[DSP.scala 28:26]
-  wire  SPIArbiter_SPI_SI_3; // @[DSP.scala 28:26]
-  wire  SPIArbiter_SPI_Drive; // @[DSP.scala 28:26]
-  wire  SubDSP_clock; // @[DSP.scala 49:24]
-  wire  SubDSP_reset; // @[DSP.scala 49:24]
-  wire [17:0] SubDSP_io_Sub_IO_In; // @[DSP.scala 49:24]
-  wire [17:0] SubDSP_io_Sub_IO_Out; // @[DSP.scala 49:24]
-  wire [17:0] SubDSP_SPI_SPIMemPort_Address; // @[DSP.scala 49:24]
-  wire [17:0] SubDSP_SPI_SPIMemPort_WriteData; // @[DSP.scala 49:24]
-  wire  SubDSP_SPI_SPIMemPort_Enable; // @[DSP.scala 49:24]
-  wire  SubDSP_SPI_SPIMemPort_WriteEn; // @[DSP.scala 49:24]
-  wire [17:0] SubDSP_SPI_SPIMemPort_ReadData; // @[DSP.scala 49:24]
-  wire  SubDSP_SPI_SPIMemPort_Completed; // @[DSP.scala 49:24]
-  wire [17:0] OutputConnector_io_In_0; // @[DSP.scala 66:31]
-  wire [17:0] OutputConnector_io_Out; // @[DSP.scala 66:31]
-  wire [15:0] _CAP_IOs_0_In_T = io_In; // @[DSP.scala 95:36]
-  SPIArbiter SPIArbiter ( // @[DSP.scala 28:26]
+  wire  SPIArbiter_clock; // @[DSP.scala 27:26]
+  wire  SPIArbiter_reset; // @[DSP.scala 27:26]
+  wire [17:0] SPIArbiter_io_MemPort_0_Address; // @[DSP.scala 27:26]
+  wire [17:0] SPIArbiter_io_MemPort_0_WriteData; // @[DSP.scala 27:26]
+  wire  SPIArbiter_io_MemPort_0_Enable; // @[DSP.scala 27:26]
+  wire  SPIArbiter_io_MemPort_0_WriteEn; // @[DSP.scala 27:26]
+  wire [17:0] SPIArbiter_io_MemPort_0_ReadData; // @[DSP.scala 27:26]
+  wire  SPIArbiter_io_MemPort_0_Completed; // @[DSP.scala 27:26]
+  wire  SPIArbiter_SPI_SCLK; // @[DSP.scala 27:26]
+  wire  SPIArbiter_SPI_CE; // @[DSP.scala 27:26]
+  wire  SPIArbiter_SPI_SO_0; // @[DSP.scala 27:26]
+  wire  SPIArbiter_SPI_SO_1; // @[DSP.scala 27:26]
+  wire  SPIArbiter_SPI_SO_2; // @[DSP.scala 27:26]
+  wire  SPIArbiter_SPI_SO_3; // @[DSP.scala 27:26]
+  wire  SPIArbiter_SPI_SI_0; // @[DSP.scala 27:26]
+  wire  SPIArbiter_SPI_SI_1; // @[DSP.scala 27:26]
+  wire  SPIArbiter_SPI_SI_2; // @[DSP.scala 27:26]
+  wire  SPIArbiter_SPI_SI_3; // @[DSP.scala 27:26]
+  wire  SPIArbiter_SPI_Drive; // @[DSP.scala 27:26]
+  wire [3:0] LCDBusDriver_busData; // @[DSP.scala 28:28]
+  wire [3:0] LCDBusDriver_driveData; // @[DSP.scala 28:28]
+  wire  LCDBusDriver_drive; // @[DSP.scala 28:28]
+  wire  SubDSP_clock; // @[DSP.scala 56:24]
+  wire  SubDSP_reset; // @[DSP.scala 56:24]
+  wire [17:0] SubDSP_io_Sub_IO_In; // @[DSP.scala 56:24]
+  wire [17:0] SubDSP_io_Sub_IO_Out; // @[DSP.scala 56:24]
+  wire [17:0] SubDSP_SPI_SPIMemPort_Address; // @[DSP.scala 56:24]
+  wire [17:0] SubDSP_SPI_SPIMemPort_WriteData; // @[DSP.scala 56:24]
+  wire  SubDSP_SPI_SPIMemPort_Enable; // @[DSP.scala 56:24]
+  wire  SubDSP_SPI_SPIMemPort_WriteEn; // @[DSP.scala 56:24]
+  wire [17:0] SubDSP_SPI_SPIMemPort_ReadData; // @[DSP.scala 56:24]
+  wire  SubDSP_SPI_SPIMemPort_Completed; // @[DSP.scala 56:24]
+  wire [17:0] OutputConnector_io_In_0; // @[DSP.scala 73:31]
+  wire [17:0] OutputConnector_io_Out; // @[DSP.scala 73:31]
+  wire [1:0] LCDBusDriver_io_driveData_lo = {SPIArbiter_SPI_SI_1,SPIArbiter_SPI_SI_0}; // @[DSP.scala 32:50]
+  wire [1:0] LCDBusDriver_io_driveData_hi = {SPIArbiter_SPI_SI_3,SPIArbiter_SPI_SI_2}; // @[DSP.scala 32:50]
+  wire [15:0] _CAP_IOs_0_In_T = io_In; // @[DSP.scala 102:36]
+  SPIArbiter SPIArbiter ( // @[DSP.scala 27:26]
     .clock(SPIArbiter_clock),
     .reset(SPIArbiter_reset),
     .io_MemPort_0_Address(SPIArbiter_io_MemPort_0_Address),
@@ -2116,7 +2115,13 @@ module DSP(
     .SPI_SI_3(SPIArbiter_SPI_SI_3),
     .SPI_Drive(SPIArbiter_SPI_Drive)
   );
-  SubDSP SubDSP ( // @[DSP.scala 49:24]
+  LCDBusDriver LCDBusDriver ( // @[DSP.scala 28:28]
+    .busData(LCDBusDriver_busData),
+    .driveData(LCDBusDriver_driveData),
+    .bus(SPI_MOSI_MISO),
+    .drive(LCDBusDriver_drive)
+  );
+  SubDSP SubDSP ( // @[DSP.scala 56:24]
     .clock(SubDSP_clock),
     .reset(SubDSP_reset),
     .io_Sub_IO_In(SubDSP_io_Sub_IO_In),
@@ -2128,32 +2133,29 @@ module DSP(
     .SPI_SPIMemPort_ReadData(SubDSP_SPI_SPIMemPort_ReadData),
     .SPI_SPIMemPort_Completed(SubDSP_SPI_SPIMemPort_Completed)
   );
-  NodeConnector OutputConnector ( // @[DSP.scala 66:31]
+  NodeConnector OutputConnector ( // @[DSP.scala 73:31]
     .io_In_0(OutputConnector_io_In_0),
     .io_Out(OutputConnector_io_Out)
   );
-  assign io_Out = OutputConnector_io_Out[15:0]; // @[DSP.scala 114:42]
-  assign SPI_SCLK = SPIArbiter_SPI_SCLK; // @[DSP.scala 30:18]
-  assign SPI_CE = SPIArbiter_SPI_CE; // @[DSP.scala 30:18]
-  assign SPI_SI_0 = SPIArbiter_SPI_SI_0; // @[DSP.scala 30:18]
-  assign SPI_SI_1 = SPIArbiter_SPI_SI_1; // @[DSP.scala 30:18]
-  assign SPI_SI_2 = SPIArbiter_SPI_SI_2; // @[DSP.scala 30:18]
-  assign SPI_SI_3 = SPIArbiter_SPI_SI_3; // @[DSP.scala 30:18]
-  assign SPI_Drive = SPIArbiter_SPI_Drive; // @[DSP.scala 30:18]
+  assign io_Out = OutputConnector_io_Out[15:0]; // @[DSP.scala 121:42]
+  assign SPI_SCLK = SPIArbiter_SPI_SCLK; // @[DSP.scala 34:12]
+  assign SPI_CE = SPIArbiter_SPI_CE; // @[DSP.scala 35:10]
   assign SPIArbiter_clock = clock;
   assign SPIArbiter_reset = reset;
-  assign SPIArbiter_io_MemPort_0_Address = SubDSP_SPI_SPIMemPort_Address; // @[DSP.scala 53:27]
-  assign SPIArbiter_io_MemPort_0_WriteData = SubDSP_SPI_SPIMemPort_WriteData; // @[DSP.scala 53:27]
-  assign SPIArbiter_io_MemPort_0_Enable = SubDSP_SPI_SPIMemPort_Enable; // @[DSP.scala 53:27]
-  assign SPIArbiter_io_MemPort_0_WriteEn = SubDSP_SPI_SPIMemPort_WriteEn; // @[DSP.scala 53:27]
-  assign SPIArbiter_SPI_SO_0 = SPI_SO_0; // @[DSP.scala 30:18]
-  assign SPIArbiter_SPI_SO_1 = SPI_SO_1; // @[DSP.scala 30:18]
-  assign SPIArbiter_SPI_SO_2 = SPI_SO_2; // @[DSP.scala 30:18]
-  assign SPIArbiter_SPI_SO_3 = SPI_SO_3; // @[DSP.scala 30:18]
+  assign SPIArbiter_io_MemPort_0_Address = SubDSP_SPI_SPIMemPort_Address; // @[DSP.scala 60:27]
+  assign SPIArbiter_io_MemPort_0_WriteData = SubDSP_SPI_SPIMemPort_WriteData; // @[DSP.scala 60:27]
+  assign SPIArbiter_io_MemPort_0_Enable = SubDSP_SPI_SPIMemPort_Enable; // @[DSP.scala 60:27]
+  assign SPIArbiter_io_MemPort_0_WriteEn = SubDSP_SPI_SPIMemPort_WriteEn; // @[DSP.scala 60:27]
+  assign SPIArbiter_SPI_SO_0 = LCDBusDriver_busData[0]; // @[DSP.scala 33:48]
+  assign SPIArbiter_SPI_SO_1 = LCDBusDriver_busData[1]; // @[DSP.scala 33:48]
+  assign SPIArbiter_SPI_SO_2 = LCDBusDriver_busData[2]; // @[DSP.scala 33:48]
+  assign SPIArbiter_SPI_SO_3 = LCDBusDriver_busData[3]; // @[DSP.scala 33:48]
+  assign LCDBusDriver_driveData = {LCDBusDriver_io_driveData_hi,LCDBusDriver_io_driveData_lo}; // @[DSP.scala 32:50]
+  assign LCDBusDriver_drive = SPIArbiter_SPI_Drive; // @[DSP.scala 31:25]
   assign SubDSP_clock = clock;
   assign SubDSP_reset = reset;
-  assign SubDSP_io_Sub_IO_In = {{2'd0}, _CAP_IOs_0_In_T}; // @[DSP.scala 34:21 95:27]
-  assign SubDSP_SPI_SPIMemPort_ReadData = SPIArbiter_io_MemPort_0_ReadData; // @[DSP.scala 53:27]
-  assign SubDSP_SPI_SPIMemPort_Completed = SPIArbiter_io_MemPort_0_Completed; // @[DSP.scala 53:27]
-  assign OutputConnector_io_In_0 = SubDSP_io_Sub_IO_Out; // @[DSP.scala 34:21 55:19]
+  assign SubDSP_io_Sub_IO_In = {{2'd0}, _CAP_IOs_0_In_T}; // @[DSP.scala 41:21 102:27]
+  assign SubDSP_SPI_SPIMemPort_ReadData = SPIArbiter_io_MemPort_0_ReadData; // @[DSP.scala 60:27]
+  assign SubDSP_SPI_SPIMemPort_Completed = SPIArbiter_io_MemPort_0_Completed; // @[DSP.scala 60:27]
+  assign OutputConnector_io_In_0 = SubDSP_io_Sub_IO_Out; // @[DSP.scala 41:21 62:19]
 endmodule

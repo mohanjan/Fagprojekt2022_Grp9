@@ -256,21 +256,27 @@ public class Assembler {
             //System.out.println(val);
         }
 
+        else if(instruction.contains("fpmul")){
+            val = 0b000100000000000000;
+            val = (val | find_arguments(instruction,0));
+            //System.out.println(val);
+        }
+
         else if(instruction.contains("mac")){
-            val = 0b001000000000000000;
+            val = 0b001001000000000000;
             val = (val | find_arguments(instruction,0));
             //System.out.println(val);
         }
 
 
         else if(instruction.contains("lw") && !instruction.contains("lwi")){
-            val = 0b001001000000000000;
+            val = 0b001010000000000000;
             val = (val | find_arguments(instruction,0));
             //System.out.println(val);
         }
 
         else if(instruction.contains("sw") && !instruction.contains("swi")){
-            val = 0b001010000000000000;
+            val = 0b001011000000000000;
             val = (val | find_arguments(instruction,0));
             //System.out.println(val);
         }
@@ -358,14 +364,14 @@ public class Assembler {
         switch(type){
             case 0:
                 int rd_index = instruction.indexOf("x");
-                int rd = find_register(instruction.substring(rd_index, rd_index + 3).replace(" ", ""));
+                int rd = find_register(instruction.substring(rd_index, rd_index + 2).replace(" ", ""));
 
                 int rs1_index = instruction.indexOf("x", rd_index + 1);
 
-                int rs1 = find_register(instruction.substring(rs1_index, rs1_index + 3).replace(" ", ""));
+                int rs1 = find_register(instruction.substring(rs1_index, rs1_index + 2).replace(" ", ""));
 
                 int rs2_index = instruction.indexOf("x", rs1_index + 1);
-                int rs2 = find_register(instruction.substring(rs2_index, rs2_index + 3).replace(" ", ""));
+                int rs2 = find_register(instruction.substring(rs2_index, rs2_index + 2).replace(" ", ""));
 
                 /*
 

@@ -603,34 +603,41 @@ circuit DSP :
     ExternalMemory.SPI.SO <= SPI.SO @[SPIArbiter.scala 31:22]
     SPI.CE <= ExternalMemory.SPI.CE @[SPIArbiter.scala 31:22]
     SPI.SCLK <= ExternalMemory.SPI.SCLK @[SPIArbiter.scala 31:22]
-    wire Producer : UInt<2> @[SPIArbiter.scala 33:22]
+    wire Producer : UInt<2> @[SPIArbiter.scala 37:22]
     reg ProducerReg : UInt<2>, clock with :
-      reset => (reset, UInt<2>("h0")) @[SPIArbiter.scala 34:28]
+      reset => (reset, UInt<2>("h0")) @[SPIArbiter.scala 38:28]
     reg Taken : UInt<1>, clock with :
-      reset => (reset, UInt<1>("h0")) @[SPIArbiter.scala 35:22]
-    Producer <= ProducerReg @[SPIArbiter.scala 37:12]
-    node _T = bits(Taken, 0, 0) @[SPIArbiter.scala 40:17]
-    node _T_1 = eq(_T, UInt<1>("h0")) @[SPIArbiter.scala 40:10]
-    node _T_2 = and(_T_1, io.MemPort[0].Enable) @[SPIArbiter.scala 40:24]
-    when _T_2 : @[SPIArbiter.scala 40:48]
-      Taken <= UInt<1>("h1") @[SPIArbiter.scala 41:13]
-      Producer <= UInt<1>("h0") @[SPIArbiter.scala 42:16]
-      ProducerReg <= UInt<1>("h0") @[SPIArbiter.scala 43:19]
-    node _T_3 = eq(io.MemPort[UInt<1>("h0")].Completed, UInt<1>("h1")) @[SPIArbiter.scala 47:39]
-    when _T_3 : @[SPIArbiter.scala 47:50]
-      Taken <= UInt<1>("h0") @[SPIArbiter.scala 48:11]
-    when io.MemPort[UInt<1>("h0")].Enable : @[SPIArbiter.scala 51:36]
-      ExternalMemory.io.Address <= io.MemPort[UInt<1>("h0")].Address @[SPIArbiter.scala 52:31]
-      when io.MemPort[UInt<1>("h0")].WriteEn : @[SPIArbiter.scala 54:39]
-        when ExternalMemory.io.Ready : @[SPIArbiter.scala 55:36]
-          ExternalMemory.io.WriteEnable <= UInt<1>("h1") @[SPIArbiter.scala 56:39]
-          ExternalMemory.io.WriteData <= io.MemPort[UInt<1>("h0")].WriteData @[SPIArbiter.scala 57:37]
-        io.MemPort[UInt<1>("h0")].Completed <= ExternalMemory.io.Completed @[SPIArbiter.scala 60:38]
+      reset => (reset, UInt<1>("h0")) @[SPIArbiter.scala 39:22]
+    Producer <= ProducerReg @[SPIArbiter.scala 41:12]
+    node _T = bits(Taken, 0, 0) @[SPIArbiter.scala 44:17]
+    node _T_1 = eq(_T, UInt<1>("h0")) @[SPIArbiter.scala 44:10]
+    node _T_2 = and(_T_1, io.MemPort[0].Enable) @[SPIArbiter.scala 44:24]
+    when _T_2 : @[SPIArbiter.scala 44:48]
+      Taken <= UInt<1>("h1") @[SPIArbiter.scala 45:13]
+      Producer <= UInt<1>("h0") @[SPIArbiter.scala 46:16]
+      ProducerReg <= UInt<1>("h0") @[SPIArbiter.scala 47:19]
+    node _T_3 = eq(io.MemPort[UInt<1>("h0")].Completed, UInt<1>("h1")) @[SPIArbiter.scala 51:39]
+    when _T_3 : @[SPIArbiter.scala 51:50]
+      Taken <= UInt<1>("h0") @[SPIArbiter.scala 52:11]
+    when io.MemPort[UInt<1>("h0")].Enable : @[SPIArbiter.scala 55:36]
+      ExternalMemory.io.Address <= io.MemPort[UInt<1>("h0")].Address @[SPIArbiter.scala 56:31]
+      when io.MemPort[UInt<1>("h0")].WriteEn : @[SPIArbiter.scala 58:39]
+        when ExternalMemory.io.Ready : @[SPIArbiter.scala 59:36]
+          ExternalMemory.io.WriteEnable <= UInt<1>("h1") @[SPIArbiter.scala 60:39]
+          ExternalMemory.io.WriteData <= io.MemPort[UInt<1>("h0")].WriteData @[SPIArbiter.scala 61:37]
+        io.MemPort[UInt<1>("h0")].Completed <= ExternalMemory.io.Completed @[SPIArbiter.scala 64:38]
       else :
-        when ExternalMemory.io.Ready : @[SPIArbiter.scala 62:36]
-          ExternalMemory.io.ReadEnable <= UInt<1>("h1") @[SPIArbiter.scala 63:38]
-        io.MemPort[UInt<1>("h0")].Completed <= ExternalMemory.io.Completed @[SPIArbiter.scala 66:38]
-        io.MemPort[UInt<1>("h0")].ReadData <= ExternalMemory.io.ReadData @[SPIArbiter.scala 67:37]
+        when ExternalMemory.io.Ready : @[SPIArbiter.scala 66:36]
+          ExternalMemory.io.ReadEnable <= UInt<1>("h1") @[SPIArbiter.scala 67:38]
+        io.MemPort[UInt<1>("h0")].Completed <= ExternalMemory.io.Completed @[SPIArbiter.scala 70:38]
+        io.MemPort[UInt<1>("h0")].ReadData <= ExternalMemory.io.ReadData @[SPIArbiter.scala 71:37]
+
+  extmodule LCDBusDriver :
+    output busData : UInt<4>
+    input driveData : UInt<4>
+    output bus : Analog<4>
+    input drive : UInt<1>
+    defname = LCDBusDriver
 
   module InstuctionMemory :
     input clock : Clock
@@ -878,11 +885,17 @@ circuit DSP :
                   else :
                     node _T_8 = eq(UInt<4>("h8"), io.Operation) @[ALU.scala 16:24]
                     when _T_8 : @[ALU.scala 16:24]
-                      node _io_Out_T_14 = mul(io.rs1, io.rs2) @[ALU.scala 42:33]
-                      node _io_Out_T_15 = bits(_io_Out_T_14, 17, 0) @[ALU.scala 42:42]
-                      node _io_Out_T_16 = add(io.rd, _io_Out_T_15) @[ALU.scala 42:23]
-                      node _io_Out_T_17 = tail(_io_Out_T_16, 1) @[ALU.scala 42:23]
-                      io.Out <= _io_Out_T_17 @[ALU.scala 42:14]
+                      node _io_Out_T_14 = mul(io.rs1, io.rs2) @[ALU.scala 42:25]
+                      node _io_Out_T_15 = shr(_io_Out_T_14, 9) @[ALU.scala 42:35]
+                      io.Out <= _io_Out_T_15 @[ALU.scala 42:14]
+                    else :
+                      node _T_9 = eq(UInt<4>("h9"), io.Operation) @[ALU.scala 16:24]
+                      when _T_9 : @[ALU.scala 16:24]
+                        node _io_Out_T_16 = mul(io.rs1, io.rs2) @[ALU.scala 45:33]
+                        node _io_Out_T_17 = bits(_io_Out_T_16, 17, 0) @[ALU.scala 45:42]
+                        node _io_Out_T_18 = add(io.rd, _io_Out_T_17) @[ALU.scala 45:23]
+                        node _io_Out_T_19 = tail(_io_Out_T_18, 1) @[ALU.scala 45:23]
+                        io.Out <= _io_Out_T_19 @[ALU.scala 45:14]
 
   module BranchComp :
     input clock : Clock
@@ -1021,7 +1034,7 @@ circuit DSP :
       COffsetReg <= UInt<1>("h0") @[ExecuteStage.scala 132:16]
     node _T_12 = eq(UInt<1>("h0"), In.Type) @[ExecuteStage.scala 138:18]
     when _T_12 : @[ExecuteStage.scala 138:18]
-      node _T_13 = leq(In.AOperation, UInt<3>("h7")) @[ExecuteStage.scala 140:26]
+      node _T_13 = leq(In.AOperation, UInt<4>("h8")) @[ExecuteStage.scala 140:26]
       when _T_13 : @[ExecuteStage.scala 140:33]
         ALU.io.Operation <= In.AOperation @[ExecuteStage.scala 141:26]
         ALU.io.rs2 <= rs2 @[ExecuteStage.scala 143:20]
@@ -1030,7 +1043,7 @@ circuit DSP :
         WritebackRegister <= In.rd @[ExecuteStage.scala 147:27]
         DataHazard <= In.rd @[ExecuteStage.scala 149:20]
       else :
-        node _T_14 = eq(In.AOperation, UInt<4>("h8")) @[ExecuteStage.scala 150:32]
+        node _T_14 = eq(In.AOperation, UInt<4>("h9")) @[ExecuteStage.scala 150:32]
         when _T_14 : @[ExecuteStage.scala 150:40]
           ALU.io.Operation <= In.AOperation @[ExecuteStage.scala 151:26]
           ALU.io.rs2 <= rs2 @[ExecuteStage.scala 153:20]
@@ -1040,8 +1053,8 @@ circuit DSP :
           WritebackRegister <= In.rd @[ExecuteStage.scala 158:27]
           DataHazard <= In.rd @[ExecuteStage.scala 160:20]
         else :
-          node _T_15 = eq(In.AOperation, UInt<4>("h9")) @[ExecuteStage.scala 161:32]
-          when _T_15 : @[ExecuteStage.scala 161:40]
+          node _T_15 = eq(In.AOperation, UInt<4>("ha")) @[ExecuteStage.scala 161:32]
+          when _T_15 : @[ExecuteStage.scala 161:41]
             io.MemPort.Enable <= UInt<1>("h1") @[ExecuteStage.scala 165:27]
             node _T_16 = eq(In.rs1, DataHazard) @[ExecuteStage.scala 171:21]
             node _T_17 = neq(In.rs1, UInt<1>("h0")) @[ExecuteStage.scala 171:46]
@@ -1063,7 +1076,7 @@ circuit DSP :
             when _T_21 : @[ExecuteStage.scala 189:36]
               io.Stall <= UInt<1>("h1") @[ExecuteStage.scala 190:20]
           else :
-            node _T_22 = eq(In.AOperation, UInt<4>("ha")) @[ExecuteStage.scala 192:32]
+            node _T_22 = eq(In.AOperation, UInt<4>("hb")) @[ExecuteStage.scala 192:32]
             when _T_22 : @[ExecuteStage.scala 192:41]
               io.MemPort.Enable <= UInt<1>("h1") @[ExecuteStage.scala 196:27]
               io.MemPort.WriteEn <= UInt<1>("h1") @[ExecuteStage.scala 197:28]
@@ -1372,7 +1385,7 @@ circuit DSP :
     output SPI : { SPIMemPort : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}}
 
     wire dedupBlock : SInt
-    dedupBlock <= asSInt(UInt<32>("h47347f7b"))
+    dedupBlock <= asSInt(UInt<31>("h32f7327e"))
     inst Core of Core @[SubDSP.scala 33:20]
     Core.clock <= clock
     Core.reset <= reset
@@ -1411,33 +1424,46 @@ circuit DSP :
     input clock : Clock
     input reset : UInt<1>
     output io : { flip In : SInt<16>, Out : SInt<16>}
-    output SPI : { SCLK : UInt<1>, CE : UInt<1>, flip SO : UInt<1>[4], SI : UInt<1>[4], Drive : UInt<1>}
+    output SPI : { SCLK : UInt<1>, CE : UInt<1>, MOSI_MISO : Analog<4>}
 
-    inst SPIArbiter of SPIArbiter @[DSP.scala 28:26]
+    inst SPIArbiter of SPIArbiter @[DSP.scala 27:26]
     SPIArbiter.clock <= clock
     SPIArbiter.reset <= reset
-    SPI.Drive <= SPIArbiter.SPI.Drive @[DSP.scala 30:18]
-    SPI.SI[0] <= SPIArbiter.SPI.SI[0] @[DSP.scala 30:18]
-    SPI.SI[1] <= SPIArbiter.SPI.SI[1] @[DSP.scala 30:18]
-    SPI.SI[2] <= SPIArbiter.SPI.SI[2] @[DSP.scala 30:18]
-    SPI.SI[3] <= SPIArbiter.SPI.SI[3] @[DSP.scala 30:18]
-    SPIArbiter.SPI.SO <= SPI.SO @[DSP.scala 30:18]
-    SPI.CE <= SPIArbiter.SPI.CE @[DSP.scala 30:18]
-    SPI.SCLK <= SPIArbiter.SPI.SCLK @[DSP.scala 30:18]
-    wire CAP_IOs : { flip In : UInt<18>, Out : UInt<18>}[1] @[DSP.scala 34:21]
-    inst SubDSP of SubDSP @[DSP.scala 49:24]
+    inst LCDBusDriver of LCDBusDriver @[DSP.scala 28:28]
+    LCDBusDriver.drive is invalid
+    LCDBusDriver.bus is invalid
+    LCDBusDriver.driveData is invalid
+    LCDBusDriver.busData is invalid
+    attach (SPI.MOSI_MISO, LCDBusDriver.bus) @[DSP.scala 30:17]
+    LCDBusDriver.drive <= SPIArbiter.SPI.Drive @[DSP.scala 31:25]
+    node LCDBusDriver_io_driveData_lo = cat(SPIArbiter.SPI.SI[1], SPIArbiter.SPI.SI[0]) @[DSP.scala 32:50]
+    node LCDBusDriver_io_driveData_hi = cat(SPIArbiter.SPI.SI[3], SPIArbiter.SPI.SI[2]) @[DSP.scala 32:50]
+    node _LCDBusDriver_io_driveData_T = cat(LCDBusDriver_io_driveData_hi, LCDBusDriver_io_driveData_lo) @[DSP.scala 32:50]
+    LCDBusDriver.driveData <= _LCDBusDriver_io_driveData_T @[DSP.scala 32:29]
+    node _T = bits(LCDBusDriver.busData, 0, 0) @[DSP.scala 33:48]
+    node _T_1 = bits(LCDBusDriver.busData, 1, 1) @[DSP.scala 33:48]
+    node _T_2 = bits(LCDBusDriver.busData, 2, 2) @[DSP.scala 33:48]
+    node _T_3 = bits(LCDBusDriver.busData, 3, 3) @[DSP.scala 33:48]
+    SPIArbiter.SPI.SO[0] <= _T @[DSP.scala 33:21]
+    SPIArbiter.SPI.SO[1] <= _T_1 @[DSP.scala 33:21]
+    SPIArbiter.SPI.SO[2] <= _T_2 @[DSP.scala 33:21]
+    SPIArbiter.SPI.SO[3] <= _T_3 @[DSP.scala 33:21]
+    SPI.SCLK <= SPIArbiter.SPI.SCLK @[DSP.scala 34:12]
+    SPI.CE <= SPIArbiter.SPI.CE @[DSP.scala 35:10]
+    wire CAP_IOs : { flip In : UInt<18>, Out : UInt<18>}[1] @[DSP.scala 41:21]
+    inst SubDSP of SubDSP @[DSP.scala 56:24]
     SubDSP.clock <= clock
     SubDSP.reset <= reset
-    SPIArbiter.io.MemPort[0] <= SubDSP.SPI.SPIMemPort @[DSP.scala 53:27]
-    CAP_IOs[0].Out <= SubDSP.io.Sub_IO.Out @[DSP.scala 55:19]
-    SubDSP.io.Sub_IO.In <= CAP_IOs[0].In @[DSP.scala 55:19]
-    inst OutputConnector of NodeConnector @[DSP.scala 66:31]
+    SPIArbiter.io.MemPort[0] <= SubDSP.SPI.SPIMemPort @[DSP.scala 60:27]
+    CAP_IOs[0].Out <= SubDSP.io.Sub_IO.Out @[DSP.scala 62:19]
+    SubDSP.io.Sub_IO.In <= CAP_IOs[0].In @[DSP.scala 62:19]
+    inst OutputConnector of NodeConnector @[DSP.scala 73:31]
     OutputConnector.clock <= clock
     OutputConnector.reset <= reset
-    node _CAP_IOs_0_In_T = asUInt(io.In) @[DSP.scala 95:36]
-    CAP_IOs[0].In <= _CAP_IOs_0_In_T @[DSP.scala 95:27]
-    OutputConnector.io.In[0] <= CAP_IOs[0].Out @[DSP.scala 106:40]
-    node _io_Out_T = bits(OutputConnector.io.Out, 15, 0) @[DSP.scala 114:35]
-    node _io_Out_T_1 = asSInt(_io_Out_T) @[DSP.scala 114:42]
-    io.Out <= _io_Out_T_1 @[DSP.scala 114:10]
+    node _CAP_IOs_0_In_T = asUInt(io.In) @[DSP.scala 102:36]
+    CAP_IOs[0].In <= _CAP_IOs_0_In_T @[DSP.scala 102:27]
+    OutputConnector.io.In[0] <= CAP_IOs[0].Out @[DSP.scala 113:40]
+    node _io_Out_T = bits(OutputConnector.io.Out, 15, 0) @[DSP.scala 121:35]
+    node _io_Out_T_1 = asSInt(_io_Out_T) @[DSP.scala 121:42]
+    io.Out <= _io_Out_T_1 @[DSP.scala 121:10]
 

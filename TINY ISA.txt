@@ -21,6 +21,7 @@ srl rd, rs1, rs2
 and rd, rs1, rs2
 or rd, rs1, rs2
 xor rd, rs1, rs2
+fpmul rd, rs1, rs2 
 mac rd, rs1, rs2
 
 lw rd, rs1
