@@ -2756,7 +2756,7 @@ circuit DSP :
     inst DataMemory of DataMemory @[SubDSP.scala 35:26]
     node _io_Sub_IO_Out_T = add(Core.io_WaveOut, FirEngine.io_WaveOut) @[SubDSP.scala 45:36]
     node _io_Sub_IO_Out_T_1 = tail(_io_Sub_IO_Out_T, 1) @[SubDSP.scala 45:36]
-    node dedupBlock = asSInt(UInt<32>("h47347f7b"))
+    node dedupBlock = asSInt(UInt<29>("h17a676c9"))
     io_Sub_IO_Out <= _io_Sub_IO_Out_T_1 @[SubDSP.scala 45:17]
     SPI_SPIMemPort_Address <= DataMemory.io_SPIMemPort_Address @[SubDSP.scala 58:18]
     SPI_SPIMemPort_WriteData <= DataMemory.io_SPIMemPort_WriteData @[SubDSP.scala 58:18]

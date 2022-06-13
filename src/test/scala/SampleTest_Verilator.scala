@@ -17,7 +17,9 @@ class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
   it should "play" in {
     test(new DSP(100000000,xml)).withAnnotations(Seq(VerilatorBackendAnnotation, WriteVcdAnnotation)) { dut =>
     //test(new DSP(100000000,xml)) { dut =>
-      val samples = getFileSamples("sample.wav")
+      var ClkCount = (xml \\ "TEST" \\ "CLK" \\ "@count").text.toInt
+      var Soundfile = (xml \\ "TEST" \\ "SOUND" \\ "@sample").text
+      val samples = getFileSamples(Soundfile)
       val outSamples = new Array[Short](samples.length)
 
       var finished = false
@@ -31,7 +33,7 @@ class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
         for (s  <- (samples)) {
           dut.io.In.poke(s.asSInt)
 
-          for(i <- 0 until 17){
+          for(i <- 0 until ClkCount){
             dut.clock.step()
           }
 
@@ -65,7 +67,7 @@ class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
 
         //dut.clock.step()
 
-        for(i <- 0 until 17){
+        for(i <- 0 until ClkCount){
             dut.clock.step()
         }
 
