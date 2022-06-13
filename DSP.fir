@@ -1,611 +1,4 @@
 circuit DSP :
-  module InstuctionMemory :
-    input clock : Clock
-    input reset : Reset
-    output io : { flip enable : UInt<1>, flip write : UInt<1>, flip Address : UInt<10>, flip DataIn : UInt<18>, Instruction : UInt<18>}
-
-    smem mem : UInt<18> [1024] @[InstructionMemory.scala 28:24]
-    io.Instruction is invalid @[InstructionMemory.scala 32:18]
-    when io.enable : @[InstructionMemory.scala 33:19]
-      infer mport rdwrPort = mem[io.Address], clock @[InstructionMemory.scala 34:23]
-      when io.write : @[InstructionMemory.scala 35:21]
-        rdwrPort <= io.DataIn @[InstructionMemory.scala 35:32]
-      else :
-        io.Instruction <= rdwrPort @[InstructionMemory.scala 36:38]
-
-  module FetchStage :
-    input clock : Clock
-    input reset : Reset
-    output io : { flip Stall : UInt<1>, flip Clear : UInt<1>}
-    output In : { flip PC : UInt<18>}
-    output Out : { Instruction : UInt<18>}
-
-    reg ClearDelay : UInt<1>, clock with :
-      reset => (UInt<1>("h0"), ClearDelay) @[FetchStage.scala 18:27]
-    ClearDelay <= io.Clear @[FetchStage.scala 18:27]
-    inst InstructionMem of InstuctionMemory @[FetchStage.scala 21:30]
-    InstructionMem.clock <= clock
-    InstructionMem.reset <= reset
-    InstructionMem.io.Address <= UInt<1>("h0") @[FetchStage.scala 23:29]
-    InstructionMem.io.DataIn <= UInt<1>("h0") @[FetchStage.scala 24:28]
-    InstructionMem.io.enable <= UInt<1>("h0") @[FetchStage.scala 25:28]
-    InstructionMem.io.write <= UInt<1>("h0") @[FetchStage.scala 26:27]
-    InstructionMem.io.Address <= In.PC @[FetchStage.scala 30:29]
-    InstructionMem.io.DataIn <= UInt<1>("h0") @[FetchStage.scala 31:28]
-    InstructionMem.io.enable <= UInt<1>("h1") @[FetchStage.scala 32:28]
-    Out.Instruction <= InstructionMem.io.Instruction @[FetchStage.scala 41:19]
-    node _T = or(io.Clear, ClearDelay) @[FetchStage.scala 43:17]
-    when _T : @[FetchStage.scala 43:31]
-      InstructionMem.io.enable <= UInt<1>("h0") @[FetchStage.scala 44:30]
-
-  module InstuctionDecoder :
-    input clock : Clock
-    input reset : Reset
-    output io : { flip Instruction : UInt<18>, Type : UInt<2>, rs1 : UInt<4>, rs2 : UInt<4>, rd : UInt<4>, AImmidiate : UInt<11>, ASImmidiate : SInt<11>, AOperation : UInt<4>, MemOp : UInt<2>, MemAdress : UInt<11>, COperation : UInt<2>, COffset : SInt<6>}
-
-    node _io_Type_T = bits(io.Instruction, 17, 16) @[InstuctionDecoder.scala 26:28]
-    io.Type <= _io_Type_T @[InstuctionDecoder.scala 26:11]
-    io.rs1 <= UInt<1>("h0") @[InstuctionDecoder.scala 27:10]
-    io.rs2 <= UInt<1>("h0") @[InstuctionDecoder.scala 28:10]
-    io.rd <= UInt<1>("h0") @[InstuctionDecoder.scala 29:9]
-    io.AImmidiate <= UInt<1>("h0") @[InstuctionDecoder.scala 30:17]
-    io.ASImmidiate <= asSInt(UInt<1>("h0")) @[InstuctionDecoder.scala 31:18]
-    io.AOperation <= UInt<1>("h0") @[InstuctionDecoder.scala 32:17]
-    io.MemOp <= UInt<1>("h0") @[InstuctionDecoder.scala 33:12]
-    io.MemAdress <= UInt<1>("h0") @[InstuctionDecoder.scala 34:16]
-    io.COperation <= UInt<1>("h0") @[InstuctionDecoder.scala 35:17]
-    io.COffset <= asSInt(UInt<1>("h0")) @[InstuctionDecoder.scala 36:14]
-    node _T = bits(io.Instruction, 17, 16) @[InstuctionDecoder.scala 38:24]
-    node _T_1 = eq(UInt<1>("h0"), _T) @[InstuctionDecoder.scala 38:32]
-    when _T_1 : @[InstuctionDecoder.scala 38:32]
-      node _io_AOperation_T = bits(io.Instruction, 15, 12) @[InstuctionDecoder.scala 40:38]
-      io.AOperation <= _io_AOperation_T @[InstuctionDecoder.scala 40:21]
-      node _io_rd_T = bits(io.Instruction, 11, 8) @[InstuctionDecoder.scala 41:30]
-      io.rd <= _io_rd_T @[InstuctionDecoder.scala 41:13]
-      node _io_rs1_T = bits(io.Instruction, 7, 4) @[InstuctionDecoder.scala 42:31]
-      io.rs1 <= _io_rs1_T @[InstuctionDecoder.scala 42:14]
-      node _io_rs2_T = bits(io.Instruction, 3, 0) @[InstuctionDecoder.scala 43:31]
-      io.rs2 <= _io_rs2_T @[InstuctionDecoder.scala 43:14]
-    else :
-      node _T_2 = eq(UInt<1>("h1"), _T) @[InstuctionDecoder.scala 38:32]
-      when _T_2 : @[InstuctionDecoder.scala 38:32]
-        node _io_AOperation_T_1 = bits(io.Instruction, 15, 14) @[InstuctionDecoder.scala 46:38]
-        io.AOperation <= _io_AOperation_T_1 @[InstuctionDecoder.scala 46:21]
-        node _io_rd_T_1 = bits(io.Instruction, 13, 10) @[InstuctionDecoder.scala 47:30]
-        io.rd <= _io_rd_T_1 @[InstuctionDecoder.scala 47:13]
-        node _io_AImmidiate_T = bits(io.Instruction, 9, 0) @[InstuctionDecoder.scala 48:38]
-        io.AImmidiate <= _io_AImmidiate_T @[InstuctionDecoder.scala 48:21]
-        node _io_ASImmidiate_T = bits(io.Instruction, 9, 0) @[InstuctionDecoder.scala 49:39]
-        node _io_ASImmidiate_T_1 = asSInt(_io_ASImmidiate_T) @[InstuctionDecoder.scala 49:45]
-        io.ASImmidiate <= _io_ASImmidiate_T_1 @[InstuctionDecoder.scala 49:22]
-      else :
-        node _T_3 = eq(UInt<2>("h2"), _T) @[InstuctionDecoder.scala 38:32]
-        when _T_3 : @[InstuctionDecoder.scala 38:32]
-          node _io_MemOp_T = bits(io.Instruction, 15, 15) @[InstuctionDecoder.scala 52:33]
-          io.MemOp <= _io_MemOp_T @[InstuctionDecoder.scala 52:16]
-          node _io_rd_T_2 = bits(io.Instruction, 14, 11) @[InstuctionDecoder.scala 53:30]
-          io.rd <= _io_rd_T_2 @[InstuctionDecoder.scala 53:13]
-          node _io_MemAdress_T = bits(io.Instruction, 10, 0) @[InstuctionDecoder.scala 54:37]
-          io.MemAdress <= _io_MemAdress_T @[InstuctionDecoder.scala 54:20]
-        else :
-          node _T_4 = eq(UInt<2>("h3"), _T) @[InstuctionDecoder.scala 38:32]
-          when _T_4 : @[InstuctionDecoder.scala 38:32]
-            node _io_COperation_T = bits(io.Instruction, 15, 14) @[InstuctionDecoder.scala 57:38]
-            io.COperation <= _io_COperation_T @[InstuctionDecoder.scala 57:21]
-            node _io_rs1_T_1 = bits(io.Instruction, 13, 10) @[InstuctionDecoder.scala 58:31]
-            io.rs1 <= _io_rs1_T_1 @[InstuctionDecoder.scala 58:14]
-            node _io_rs2_T_1 = bits(io.Instruction, 9, 6) @[InstuctionDecoder.scala 59:31]
-            io.rs2 <= _io_rs2_T_1 @[InstuctionDecoder.scala 59:14]
-            node _io_COffset_T = bits(io.Instruction, 5, 0) @[InstuctionDecoder.scala 60:35]
-            node _io_COffset_T_1 = asSInt(_io_COffset_T) @[InstuctionDecoder.scala 60:41]
-            io.COffset <= _io_COffset_T_1 @[InstuctionDecoder.scala 60:18]
-
-  module DecodeStage :
-    input clock : Clock
-    input reset : Reset
-    output io : { flip Clear : UInt<1>, flip Stall : UInt<1>}
-    output In : { flip Instruction : UInt<18>}
-    output Out : { Type : UInt<2>, rs1 : UInt<4>, rs2 : UInt<4>, rd : UInt<4>, AImmediate : UInt<11>, ASImmediate : SInt<11>, AOperation : UInt<4>, MemOp : UInt<1>, MemAddress : UInt<11>, COperation : UInt<2>, COffset : SInt<6>}
-
-    inst InstDec of InstuctionDecoder @[DecodeStage.scala 28:23]
-    InstDec.clock <= clock
-    InstDec.reset <= reset
-    reg AddressReg : UInt<10>, clock with :
-      reset => (reset, UInt<10>("h0")) @[DecodeStage.scala 30:27]
-    reg TypeReg : UInt<2>, clock with :
-      reset => (reset, UInt<2>("h0")) @[DecodeStage.scala 31:24]
-    reg rs1Reg : UInt<4>, clock with :
-      reset => (reset, UInt<4>("h0")) @[DecodeStage.scala 32:23]
-    reg rs2Reg : UInt<4>, clock with :
-      reset => (reset, UInt<4>("h0")) @[DecodeStage.scala 33:23]
-    reg rdReg : UInt<4>, clock with :
-      reset => (reset, UInt<4>("h0")) @[DecodeStage.scala 34:22]
-    reg AImmediateReg : UInt<11>, clock with :
-      reset => (reset, UInt<11>("h0")) @[DecodeStage.scala 36:30]
-    reg ASImmediateReg : SInt<11>, clock with :
-      reset => (reset, asSInt(UInt<11>("h0"))) @[DecodeStage.scala 37:31]
-    reg AOperationReg : UInt<4>, clock with :
-      reset => (reset, UInt<4>("h0")) @[DecodeStage.scala 39:30]
-    reg MemOpReg : UInt<1>, clock with :
-      reset => (reset, UInt<1>("h0")) @[DecodeStage.scala 41:25]
-    reg MemAddressReg : UInt<11>, clock with :
-      reset => (reset, UInt<11>("h0")) @[DecodeStage.scala 42:30]
-    reg COperationReg : UInt<2>, clock with :
-      reset => (reset, UInt<2>("h0")) @[DecodeStage.scala 44:30]
-    reg COffsetReg : SInt<6>, clock with :
-      reset => (reset, asSInt(UInt<6>("h0"))) @[DecodeStage.scala 45:27]
-    InstDec.io.Instruction <= In.Instruction @[DecodeStage.scala 49:26]
-    Out.Type <= TypeReg @[DecodeStage.scala 51:12]
-    Out.rs1 <= rs1Reg @[DecodeStage.scala 52:11]
-    Out.rs2 <= rs2Reg @[DecodeStage.scala 53:11]
-    Out.rd <= rdReg @[DecodeStage.scala 54:10]
-    Out.AImmediate <= AImmediateReg @[DecodeStage.scala 56:18]
-    Out.ASImmediate <= ASImmediateReg @[DecodeStage.scala 57:18]
-    Out.AOperation <= AOperationReg @[DecodeStage.scala 59:18]
-    Out.MemOp <= MemOpReg @[DecodeStage.scala 61:13]
-    Out.MemAddress <= MemAddressReg @[DecodeStage.scala 62:18]
-    Out.COperation <= COperationReg @[DecodeStage.scala 64:18]
-    Out.COffset <= COffsetReg @[DecodeStage.scala 65:15]
-    node _T = eq(io.Stall, UInt<1>("h0")) @[DecodeStage.scala 67:8]
-    when _T : @[DecodeStage.scala 67:18]
-      TypeReg <= InstDec.io.Type @[DecodeStage.scala 68:13]
-      rs1Reg <= InstDec.io.rs1 @[DecodeStage.scala 69:12]
-      rs2Reg <= InstDec.io.rs2 @[DecodeStage.scala 70:12]
-      rdReg <= InstDec.io.rd @[DecodeStage.scala 71:11]
-      AImmediateReg <= InstDec.io.AImmidiate @[DecodeStage.scala 73:19]
-      ASImmediateReg <= InstDec.io.ASImmidiate @[DecodeStage.scala 74:20]
-      AOperationReg <= InstDec.io.AOperation @[DecodeStage.scala 76:19]
-      MemOpReg <= InstDec.io.MemOp @[DecodeStage.scala 78:14]
-      MemAddressReg <= InstDec.io.MemAdress @[DecodeStage.scala 79:19]
-      COperationReg <= InstDec.io.COperation @[DecodeStage.scala 81:19]
-      COffsetReg <= InstDec.io.COffset @[DecodeStage.scala 82:16]
-    when io.Clear : @[DecodeStage.scala 85:17]
-      InstDec.io.Instruction <= UInt<1>("h0") @[DecodeStage.scala 86:28]
-      TypeReg <= UInt<1>("h0") @[DecodeStage.scala 88:13]
-      rs1Reg <= UInt<1>("h0") @[DecodeStage.scala 89:12]
-      rs2Reg <= UInt<1>("h0") @[DecodeStage.scala 90:12]
-      rdReg <= UInt<1>("h0") @[DecodeStage.scala 91:11]
-      AImmediateReg <= UInt<1>("h0") @[DecodeStage.scala 93:19]
-      ASImmediateReg <= asSInt(UInt<1>("h0")) @[DecodeStage.scala 94:20]
-      AOperationReg <= UInt<1>("h0") @[DecodeStage.scala 96:19]
-      MemOpReg <= UInt<1>("h0") @[DecodeStage.scala 98:14]
-      MemAddressReg <= UInt<1>("h0") @[DecodeStage.scala 99:19]
-      COperationReg <= UInt<1>("h0") @[DecodeStage.scala 101:19]
-      COffsetReg <= asSInt(UInt<1>("h0")) @[DecodeStage.scala 102:16]
-      Out.Type <= UInt<1>("h0") @[DecodeStage.scala 104:14]
-      Out.rs1 <= UInt<1>("h0") @[DecodeStage.scala 105:13]
-      Out.rs2 <= UInt<1>("h0") @[DecodeStage.scala 106:13]
-      Out.rd <= UInt<1>("h0") @[DecodeStage.scala 107:12]
-      Out.AImmediate <= UInt<1>("h0") @[DecodeStage.scala 109:20]
-      Out.ASImmediate <= asSInt(UInt<1>("h0")) @[DecodeStage.scala 110:20]
-      Out.AOperation <= UInt<1>("h0") @[DecodeStage.scala 112:20]
-      Out.MemOp <= UInt<1>("h0") @[DecodeStage.scala 114:15]
-      Out.MemAddress <= UInt<1>("h0") @[DecodeStage.scala 115:20]
-      Out.COperation <= UInt<1>("h0") @[DecodeStage.scala 117:20]
-      Out.COffset <= asSInt(UInt<1>("h0")) @[DecodeStage.scala 118:17]
-
-  module ALU :
-    input clock : Clock
-    input reset : Reset
-    output io : { flip rs1 : UInt<18>, flip rs2 : UInt<18>, flip Operation : UInt<8>, Out : UInt<18>}
-
-    io.Out <= UInt<1>("h0") @[ALU.scala 13:10]
-    node _T = eq(UInt<1>("h0"), io.Operation) @[ALU.scala 15:24]
-    when _T : @[ALU.scala 15:24]
-      node _io_Out_T = add(io.rs1, io.rs2) @[ALU.scala 17:24]
-      node _io_Out_T_1 = tail(_io_Out_T, 1) @[ALU.scala 17:24]
-      io.Out <= _io_Out_T_1 @[ALU.scala 17:14]
-    else :
-      node _T_1 = eq(UInt<1>("h1"), io.Operation) @[ALU.scala 15:24]
-      when _T_1 : @[ALU.scala 15:24]
-        node _io_Out_T_2 = sub(io.rs1, io.rs2) @[ALU.scala 20:24]
-        node _io_Out_T_3 = tail(_io_Out_T_2, 1) @[ALU.scala 20:24]
-        io.Out <= _io_Out_T_3 @[ALU.scala 20:14]
-      else :
-        node _T_2 = eq(UInt<2>("h2"), io.Operation) @[ALU.scala 15:24]
-        when _T_2 : @[ALU.scala 15:24]
-          node _io_Out_T_4 = mul(io.rs1, io.rs2) @[ALU.scala 23:25]
-          node _io_Out_T_5 = bits(_io_Out_T_4, 17, 0) @[ALU.scala 23:34]
-          io.Out <= _io_Out_T_5 @[ALU.scala 23:14]
-        else :
-          node _T_3 = eq(UInt<2>("h3"), io.Operation) @[ALU.scala 15:24]
-          when _T_3 : @[ALU.scala 15:24]
-            node _io_Out_T_6 = bits(io.rs2, 5, 0) @[ALU.scala 26:34]
-            node _io_Out_T_7 = dshl(io.rs1, _io_Out_T_6) @[ALU.scala 26:25]
-            node _io_Out_T_8 = bits(_io_Out_T_7, 17, 0) @[ALU.scala 26:40]
-            io.Out <= _io_Out_T_8 @[ALU.scala 26:14]
-          else :
-            node _T_4 = eq(UInt<3>("h4"), io.Operation) @[ALU.scala 15:24]
-            when _T_4 : @[ALU.scala 15:24]
-              node _io_Out_T_9 = dshr(io.rs1, io.rs2) @[ALU.scala 29:25]
-              node _io_Out_T_10 = bits(_io_Out_T_9, 17, 0) @[ALU.scala 29:35]
-              io.Out <= _io_Out_T_10 @[ALU.scala 29:14]
-            else :
-              node _T_5 = eq(UInt<3>("h5"), io.Operation) @[ALU.scala 15:24]
-              when _T_5 : @[ALU.scala 15:24]
-                node _io_Out_T_11 = and(io.rs1, io.rs2) @[ALU.scala 32:24]
-                io.Out <= _io_Out_T_11 @[ALU.scala 32:14]
-              else :
-                node _T_6 = eq(UInt<3>("h6"), io.Operation) @[ALU.scala 15:24]
-                when _T_6 : @[ALU.scala 15:24]
-                  node _io_Out_T_12 = or(io.rs1, io.rs2) @[ALU.scala 35:24]
-                  io.Out <= _io_Out_T_12 @[ALU.scala 35:14]
-                else :
-                  node _T_7 = eq(UInt<3>("h7"), io.Operation) @[ALU.scala 15:24]
-                  when _T_7 : @[ALU.scala 15:24]
-                    node _io_Out_T_13 = xor(io.rs1, io.rs2) @[ALU.scala 38:24]
-                    io.Out <= _io_Out_T_13 @[ALU.scala 38:14]
-
-  module BranchComp :
-    input clock : Clock
-    input reset : Reset
-    output io : { flip rs2 : UInt<18>, flip rs1 : UInt<18>, flip PC : UInt<18>, flip Offset : SInt<11>, flip Operation : UInt<2>, CondCheck : UInt<1>, Out : UInt<18>}
-
-    wire CondCheck : UInt<1> @[BranchComp.scala 17:23]
-    CondCheck <= UInt<1>("h0") @[BranchComp.scala 19:13]
-    node _T = eq(UInt<1>("h0"), io.Operation) @[BranchComp.scala 21:23]
-    when _T : @[BranchComp.scala 21:23]
-      node _CondCheck_T = eq(io.rs2, io.rs1) @[BranchComp.scala 23:28]
-      CondCheck <= _CondCheck_T @[BranchComp.scala 23:17]
-    else :
-      node _T_1 = eq(UInt<1>("h1"), io.Operation) @[BranchComp.scala 21:23]
-      when _T_1 : @[BranchComp.scala 21:23]
-        node _CondCheck_T_1 = neq(io.rs2, io.rs1) @[BranchComp.scala 26:28]
-        CondCheck <= _CondCheck_T_1 @[BranchComp.scala 26:17]
-      else :
-        node _T_2 = eq(UInt<2>("h2"), io.Operation) @[BranchComp.scala 21:23]
-        when _T_2 : @[BranchComp.scala 21:23]
-          node _CondCheck_T_2 = geq(io.rs2, io.rs1) @[BranchComp.scala 29:28]
-          CondCheck <= _CondCheck_T_2 @[BranchComp.scala 29:17]
-        else :
-          node _T_3 = eq(UInt<2>("h3"), io.Operation) @[BranchComp.scala 21:23]
-          when _T_3 : @[BranchComp.scala 21:23]
-            node _CondCheck_T_3 = gt(io.rs2, io.rs1) @[BranchComp.scala 32:28]
-            CondCheck <= _CondCheck_T_3 @[BranchComp.scala 32:17]
-    when CondCheck : @[BranchComp.scala 36:18]
-      node _io_Out_T = asSInt(io.PC) @[BranchComp.scala 37:22]
-      node _io_Out_T_1 = add(_io_Out_T, io.Offset) @[BranchComp.scala 37:29]
-      node _io_Out_T_2 = tail(_io_Out_T_1, 1) @[BranchComp.scala 37:29]
-      node _io_Out_T_3 = asSInt(_io_Out_T_2) @[BranchComp.scala 37:29]
-      node _io_Out_T_4 = asUInt(_io_Out_T_3) @[BranchComp.scala 37:42]
-      io.Out <= _io_Out_T_4 @[BranchComp.scala 37:12]
-    else :
-      node _io_Out_T_5 = add(io.PC, UInt<1>("h1")) @[BranchComp.scala 39:21]
-      node _io_Out_T_6 = tail(_io_Out_T_5, 1) @[BranchComp.scala 39:21]
-      io.Out <= _io_Out_T_6 @[BranchComp.scala 39:12]
-    io.CondCheck <= CondCheck @[BranchComp.scala 42:16]
-
-  module ExecuteStage :
-    input clock : Clock
-    input reset : Reset
-    output io : { flip x : UInt<18>[16], MemPort : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}, Stall : UInt<1>, flip Clear : UInt<1>}
-    output In : { flip Type : UInt<2>, flip rs1 : UInt<4>, flip rs2 : UInt<4>, flip rd : UInt<4>, flip AImmediate : UInt<11>, flip ASImmediate : SInt<11>, flip AOperation : UInt<4>, flip MemOp : UInt<1>, flip MemAddress : UInt<11>, flip COperation : UInt<2>, flip COffset : SInt<6>}
-    output Out : { WritebackMode : UInt<4>, WritebackRegister : UInt<4>, ALUOut : UInt<18>, JumpValue : UInt<18>}
-
-    inst ALU of ALU @[ExecuteStage.scala 34:19]
-    ALU.clock <= clock
-    ALU.reset <= reset
-    inst BranchComp of BranchComp @[ExecuteStage.scala 35:26]
-    BranchComp.clock <= clock
-    BranchComp.reset <= reset
-    io.MemPort.Enable <= UInt<1>("h0") @[ExecuteStage.scala 39:21]
-    io.MemPort.Address <= UInt<1>("h0") @[ExecuteStage.scala 40:22]
-    io.MemPort.WriteData <= UInt<1>("h0") @[ExecuteStage.scala 41:24]
-    io.MemPort.WriteEn <= UInt<1>("h0") @[ExecuteStage.scala 42:22]
-    io.Stall <= UInt<1>("h0") @[ExecuteStage.scala 44:12]
-    ALU.io.rs2 <= UInt<1>("h0") @[ExecuteStage.scala 46:14]
-    ALU.io.rs1 <= UInt<1>("h0") @[ExecuteStage.scala 47:14]
-    ALU.io.Operation <= UInt<1>("h0") @[ExecuteStage.scala 48:20]
-    BranchComp.io.rs2 <= UInt<1>("h0") @[ExecuteStage.scala 50:21]
-    BranchComp.io.rs1 <= UInt<1>("h0") @[ExecuteStage.scala 51:21]
-    BranchComp.io.PC <= UInt<1>("h0") @[ExecuteStage.scala 52:20]
-    BranchComp.io.Offset <= asSInt(UInt<1>("h0")) @[ExecuteStage.scala 53:24]
-    BranchComp.io.Operation <= UInt<1>("h0") @[ExecuteStage.scala 54:27]
-    reg WritebackMode : UInt<4>, clock with :
-      reset => (reset, UInt<4>("h0")) @[ExecuteStage.scala 56:30]
-    reg WritebackRegister : UInt<4>, clock with :
-      reset => (reset, UInt<4>("h0")) @[ExecuteStage.scala 57:34]
-    reg ALUOutReg : UInt<18>, clock with :
-      reset => (reset, UInt<18>("h0")) @[ExecuteStage.scala 58:26]
-    reg COffsetReg : UInt<6>, clock with :
-      reset => (reset, UInt<6>("h0")) @[ExecuteStage.scala 59:27]
-    reg DataHazard : UInt<4>, clock with :
-      reset => (reset, UInt<4>("h0")) @[ExecuteStage.scala 61:27]
-    wire rs1 : UInt<18> @[ExecuteStage.scala 63:17]
-    wire rs2 : UInt<18> @[ExecuteStage.scala 64:17]
-    wire rd : UInt<18> @[ExecuteStage.scala 65:16]
-    rs1 <= io.x[In.rs1] @[ExecuteStage.scala 69:7]
-    rs2 <= io.x[In.rs2] @[ExecuteStage.scala 70:7]
-    rd <= io.x[In.rd] @[ExecuteStage.scala 71:6]
-    node _T = eq(In.rs1, DataHazard) @[ExecuteStage.scala 73:15]
-    when _T : @[ExecuteStage.scala 73:30]
-      node _T_1 = eq(UInt<1>("h1"), WritebackMode) @[ExecuteStage.scala 74:26]
-      when _T_1 : @[ExecuteStage.scala 74:26]
-        rs1 <= ALUOutReg @[ExecuteStage.scala 76:13]
-      else :
-        node _T_2 = eq(UInt<2>("h2"), WritebackMode) @[ExecuteStage.scala 74:26]
-        when _T_2 : @[ExecuteStage.scala 74:26]
-          rs1 <= ALUOutReg @[ExecuteStage.scala 79:13]
-        else :
-          node _T_3 = eq(UInt<2>("h3"), WritebackMode) @[ExecuteStage.scala 74:26]
-          when _T_3 : @[ExecuteStage.scala 74:26]
-            rs1 <= io.MemPort.ReadData @[ExecuteStage.scala 82:13]
-    node _T_4 = eq(In.rs2, DataHazard) @[ExecuteStage.scala 87:15]
-    when _T_4 : @[ExecuteStage.scala 87:30]
-      node _T_5 = eq(UInt<1>("h1"), WritebackMode) @[ExecuteStage.scala 88:26]
-      when _T_5 : @[ExecuteStage.scala 88:26]
-        rs2 <= ALUOutReg @[ExecuteStage.scala 90:13]
-      else :
-        node _T_6 = eq(UInt<2>("h2"), WritebackMode) @[ExecuteStage.scala 88:26]
-        when _T_6 : @[ExecuteStage.scala 88:26]
-          rs2 <= ALUOutReg @[ExecuteStage.scala 93:13]
-        else :
-          node _T_7 = eq(UInt<2>("h3"), WritebackMode) @[ExecuteStage.scala 88:26]
-          when _T_7 : @[ExecuteStage.scala 88:26]
-            rs2 <= io.MemPort.ReadData @[ExecuteStage.scala 96:13]
-    node _T_8 = eq(In.rd, DataHazard) @[ExecuteStage.scala 101:14]
-    when _T_8 : @[ExecuteStage.scala 101:29]
-      node _T_9 = eq(UInt<1>("h1"), WritebackMode) @[ExecuteStage.scala 102:26]
-      when _T_9 : @[ExecuteStage.scala 102:26]
-        rd <= ALUOutReg @[ExecuteStage.scala 104:12]
-      else :
-        node _T_10 = eq(UInt<2>("h2"), WritebackMode) @[ExecuteStage.scala 102:26]
-        when _T_10 : @[ExecuteStage.scala 102:26]
-          rd <= ALUOutReg @[ExecuteStage.scala 107:12]
-        else :
-          node _T_11 = eq(UInt<2>("h3"), WritebackMode) @[ExecuteStage.scala 102:26]
-          when _T_11 : @[ExecuteStage.scala 102:26]
-            rd <= io.MemPort.ReadData @[ExecuteStage.scala 110:12]
-    Out.ALUOut <= ALUOutReg @[ExecuteStage.scala 115:14]
-    Out.WritebackMode <= WritebackMode @[ExecuteStage.scala 116:21]
-    Out.WritebackRegister <= WritebackRegister @[ExecuteStage.scala 117:25]
-    Out.JumpValue <= COffsetReg @[ExecuteStage.scala 118:17]
-    ALUOutReg <= ALU.io.Out @[ExecuteStage.scala 120:13]
-    when io.Clear : @[ExecuteStage.scala 124:17]
-      ALUOutReg <= UInt<1>("h0") @[ExecuteStage.scala 125:15]
-      WritebackMode <= UInt<1>("h0") @[ExecuteStage.scala 126:19]
-      WritebackRegister <= UInt<1>("h0") @[ExecuteStage.scala 127:23]
-      COffsetReg <= UInt<1>("h0") @[ExecuteStage.scala 128:16]
-    node _T_12 = eq(UInt<1>("h0"), In.Type) @[ExecuteStage.scala 133:18]
-    when _T_12 : @[ExecuteStage.scala 133:18]
-      node _T_13 = leq(In.AOperation, UInt<3>("h7")) @[ExecuteStage.scala 135:26]
-      when _T_13 : @[ExecuteStage.scala 135:33]
-        ALU.io.Operation <= In.AOperation @[ExecuteStage.scala 136:26]
-        ALU.io.rs2 <= rs2 @[ExecuteStage.scala 138:20]
-        ALU.io.rs1 <= rs1 @[ExecuteStage.scala 139:20]
-        WritebackMode <= UInt<1>("h1") @[ExecuteStage.scala 141:23]
-        WritebackRegister <= In.rd @[ExecuteStage.scala 142:27]
-        DataHazard <= In.rd @[ExecuteStage.scala 144:20]
-      else :
-        node _T_14 = eq(In.AOperation, UInt<4>("h8")) @[ExecuteStage.scala 145:32]
-        when _T_14 : @[ExecuteStage.scala 145:40]
-          io.MemPort.Enable <= UInt<1>("h1") @[ExecuteStage.scala 149:27]
-          node _T_15 = eq(In.rs1, DataHazard) @[ExecuteStage.scala 155:21]
-          node _T_16 = neq(In.rs1, UInt<1>("h0")) @[ExecuteStage.scala 155:46]
-          node _T_17 = and(_T_15, _T_16) @[ExecuteStage.scala 155:36]
-          when _T_17 : @[ExecuteStage.scala 155:54]
-            node _T_18 = eq(UInt<1>("h1"), WritebackMode) @[ExecuteStage.scala 156:32]
-            when _T_18 : @[ExecuteStage.scala 156:32]
-              io.MemPort.Address <= ALUOutReg @[ExecuteStage.scala 158:34]
-            else :
-              node _T_19 = eq(UInt<2>("h2"), WritebackMode) @[ExecuteStage.scala 156:32]
-              when _T_19 : @[ExecuteStage.scala 156:32]
-                io.MemPort.Address <= ALUOutReg @[ExecuteStage.scala 161:34]
-          else :
-            io.MemPort.Address <= io.x[In.rs1] @[ExecuteStage.scala 165:30]
-          WritebackMode <= UInt<2>("h3") @[ExecuteStage.scala 168:23]
-          WritebackRegister <= In.rd @[ExecuteStage.scala 169:27]
-          DataHazard <= In.rd @[ExecuteStage.scala 171:20]
-          node _T_20 = eq(io.MemPort.Completed, UInt<1>("h0")) @[ExecuteStage.scala 173:14]
-          when _T_20 : @[ExecuteStage.scala 173:36]
-            io.Stall <= UInt<1>("h1") @[ExecuteStage.scala 174:20]
-        else :
-          node _T_21 = eq(In.AOperation, UInt<4>("h9")) @[ExecuteStage.scala 176:32]
-          when _T_21 : @[ExecuteStage.scala 176:40]
-            io.MemPort.Enable <= UInt<1>("h1") @[ExecuteStage.scala 180:27]
-            io.MemPort.WriteEn <= UInt<1>("h1") @[ExecuteStage.scala 181:28]
-            node _T_22 = eq(In.rs1, DataHazard) @[ExecuteStage.scala 186:21]
-            when _T_22 : @[ExecuteStage.scala 186:36]
-              node _T_23 = eq(UInt<1>("h1"), WritebackMode) @[ExecuteStage.scala 187:32]
-              when _T_23 : @[ExecuteStage.scala 187:32]
-                io.MemPort.Address <= ALUOutReg @[ExecuteStage.scala 189:34]
-              else :
-                node _T_24 = eq(UInt<2>("h2"), WritebackMode) @[ExecuteStage.scala 187:32]
-                when _T_24 : @[ExecuteStage.scala 187:32]
-                  io.MemPort.Address <= ALUOutReg @[ExecuteStage.scala 192:34]
-            else :
-              io.MemPort.Address <= io.x[In.rs1] @[ExecuteStage.scala 196:30]
-            io.MemPort.WriteData <= rd @[ExecuteStage.scala 199:30]
-            WritebackMode <= UInt<1>("h0") @[ExecuteStage.scala 202:23]
-            node _T_25 = eq(io.MemPort.Completed, UInt<1>("h0")) @[ExecuteStage.scala 204:14]
-            when _T_25 : @[ExecuteStage.scala 204:36]
-              io.Stall <= UInt<1>("h1") @[ExecuteStage.scala 205:20]
-    else :
-      node _T_26 = eq(UInt<1>("h1"), In.Type) @[ExecuteStage.scala 133:18]
-      when _T_26 : @[ExecuteStage.scala 133:18]
-        node _T_27 = eq(In.AOperation, UInt<1>("h1")) @[ExecuteStage.scala 210:26]
-        when _T_27 : @[ExecuteStage.scala 210:34]
-          ALU.io.rs2 <= UInt<1>("h0") @[ExecuteStage.scala 211:20]
-          ALU.io.rs1 <= In.AImmediate @[ExecuteStage.scala 212:20]
-          ALU.io.Operation <= UInt<1>("h0") @[ExecuteStage.scala 213:26]
-        else :
-          node _T_28 = eq(In.AOperation, UInt<2>("h2")) @[ExecuteStage.scala 214:32]
-          when _T_28 : @[ExecuteStage.scala 214:40]
-            ALU.io.rs2 <= UInt<1>("h0") @[ExecuteStage.scala 215:20]
-            wire upper : UInt<9> @[ExecuteStage.scala 217:25]
-            node _upper_T = bits(In.AImmediate, 8, 0) @[ExecuteStage.scala 218:31]
-            upper <= _upper_T @[ExecuteStage.scala 218:15]
-            wire lower : UInt<9> @[ExecuteStage.scala 219:25]
-            node _lower_T = bits(rd, 8, 0) @[ExecuteStage.scala 221:20]
-            lower <= _lower_T @[ExecuteStage.scala 221:15]
-            wire cat : UInt<18> @[ExecuteStage.scala 222:23]
-            node _cat_T = cat(upper, lower) @[Cat.scala 31:58]
-            cat <= _cat_T @[ExecuteStage.scala 223:13]
-            ALU.io.rs1 <= cat @[ExecuteStage.scala 225:20]
-            ALU.io.Operation <= UInt<1>("h0") @[ExecuteStage.scala 226:26]
-          else :
-            node _T_29 = lt(In.ASImmediate, asSInt(UInt<1>("h0"))) @[ExecuteStage.scala 228:29]
-            when _T_29 : @[ExecuteStage.scala 228:35]
-              ALU.io.Operation <= UInt<1>("h1") @[ExecuteStage.scala 229:28]
-              node _ALU_io_rs2_T = sub(asSInt(UInt<1>("h0")), In.ASImmediate) @[ExecuteStage.scala 230:30]
-              node _ALU_io_rs2_T_1 = tail(_ALU_io_rs2_T, 1) @[ExecuteStage.scala 230:30]
-              node _ALU_io_rs2_T_2 = asSInt(_ALU_io_rs2_T_1) @[ExecuteStage.scala 230:30]
-              node _ALU_io_rs2_T_3 = asUInt(_ALU_io_rs2_T_2) @[ExecuteStage.scala 230:48]
-              ALU.io.rs2 <= _ALU_io_rs2_T_3 @[ExecuteStage.scala 230:22]
-              ALU.io.rs1 <= rd @[ExecuteStage.scala 232:22]
-            else :
-              node _ALU_io_rs2_T_4 = asUInt(In.ASImmediate) @[ExecuteStage.scala 235:40]
-              ALU.io.rs2 <= _ALU_io_rs2_T_4 @[ExecuteStage.scala 235:22]
-              ALU.io.rs1 <= rd @[ExecuteStage.scala 237:22]
-              ALU.io.Operation <= UInt<1>("h0") @[ExecuteStage.scala 238:28]
-        WritebackMode <= UInt<1>("h1") @[ExecuteStage.scala 241:21]
-        WritebackRegister <= In.rd @[ExecuteStage.scala 242:25]
-        DataHazard <= In.rd @[ExecuteStage.scala 244:18]
-      else :
-        node _T_30 = eq(UInt<2>("h2"), In.Type) @[ExecuteStage.scala 133:18]
-        when _T_30 : @[ExecuteStage.scala 133:18]
-          io.MemPort.Address <= In.MemAddress @[ExecuteStage.scala 247:26]
-          io.MemPort.WriteData <= rd @[ExecuteStage.scala 248:28]
-          io.MemPort.Enable <= UInt<1>("h1") @[ExecuteStage.scala 249:25]
-          io.MemPort.WriteEn <= In.MemOp @[ExecuteStage.scala 250:26]
-          node _T_31 = eq(UInt<1>("h0"), In.MemOp) @[ExecuteStage.scala 252:23]
-          when _T_31 : @[ExecuteStage.scala 252:23]
-            WritebackMode <= UInt<2>("h3") @[ExecuteStage.scala 254:25]
-            DataHazard <= In.rd @[ExecuteStage.scala 255:22]
-          else :
-            node _T_32 = eq(UInt<1>("h1"), In.MemOp) @[ExecuteStage.scala 252:23]
-            when _T_32 : @[ExecuteStage.scala 252:23]
-              WritebackMode <= UInt<1>("h0") @[ExecuteStage.scala 258:25]
-          node _T_33 = eq(io.MemPort.Completed, UInt<1>("h0")) @[ExecuteStage.scala 262:12]
-          when _T_33 : @[ExecuteStage.scala 262:34]
-            io.Stall <= UInt<1>("h1") @[ExecuteStage.scala 263:18]
-          WritebackRegister <= In.rd @[ExecuteStage.scala 266:25]
-        else :
-          node _T_34 = eq(UInt<2>("h3"), In.Type) @[ExecuteStage.scala 133:18]
-          when _T_34 : @[ExecuteStage.scala 133:18]
-            BranchComp.io.rs2 <= rs2 @[ExecuteStage.scala 269:25]
-            BranchComp.io.rs1 <= rs1 @[ExecuteStage.scala 270:25]
-            BranchComp.io.Operation <= In.COperation @[ExecuteStage.scala 272:31]
-            node _BranchComp_io_PC_T = sub(io.x[1], UInt<2>("h2")) @[ExecuteStage.scala 273:35]
-            node _BranchComp_io_PC_T_1 = tail(_BranchComp_io_PC_T, 1) @[ExecuteStage.scala 273:35]
-            BranchComp.io.PC <= _BranchComp_io_PC_T_1 @[ExecuteStage.scala 273:24]
-            BranchComp.io.Offset <= In.COffset @[ExecuteStage.scala 274:28]
-            COffsetReg <= BranchComp.io.Out @[ExecuteStage.scala 276:18]
-            when BranchComp.io.CondCheck : @[ExecuteStage.scala 278:36]
-              WritebackMode <= UInt<3>("h4") @[ExecuteStage.scala 279:23]
-            else :
-              WritebackMode <= UInt<1>("h0") @[ExecuteStage.scala 281:23]
-            when io.Clear : @[ExecuteStage.scala 284:21]
-              WritebackMode <= UInt<1>("h0") @[ExecuteStage.scala 285:23]
-            WritebackRegister <= UInt<1>("h0") @[ExecuteStage.scala 288:25]
-
-  module Core :
-    input clock : Clock
-    input reset : Reset
-    output io : { flip WaveIn : UInt<16>, WaveOut : UInt<16>, flip Stall : UInt<1>, flip ProgramLength : UInt<10>, MemPort : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}}
-
-    inst FetchStage of FetchStage @[Core.scala 28:26]
-    FetchStage.clock <= clock
-    FetchStage.reset <= reset
-    inst DecodeStage of DecodeStage @[Core.scala 29:27]
-    DecodeStage.clock <= clock
-    DecodeStage.reset <= reset
-    inst ExecuteStage of ExecuteStage @[Core.scala 30:28]
-    ExecuteStage.clock <= clock
-    ExecuteStage.reset <= reset
-    reg x : UInt<18>[16], clock with :
-      reset => (UInt<1>("h0"), x) @[Core.scala 34:14]
-    x[0] <= UInt<16>("h0") @[Core.scala 36:8]
-    x[2] <= io.WaveIn @[Core.scala 37:8]
-    io.WaveOut <= x[3] @[Core.scala 38:14]
-    FetchStage.io.Stall <= UInt<1>("h0") @[Core.scala 42:23]
-    FetchStage.io.Clear <= UInt<1>("h0") @[Core.scala 43:23]
-    DecodeStage.io.Stall <= UInt<1>("h0") @[Core.scala 45:24]
-    DecodeStage.io.Clear <= UInt<1>("h0") @[Core.scala 46:24]
-    ExecuteStage.io.MemPort.Completed <= io.MemPort.Completed @[Core.scala 48:27]
-    ExecuteStage.io.MemPort.ReadData <= io.MemPort.ReadData @[Core.scala 48:27]
-    io.MemPort.WriteEn <= ExecuteStage.io.MemPort.WriteEn @[Core.scala 48:27]
-    io.MemPort.Enable <= ExecuteStage.io.MemPort.Enable @[Core.scala 48:27]
-    io.MemPort.WriteData <= ExecuteStage.io.MemPort.WriteData @[Core.scala 48:27]
-    io.MemPort.Address <= ExecuteStage.io.MemPort.Address @[Core.scala 48:27]
-    ExecuteStage.io.Clear <= UInt<1>("h0") @[Core.scala 49:25]
-    ExecuteStage.io.x[0] <= x[0] @[Core.scala 50:21]
-    ExecuteStage.io.x[1] <= x[1] @[Core.scala 50:21]
-    ExecuteStage.io.x[2] <= x[2] @[Core.scala 50:21]
-    ExecuteStage.io.x[3] <= x[3] @[Core.scala 50:21]
-    ExecuteStage.io.x[4] <= x[4] @[Core.scala 50:21]
-    ExecuteStage.io.x[5] <= x[5] @[Core.scala 50:21]
-    ExecuteStage.io.x[6] <= x[6] @[Core.scala 50:21]
-    ExecuteStage.io.x[7] <= x[7] @[Core.scala 50:21]
-    ExecuteStage.io.x[8] <= x[8] @[Core.scala 50:21]
-    ExecuteStage.io.x[9] <= x[9] @[Core.scala 50:21]
-    ExecuteStage.io.x[10] <= x[10] @[Core.scala 50:21]
-    ExecuteStage.io.x[11] <= x[11] @[Core.scala 50:21]
-    ExecuteStage.io.x[12] <= x[12] @[Core.scala 50:21]
-    ExecuteStage.io.x[13] <= x[13] @[Core.scala 50:21]
-    ExecuteStage.io.x[14] <= x[14] @[Core.scala 50:21]
-    ExecuteStage.io.x[15] <= x[15] @[Core.scala 50:21]
-    FetchStage.In.PC <= x[1] @[Core.scala 56:20]
-    FetchStage.io.Stall <= ExecuteStage.io.Stall @[Core.scala 57:23]
-    node _T = eq(ExecuteStage.io.Stall, UInt<1>("h0")) @[Core.scala 59:8]
-    when _T : @[Core.scala 59:31]
-      node _x_1_T = add(x[1], UInt<1>("h1")) @[Core.scala 60:18]
-      node _x_1_T_1 = tail(_x_1_T, 1) @[Core.scala 60:18]
-      x[1] <= _x_1_T_1 @[Core.scala 60:10]
-    DecodeStage.In.Instruction <= FetchStage.Out.Instruction @[Core.scala 65:18]
-    DecodeStage.io.Stall <= ExecuteStage.io.Stall @[Core.scala 66:24]
-    ExecuteStage.In.COffset <= DecodeStage.Out.COffset @[Core.scala 70:19]
-    ExecuteStage.In.COperation <= DecodeStage.Out.COperation @[Core.scala 70:19]
-    ExecuteStage.In.MemAddress <= DecodeStage.Out.MemAddress @[Core.scala 70:19]
-    ExecuteStage.In.MemOp <= DecodeStage.Out.MemOp @[Core.scala 70:19]
-    ExecuteStage.In.AOperation <= DecodeStage.Out.AOperation @[Core.scala 70:19]
-    ExecuteStage.In.ASImmediate <= DecodeStage.Out.ASImmediate @[Core.scala 70:19]
-    ExecuteStage.In.AImmediate <= DecodeStage.Out.AImmediate @[Core.scala 70:19]
-    ExecuteStage.In.rd <= DecodeStage.Out.rd @[Core.scala 70:19]
-    ExecuteStage.In.rs2 <= DecodeStage.Out.rs2 @[Core.scala 70:19]
-    ExecuteStage.In.rs1 <= DecodeStage.Out.rs1 @[Core.scala 70:19]
-    ExecuteStage.In.Type <= DecodeStage.Out.Type @[Core.scala 70:19]
-    node _T_1 = eq(UInt<1>("h1"), ExecuteStage.Out.WritebackMode) @[Core.scala 74:41]
-    when _T_1 : @[Core.scala 74:41]
-      x[ExecuteStage.Out.WritebackRegister] <= ExecuteStage.Out.ALUOut @[Core.scala 76:45]
-      node _T_2 = eq(ExecuteStage.Out.WritebackRegister, UInt<1>("h1")) @[Core.scala 78:46]
-      when _T_2 : @[Core.scala 78:54]
-        FetchStage.io.Clear <= UInt<1>("h1") @[Core.scala 79:29]
-        DecodeStage.io.Clear <= UInt<1>("h1") @[Core.scala 80:30]
-        ExecuteStage.io.Clear <= UInt<1>("h1") @[Core.scala 81:31]
-    else :
-      node _T_3 = eq(UInt<2>("h3"), ExecuteStage.Out.WritebackMode) @[Core.scala 74:41]
-      when _T_3 : @[Core.scala 74:41]
-        x[ExecuteStage.Out.WritebackRegister] <= io.MemPort.ReadData @[Core.scala 85:45]
-      else :
-        node _T_4 = eq(UInt<3>("h4"), ExecuteStage.Out.WritebackMode) @[Core.scala 74:41]
-        when _T_4 : @[Core.scala 74:41]
-          x[1] <= ExecuteStage.Out.JumpValue @[Core.scala 88:12]
-          FetchStage.io.Clear <= UInt<1>("h1") @[Core.scala 89:27]
-          DecodeStage.io.Clear <= UInt<1>("h1") @[Core.scala 90:28]
-          ExecuteStage.io.Clear <= UInt<1>("h1") @[Core.scala 91:29]
-
-  module FirEngine :
-    input clock : Clock
-    input reset : Reset
-    output io : { flip WaveIn : UInt<18>, WaveOut : UInt<18>, flip Registers : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}, MemPort : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}}
-
-    io.WaveOut <= UInt<1>("h0") @[FirEngine.scala 14:14]
-    io.MemPort.Enable <= UInt<1>("h0") @[FirEngine.scala 16:21]
-    io.MemPort.WriteEn <= UInt<1>("h0") @[FirEngine.scala 17:22]
-    io.MemPort.WriteData <= UInt<1>("h0") @[FirEngine.scala 18:24]
-    io.MemPort.Address <= UInt<1>("h0") @[FirEngine.scala 19:22]
-    io.Registers.ReadData <= UInt<1>("h0") @[FirEngine.scala 21:25]
-    io.Registers.Completed <= UInt<1>("h0") @[FirEngine.scala 22:26]
-    reg DataReg : UInt<18>[128], clock with :
-      reset => (UInt<1>("h0"), DataReg) @[FirEngine.scala 26:20]
-    when io.Registers.Enable : @[FirEngine.scala 28:28]
-      node _ReadWritePort_T = bits(io.Registers.Address, 6, 0)
-      when io.Registers.WriteEn : @[FirEngine.scala 30:31]
-        DataReg[_ReadWritePort_T] <= io.Registers.WriteData @[FirEngine.scala 31:21]
-      else :
-        io.Registers.ReadData <= DataReg[_ReadWritePort_T] @[FirEngine.scala 33:29]
-
   module MemoryController :
     input clock : Clock
     input reset : Reset
@@ -884,9 +277,11 @@ circuit DSP :
                         SPI.CE <= UInt<1>("h0") @[MemoryController.scala 304:18]
                         ClockEn <= UInt<1>("h1") @[MemoryController.scala 305:19]
                         SPI.Drive <= UInt<1>("h1") @[MemoryController.scala 306:21]
-                        node _SPI_SI_1_T_24 = dshr(WriteDataReg, CntReg) @[MemoryController.scala 308:36]
-                        node _SPI_SI_1_T_25 = bits(_SPI_SI_1_T_24, 0, 0) @[MemoryController.scala 308:36]
-                        SPI.SI[1] <= _SPI_SI_1_T_25 @[MemoryController.scala 308:21]
+                        node _SPI_SI_1_T_24 = sub(UInt<4>("hf"), CntReg) @[MemoryController.scala 308:42]
+                        node _SPI_SI_1_T_25 = tail(_SPI_SI_1_T_24, 1) @[MemoryController.scala 308:42]
+                        node _SPI_SI_1_T_26 = dshr(WriteDataReg, _SPI_SI_1_T_25) @[MemoryController.scala 308:36]
+                        node _SPI_SI_1_T_27 = bits(_SPI_SI_1_T_26, 0, 0) @[MemoryController.scala 308:36]
+                        SPI.SI[1] <= _SPI_SI_1_T_27 @[MemoryController.scala 308:21]
                         when NextStateInv : @[MemoryController.scala 310:29]
                           node _CntReg_T_16 = add(CntReg, UInt<1>("h1")) @[MemoryController.scala 311:30]
                           node _CntReg_T_17 = tail(_CntReg_T_16, 1) @[MemoryController.scala 311:30]
@@ -906,11 +301,11 @@ circuit DSP :
                       SPI.CE <= UInt<1>("h0") @[MemoryController.scala 326:18]
                       ClockEn <= UInt<1>("h1") @[MemoryController.scala 327:19]
                       SPI.Drive <= UInt<1>("h1") @[MemoryController.scala 328:21]
-                      node _SPI_SI_1_T_26 = sub(UInt<3>("h7"), CntReg) @[MemoryController.scala 330:39]
-                      node _SPI_SI_1_T_27 = tail(_SPI_SI_1_T_26, 1) @[MemoryController.scala 330:39]
-                      node _SPI_SI_1_T_28 = dshr(UInt<8>("heb"), _SPI_SI_1_T_27) @[MemoryController.scala 330:34]
-                      node _SPI_SI_1_T_29 = bits(_SPI_SI_1_T_28, 0, 0) @[MemoryController.scala 330:34]
-                      SPI.SI[1] <= _SPI_SI_1_T_29 @[MemoryController.scala 330:21]
+                      node _SPI_SI_1_T_28 = sub(UInt<3>("h7"), CntReg) @[MemoryController.scala 330:39]
+                      node _SPI_SI_1_T_29 = tail(_SPI_SI_1_T_28, 1) @[MemoryController.scala 330:39]
+                      node _SPI_SI_1_T_30 = dshr(UInt<8>("heb"), _SPI_SI_1_T_29) @[MemoryController.scala 330:34]
+                      node _SPI_SI_1_T_31 = bits(_SPI_SI_1_T_30, 0, 0) @[MemoryController.scala 330:34]
+                      SPI.SI[1] <= _SPI_SI_1_T_31 @[MemoryController.scala 330:21]
                       when NextStateInv : @[MemoryController.scala 332:29]
                         node _CntReg_T_18 = add(CntReg, UInt<1>("h1")) @[MemoryController.scala 333:30]
                         node _CntReg_T_19 = tail(_CntReg_T_18, 1) @[MemoryController.scala 333:30]
@@ -1028,11 +423,11 @@ circuit DSP :
                         SPI.CE <= UInt<1>("h0") @[MemoryController.scala 383:18]
                         ClockEn <= UInt<1>("h1") @[MemoryController.scala 384:19]
                         SPI.Drive <= UInt<1>("h1") @[MemoryController.scala 385:21]
-                        node _SPI_SI_1_T_30 = sub(UInt<3>("h7"), CntReg) @[MemoryController.scala 387:40]
-                        node _SPI_SI_1_T_31 = tail(_SPI_SI_1_T_30, 1) @[MemoryController.scala 387:40]
-                        node _SPI_SI_1_T_32 = dshr(UInt<8>("h38"), _SPI_SI_1_T_31) @[MemoryController.scala 387:35]
-                        node _SPI_SI_1_T_33 = bits(_SPI_SI_1_T_32, 0, 0) @[MemoryController.scala 387:35]
-                        SPI.SI[1] <= _SPI_SI_1_T_33 @[MemoryController.scala 387:21]
+                        node _SPI_SI_1_T_32 = sub(UInt<3>("h7"), CntReg) @[MemoryController.scala 387:40]
+                        node _SPI_SI_1_T_33 = tail(_SPI_SI_1_T_32, 1) @[MemoryController.scala 387:40]
+                        node _SPI_SI_1_T_34 = dshr(UInt<8>("h38"), _SPI_SI_1_T_33) @[MemoryController.scala 387:35]
+                        node _SPI_SI_1_T_35 = bits(_SPI_SI_1_T_34, 0, 0) @[MemoryController.scala 387:35]
+                        SPI.SI[1] <= _SPI_SI_1_T_35 @[MemoryController.scala 387:21]
                         when NextStateInv : @[MemoryController.scala 389:29]
                           node _CntReg_T_24 = add(CntReg, UInt<1>("h1")) @[MemoryController.scala 390:30]
                           node _CntReg_T_25 = tail(_CntReg_T_24, 1) @[MemoryController.scala 390:30]
@@ -1185,124 +580,799 @@ circuit DSP :
                               StateReg <= UInt<4>("h4") @[MemoryController.scala 440:22]
                               SPI.CE <= UInt<1>("h1") @[MemoryController.scala 441:20]
 
+  module SPIArbiter :
+    input clock : Clock
+    input reset : Reset
+    output io : { flip MemPort : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}[1]}
+    output SPI : { SCLK : UInt<1>, CE : UInt<1>, flip SO : UInt<1>[4], SI : UInt<1>[4], Drive : UInt<1>}
+
+    io.MemPort[0].ReadData <= UInt<1>("h0") @[SPIArbiter.scala 21:28]
+    io.MemPort[0].Completed <= UInt<1>("h0") @[SPIArbiter.scala 22:29]
+    inst ExternalMemory of MemoryController @[SPIArbiter.scala 25:30]
+    ExternalMemory.clock <= clock
+    ExternalMemory.reset <= reset
+    ExternalMemory.io.WriteData <= UInt<1>("h0") @[SPIArbiter.scala 27:31]
+    ExternalMemory.io.ReadEnable <= UInt<1>("h0") @[SPIArbiter.scala 28:32]
+    ExternalMemory.io.WriteEnable <= UInt<1>("h0") @[SPIArbiter.scala 29:33]
+    ExternalMemory.io.Address <= UInt<1>("h0") @[SPIArbiter.scala 30:29]
+    SPI.Drive <= ExternalMemory.SPI.Drive @[SPIArbiter.scala 31:22]
+    SPI.SI[0] <= ExternalMemory.SPI.SI[0] @[SPIArbiter.scala 31:22]
+    SPI.SI[1] <= ExternalMemory.SPI.SI[1] @[SPIArbiter.scala 31:22]
+    SPI.SI[2] <= ExternalMemory.SPI.SI[2] @[SPIArbiter.scala 31:22]
+    SPI.SI[3] <= ExternalMemory.SPI.SI[3] @[SPIArbiter.scala 31:22]
+    ExternalMemory.SPI.SO <= SPI.SO @[SPIArbiter.scala 31:22]
+    SPI.CE <= ExternalMemory.SPI.CE @[SPIArbiter.scala 31:22]
+    SPI.SCLK <= ExternalMemory.SPI.SCLK @[SPIArbiter.scala 31:22]
+    wire Producer : UInt<2> @[SPIArbiter.scala 33:22]
+    reg ProducerReg : UInt<2>, clock with :
+      reset => (reset, UInt<2>("h0")) @[SPIArbiter.scala 34:28]
+    reg Taken : UInt<1>, clock with :
+      reset => (reset, UInt<1>("h0")) @[SPIArbiter.scala 35:22]
+    Producer <= ProducerReg @[SPIArbiter.scala 37:12]
+    node _T = bits(Taken, 0, 0) @[SPIArbiter.scala 40:17]
+    node _T_1 = eq(_T, UInt<1>("h0")) @[SPIArbiter.scala 40:10]
+    node _T_2 = and(_T_1, io.MemPort[0].Enable) @[SPIArbiter.scala 40:24]
+    when _T_2 : @[SPIArbiter.scala 40:48]
+      Taken <= UInt<1>("h1") @[SPIArbiter.scala 41:13]
+      Producer <= UInt<1>("h0") @[SPIArbiter.scala 42:16]
+      ProducerReg <= UInt<1>("h0") @[SPIArbiter.scala 43:19]
+    node _T_3 = eq(io.MemPort[UInt<1>("h0")].Completed, UInt<1>("h1")) @[SPIArbiter.scala 47:39]
+    when _T_3 : @[SPIArbiter.scala 47:50]
+      Taken <= UInt<1>("h0") @[SPIArbiter.scala 48:11]
+    when io.MemPort[UInt<1>("h0")].Enable : @[SPIArbiter.scala 51:36]
+      ExternalMemory.io.Address <= io.MemPort[UInt<1>("h0")].Address @[SPIArbiter.scala 52:31]
+      when io.MemPort[UInt<1>("h0")].WriteEn : @[SPIArbiter.scala 54:39]
+        when ExternalMemory.io.Ready : @[SPIArbiter.scala 55:36]
+          ExternalMemory.io.WriteEnable <= UInt<1>("h1") @[SPIArbiter.scala 56:39]
+          ExternalMemory.io.WriteData <= io.MemPort[UInt<1>("h0")].WriteData @[SPIArbiter.scala 57:37]
+        io.MemPort[UInt<1>("h0")].Completed <= ExternalMemory.io.Completed @[SPIArbiter.scala 60:38]
+      else :
+        when ExternalMemory.io.Ready : @[SPIArbiter.scala 62:36]
+          ExternalMemory.io.ReadEnable <= UInt<1>("h1") @[SPIArbiter.scala 63:38]
+        io.MemPort[UInt<1>("h0")].Completed <= ExternalMemory.io.Completed @[SPIArbiter.scala 66:38]
+        io.MemPort[UInt<1>("h0")].ReadData <= ExternalMemory.io.ReadData @[SPIArbiter.scala 67:37]
+
+  module InstuctionMemory :
+    input clock : Clock
+    input reset : Reset
+    output io : { flip enable : UInt<1>, flip write : UInt<1>, flip Address : UInt<10>, flip DataIn : UInt<18>, Instruction : UInt<18>}
+
+    smem mem : UInt<18> [1024] @[InstructionMemory.scala 28:24]
+    io.Instruction is invalid @[InstructionMemory.scala 32:18]
+    when io.enable : @[InstructionMemory.scala 33:19]
+      infer mport rdwrPort = mem[io.Address], clock @[InstructionMemory.scala 34:23]
+      when io.write : @[InstructionMemory.scala 35:21]
+        rdwrPort <= io.DataIn @[InstructionMemory.scala 35:32]
+      else :
+        io.Instruction <= rdwrPort @[InstructionMemory.scala 36:38]
+
+  module FetchStage :
+    input clock : Clock
+    input reset : Reset
+    output io : { flip Stall : UInt<1>, flip Clear : UInt<1>}
+    output In : { flip PC : UInt<18>}
+    output Out : { Instruction : UInt<18>}
+
+    reg ClearDelay : UInt<1>, clock with :
+      reset => (UInt<1>("h0"), ClearDelay) @[FetchStage.scala 19:27]
+    ClearDelay <= io.Clear @[FetchStage.scala 19:27]
+    inst InstructionMem of InstuctionMemory @[FetchStage.scala 22:30]
+    InstructionMem.clock <= clock
+    InstructionMem.reset <= reset
+    InstructionMem.io.Address <= UInt<1>("h0") @[FetchStage.scala 27:29]
+    InstructionMem.io.DataIn <= UInt<1>("h0") @[FetchStage.scala 28:28]
+    InstructionMem.io.enable <= UInt<1>("h0") @[FetchStage.scala 29:28]
+    InstructionMem.io.write <= UInt<1>("h0") @[FetchStage.scala 30:27]
+    InstructionMem.io.Address <= In.PC @[FetchStage.scala 34:29]
+    InstructionMem.io.DataIn <= UInt<1>("h0") @[FetchStage.scala 35:28]
+    InstructionMem.io.enable <= UInt<1>("h1") @[FetchStage.scala 36:28]
+    Out.Instruction <= InstructionMem.io.Instruction @[FetchStage.scala 45:19]
+    when io.Clear : @[FetchStage.scala 53:18]
+      InstructionMem.io.enable <= UInt<1>("h0") @[FetchStage.scala 54:30]
+
+  module InstuctionDecoder :
+    input clock : Clock
+    input reset : Reset
+    output io : { flip Instruction : UInt<18>, Type : UInt<2>, rs1 : UInt<4>, rs2 : UInt<4>, rd : UInt<4>, AImmidiate : UInt<11>, ASImmidiate : SInt<11>, AOperation : UInt<4>, MemOp : UInt<2>, MemAdress : UInt<11>, COperation : UInt<2>, COffset : SInt<6>}
+
+    node _io_Type_T = bits(io.Instruction, 17, 16) @[InstuctionDecoder.scala 26:28]
+    io.Type <= _io_Type_T @[InstuctionDecoder.scala 26:11]
+    io.rs1 <= UInt<1>("h0") @[InstuctionDecoder.scala 27:10]
+    io.rs2 <= UInt<1>("h0") @[InstuctionDecoder.scala 28:10]
+    io.rd <= UInt<1>("h0") @[InstuctionDecoder.scala 29:9]
+    io.AImmidiate <= UInt<1>("h0") @[InstuctionDecoder.scala 30:17]
+    io.ASImmidiate <= asSInt(UInt<1>("h0")) @[InstuctionDecoder.scala 31:18]
+    io.AOperation <= UInt<1>("h0") @[InstuctionDecoder.scala 32:17]
+    io.MemOp <= UInt<1>("h0") @[InstuctionDecoder.scala 33:12]
+    io.MemAdress <= UInt<1>("h0") @[InstuctionDecoder.scala 34:16]
+    io.COperation <= UInt<1>("h0") @[InstuctionDecoder.scala 35:17]
+    io.COffset <= asSInt(UInt<1>("h0")) @[InstuctionDecoder.scala 36:14]
+    node _T = bits(io.Instruction, 17, 16) @[InstuctionDecoder.scala 38:24]
+    node _T_1 = eq(UInt<1>("h0"), _T) @[InstuctionDecoder.scala 38:32]
+    when _T_1 : @[InstuctionDecoder.scala 38:32]
+      node _io_AOperation_T = bits(io.Instruction, 15, 12) @[InstuctionDecoder.scala 40:38]
+      io.AOperation <= _io_AOperation_T @[InstuctionDecoder.scala 40:21]
+      node _io_rd_T = bits(io.Instruction, 11, 8) @[InstuctionDecoder.scala 41:30]
+      io.rd <= _io_rd_T @[InstuctionDecoder.scala 41:13]
+      node _io_rs1_T = bits(io.Instruction, 7, 4) @[InstuctionDecoder.scala 42:31]
+      io.rs1 <= _io_rs1_T @[InstuctionDecoder.scala 42:14]
+      node _io_rs2_T = bits(io.Instruction, 3, 0) @[InstuctionDecoder.scala 43:31]
+      io.rs2 <= _io_rs2_T @[InstuctionDecoder.scala 43:14]
+    else :
+      node _T_2 = eq(UInt<1>("h1"), _T) @[InstuctionDecoder.scala 38:32]
+      when _T_2 : @[InstuctionDecoder.scala 38:32]
+        node _io_AOperation_T_1 = bits(io.Instruction, 15, 14) @[InstuctionDecoder.scala 46:38]
+        io.AOperation <= _io_AOperation_T_1 @[InstuctionDecoder.scala 46:21]
+        node _io_rd_T_1 = bits(io.Instruction, 13, 10) @[InstuctionDecoder.scala 47:30]
+        io.rd <= _io_rd_T_1 @[InstuctionDecoder.scala 47:13]
+        node _io_AImmidiate_T = bits(io.Instruction, 9, 0) @[InstuctionDecoder.scala 48:38]
+        io.AImmidiate <= _io_AImmidiate_T @[InstuctionDecoder.scala 48:21]
+        node _io_ASImmidiate_T = bits(io.Instruction, 9, 0) @[InstuctionDecoder.scala 49:39]
+        node _io_ASImmidiate_T_1 = asSInt(_io_ASImmidiate_T) @[InstuctionDecoder.scala 49:45]
+        io.ASImmidiate <= _io_ASImmidiate_T_1 @[InstuctionDecoder.scala 49:22]
+      else :
+        node _T_3 = eq(UInt<2>("h2"), _T) @[InstuctionDecoder.scala 38:32]
+        when _T_3 : @[InstuctionDecoder.scala 38:32]
+          node _io_MemOp_T = bits(io.Instruction, 15, 15) @[InstuctionDecoder.scala 52:33]
+          io.MemOp <= _io_MemOp_T @[InstuctionDecoder.scala 52:16]
+          node _io_rd_T_2 = bits(io.Instruction, 14, 11) @[InstuctionDecoder.scala 53:30]
+          io.rd <= _io_rd_T_2 @[InstuctionDecoder.scala 53:13]
+          node _io_MemAdress_T = bits(io.Instruction, 10, 0) @[InstuctionDecoder.scala 54:37]
+          io.MemAdress <= _io_MemAdress_T @[InstuctionDecoder.scala 54:20]
+        else :
+          node _T_4 = eq(UInt<2>("h3"), _T) @[InstuctionDecoder.scala 38:32]
+          when _T_4 : @[InstuctionDecoder.scala 38:32]
+            node _io_COperation_T = bits(io.Instruction, 15, 14) @[InstuctionDecoder.scala 57:38]
+            io.COperation <= _io_COperation_T @[InstuctionDecoder.scala 57:21]
+            node _io_rs1_T_1 = bits(io.Instruction, 13, 10) @[InstuctionDecoder.scala 58:31]
+            io.rs1 <= _io_rs1_T_1 @[InstuctionDecoder.scala 58:14]
+            node _io_rs2_T_1 = bits(io.Instruction, 9, 6) @[InstuctionDecoder.scala 59:31]
+            io.rs2 <= _io_rs2_T_1 @[InstuctionDecoder.scala 59:14]
+            node _io_COffset_T = bits(io.Instruction, 5, 0) @[InstuctionDecoder.scala 60:35]
+            node _io_COffset_T_1 = asSInt(_io_COffset_T) @[InstuctionDecoder.scala 60:41]
+            io.COffset <= _io_COffset_T_1 @[InstuctionDecoder.scala 60:18]
+
+  module DecodeStage :
+    input clock : Clock
+    input reset : Reset
+    output io : { flip Clear : UInt<1>, flip Stall : UInt<1>, MiniStall : UInt<1>}
+    output In : { flip Instruction : UInt<18>}
+    output Out : { Type : UInt<2>, rs1 : UInt<4>, rs2 : UInt<4>, rd : UInt<4>, AImmediate : UInt<11>, ASImmediate : SInt<11>, AOperation : UInt<4>, MemOp : UInt<1>, MemAddress : UInt<11>, COperation : UInt<2>, COffset : SInt<6>}
+
+    io.MiniStall <= UInt<1>("h0") @[DecodeStage.scala 29:16]
+    inst InstDec of InstuctionDecoder @[DecodeStage.scala 31:23]
+    InstDec.clock <= clock
+    InstDec.reset <= reset
+    reg AddressReg : UInt<10>, clock with :
+      reset => (reset, UInt<10>("h0")) @[DecodeStage.scala 33:27]
+    reg TypeReg : UInt<2>, clock with :
+      reset => (reset, UInt<2>("h0")) @[DecodeStage.scala 34:24]
+    reg rs1Reg : UInt<4>, clock with :
+      reset => (reset, UInt<4>("h0")) @[DecodeStage.scala 35:23]
+    reg rs2Reg : UInt<4>, clock with :
+      reset => (reset, UInt<4>("h0")) @[DecodeStage.scala 36:23]
+    reg rdReg : UInt<4>, clock with :
+      reset => (reset, UInt<4>("h0")) @[DecodeStage.scala 37:22]
+    reg AImmediateReg : UInt<11>, clock with :
+      reset => (reset, UInt<11>("h0")) @[DecodeStage.scala 39:30]
+    reg ASImmediateReg : SInt<11>, clock with :
+      reset => (reset, asSInt(UInt<11>("h0"))) @[DecodeStage.scala 40:31]
+    reg AOperationReg : UInt<4>, clock with :
+      reset => (reset, UInt<4>("h0")) @[DecodeStage.scala 42:30]
+    reg MemOpReg : UInt<1>, clock with :
+      reset => (reset, UInt<1>("h0")) @[DecodeStage.scala 44:25]
+    reg MemAddressReg : UInt<11>, clock with :
+      reset => (reset, UInt<11>("h0")) @[DecodeStage.scala 45:30]
+    reg COperationReg : UInt<2>, clock with :
+      reset => (reset, UInt<2>("h0")) @[DecodeStage.scala 47:30]
+    reg COffsetReg : SInt<6>, clock with :
+      reset => (reset, asSInt(UInt<6>("h0"))) @[DecodeStage.scala 48:27]
+    InstDec.io.Instruction <= In.Instruction @[DecodeStage.scala 52:26]
+    Out.Type <= TypeReg @[DecodeStage.scala 54:12]
+    Out.rs1 <= rs1Reg @[DecodeStage.scala 55:11]
+    Out.rs2 <= rs2Reg @[DecodeStage.scala 56:11]
+    Out.rd <= rdReg @[DecodeStage.scala 57:10]
+    Out.AImmediate <= AImmediateReg @[DecodeStage.scala 59:18]
+    Out.ASImmediate <= ASImmediateReg @[DecodeStage.scala 60:18]
+    Out.AOperation <= AOperationReg @[DecodeStage.scala 62:18]
+    Out.MemOp <= MemOpReg @[DecodeStage.scala 64:13]
+    Out.MemAddress <= MemAddressReg @[DecodeStage.scala 65:18]
+    Out.COperation <= COperationReg @[DecodeStage.scala 67:18]
+    Out.COffset <= COffsetReg @[DecodeStage.scala 68:15]
+    node _T = eq(io.Stall, UInt<1>("h0")) @[DecodeStage.scala 70:8]
+    when _T : @[DecodeStage.scala 70:18]
+      TypeReg <= InstDec.io.Type @[DecodeStage.scala 71:13]
+      rs1Reg <= InstDec.io.rs1 @[DecodeStage.scala 72:12]
+      rs2Reg <= InstDec.io.rs2 @[DecodeStage.scala 73:12]
+      rdReg <= InstDec.io.rd @[DecodeStage.scala 74:11]
+      AImmediateReg <= InstDec.io.AImmidiate @[DecodeStage.scala 76:19]
+      ASImmediateReg <= InstDec.io.ASImmidiate @[DecodeStage.scala 77:20]
+      AOperationReg <= InstDec.io.AOperation @[DecodeStage.scala 79:19]
+      MemOpReg <= InstDec.io.MemOp @[DecodeStage.scala 81:14]
+      MemAddressReg <= InstDec.io.MemAdress @[DecodeStage.scala 82:19]
+      COperationReg <= InstDec.io.COperation @[DecodeStage.scala 84:19]
+      COffsetReg <= InstDec.io.COffset @[DecodeStage.scala 85:16]
+    when io.Clear : @[DecodeStage.scala 88:17]
+      InstDec.io.Instruction <= UInt<1>("h0") @[DecodeStage.scala 89:28]
+      TypeReg <= UInt<1>("h0") @[DecodeStage.scala 91:13]
+      rs1Reg <= UInt<1>("h0") @[DecodeStage.scala 92:12]
+      rs2Reg <= UInt<1>("h0") @[DecodeStage.scala 93:12]
+      rdReg <= UInt<1>("h0") @[DecodeStage.scala 94:11]
+      AImmediateReg <= UInt<1>("h0") @[DecodeStage.scala 96:19]
+      ASImmediateReg <= asSInt(UInt<1>("h0")) @[DecodeStage.scala 97:20]
+      AOperationReg <= UInt<1>("h0") @[DecodeStage.scala 99:19]
+      MemOpReg <= UInt<1>("h0") @[DecodeStage.scala 101:14]
+      MemAddressReg <= UInt<1>("h0") @[DecodeStage.scala 102:19]
+      COperationReg <= UInt<1>("h0") @[DecodeStage.scala 104:19]
+      COffsetReg <= asSInt(UInt<1>("h0")) @[DecodeStage.scala 105:16]
+      Out.Type <= UInt<1>("h0") @[DecodeStage.scala 107:14]
+      Out.rs1 <= UInt<1>("h0") @[DecodeStage.scala 108:13]
+      Out.rs2 <= UInt<1>("h0") @[DecodeStage.scala 109:13]
+      Out.rd <= UInt<1>("h0") @[DecodeStage.scala 110:12]
+      Out.AImmediate <= UInt<1>("h0") @[DecodeStage.scala 112:20]
+      Out.ASImmediate <= asSInt(UInt<1>("h0")) @[DecodeStage.scala 113:20]
+      Out.AOperation <= UInt<1>("h0") @[DecodeStage.scala 115:20]
+      Out.MemOp <= UInt<1>("h0") @[DecodeStage.scala 117:15]
+      Out.MemAddress <= UInt<1>("h0") @[DecodeStage.scala 118:20]
+      Out.COperation <= UInt<1>("h0") @[DecodeStage.scala 120:20]
+      Out.COffset <= asSInt(UInt<1>("h0")) @[DecodeStage.scala 121:17]
+    node _T_1 = eq(InstDec.io.AOperation, UInt<4>("h9")) @[DecodeStage.scala 126:30]
+    node _T_2 = eq(InstDec.io.AOperation, UInt<4>("ha")) @[DecodeStage.scala 126:63]
+    node _T_3 = or(_T_1, _T_2) @[DecodeStage.scala 126:38]
+    node _T_4 = eq(InstDec.io.Type, UInt<2>("h3")) @[DecodeStage.scala 126:91]
+    node _T_5 = or(_T_3, _T_4) @[DecodeStage.scala 126:72]
+    when _T_5 : @[DecodeStage.scala 126:99]
+      io.MiniStall <= UInt<1>("h1") @[DecodeStage.scala 127:18]
+
+  module ALU :
+    input clock : Clock
+    input reset : Reset
+    output io : { flip rs1 : UInt<18>, flip rs2 : UInt<18>, flip rd : UInt<18>, flip Operation : UInt<8>, Out : UInt<18>}
+
+    io.Out <= UInt<1>("h0") @[ALU.scala 14:10]
+    node _T = eq(UInt<1>("h0"), io.Operation) @[ALU.scala 16:24]
+    when _T : @[ALU.scala 16:24]
+      node _io_Out_T = add(io.rs1, io.rs2) @[ALU.scala 18:24]
+      node _io_Out_T_1 = tail(_io_Out_T, 1) @[ALU.scala 18:24]
+      io.Out <= _io_Out_T_1 @[ALU.scala 18:14]
+    else :
+      node _T_1 = eq(UInt<1>("h1"), io.Operation) @[ALU.scala 16:24]
+      when _T_1 : @[ALU.scala 16:24]
+        node _io_Out_T_2 = sub(io.rs1, io.rs2) @[ALU.scala 21:24]
+        node _io_Out_T_3 = tail(_io_Out_T_2, 1) @[ALU.scala 21:24]
+        io.Out <= _io_Out_T_3 @[ALU.scala 21:14]
+      else :
+        node _T_2 = eq(UInt<2>("h2"), io.Operation) @[ALU.scala 16:24]
+        when _T_2 : @[ALU.scala 16:24]
+          node _io_Out_T_4 = mul(io.rs1, io.rs2) @[ALU.scala 24:25]
+          node _io_Out_T_5 = bits(_io_Out_T_4, 17, 0) @[ALU.scala 24:34]
+          io.Out <= _io_Out_T_5 @[ALU.scala 24:14]
+        else :
+          node _T_3 = eq(UInt<2>("h3"), io.Operation) @[ALU.scala 16:24]
+          when _T_3 : @[ALU.scala 16:24]
+            node _io_Out_T_6 = bits(io.rs2, 5, 0) @[ALU.scala 27:34]
+            node _io_Out_T_7 = dshl(io.rs1, _io_Out_T_6) @[ALU.scala 27:25]
+            node _io_Out_T_8 = bits(_io_Out_T_7, 17, 0) @[ALU.scala 27:40]
+            io.Out <= _io_Out_T_8 @[ALU.scala 27:14]
+          else :
+            node _T_4 = eq(UInt<3>("h4"), io.Operation) @[ALU.scala 16:24]
+            when _T_4 : @[ALU.scala 16:24]
+              node _io_Out_T_9 = dshr(io.rs1, io.rs2) @[ALU.scala 30:25]
+              node _io_Out_T_10 = bits(_io_Out_T_9, 17, 0) @[ALU.scala 30:35]
+              io.Out <= _io_Out_T_10 @[ALU.scala 30:14]
+            else :
+              node _T_5 = eq(UInt<3>("h5"), io.Operation) @[ALU.scala 16:24]
+              when _T_5 : @[ALU.scala 16:24]
+                node _io_Out_T_11 = and(io.rs1, io.rs2) @[ALU.scala 33:24]
+                io.Out <= _io_Out_T_11 @[ALU.scala 33:14]
+              else :
+                node _T_6 = eq(UInt<3>("h6"), io.Operation) @[ALU.scala 16:24]
+                when _T_6 : @[ALU.scala 16:24]
+                  node _io_Out_T_12 = or(io.rs1, io.rs2) @[ALU.scala 36:24]
+                  io.Out <= _io_Out_T_12 @[ALU.scala 36:14]
+                else :
+                  node _T_7 = eq(UInt<3>("h7"), io.Operation) @[ALU.scala 16:24]
+                  when _T_7 : @[ALU.scala 16:24]
+                    node _io_Out_T_13 = xor(io.rs1, io.rs2) @[ALU.scala 39:24]
+                    io.Out <= _io_Out_T_13 @[ALU.scala 39:14]
+                  else :
+                    node _T_8 = eq(UInt<4>("h8"), io.Operation) @[ALU.scala 16:24]
+                    when _T_8 : @[ALU.scala 16:24]
+                      node _io_Out_T_14 = mul(io.rs1, io.rs2) @[ALU.scala 42:33]
+                      node _io_Out_T_15 = bits(_io_Out_T_14, 17, 0) @[ALU.scala 42:42]
+                      node _io_Out_T_16 = add(io.rd, _io_Out_T_15) @[ALU.scala 42:23]
+                      node _io_Out_T_17 = tail(_io_Out_T_16, 1) @[ALU.scala 42:23]
+                      io.Out <= _io_Out_T_17 @[ALU.scala 42:14]
+
+  module BranchComp :
+    input clock : Clock
+    input reset : Reset
+    output io : { flip rs2 : UInt<18>, flip rs1 : UInt<18>, flip PC : UInt<18>, flip Offset : SInt<11>, flip Operation : UInt<2>, CondCheck : UInt<1>, Out : UInt<18>}
+
+    wire CondCheck : UInt<1> @[BranchComp.scala 17:23]
+    CondCheck <= UInt<1>("h0") @[BranchComp.scala 19:13]
+    node _T = eq(UInt<1>("h0"), io.Operation) @[BranchComp.scala 21:23]
+    when _T : @[BranchComp.scala 21:23]
+      node _CondCheck_T = eq(io.rs2, io.rs1) @[BranchComp.scala 23:28]
+      CondCheck <= _CondCheck_T @[BranchComp.scala 23:17]
+    else :
+      node _T_1 = eq(UInt<1>("h1"), io.Operation) @[BranchComp.scala 21:23]
+      when _T_1 : @[BranchComp.scala 21:23]
+        node _CondCheck_T_1 = neq(io.rs2, io.rs1) @[BranchComp.scala 26:28]
+        CondCheck <= _CondCheck_T_1 @[BranchComp.scala 26:17]
+      else :
+        node _T_2 = eq(UInt<2>("h2"), io.Operation) @[BranchComp.scala 21:23]
+        when _T_2 : @[BranchComp.scala 21:23]
+          node _CondCheck_T_2 = geq(io.rs2, io.rs1) @[BranchComp.scala 29:28]
+          CondCheck <= _CondCheck_T_2 @[BranchComp.scala 29:17]
+        else :
+          node _T_3 = eq(UInt<2>("h3"), io.Operation) @[BranchComp.scala 21:23]
+          when _T_3 : @[BranchComp.scala 21:23]
+            node _CondCheck_T_3 = gt(io.rs2, io.rs1) @[BranchComp.scala 32:28]
+            CondCheck <= _CondCheck_T_3 @[BranchComp.scala 32:17]
+    when CondCheck : @[BranchComp.scala 36:18]
+      node _io_Out_T = asSInt(io.PC) @[BranchComp.scala 37:22]
+      node _io_Out_T_1 = add(_io_Out_T, io.Offset) @[BranchComp.scala 37:29]
+      node _io_Out_T_2 = tail(_io_Out_T_1, 1) @[BranchComp.scala 37:29]
+      node _io_Out_T_3 = asSInt(_io_Out_T_2) @[BranchComp.scala 37:29]
+      node _io_Out_T_4 = asUInt(_io_Out_T_3) @[BranchComp.scala 37:42]
+      io.Out <= _io_Out_T_4 @[BranchComp.scala 37:12]
+    else :
+      node _io_Out_T_5 = add(io.PC, UInt<1>("h1")) @[BranchComp.scala 39:21]
+      node _io_Out_T_6 = tail(_io_Out_T_5, 1) @[BranchComp.scala 39:21]
+      io.Out <= _io_Out_T_6 @[BranchComp.scala 39:12]
+    io.CondCheck <= CondCheck @[BranchComp.scala 42:16]
+
+  module ExecuteStage :
+    input clock : Clock
+    input reset : Reset
+    output io : { flip x : UInt<18>[16], MemPort : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}, Stall : UInt<1>, flip Clear : UInt<1>}
+    output In : { flip Type : UInt<2>, flip rs1 : UInt<4>, flip rs2 : UInt<4>, flip rd : UInt<4>, flip AImmediate : UInt<11>, flip ASImmediate : SInt<11>, flip AOperation : UInt<4>, flip MemOp : UInt<1>, flip MemAddress : UInt<11>, flip COperation : UInt<2>, flip COffset : SInt<6>}
+    output Out : { WritebackMode : UInt<4>, WritebackRegister : UInt<4>, ALUOut : UInt<18>, JumpValue : UInt<18>}
+
+    inst ALU of ALU @[ExecuteStage.scala 34:19]
+    ALU.clock <= clock
+    ALU.reset <= reset
+    inst BranchComp of BranchComp @[ExecuteStage.scala 35:26]
+    BranchComp.clock <= clock
+    BranchComp.reset <= reset
+    io.MemPort.Enable <= UInt<1>("h0") @[ExecuteStage.scala 39:21]
+    io.MemPort.Address <= UInt<1>("h0") @[ExecuteStage.scala 40:22]
+    io.MemPort.WriteData <= UInt<1>("h0") @[ExecuteStage.scala 41:24]
+    io.MemPort.WriteEn <= UInt<1>("h0") @[ExecuteStage.scala 42:22]
+    io.Stall <= UInt<1>("h0") @[ExecuteStage.scala 44:12]
+    ALU.io.rs2 <= UInt<1>("h0") @[ExecuteStage.scala 46:14]
+    ALU.io.rs1 <= UInt<1>("h0") @[ExecuteStage.scala 47:14]
+    ALU.io.rd <= UInt<1>("h0") @[ExecuteStage.scala 48:13]
+    ALU.io.Operation <= UInt<1>("h0") @[ExecuteStage.scala 49:20]
+    BranchComp.io.rs2 <= UInt<1>("h0") @[ExecuteStage.scala 51:21]
+    BranchComp.io.rs1 <= UInt<1>("h0") @[ExecuteStage.scala 52:21]
+    BranchComp.io.PC <= UInt<1>("h0") @[ExecuteStage.scala 53:20]
+    BranchComp.io.Offset <= asSInt(UInt<1>("h0")) @[ExecuteStage.scala 54:24]
+    BranchComp.io.Operation <= UInt<1>("h0") @[ExecuteStage.scala 55:27]
+    reg WritebackMode : UInt<4>, clock with :
+      reset => (reset, UInt<4>("h0")) @[ExecuteStage.scala 57:30]
+    reg WritebackRegister : UInt<4>, clock with :
+      reset => (reset, UInt<4>("h0")) @[ExecuteStage.scala 58:34]
+    reg ALUOutReg : UInt<18>, clock with :
+      reset => (reset, UInt<18>("h0")) @[ExecuteStage.scala 59:26]
+    reg COffsetReg : UInt<6>, clock with :
+      reset => (reset, UInt<6>("h0")) @[ExecuteStage.scala 60:27]
+    reg DataHazard : UInt<4>, clock with :
+      reset => (reset, UInt<4>("h0")) @[ExecuteStage.scala 62:27]
+    wire rs1 : UInt<18> @[ExecuteStage.scala 64:17]
+    wire rs2 : UInt<18> @[ExecuteStage.scala 65:17]
+    wire rd : UInt<18> @[ExecuteStage.scala 66:16]
+    reg swStall : UInt<1>, clock with :
+      reset => (reset, UInt<1>("h0")) @[ExecuteStage.scala 68:24]
+    reg lwStall : UInt<1>, clock with :
+      reset => (reset, UInt<1>("h0")) @[ExecuteStage.scala 69:24]
+    rs1 <= io.x[In.rs1] @[ExecuteStage.scala 73:7]
+    rs2 <= io.x[In.rs2] @[ExecuteStage.scala 74:7]
+    rd <= io.x[In.rd] @[ExecuteStage.scala 75:6]
+    node _T = eq(In.rs1, DataHazard) @[ExecuteStage.scala 77:15]
+    when _T : @[ExecuteStage.scala 77:30]
+      node _T_1 = eq(UInt<1>("h1"), WritebackMode) @[ExecuteStage.scala 78:26]
+      when _T_1 : @[ExecuteStage.scala 78:26]
+        rs1 <= ALUOutReg @[ExecuteStage.scala 80:13]
+      else :
+        node _T_2 = eq(UInt<2>("h2"), WritebackMode) @[ExecuteStage.scala 78:26]
+        when _T_2 : @[ExecuteStage.scala 78:26]
+          rs1 <= ALUOutReg @[ExecuteStage.scala 83:13]
+        else :
+          node _T_3 = eq(UInt<2>("h3"), WritebackMode) @[ExecuteStage.scala 78:26]
+          when _T_3 : @[ExecuteStage.scala 78:26]
+            rs1 <= io.MemPort.ReadData @[ExecuteStage.scala 86:13]
+    node _T_4 = eq(In.rs2, DataHazard) @[ExecuteStage.scala 91:15]
+    when _T_4 : @[ExecuteStage.scala 91:30]
+      node _T_5 = eq(UInt<1>("h1"), WritebackMode) @[ExecuteStage.scala 92:26]
+      when _T_5 : @[ExecuteStage.scala 92:26]
+        rs2 <= ALUOutReg @[ExecuteStage.scala 94:13]
+      else :
+        node _T_6 = eq(UInt<2>("h2"), WritebackMode) @[ExecuteStage.scala 92:26]
+        when _T_6 : @[ExecuteStage.scala 92:26]
+          rs2 <= ALUOutReg @[ExecuteStage.scala 97:13]
+        else :
+          node _T_7 = eq(UInt<2>("h3"), WritebackMode) @[ExecuteStage.scala 92:26]
+          when _T_7 : @[ExecuteStage.scala 92:26]
+            rs2 <= io.MemPort.ReadData @[ExecuteStage.scala 100:13]
+    node _T_8 = eq(In.rd, DataHazard) @[ExecuteStage.scala 105:14]
+    when _T_8 : @[ExecuteStage.scala 105:29]
+      node _T_9 = eq(UInt<1>("h1"), WritebackMode) @[ExecuteStage.scala 106:26]
+      when _T_9 : @[ExecuteStage.scala 106:26]
+        rd <= ALUOutReg @[ExecuteStage.scala 108:12]
+      else :
+        node _T_10 = eq(UInt<2>("h2"), WritebackMode) @[ExecuteStage.scala 106:26]
+        when _T_10 : @[ExecuteStage.scala 106:26]
+          rd <= ALUOutReg @[ExecuteStage.scala 111:12]
+        else :
+          node _T_11 = eq(UInt<2>("h3"), WritebackMode) @[ExecuteStage.scala 106:26]
+          when _T_11 : @[ExecuteStage.scala 106:26]
+            rd <= io.MemPort.ReadData @[ExecuteStage.scala 114:12]
+    Out.ALUOut <= ALUOutReg @[ExecuteStage.scala 119:14]
+    Out.WritebackMode <= WritebackMode @[ExecuteStage.scala 120:21]
+    Out.WritebackRegister <= WritebackRegister @[ExecuteStage.scala 121:25]
+    Out.JumpValue <= COffsetReg @[ExecuteStage.scala 122:17]
+    ALUOutReg <= ALU.io.Out @[ExecuteStage.scala 124:13]
+    when io.Clear : @[ExecuteStage.scala 128:17]
+      ALUOutReg <= UInt<1>("h0") @[ExecuteStage.scala 129:15]
+      WritebackMode <= UInt<1>("h0") @[ExecuteStage.scala 130:19]
+      WritebackRegister <= UInt<1>("h0") @[ExecuteStage.scala 131:23]
+      COffsetReg <= UInt<1>("h0") @[ExecuteStage.scala 132:16]
+    node _T_12 = eq(UInt<1>("h0"), In.Type) @[ExecuteStage.scala 138:18]
+    when _T_12 : @[ExecuteStage.scala 138:18]
+      node _T_13 = leq(In.AOperation, UInt<3>("h7")) @[ExecuteStage.scala 140:26]
+      when _T_13 : @[ExecuteStage.scala 140:33]
+        ALU.io.Operation <= In.AOperation @[ExecuteStage.scala 141:26]
+        ALU.io.rs2 <= rs2 @[ExecuteStage.scala 143:20]
+        ALU.io.rs1 <= rs1 @[ExecuteStage.scala 144:20]
+        WritebackMode <= UInt<1>("h1") @[ExecuteStage.scala 146:23]
+        WritebackRegister <= In.rd @[ExecuteStage.scala 147:27]
+        DataHazard <= In.rd @[ExecuteStage.scala 149:20]
+      else :
+        node _T_14 = eq(In.AOperation, UInt<4>("h8")) @[ExecuteStage.scala 150:32]
+        when _T_14 : @[ExecuteStage.scala 150:40]
+          ALU.io.Operation <= In.AOperation @[ExecuteStage.scala 151:26]
+          ALU.io.rs2 <= rs2 @[ExecuteStage.scala 153:20]
+          ALU.io.rs1 <= rs1 @[ExecuteStage.scala 154:20]
+          ALU.io.rd <= rd @[ExecuteStage.scala 155:19]
+          WritebackMode <= UInt<1>("h1") @[ExecuteStage.scala 157:23]
+          WritebackRegister <= In.rd @[ExecuteStage.scala 158:27]
+          DataHazard <= In.rd @[ExecuteStage.scala 160:20]
+        else :
+          node _T_15 = eq(In.AOperation, UInt<4>("h9")) @[ExecuteStage.scala 161:32]
+          when _T_15 : @[ExecuteStage.scala 161:40]
+            io.MemPort.Enable <= UInt<1>("h1") @[ExecuteStage.scala 165:27]
+            node _T_16 = eq(In.rs1, DataHazard) @[ExecuteStage.scala 171:21]
+            node _T_17 = neq(In.rs1, UInt<1>("h0")) @[ExecuteStage.scala 171:46]
+            node _T_18 = and(_T_16, _T_17) @[ExecuteStage.scala 171:36]
+            when _T_18 : @[ExecuteStage.scala 171:54]
+              node _T_19 = eq(UInt<1>("h1"), WritebackMode) @[ExecuteStage.scala 172:32]
+              when _T_19 : @[ExecuteStage.scala 172:32]
+                io.MemPort.Address <= ALUOutReg @[ExecuteStage.scala 174:34]
+              else :
+                node _T_20 = eq(UInt<2>("h2"), WritebackMode) @[ExecuteStage.scala 172:32]
+                when _T_20 : @[ExecuteStage.scala 172:32]
+                  io.MemPort.Address <= ALUOutReg @[ExecuteStage.scala 177:34]
+            else :
+              io.MemPort.Address <= io.x[In.rs1] @[ExecuteStage.scala 181:30]
+            WritebackMode <= UInt<2>("h3") @[ExecuteStage.scala 184:23]
+            WritebackRegister <= In.rd @[ExecuteStage.scala 185:27]
+            DataHazard <= In.rd @[ExecuteStage.scala 187:20]
+            node _T_21 = eq(io.MemPort.Completed, UInt<1>("h0")) @[ExecuteStage.scala 189:14]
+            when _T_21 : @[ExecuteStage.scala 189:36]
+              io.Stall <= UInt<1>("h1") @[ExecuteStage.scala 190:20]
+          else :
+            node _T_22 = eq(In.AOperation, UInt<4>("ha")) @[ExecuteStage.scala 192:32]
+            when _T_22 : @[ExecuteStage.scala 192:41]
+              io.MemPort.Enable <= UInt<1>("h1") @[ExecuteStage.scala 196:27]
+              io.MemPort.WriteEn <= UInt<1>("h1") @[ExecuteStage.scala 197:28]
+              node _T_23 = eq(In.rs1, DataHazard) @[ExecuteStage.scala 202:21]
+              when _T_23 : @[ExecuteStage.scala 202:36]
+                node _T_24 = eq(UInt<1>("h1"), WritebackMode) @[ExecuteStage.scala 203:32]
+                when _T_24 : @[ExecuteStage.scala 203:32]
+                  io.MemPort.Address <= ALUOutReg @[ExecuteStage.scala 205:34]
+                else :
+                  node _T_25 = eq(UInt<2>("h2"), WritebackMode) @[ExecuteStage.scala 203:32]
+                  when _T_25 : @[ExecuteStage.scala 203:32]
+                    io.MemPort.Address <= ALUOutReg @[ExecuteStage.scala 208:34]
+              else :
+                io.MemPort.Address <= io.x[In.rs1] @[ExecuteStage.scala 212:30]
+              io.MemPort.WriteData <= rd @[ExecuteStage.scala 215:30]
+              WritebackMode <= UInt<1>("h0") @[ExecuteStage.scala 218:23]
+              node _T_26 = eq(io.MemPort.Completed, UInt<1>("h0")) @[ExecuteStage.scala 220:14]
+              when _T_26 : @[ExecuteStage.scala 220:36]
+                io.Stall <= UInt<1>("h1") @[ExecuteStage.scala 221:20]
+    else :
+      node _T_27 = eq(UInt<1>("h1"), In.Type) @[ExecuteStage.scala 138:18]
+      when _T_27 : @[ExecuteStage.scala 138:18]
+        node _T_28 = eq(In.AOperation, UInt<1>("h1")) @[ExecuteStage.scala 226:26]
+        when _T_28 : @[ExecuteStage.scala 226:34]
+          ALU.io.rs2 <= UInt<1>("h0") @[ExecuteStage.scala 227:20]
+          ALU.io.rs1 <= In.AImmediate @[ExecuteStage.scala 228:20]
+          ALU.io.Operation <= UInt<1>("h0") @[ExecuteStage.scala 229:26]
+        else :
+          node _T_29 = eq(In.AOperation, UInt<2>("h2")) @[ExecuteStage.scala 230:32]
+          when _T_29 : @[ExecuteStage.scala 230:40]
+            ALU.io.rs2 <= UInt<1>("h0") @[ExecuteStage.scala 231:20]
+            wire upper : UInt<9> @[ExecuteStage.scala 233:25]
+            node _upper_T = bits(In.AImmediate, 8, 0) @[ExecuteStage.scala 234:31]
+            upper <= _upper_T @[ExecuteStage.scala 234:15]
+            wire lower : UInt<9> @[ExecuteStage.scala 235:25]
+            node _lower_T = bits(rd, 8, 0) @[ExecuteStage.scala 237:20]
+            lower <= _lower_T @[ExecuteStage.scala 237:15]
+            wire cat : UInt<18> @[ExecuteStage.scala 238:23]
+            node _cat_T = cat(upper, lower) @[Cat.scala 31:58]
+            cat <= _cat_T @[ExecuteStage.scala 239:13]
+            ALU.io.rs1 <= cat @[ExecuteStage.scala 241:20]
+            ALU.io.Operation <= UInt<1>("h0") @[ExecuteStage.scala 242:26]
+          else :
+            node _T_30 = lt(In.ASImmediate, asSInt(UInt<1>("h0"))) @[ExecuteStage.scala 244:29]
+            when _T_30 : @[ExecuteStage.scala 244:35]
+              ALU.io.Operation <= UInt<1>("h1") @[ExecuteStage.scala 245:28]
+              node _ALU_io_rs2_T = sub(asSInt(UInt<1>("h0")), In.ASImmediate) @[ExecuteStage.scala 246:30]
+              node _ALU_io_rs2_T_1 = tail(_ALU_io_rs2_T, 1) @[ExecuteStage.scala 246:30]
+              node _ALU_io_rs2_T_2 = asSInt(_ALU_io_rs2_T_1) @[ExecuteStage.scala 246:30]
+              node _ALU_io_rs2_T_3 = asUInt(_ALU_io_rs2_T_2) @[ExecuteStage.scala 246:48]
+              ALU.io.rs2 <= _ALU_io_rs2_T_3 @[ExecuteStage.scala 246:22]
+              ALU.io.rs1 <= rd @[ExecuteStage.scala 248:22]
+            else :
+              node _ALU_io_rs2_T_4 = asUInt(In.ASImmediate) @[ExecuteStage.scala 251:40]
+              ALU.io.rs2 <= _ALU_io_rs2_T_4 @[ExecuteStage.scala 251:22]
+              ALU.io.rs1 <= rd @[ExecuteStage.scala 253:22]
+              ALU.io.Operation <= UInt<1>("h0") @[ExecuteStage.scala 254:28]
+        WritebackMode <= UInt<1>("h1") @[ExecuteStage.scala 257:21]
+        WritebackRegister <= In.rd @[ExecuteStage.scala 258:25]
+        DataHazard <= In.rd @[ExecuteStage.scala 260:18]
+      else :
+        node _T_31 = eq(UInt<2>("h2"), In.Type) @[ExecuteStage.scala 138:18]
+        when _T_31 : @[ExecuteStage.scala 138:18]
+          io.MemPort.Address <= In.MemAddress @[ExecuteStage.scala 263:26]
+          io.MemPort.WriteData <= rd @[ExecuteStage.scala 264:28]
+          io.MemPort.Enable <= UInt<1>("h1") @[ExecuteStage.scala 265:25]
+          io.MemPort.WriteEn <= In.MemOp @[ExecuteStage.scala 266:26]
+          node _T_32 = eq(UInt<1>("h0"), In.MemOp) @[ExecuteStage.scala 268:23]
+          when _T_32 : @[ExecuteStage.scala 268:23]
+            WritebackMode <= UInt<2>("h3") @[ExecuteStage.scala 270:25]
+            DataHazard <= In.rd @[ExecuteStage.scala 271:22]
+          else :
+            node _T_33 = eq(UInt<1>("h1"), In.MemOp) @[ExecuteStage.scala 268:23]
+            when _T_33 : @[ExecuteStage.scala 268:23]
+              WritebackMode <= UInt<1>("h0") @[ExecuteStage.scala 274:25]
+          node _T_34 = eq(io.MemPort.Completed, UInt<1>("h0")) @[ExecuteStage.scala 278:12]
+          when _T_34 : @[ExecuteStage.scala 278:34]
+            io.Stall <= UInt<1>("h1") @[ExecuteStage.scala 279:18]
+          WritebackRegister <= In.rd @[ExecuteStage.scala 282:25]
+        else :
+          node _T_35 = eq(UInt<2>("h3"), In.Type) @[ExecuteStage.scala 138:18]
+          when _T_35 : @[ExecuteStage.scala 138:18]
+            BranchComp.io.rs2 <= rs2 @[ExecuteStage.scala 285:25]
+            BranchComp.io.rs1 <= rs1 @[ExecuteStage.scala 286:25]
+            BranchComp.io.Operation <= In.COperation @[ExecuteStage.scala 288:31]
+            node _BranchComp_io_PC_T = sub(io.x[1], UInt<2>("h2")) @[ExecuteStage.scala 289:35]
+            node _BranchComp_io_PC_T_1 = tail(_BranchComp_io_PC_T, 1) @[ExecuteStage.scala 289:35]
+            BranchComp.io.PC <= _BranchComp_io_PC_T_1 @[ExecuteStage.scala 289:24]
+            BranchComp.io.Offset <= In.COffset @[ExecuteStage.scala 290:28]
+            COffsetReg <= BranchComp.io.Out @[ExecuteStage.scala 292:18]
+            when BranchComp.io.CondCheck : @[ExecuteStage.scala 294:36]
+              WritebackMode <= UInt<3>("h4") @[ExecuteStage.scala 295:23]
+            else :
+              WritebackMode <= UInt<1>("h0") @[ExecuteStage.scala 297:23]
+            when io.Clear : @[ExecuteStage.scala 300:21]
+              WritebackMode <= UInt<1>("h0") @[ExecuteStage.scala 301:23]
+            WritebackRegister <= UInt<1>("h0") @[ExecuteStage.scala 304:25]
+
+  module Core :
+    input clock : Clock
+    input reset : Reset
+    output io : { flip WaveIn : UInt<18>, WaveOut : UInt<18>, MemPort : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}}
+
+    inst FetchStage of FetchStage @[Core.scala 25:26]
+    FetchStage.clock <= clock
+    FetchStage.reset <= reset
+    inst DecodeStage of DecodeStage @[Core.scala 26:27]
+    DecodeStage.clock <= clock
+    DecodeStage.reset <= reset
+    inst ExecuteStage of ExecuteStage @[Core.scala 27:28]
+    ExecuteStage.clock <= clock
+    ExecuteStage.reset <= reset
+    reg x : UInt<18>[16], clock with :
+      reset => (UInt<1>("h0"), x) @[Core.scala 31:14]
+    x[0] <= UInt<16>("h0") @[Core.scala 33:8]
+    x[2] <= io.WaveIn @[Core.scala 34:8]
+    io.WaveOut <= x[3] @[Core.scala 35:14]
+    FetchStage.io.Stall <= UInt<1>("h0") @[Core.scala 39:23]
+    FetchStage.io.Clear <= UInt<1>("h0") @[Core.scala 40:23]
+    DecodeStage.io.Stall <= UInt<1>("h0") @[Core.scala 42:24]
+    DecodeStage.io.Clear <= UInt<1>("h0") @[Core.scala 43:24]
+    ExecuteStage.io.MemPort.Completed <= io.MemPort.Completed @[Core.scala 45:27]
+    ExecuteStage.io.MemPort.ReadData <= io.MemPort.ReadData @[Core.scala 45:27]
+    io.MemPort.WriteEn <= ExecuteStage.io.MemPort.WriteEn @[Core.scala 45:27]
+    io.MemPort.Enable <= ExecuteStage.io.MemPort.Enable @[Core.scala 45:27]
+    io.MemPort.WriteData <= ExecuteStage.io.MemPort.WriteData @[Core.scala 45:27]
+    io.MemPort.Address <= ExecuteStage.io.MemPort.Address @[Core.scala 45:27]
+    ExecuteStage.io.Clear <= UInt<1>("h0") @[Core.scala 46:25]
+    ExecuteStage.io.x[0] <= x[0] @[Core.scala 47:21]
+    ExecuteStage.io.x[1] <= x[1] @[Core.scala 47:21]
+    ExecuteStage.io.x[2] <= x[2] @[Core.scala 47:21]
+    ExecuteStage.io.x[3] <= x[3] @[Core.scala 47:21]
+    ExecuteStage.io.x[4] <= x[4] @[Core.scala 47:21]
+    ExecuteStage.io.x[5] <= x[5] @[Core.scala 47:21]
+    ExecuteStage.io.x[6] <= x[6] @[Core.scala 47:21]
+    ExecuteStage.io.x[7] <= x[7] @[Core.scala 47:21]
+    ExecuteStage.io.x[8] <= x[8] @[Core.scala 47:21]
+    ExecuteStage.io.x[9] <= x[9] @[Core.scala 47:21]
+    ExecuteStage.io.x[10] <= x[10] @[Core.scala 47:21]
+    ExecuteStage.io.x[11] <= x[11] @[Core.scala 47:21]
+    ExecuteStage.io.x[12] <= x[12] @[Core.scala 47:21]
+    ExecuteStage.io.x[13] <= x[13] @[Core.scala 47:21]
+    ExecuteStage.io.x[14] <= x[14] @[Core.scala 47:21]
+    ExecuteStage.io.x[15] <= x[15] @[Core.scala 47:21]
+    FetchStage.In.PC <= x[1] @[Core.scala 53:20]
+    FetchStage.io.Stall <= ExecuteStage.io.Stall @[Core.scala 54:23]
+    node _T = eq(ExecuteStage.io.Stall, UInt<1>("h0")) @[Core.scala 56:8]
+    node _T_1 = eq(DecodeStage.io.MiniStall, UInt<1>("h0")) @[Core.scala 56:34]
+    node _T_2 = and(_T, _T_1) @[Core.scala 56:31]
+    when _T_2 : @[Core.scala 56:60]
+      node _x_1_T = add(x[1], UInt<1>("h1")) @[Core.scala 57:18]
+      node _x_1_T_1 = tail(_x_1_T, 1) @[Core.scala 57:18]
+      x[1] <= _x_1_T_1 @[Core.scala 57:10]
+    DecodeStage.In.Instruction <= FetchStage.Out.Instruction @[Core.scala 62:18]
+    DecodeStage.io.Stall <= ExecuteStage.io.Stall @[Core.scala 63:24]
+    ExecuteStage.In.COffset <= DecodeStage.Out.COffset @[Core.scala 67:19]
+    ExecuteStage.In.COperation <= DecodeStage.Out.COperation @[Core.scala 67:19]
+    ExecuteStage.In.MemAddress <= DecodeStage.Out.MemAddress @[Core.scala 67:19]
+    ExecuteStage.In.MemOp <= DecodeStage.Out.MemOp @[Core.scala 67:19]
+    ExecuteStage.In.AOperation <= DecodeStage.Out.AOperation @[Core.scala 67:19]
+    ExecuteStage.In.ASImmediate <= DecodeStage.Out.ASImmediate @[Core.scala 67:19]
+    ExecuteStage.In.AImmediate <= DecodeStage.Out.AImmediate @[Core.scala 67:19]
+    ExecuteStage.In.rd <= DecodeStage.Out.rd @[Core.scala 67:19]
+    ExecuteStage.In.rs2 <= DecodeStage.Out.rs2 @[Core.scala 67:19]
+    ExecuteStage.In.rs1 <= DecodeStage.Out.rs1 @[Core.scala 67:19]
+    ExecuteStage.In.Type <= DecodeStage.Out.Type @[Core.scala 67:19]
+    node _T_3 = eq(UInt<1>("h1"), ExecuteStage.Out.WritebackMode) @[Core.scala 71:41]
+    when _T_3 : @[Core.scala 71:41]
+      x[ExecuteStage.Out.WritebackRegister] <= ExecuteStage.Out.ALUOut @[Core.scala 73:45]
+      node _T_4 = eq(ExecuteStage.Out.WritebackRegister, UInt<1>("h1")) @[Core.scala 75:46]
+      when _T_4 : @[Core.scala 75:54]
+        FetchStage.io.Clear <= UInt<1>("h1") @[Core.scala 76:29]
+        DecodeStage.io.Clear <= UInt<1>("h1") @[Core.scala 77:30]
+        ExecuteStage.io.Clear <= UInt<1>("h1") @[Core.scala 78:31]
+    else :
+      node _T_5 = eq(UInt<2>("h3"), ExecuteStage.Out.WritebackMode) @[Core.scala 71:41]
+      when _T_5 : @[Core.scala 71:41]
+        x[ExecuteStage.Out.WritebackRegister] <= io.MemPort.ReadData @[Core.scala 82:45]
+      else :
+        node _T_6 = eq(UInt<3>("h4"), ExecuteStage.Out.WritebackMode) @[Core.scala 71:41]
+        when _T_6 : @[Core.scala 71:41]
+          x[1] <= ExecuteStage.Out.JumpValue @[Core.scala 85:12]
+          FetchStage.io.Clear <= UInt<1>("h1") @[Core.scala 86:27]
+          DecodeStage.io.Clear <= UInt<1>("h1") @[Core.scala 87:28]
+          ExecuteStage.io.Clear <= UInt<1>("h1") @[Core.scala 88:29]
+
+  module FirEngine :
+    input clock : Clock
+    input reset : Reset
+    output io : { flip WaveIn : UInt<18>, WaveOut : UInt<18>, flip Registers : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}, MemPort : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}}
+
+    io.WaveOut <= UInt<1>("h0") @[FirEngine.scala 14:14]
+    io.MemPort.Enable <= UInt<1>("h0") @[FirEngine.scala 16:21]
+    io.MemPort.WriteEn <= UInt<1>("h0") @[FirEngine.scala 17:22]
+    io.MemPort.WriteData <= UInt<1>("h0") @[FirEngine.scala 18:24]
+    io.MemPort.Address <= UInt<1>("h0") @[FirEngine.scala 19:22]
+    io.Registers.ReadData <= UInt<1>("h0") @[FirEngine.scala 21:25]
+    io.Registers.Completed <= UInt<1>("h0") @[FirEngine.scala 22:26]
+    reg DataReg : UInt<18>[128], clock with :
+      reset => (UInt<1>("h0"), DataReg) @[FirEngine.scala 26:20]
+    when io.Registers.Enable : @[FirEngine.scala 28:28]
+      node _ReadWritePort_T = bits(io.Registers.Address, 6, 0)
+      when io.Registers.WriteEn : @[FirEngine.scala 30:31]
+        DataReg[_ReadWritePort_T] <= io.Registers.WriteData @[FirEngine.scala 31:21]
+      else :
+        io.Registers.ReadData <= DataReg[_ReadWritePort_T] @[FirEngine.scala 33:29]
+
   module DataMemory :
     input clock : Clock
     input reset : Reset
-    output io : { flip MemPort : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}[2], Registers : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}}
-    output SPI : { SCLK : UInt<1>, CE : UInt<1>, flip SO : UInt<1>[4], SI : UInt<1>[4], Drive : UInt<1>}
+    output io : { flip MemPort : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}[2], Registers : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}, SPIMemPort : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}}
 
-    smem Memory : UInt<18> [2048] @[DataMemory.scala 21:27]
-    inst ExternalMemory of MemoryController @[DataMemory.scala 22:30]
-    ExternalMemory.clock <= clock
-    ExternalMemory.reset <= reset
-    io.Registers.Address <= UInt<1>("h0") @[DataMemory.scala 26:24]
-    io.Registers.WriteData <= UInt<1>("h0") @[DataMemory.scala 27:26]
-    io.Registers.Enable <= UInt<1>("h0") @[DataMemory.scala 28:23]
-    io.Registers.WriteEn <= UInt<1>("h0") @[DataMemory.scala 29:24]
-    io.MemPort[0].ReadData <= UInt<1>("h0") @[DataMemory.scala 32:28]
-    io.MemPort[0].Completed <= UInt<1>("h0") @[DataMemory.scala 33:29]
-    io.MemPort[1].ReadData <= UInt<1>("h0") @[DataMemory.scala 32:28]
-    io.MemPort[1].Completed <= UInt<1>("h0") @[DataMemory.scala 33:29]
-    ExternalMemory.io.WriteData <= UInt<1>("h0") @[DataMemory.scala 36:31]
-    ExternalMemory.io.ReadEnable <= UInt<1>("h0") @[DataMemory.scala 37:32]
-    ExternalMemory.io.WriteEnable <= UInt<1>("h0") @[DataMemory.scala 38:33]
-    ExternalMemory.io.Address <= UInt<1>("h0") @[DataMemory.scala 39:29]
-    SPI.Drive <= ExternalMemory.SPI.Drive @[DataMemory.scala 40:22]
-    SPI.SI[0] <= ExternalMemory.SPI.SI[0] @[DataMemory.scala 40:22]
-    SPI.SI[1] <= ExternalMemory.SPI.SI[1] @[DataMemory.scala 40:22]
-    SPI.SI[2] <= ExternalMemory.SPI.SI[2] @[DataMemory.scala 40:22]
-    SPI.SI[3] <= ExternalMemory.SPI.SI[3] @[DataMemory.scala 40:22]
-    ExternalMemory.SPI.SO[0] <= SPI.SO[0] @[DataMemory.scala 40:22]
-    ExternalMemory.SPI.SO[1] <= SPI.SO[1] @[DataMemory.scala 40:22]
-    ExternalMemory.SPI.SO[2] <= SPI.SO[2] @[DataMemory.scala 40:22]
-    ExternalMemory.SPI.SO[3] <= SPI.SO[3] @[DataMemory.scala 40:22]
-    SPI.CE <= ExternalMemory.SPI.CE @[DataMemory.scala 40:22]
-    SPI.SCLK <= ExternalMemory.SPI.SCLK @[DataMemory.scala 40:22]
-    wire Producer : UInt<2> @[DataMemory.scala 42:22]
+    smem Memory : UInt<18> [2048] @[DataMemory.scala 25:27]
+    io.Registers.Address <= UInt<1>("h0") @[DataMemory.scala 30:24]
+    io.Registers.WriteData <= UInt<1>("h0") @[DataMemory.scala 31:26]
+    io.Registers.Enable <= UInt<1>("h0") @[DataMemory.scala 32:23]
+    io.Registers.WriteEn <= UInt<1>("h0") @[DataMemory.scala 33:24]
+    io.MemPort[0].ReadData <= UInt<1>("h0") @[DataMemory.scala 36:28]
+    io.MemPort[0].Completed <= UInt<1>("h0") @[DataMemory.scala 37:29]
+    io.MemPort[1].ReadData <= UInt<1>("h0") @[DataMemory.scala 36:28]
+    io.MemPort[1].Completed <= UInt<1>("h0") @[DataMemory.scala 37:29]
+    io.SPIMemPort.Enable <= UInt<1>("h0") @[DataMemory.scala 40:24]
+    io.SPIMemPort.Address <= UInt<1>("h0") @[DataMemory.scala 41:25]
+    io.SPIMemPort.WriteData <= UInt<1>("h0") @[DataMemory.scala 42:27]
+    io.SPIMemPort.WriteEn <= UInt<1>("h0") @[DataMemory.scala 43:25]
+    wire Producer : UInt<2> @[DataMemory.scala 55:22]
     reg ProducerReg : UInt<2>, clock with :
-      reset => (reset, UInt<2>("h0")) @[DataMemory.scala 43:28]
+      reset => (reset, UInt<2>("h0")) @[DataMemory.scala 56:28]
     reg Taken : UInt<1>, clock with :
-      reset => (reset, UInt<1>("h0")) @[DataMemory.scala 44:22]
-    Producer <= ProducerReg @[DataMemory.scala 46:12]
-    node _T = bits(Taken, 0, 0) @[DataMemory.scala 49:17]
-    node _T_1 = eq(_T, UInt<1>("h0")) @[DataMemory.scala 49:10]
-    node _T_2 = and(_T_1, io.MemPort[0].Enable) @[DataMemory.scala 49:24]
-    when _T_2 : @[DataMemory.scala 49:48]
-      Taken <= UInt<1>("h1") @[DataMemory.scala 50:13]
-      Producer <= UInt<1>("h0") @[DataMemory.scala 51:16]
-      ProducerReg <= UInt<1>("h0") @[DataMemory.scala 52:19]
-    node _T_3 = bits(Taken, 0, 0) @[DataMemory.scala 49:17]
-    node _T_4 = eq(_T_3, UInt<1>("h0")) @[DataMemory.scala 49:10]
-    node _T_5 = and(_T_4, io.MemPort[1].Enable) @[DataMemory.scala 49:24]
-    when _T_5 : @[DataMemory.scala 49:48]
-      Taken <= UInt<1>("h1") @[DataMemory.scala 50:13]
-      Producer <= UInt<1>("h1") @[DataMemory.scala 51:16]
-      ProducerReg <= UInt<1>("h1") @[DataMemory.scala 52:19]
+      reset => (reset, UInt<1>("h0")) @[DataMemory.scala 57:22]
+    Producer <= ProducerReg @[DataMemory.scala 59:12]
+    node _T = bits(Taken, 0, 0) @[DataMemory.scala 62:17]
+    node _T_1 = eq(_T, UInt<1>("h0")) @[DataMemory.scala 62:10]
+    node _T_2 = and(_T_1, io.MemPort[0].Enable) @[DataMemory.scala 62:24]
+    when _T_2 : @[DataMemory.scala 62:48]
+      Taken <= UInt<1>("h1") @[DataMemory.scala 63:13]
+      Producer <= UInt<1>("h0") @[DataMemory.scala 64:16]
+      ProducerReg <= UInt<1>("h0") @[DataMemory.scala 65:19]
+    node _T_3 = bits(Taken, 0, 0) @[DataMemory.scala 62:17]
+    node _T_4 = eq(_T_3, UInt<1>("h0")) @[DataMemory.scala 62:10]
+    node _T_5 = and(_T_4, io.MemPort[1].Enable) @[DataMemory.scala 62:24]
+    when _T_5 : @[DataMemory.scala 62:48]
+      Taken <= UInt<1>("h1") @[DataMemory.scala 63:13]
+      Producer <= UInt<1>("h1") @[DataMemory.scala 64:16]
+      ProducerReg <= UInt<1>("h1") @[DataMemory.scala 65:19]
     node _T_6 = bits(Producer, 0, 0)
-    node _T_7 = eq(io.MemPort[_T_6].Completed, UInt<1>("h1")) @[DataMemory.scala 56:39]
-    when _T_7 : @[DataMemory.scala 56:50]
-      Taken <= UInt<1>("h0") @[DataMemory.scala 57:11]
+    node _T_7 = eq(io.MemPort[_T_6].Completed, UInt<1>("h1")) @[DataMemory.scala 69:39]
+    when _T_7 : @[DataMemory.scala 69:50]
+      Taken <= UInt<1>("h0") @[DataMemory.scala 70:11]
     node _T_8 = bits(Producer, 0, 0)
-    when io.MemPort[_T_8].Enable : @[DataMemory.scala 62:36]
+    when io.MemPort[_T_8].Enable : @[DataMemory.scala 75:36]
       node _T_9 = bits(Producer, 0, 0)
-      node _T_10 = leq(io.MemPort[_T_9].Address, UInt<11>("h7ff")) @[DataMemory.scala 63:39]
-      when _T_10 : @[DataMemory.scala 63:49]
+      node _T_10 = leq(io.MemPort[_T_9].Address, UInt<11>("h7ff")) @[DataMemory.scala 76:39]
+      when _T_10 : @[DataMemory.scala 76:49]
         node _ReadWritePort_T = bits(Producer, 0, 0)
-        node _ReadWritePort_T_1 = bits(io.MemPort[_ReadWritePort_T].Address, 10, 0) @[DataMemory.scala 64:33]
-        infer mport ReadWritePort = Memory[_ReadWritePort_T_1], clock @[DataMemory.scala 64:33]
+        node _ReadWritePort_T_1 = bits(io.MemPort[_ReadWritePort_T].Address, 10, 0) @[DataMemory.scala 77:33]
+        infer mport ReadWritePort = Memory[_ReadWritePort_T_1], clock @[DataMemory.scala 77:33]
         node _T_11 = bits(Producer, 0, 0)
-        io.MemPort[_T_11].Completed <= UInt<1>("h1") @[DataMemory.scala 65:38]
+        io.MemPort[_T_11].Completed <= UInt<1>("h1") @[DataMemory.scala 78:38]
         node _T_12 = bits(Producer, 0, 0)
-        when io.MemPort[_T_12].WriteEn : @[DataMemory.scala 67:41]
+        when io.MemPort[_T_12].WriteEn : @[DataMemory.scala 80:41]
           node _ReadWritePort_T_2 = bits(Producer, 0, 0)
-          ReadWritePort <= io.MemPort[_ReadWritePort_T_2].WriteData @[DataMemory.scala 68:23]
+          ReadWritePort <= io.MemPort[_ReadWritePort_T_2].WriteData @[DataMemory.scala 81:23]
         else :
           node _T_13 = bits(Producer, 0, 0)
-          io.MemPort[_T_13].ReadData <= ReadWritePort @[DataMemory.scala 70:39]
+          io.MemPort[_T_13].ReadData <= ReadWritePort @[DataMemory.scala 83:39]
       else :
         node _T_14 = bits(Producer, 0, 0)
-        node _T_15 = leq(io.MemPort[_T_14].Address, UInt<12>("h87f")) @[DataMemory.scala 72:45]
-        when _T_15 : @[DataMemory.scala 72:55]
+        node _T_15 = leq(io.MemPort[_T_14].Address, UInt<12>("h87f")) @[DataMemory.scala 86:45]
+        when _T_15 : @[DataMemory.scala 86:55]
           node _io_Registers_Address_T = bits(Producer, 0, 0)
-          node _io_Registers_Address_T_1 = sub(io.MemPort[_io_Registers_Address_T].Address, UInt<12>("h87f")) @[DataMemory.scala 73:61]
-          node _io_Registers_Address_T_2 = tail(_io_Registers_Address_T_1, 1) @[DataMemory.scala 73:61]
-          node _io_Registers_Address_T_3 = bits(_io_Registers_Address_T_2, 5, 0) @[DataMemory.scala 73:70]
-          io.Registers.Address <= _io_Registers_Address_T_3 @[DataMemory.scala 73:28]
-          io.Registers.WriteEn <= UInt<1>("h1") @[DataMemory.scala 74:28]
+          node _io_Registers_Address_T_1 = sub(io.MemPort[_io_Registers_Address_T].Address, UInt<12>("h87f")) @[DataMemory.scala 87:61]
+          node _io_Registers_Address_T_2 = tail(_io_Registers_Address_T_1, 1) @[DataMemory.scala 87:61]
+          node _io_Registers_Address_T_3 = bits(_io_Registers_Address_T_2, 5, 0) @[DataMemory.scala 87:70]
+          io.Registers.Address <= _io_Registers_Address_T_3 @[DataMemory.scala 87:28]
+          io.Registers.WriteEn <= UInt<1>("h1") @[DataMemory.scala 88:28]
           node _T_16 = bits(Producer, 0, 0)
-          io.MemPort[_T_16].Completed <= UInt<1>("h1") @[DataMemory.scala 75:38]
+          io.MemPort[_T_16].Completed <= UInt<1>("h1") @[DataMemory.scala 89:38]
           node _T_17 = bits(Producer, 0, 0)
-          when io.MemPort[_T_17].WriteEn : @[DataMemory.scala 77:41]
+          when io.MemPort[_T_17].WriteEn : @[DataMemory.scala 91:41]
             node _io_Registers_WriteData_T = bits(Producer, 0, 0)
-            io.Registers.WriteData <= io.MemPort[_io_Registers_WriteData_T].WriteData @[DataMemory.scala 78:32]
+            io.Registers.WriteData <= io.MemPort[_io_Registers_WriteData_T].WriteData @[DataMemory.scala 92:32]
           else :
             node _T_18 = bits(Producer, 0, 0)
-            io.MemPort[_T_18].ReadData <= io.Registers.ReadData @[DataMemory.scala 80:39]
+            io.MemPort[_T_18].ReadData <= io.Registers.ReadData @[DataMemory.scala 94:39]
         else :
-          node _ExternalMemory_io_Address_T = bits(Producer, 0, 0)
-          ExternalMemory.io.Address <= io.MemPort[_ExternalMemory_io_Address_T].Address @[DataMemory.scala 83:33]
           node _T_19 = bits(Producer, 0, 0)
-          when io.MemPort[_T_19].WriteEn : @[DataMemory.scala 85:41]
-            when ExternalMemory.io.Ready : @[DataMemory.scala 86:38]
-              ExternalMemory.io.WriteEnable <= UInt<1>("h1") @[DataMemory.scala 87:41]
-              node _ExternalMemory_io_WriteData_T = bits(Producer, 0, 0)
-              ExternalMemory.io.WriteData <= io.MemPort[_ExternalMemory_io_WriteData_T].WriteData @[DataMemory.scala 88:39]
-            node _T_20 = bits(Producer, 0, 0)
-            io.MemPort[_T_20].Completed <= ExternalMemory.io.Completed @[DataMemory.scala 91:40]
-          else :
-            when ExternalMemory.io.Ready : @[DataMemory.scala 93:38]
-              ExternalMemory.io.ReadEnable <= UInt<1>("h1") @[DataMemory.scala 94:40]
-            node _T_21 = bits(Producer, 0, 0)
-            io.MemPort[_T_21].Completed <= ExternalMemory.io.Completed @[DataMemory.scala 97:40]
-            node _T_22 = bits(Producer, 0, 0)
-            io.MemPort[_T_22].ReadData <= ExternalMemory.io.ReadData @[DataMemory.scala 98:39]
+          io.MemPort[_T_19].ReadData <= io.SPIMemPort.ReadData @[DataMemory.scala 119:37]
+          node _T_20 = bits(Producer, 0, 0)
+          io.MemPort[_T_20].Completed <= io.SPIMemPort.Completed @[DataMemory.scala 120:38]
+          node _io_SPIMemPort_Address_T = bits(Producer, 0, 0)
+          node _io_SPIMemPort_Address_T_1 = add(io.MemPort[_io_SPIMemPort_Address_T].Address, UInt<1>("h0")) @[DataMemory.scala 122:61]
+          node _io_SPIMemPort_Address_T_2 = tail(_io_SPIMemPort_Address_T_1, 1) @[DataMemory.scala 122:61]
+          io.SPIMemPort.Address <= _io_SPIMemPort_Address_T_2 @[DataMemory.scala 122:29]
+          node _io_SPIMemPort_WriteData_T = bits(Producer, 0, 0)
+          io.SPIMemPort.WriteData <= io.MemPort[_io_SPIMemPort_WriteData_T].WriteData @[DataMemory.scala 123:31]
+          node _io_SPIMemPort_Enable_T = bits(Producer, 0, 0)
+          io.SPIMemPort.Enable <= io.MemPort[_io_SPIMemPort_Enable_T].Enable @[DataMemory.scala 124:28]
+          node _io_SPIMemPort_WriteEn_T = bits(Producer, 0, 0)
+          io.SPIMemPort.WriteEn <= io.MemPort[_io_SPIMemPort_WriteEn_T].WriteEn @[DataMemory.scala 125:29]
 
   module SubDSP :
     input clock : Clock
     input reset : Reset
-    output io : { flip In : UInt<16>, Out : UInt<16>}
-    output SPI : { SCLK : UInt<1>, CE : UInt<1>, flip SO : UInt<1>[4], SI : UInt<1>[4], Drive : UInt<1>}
+    output io : { Sub_IO : { flip In : UInt<18>, Out : UInt<18>}}
+    output SPI : { SPIMemPort : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}}
 
+    wire dedupBlock : SInt
+    dedupBlock <= asSInt(UInt<32>("h47347f7b"))
     inst Core of Core @[SubDSP.scala 33:20]
     Core.clock <= clock
     Core.reset <= reset
@@ -1312,43 +1382,30 @@ circuit DSP :
     inst DataMemory of DataMemory @[SubDSP.scala 35:26]
     DataMemory.clock <= clock
     DataMemory.reset <= reset
-    node _io_Out_T = add(Core.io.WaveOut, FirEngine.io.WaveOut) @[SubDSP.scala 39:29]
-    node _io_Out_T_1 = tail(_io_Out_T, 1) @[SubDSP.scala 39:29]
-    io.Out <= _io_Out_T_1 @[SubDSP.scala 39:10]
-    FirEngine.io.WaveIn <= io.In @[SubDSP.scala 40:23]
-    Core.io.WaveIn <= io.In @[SubDSP.scala 41:18]
-    Core.io.Stall <= UInt<1>("h0") @[SubDSP.scala 45:17]
-    Core.io.ProgramLength <= UInt<1>("h0") @[SubDSP.scala 46:25]
-    Core.io.MemPort.Completed <= DataMemory.io.MemPort[0].Completed @[SubDSP.scala 48:19]
-    Core.io.MemPort.ReadData <= DataMemory.io.MemPort[0].ReadData @[SubDSP.scala 48:19]
-    DataMemory.io.MemPort[0].WriteEn <= Core.io.MemPort.WriteEn @[SubDSP.scala 48:19]
-    DataMemory.io.MemPort[0].Enable <= Core.io.MemPort.Enable @[SubDSP.scala 48:19]
-    DataMemory.io.MemPort[0].WriteData <= Core.io.MemPort.WriteData @[SubDSP.scala 48:19]
-    DataMemory.io.MemPort[0].Address <= Core.io.MemPort.Address @[SubDSP.scala 48:19]
-    DataMemory.io.Registers.Completed <= FirEngine.io.Registers.Completed @[SubDSP.scala 50:26]
-    DataMemory.io.Registers.ReadData <= FirEngine.io.Registers.ReadData @[SubDSP.scala 50:26]
-    FirEngine.io.Registers.WriteEn <= DataMemory.io.Registers.WriteEn @[SubDSP.scala 50:26]
-    FirEngine.io.Registers.Enable <= DataMemory.io.Registers.Enable @[SubDSP.scala 50:26]
-    FirEngine.io.Registers.WriteData <= DataMemory.io.Registers.WriteData @[SubDSP.scala 50:26]
-    FirEngine.io.Registers.Address <= DataMemory.io.Registers.Address @[SubDSP.scala 50:26]
-    FirEngine.io.MemPort.Completed <= DataMemory.io.MemPort[1].Completed @[SubDSP.scala 52:24]
-    FirEngine.io.MemPort.ReadData <= DataMemory.io.MemPort[1].ReadData @[SubDSP.scala 52:24]
-    DataMemory.io.MemPort[1].WriteEn <= FirEngine.io.MemPort.WriteEn @[SubDSP.scala 52:24]
-    DataMemory.io.MemPort[1].Enable <= FirEngine.io.MemPort.Enable @[SubDSP.scala 52:24]
-    DataMemory.io.MemPort[1].WriteData <= FirEngine.io.MemPort.WriteData @[SubDSP.scala 52:24]
-    DataMemory.io.MemPort[1].Address <= FirEngine.io.MemPort.Address @[SubDSP.scala 52:24]
-    FirEngine.io.WaveIn <= UInt<1>("h0") @[SubDSP.scala 53:23]
-    SPI.Drive <= DataMemory.SPI.Drive @[SubDSP.scala 55:7]
-    SPI.SI[0] <= DataMemory.SPI.SI[0] @[SubDSP.scala 55:7]
-    SPI.SI[1] <= DataMemory.SPI.SI[1] @[SubDSP.scala 55:7]
-    SPI.SI[2] <= DataMemory.SPI.SI[2] @[SubDSP.scala 55:7]
-    SPI.SI[3] <= DataMemory.SPI.SI[3] @[SubDSP.scala 55:7]
-    DataMemory.SPI.SO[0] <= SPI.SO[0] @[SubDSP.scala 55:7]
-    DataMemory.SPI.SO[1] <= SPI.SO[1] @[SubDSP.scala 55:7]
-    DataMemory.SPI.SO[2] <= SPI.SO[2] @[SubDSP.scala 55:7]
-    DataMemory.SPI.SO[3] <= SPI.SO[3] @[SubDSP.scala 55:7]
-    SPI.CE <= DataMemory.SPI.CE @[SubDSP.scala 55:7]
-    SPI.SCLK <= DataMemory.SPI.SCLK @[SubDSP.scala 55:7]
+    node _io_Sub_IO_Out_T = add(Core.io.WaveOut, FirEngine.io.WaveOut) @[SubDSP.scala 45:36]
+    node _io_Sub_IO_Out_T_1 = tail(_io_Sub_IO_Out_T, 1) @[SubDSP.scala 45:36]
+    io.Sub_IO.Out <= _io_Sub_IO_Out_T_1 @[SubDSP.scala 45:17]
+    FirEngine.io.WaveIn <= io.Sub_IO.In @[SubDSP.scala 46:23]
+    Core.io.WaveIn <= io.Sub_IO.In @[SubDSP.scala 47:18]
+    DataMemory.io.MemPort[0] <= Core.io.MemPort @[SubDSP.scala 51:19]
+    FirEngine.io.Registers <= DataMemory.io.Registers @[SubDSP.scala 53:26]
+    DataMemory.io.MemPort[1] <= FirEngine.io.MemPort @[SubDSP.scala 55:24]
+    FirEngine.io.WaveIn <= UInt<1>("h0") @[SubDSP.scala 56:23]
+    DataMemory.io.SPIMemPort.Completed <= SPI.SPIMemPort.Completed @[SubDSP.scala 58:18]
+    DataMemory.io.SPIMemPort.ReadData <= SPI.SPIMemPort.ReadData @[SubDSP.scala 58:18]
+    SPI.SPIMemPort.WriteEn <= DataMemory.io.SPIMemPort.WriteEn @[SubDSP.scala 58:18]
+    SPI.SPIMemPort.Enable <= DataMemory.io.SPIMemPort.Enable @[SubDSP.scala 58:18]
+    SPI.SPIMemPort.WriteData <= DataMemory.io.SPIMemPort.WriteData @[SubDSP.scala 58:18]
+    SPI.SPIMemPort.Address <= DataMemory.io.SPIMemPort.Address @[SubDSP.scala 58:18]
+
+  module NodeConnector :
+    input clock : Clock
+    input reset : Reset
+    output io : { flip In : UInt<18>[1], Out : UInt<18>}
+
+    wire Carry : UInt<18>[1] @[NodeConnector.scala 12:19]
+    Carry[0] <= io.In[0] @[NodeConnector.scala 13:12]
+    io.Out <= Carry[0] @[NodeConnector.scala 19:10]
 
   module DSP :
     input clock : Clock
@@ -1356,22 +1413,31 @@ circuit DSP :
     output io : { flip In : SInt<16>, Out : SInt<16>}
     output SPI : { SCLK : UInt<1>, CE : UInt<1>, flip SO : UInt<1>[4], SI : UInt<1>[4], Drive : UInt<1>}
 
-    inst SubDSP of SubDSP @[DSP.scala 18:22]
+    inst SPIArbiter of SPIArbiter @[DSP.scala 28:26]
+    SPIArbiter.clock <= clock
+    SPIArbiter.reset <= reset
+    SPI.Drive <= SPIArbiter.SPI.Drive @[DSP.scala 30:18]
+    SPI.SI[0] <= SPIArbiter.SPI.SI[0] @[DSP.scala 30:18]
+    SPI.SI[1] <= SPIArbiter.SPI.SI[1] @[DSP.scala 30:18]
+    SPI.SI[2] <= SPIArbiter.SPI.SI[2] @[DSP.scala 30:18]
+    SPI.SI[3] <= SPIArbiter.SPI.SI[3] @[DSP.scala 30:18]
+    SPIArbiter.SPI.SO <= SPI.SO @[DSP.scala 30:18]
+    SPI.CE <= SPIArbiter.SPI.CE @[DSP.scala 30:18]
+    SPI.SCLK <= SPIArbiter.SPI.SCLK @[DSP.scala 30:18]
+    wire CAP_IOs : { flip In : UInt<18>, Out : UInt<18>}[1] @[DSP.scala 34:21]
+    inst SubDSP of SubDSP @[DSP.scala 49:24]
     SubDSP.clock <= clock
     SubDSP.reset <= reset
-    node _SubDSP_io_In_T = asUInt(io.In) @[DSP.scala 20:25]
-    SubDSP.io.In <= _SubDSP_io_In_T @[DSP.scala 20:16]
-    node _io_Out_T = asSInt(SubDSP.io.Out) @[DSP.scala 21:27]
-    io.Out <= _io_Out_T @[DSP.scala 21:10]
-    SPI.Drive <= SubDSP.SPI.Drive @[DSP.scala 23:14]
-    SPI.SI[0] <= SubDSP.SPI.SI[0] @[DSP.scala 23:14]
-    SPI.SI[1] <= SubDSP.SPI.SI[1] @[DSP.scala 23:14]
-    SPI.SI[2] <= SubDSP.SPI.SI[2] @[DSP.scala 23:14]
-    SPI.SI[3] <= SubDSP.SPI.SI[3] @[DSP.scala 23:14]
-    SubDSP.SPI.SO[0] <= SPI.SO[0] @[DSP.scala 23:14]
-    SubDSP.SPI.SO[1] <= SPI.SO[1] @[DSP.scala 23:14]
-    SubDSP.SPI.SO[2] <= SPI.SO[2] @[DSP.scala 23:14]
-    SubDSP.SPI.SO[3] <= SPI.SO[3] @[DSP.scala 23:14]
-    SPI.CE <= SubDSP.SPI.CE @[DSP.scala 23:14]
-    SPI.SCLK <= SubDSP.SPI.SCLK @[DSP.scala 23:14]
+    SPIArbiter.io.MemPort[0] <= SubDSP.SPI.SPIMemPort @[DSP.scala 53:27]
+    CAP_IOs[0].Out <= SubDSP.io.Sub_IO.Out @[DSP.scala 55:19]
+    SubDSP.io.Sub_IO.In <= CAP_IOs[0].In @[DSP.scala 55:19]
+    inst OutputConnector of NodeConnector @[DSP.scala 66:31]
+    OutputConnector.clock <= clock
+    OutputConnector.reset <= reset
+    node _CAP_IOs_0_In_T = asUInt(io.In) @[DSP.scala 95:36]
+    CAP_IOs[0].In <= _CAP_IOs_0_In_T @[DSP.scala 95:27]
+    OutputConnector.io.In[0] <= CAP_IOs[0].Out @[DSP.scala 106:40]
+    node _io_Out_T = bits(OutputConnector.io.Out, 15, 0) @[DSP.scala 114:35]
+    node _io_Out_T_1 = asSInt(_io_Out_T) @[DSP.scala 114:42]
+    io.Out <= _io_Out_T_1 @[DSP.scala 114:10]
 

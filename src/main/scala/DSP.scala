@@ -115,7 +115,6 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
   //io.Out := CAP_IOs(1).Out.asSInt
 
-
 }
 
 // generate Verilog

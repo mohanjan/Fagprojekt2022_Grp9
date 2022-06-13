@@ -121,12 +121,9 @@ class DecodeStage extends Module {
     Out.COffset := 0.S
   }
 
-
-  
-
   // Inserts bubble in pipeline in case of memory access. 
 
-  when(InstDec.io.AOperation === 8.U || InstDec.io.AOperation === 9.U){
+  when(InstDec.io.AOperation === 9.U || InstDec.io.AOperation === 10.U || InstDec.io.Type === 3.U){
     io.MiniStall := true.B
   }
   

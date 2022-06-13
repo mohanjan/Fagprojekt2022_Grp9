@@ -1,6 +1,6 @@
 <CAPNA>
   <CAP top="true" id="0">
-    <Program>TestProgram</Program>
+    <Program>FIR</Program>
     <Inputs>
       <Input node="In"/>
     </Inputs>

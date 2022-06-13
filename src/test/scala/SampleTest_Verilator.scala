@@ -28,10 +28,14 @@ class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
       // Write the samples
       val th = fork {
         //dut.io.in.valid.poke(true.B)
-        for (s  <- samples) {
+        for (s  <- (samples)) {
           dut.io.In.poke(s.asSInt)
-          dut.clock.step()
 
+          for(i <- 0 until 17){
+            dut.clock.step()
+          }
+
+      
           /*
           while (!dut.io.in.ready.peek.litToBoolean) {
             dut.clock.step()
@@ -59,7 +63,12 @@ class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
         outSamples(idx) = s
         idx += 1
 
-        dut.clock.step()
+        //dut.clock.step()
+
+        for(i <- 0 until 17){
+            dut.clock.step()
+        }
+
       }
       th.join()
 

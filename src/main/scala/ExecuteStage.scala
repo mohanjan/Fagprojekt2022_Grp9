@@ -45,6 +45,7 @@ class ExecuteStage extends Module {
 
   ALU.io.rs2 := 0.U
   ALU.io.rs1 := 0.U
+  ALU.io.rd := 0.U
   ALU.io.Operation := 0.U
 
   BranchComp.io.rs2 := 0.U
@@ -147,6 +148,17 @@ class ExecuteStage extends Module {
 
         DataHazard := In.rd
       }.elsewhen(In.AOperation === 8.U){
+        ALU.io.Operation := In.AOperation
+
+        ALU.io.rs2 := rs2
+        ALU.io.rs1 := rs1
+        ALU.io.rd := rd
+
+        WritebackMode := Arithmetic
+        WritebackRegister := In.rd
+
+        DataHazard := In.rd
+      }.elsewhen(In.AOperation === 9.U){
 
         // lw rd, rs1
 
@@ -177,7 +189,7 @@ class ExecuteStage extends Module {
         when(!io.MemPort.Completed){
           io.Stall := true.B
         }
-      }.elsewhen(In.AOperation === 9.U){
+      }.elsewhen(In.AOperation === 10.U){
 
         // sw rd, rs1
  

@@ -44,10 +44,10 @@ public class Assembler {
                         myWriter.write("swi x5, " + (Integer.parseInt(memorypos) + 1983) + "\n");
                         addedData = "";
                     }else if(data.contains("li")){
-                        int immediate = Integer.parseInt(data.substring(data.indexOf(",") + 2));
+                        int immediate = Integer.parseInt(data.substring(data.indexOf(",") + 2).replace(" ", ""));
 
                         int rd_index = data.indexOf("x");
-                        int rd = find_register(data.substring(rd_index, rd_index + 2));
+                        int rd = find_register(data.substring(rd_index, rd_index + 3).replace(" ", ""));
 
                         if(immediate > 1024){
                             int lower = immediate & 0b000000000111111111;
@@ -192,13 +192,15 @@ public class Assembler {
     public static int find_name(String instruction){
         int val = 0;
         /*  ARITHMETIC INSTRUCTIONS  */
-                /*add rd, rs1, rs2
+                /*
+                add rd, rs1, rs2
                 sub rd, rs1, rs2
                 mult rd, rs1, rs2
                 multfp rd, rs1, rs2
                 and rd, rs1, rs2
                 or rd, rs1, rs2
-                xor rd rs1, rs2
+                xor rd, rs1, rs2
+                mac rd, rs1, rs2
 
                 lw rd, rs1
                 sw rd, rs1
@@ -254,14 +256,21 @@ public class Assembler {
             //System.out.println(val);
         }
 
-        else if(instruction.contains("lw") && !instruction.contains("lwi")){
+        else if(instruction.contains("mac")){
             val = 0b001000000000000000;
             val = (val | find_arguments(instruction,0));
             //System.out.println(val);
         }
 
-        else if(instruction.contains("sw") && !instruction.contains("swi")){
+
+        else if(instruction.contains("lw") && !instruction.contains("lwi")){
             val = 0b001001000000000000;
+            val = (val | find_arguments(instruction,0));
+            //System.out.println(val);
+        }
+
+        else if(instruction.contains("sw") && !instruction.contains("swi")){
+            val = 0b001010000000000000;
             val = (val | find_arguments(instruction,0));
             //System.out.println(val);
         }
@@ -349,14 +358,14 @@ public class Assembler {
         switch(type){
             case 0:
                 int rd_index = instruction.indexOf("x");
-                int rd = find_register(instruction.substring(rd_index, rd_index + 2));
+                int rd = find_register(instruction.substring(rd_index, rd_index + 3).replace(" ", ""));
 
                 int rs1_index = instruction.indexOf("x", rd_index + 1);
 
-                int rs1 = find_register(instruction.substring(rs1_index, rs1_index + 2));
+                int rs1 = find_register(instruction.substring(rs1_index, rs1_index + 3).replace(" ", ""));
 
                 int rs2_index = instruction.indexOf("x", rs1_index + 1);
-                int rs2 = find_register(instruction.substring(rs2_index, rs2_index + 2));
+                int rs2 = find_register(instruction.substring(rs2_index, rs2_index + 3).replace(" ", ""));
 
                 /*
 
@@ -372,7 +381,7 @@ public class Assembler {
                 return (rd << 8) + (rs1 << 4) + rs2;
             case 1:
                 rd_index = instruction.indexOf("x");
-                rd = find_register(instruction.substring(rd_index, rd_index + 2));
+                rd = find_register(instruction.substring(rd_index, rd_index + 3).replace(" ", ""));
 
                 int imm = find_register(instruction.substring(rd_index + 3));
 
@@ -383,7 +392,7 @@ public class Assembler {
                 return (rd << 10) + (imm & 0b1111111111);
             case 2:
                 rd_index = instruction.indexOf("x");
-                rd = find_register(instruction.substring(rd_index, rd_index + 2));
+                rd = find_register(instruction.substring(rd_index, rd_index + 3).replace(" ", ""));
 
                 int imm2 = find_register(instruction.substring(rd_index + 3));
 
@@ -391,12 +400,12 @@ public class Assembler {
 
             case 3:
                 rs1_index = instruction.indexOf("x");
-                rs1 = find_register(instruction.substring(rs1_index, rs1_index + 3));
+                rs1 = find_register(instruction.substring(rs1_index, rs1_index + 3).replace(" ", ""));
 
                 rs2_index = instruction.indexOf("x", rs1_index + 1);
-                rs2 = find_register(instruction.substring(rs2_index, rs2_index + 3));
+                rs2 = find_register(instruction.substring(rs2_index, rs2_index + 3).replace(" ", ""));
 
-                int offset = find_register(instruction.substring(rs2_index + 3));
+                int offset = find_register(instruction.substring(rs2_index + 3).replace(" ", ""));
 
                 if(instruction.substring(rs2_index + 3).contains("-")){
                     offset = -offset;

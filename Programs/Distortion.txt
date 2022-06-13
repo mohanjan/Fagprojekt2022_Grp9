@@ -1,5 +1,5 @@
 .main:
-li x4, 1
+li x4, 4
 .loop: 
-mul x3, x2, x4 
+mult x3, x2, x4 
 j .loop 

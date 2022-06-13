@@ -5,6 +5,7 @@ class ALU() extends Module {
   val io = IO(new Bundle {
     val rs1 = Input(UInt(18.W))
     val rs2 = Input(UInt(18.W))
+    val rd = Input(UInt(18.W))
 
     val Operation = Input(UInt(8.W))
     val Out = Output(UInt(18.W))
@@ -36,6 +37,9 @@ class ALU() extends Module {
     }
     is(7.U){
       io.Out := io.rs1 ^ io.rs2
+    }
+    is(8.U){
+      io.Out := io.rd + (io.rs1 * io.rs2)(17,0)
     }
   }
 }
