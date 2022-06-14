@@ -4,8 +4,9 @@ import chisel3.util._
 
 class DSP(maxCount: Int) extends Module {
   val io = IO(new Bundle {
-    val In  = Input(UInt(1.W))
-    val Out = Output(UInt(1.W))
+    val ADIn  = Input(UInt(1.W))
+    val DAOut = Output(UInt(1.W))
+    val ADOut = Output(UInt(1.W))
   })
  /* val SPI = IO(new Bundle {
     val SCLK  = Output(Bool())
@@ -18,12 +19,12 @@ class DSP(maxCount: Int) extends Module {
   //val SDSP = Module(new SubDSP())
   val IOC  = Module(new IOMaster(18))
 
-  IOC.io.In_ADC := io.In
+  IOC.io.In_ADC := io.ADIn
   //SDSP.io.In     := IOC.io.Out_ADC
   IOC.io.In_DAC := IOC.io.Out_ADC
   //IOC.io.In_DAC := SDSP.io.Out
-  io.Out        := IOC.io.Out_DAC
-
+  io.DAOut        := IOC.io.Out_DAC
+  io.ADOut        := IOC.io.Out_ADC_D
   //SDSP.SPI <> SPI
 
 }
