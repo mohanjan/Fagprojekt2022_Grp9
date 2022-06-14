@@ -12,6 +12,8 @@ long int ddc = 0; //digital to digital converter
 void AD(); //Analog to digital function
 void DA(); //digital to analog function
 int count;
+int i = 0;
+int j = 0;
 
 //port settings
 int AD_I = 3;
@@ -34,9 +36,18 @@ void loop() {
   //delayMicroseconds(10);
  //AD conversion
   AD();
- // buff[i]=shiftReg;
+  /*switch (j){
+    case base:
+      buff[i]=shiftReg;
+      j=0;
+      i++;
+    default:
+    j++;
+    break;
+  }
+
   
-  /*if(i==NS-1){
+  if(i==NS-1){
     i=0;
   }*/
  //DSP world
@@ -48,9 +59,9 @@ void loop() {
  }*/
 
  //DA conversion
- //DA(buff[i]);
-  DA(shiftReg);
- //i++;
+ //DA(buff[i-1]);
+ DA(shiftReg);
+
 }
 
 
