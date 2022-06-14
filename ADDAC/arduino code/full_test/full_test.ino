@@ -5,8 +5,8 @@ long int z = 0; //current sample
 //ADDAC settings
 const int base = 10;
 const int NS = 128;
-const int DA_AND = 0x200; //15 = 0x2000
-const int ddcval = 0x3ff; //15 = 0x7fff, 10=3ff
+const int DA_AND = 0b1<< (base-1); //0x200; //15 = 0x2000
+const int ddcval = (0b1<<base) -1; //0x3ff; //15 = 0x7fff, 10=3ff
 long int zneg = 0; //previous sample
 long int ddc = 0; //digital to digital converter
 void AD(); //Analog to digital function
@@ -34,22 +34,23 @@ void loop() {
   //delayMicroseconds(10);
  //AD conversion
   AD();
-  buff[i]=shiftReg;
+ // buff[i]=shiftReg;
   
-  if(i==NS-1){
+  /*if(i==NS-1){
     i=0;
-  }
+  }*/
  //DSP world
- switch (b){
+ /*switch (b){
   
   default:
 
     break;
- }
+ }*/
 
  //DA conversion
- DA(buff[i]);
- i++;
+ //DA(buff[i]);
+  DA(shiftReg);
+ //i++;
 }
 
 
