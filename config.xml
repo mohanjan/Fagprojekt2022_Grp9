@@ -7,6 +7,12 @@
     <BRAM size="2048"/>
     <DRAM offset="0"/>
   </CAP>
+  <IN_CNTR incl="true">
+    <Buffer length=""/>
+  </IN_CNTR>
+  <OUT_CNTR incl="true">
+    <Buffer length=""/>
+  </OUT_CNTR>
   <TEST>
     <CLK count="1"/>
     <SOUND sample="sample.wav"/>

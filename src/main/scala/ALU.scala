@@ -17,6 +17,10 @@ class ALU() extends Module {
   // Execute stage sends an operation, decoded by the switch statement
   // Output is sent to execute stage
   
+  val Temp = Wire(SInt(18.W))
+
+  Temp := io.rs1.asSInt
+
   io.Out := 0.U
 
   switch(io.Operation) {
@@ -42,11 +46,11 @@ class ALU() extends Module {
     }
     is(5.U){
       //bitshift right arithmetic
-      io.Out := ((io.rs1.asSInt) << io.rs2(5,0))(17,0).asUInt
+      io.Out := (Temp << io.rs2(5,0))(17,0)
     }
     is(6.U){
       //bitshift left arithmetic
-      io.Out := ((io.rs1.asSInt)  >> io.rs2)(17,0).asUInt
+      io.Out := (Temp >> io.rs2)(17,0)
     }
     is(7.U){
       // bitwise AND
