@@ -36,9 +36,9 @@ class SubDSP(Program: String, Memsize: Int, SPIRAM_Offset: Int) extends Module {
 
   // IO
 
-  io.Sub_IO.Out := Core.io.WaveOut + FirEngine.io.WaveOut
+  io.Sub_IO.Out := Core.io.WaveOut + FirEngine.io.WaveOut.asUInt
   Core.io.WaveIn := io.Sub_IO.In
-  FirEngine.io.WaveIn := io.Sub_IO.In
+  FirEngine.io.WaveIn := io.Sub_IO.In.asSInt
 
   // Interconnections
 
@@ -47,7 +47,7 @@ class SubDSP(Program: String, Memsize: Int, SPIRAM_Offset: Int) extends Module {
   FirEngine.io.Registers <> DataMemory.io.Registers
 
   FirEngine.io.MemPort <> DataMemory.io.MemPort(1)
-  FirEngine.io.WaveIn := 0.U
+  //FirEngine.io.WaveIn := 0.U
 
   SPI.SPIMemPort <> DataMemory.io.SPIMemPort
 }

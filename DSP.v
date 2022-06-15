@@ -1,3 +1,692 @@
+module InController(
+  input         clock,
+  input         reset,
+  input         io_In,
+  input  [17:0] io_InFIR,
+  output [17:0] io_Out,
+  output [17:0] io_OutFIR
+);
+`ifdef RANDOMIZE_REG_INIT
+  reg [31:0] _RAND_0;
+  reg [31:0] _RAND_1;
+  reg [31:0] _RAND_2;
+`endif // RANDOMIZE_REG_INIT
+  reg [17:0] inReg; // @[InController.scala 21:22]
+  reg [17:0] sample; // @[InController.scala 22:23]
+  reg [7:0] cntReg; // @[InController.scala 25:23]
+  wire [7:0] _cntReg_T_1 = cntReg + 8'h1; // @[InController.scala 26:20]
+  wire  tick = cntReg == 8'h12; // @[InController.scala 27:21]
+  wire [17:0] _inReg_T_1 = {io_In,inReg[17:1]}; // @[Cat.scala 31:58]
+  wire [17:0] _io_OutFIR_T_2 = ~inReg; // @[InController.scala 38:16]
+  assign io_Out = sample; // @[InController.scala 39:10]
+  assign io_OutFIR = $signed(_io_OutFIR_T_2) + 18'sh1; // @[InController.scala 38:30]
+  always @(posedge clock) begin
+    if (reset) begin // @[InController.scala 21:22]
+      inReg <= 18'h0; // @[InController.scala 21:22]
+    end else begin
+      inReg <= _inReg_T_1; // @[InController.scala 29:9]
+    end
+    if (reset) begin // @[InController.scala 22:23]
+      sample <= 18'sh10; // @[InController.scala 22:23]
+    end else if (tick) begin // @[InController.scala 32:14]
+      sample <= io_InFIR; // @[InController.scala 34:12]
+    end
+    if (reset) begin // @[InController.scala 25:23]
+      cntReg <= 8'h0; // @[InController.scala 25:23]
+    end else if (tick) begin // @[InController.scala 32:14]
+      cntReg <= 8'h0; // @[InController.scala 33:12]
+    end else begin
+      cntReg <= _cntReg_T_1; // @[InController.scala 26:10]
+    end
+  end
+// Register and memory initialization
+`ifdef RANDOMIZE_GARBAGE_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_INVALID_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_REG_INIT
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+`define RANDOMIZE
+`endif
+`ifndef RANDOM
+`define RANDOM $random
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+  integer initvar;
+`endif
+`ifndef SYNTHESIS
+`ifdef FIRRTL_BEFORE_INITIAL
+`FIRRTL_BEFORE_INITIAL
+`endif
+initial begin
+  `ifdef RANDOMIZE
+    `ifdef INIT_RANDOM
+      `INIT_RANDOM
+    `endif
+    `ifndef VERILATOR
+      `ifdef RANDOMIZE_DELAY
+        #`RANDOMIZE_DELAY begin end
+      `else
+        #0.002 begin end
+      `endif
+    `endif
+`ifdef RANDOMIZE_REG_INIT
+  _RAND_0 = {1{`RANDOM}};
+  inReg = _RAND_0[17:0];
+  _RAND_1 = {1{`RANDOM}};
+  sample = _RAND_1[17:0];
+  _RAND_2 = {1{`RANDOM}};
+  cntReg = _RAND_2[7:0];
+`endif // RANDOMIZE_REG_INIT
+  `endif // RANDOMIZE
+end // initial
+`ifdef FIRRTL_AFTER_INITIAL
+`FIRRTL_AFTER_INITIAL
+`endif
+`endif // SYNTHESIS
+endmodule
+module OutController(
+  input         clock,
+  input         reset,
+  input  [17:0] io_In,
+  input  [17:0] io_InFIR,
+  output [17:0] io_OutFIR,
+  output        io_OutPWM
+);
+`ifdef RANDOMIZE_REG_INIT
+  reg [31:0] _RAND_0;
+  reg [31:0] _RAND_1;
+`endif // RANDOMIZE_REG_INIT
+  reg [17:0] ZReg; // @[OutController.scala 16:22]
+  reg [3:0] cntReg; // @[OutController.scala 21:23]
+  wire [3:0] _cntReg_T_1 = cntReg + 4'h1; // @[OutController.scala 22:20]
+  wire  tick = cntReg == 4'h0; // @[OutController.scala 23:21]
+  wire [4:0] _GEN_1 = {{1'd0}, cntReg}; // @[OutController.scala 25:15]
+  wire [17:0] _Diff_T = io_OutPWM ? 18'h3ffff : 18'h0; // @[OutController.scala 29:26]
+  wire [17:0] _Diff_T_3 = $signed(io_InFIR) - $signed(_Diff_T); // @[OutController.scala 29:20]
+  wire [15:0] Diff = _Diff_T_3[15:0]; // @[OutController.scala 17:19 29:8]
+  wire [17:0] _GEN_3 = {{2{Diff[15]}},Diff}; // @[OutController.scala 30:16]
+  wire [17:0] _ZIn_T_2 = $signed(ZReg) + $signed(_GEN_3); // @[OutController.scala 30:16]
+  wire [15:0] ZIn = _ZIn_T_2[15:0]; // @[OutController.scala 18:19 30:8]
+  assign io_OutFIR = tick ? $signed(io_In) : $signed(18'sh0); // @[OutController.scala 35:19]
+  assign io_OutPWM = ~ZReg[17]; // @[OutController.scala 36:16]
+  always @(posedge clock) begin
+    if (reset) begin // @[OutController.scala 16:22]
+      ZReg <= 18'sh0; // @[OutController.scala 16:22]
+    end else begin
+      ZReg <= {{2{ZIn[15]}},ZIn}; // @[OutController.scala 31:8]
+    end
+    if (reset) begin // @[OutController.scala 21:23]
+      cntReg <= 4'h0; // @[OutController.scala 21:23]
+    end else if (_GEN_1 == 5'h12) begin // @[OutController.scala 25:26]
+      cntReg <= 4'h0; // @[OutController.scala 26:12]
+    end else begin
+      cntReg <= _cntReg_T_1; // @[OutController.scala 22:10]
+    end
+  end
+// Register and memory initialization
+`ifdef RANDOMIZE_GARBAGE_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_INVALID_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_REG_INIT
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+`define RANDOMIZE
+`endif
+`ifndef RANDOM
+`define RANDOM $random
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+  integer initvar;
+`endif
+`ifndef SYNTHESIS
+`ifdef FIRRTL_BEFORE_INITIAL
+`FIRRTL_BEFORE_INITIAL
+`endif
+initial begin
+  `ifdef RANDOMIZE
+    `ifdef INIT_RANDOM
+      `INIT_RANDOM
+    `endif
+    `ifndef VERILATOR
+      `ifdef RANDOMIZE_DELAY
+        #`RANDOMIZE_DELAY begin end
+      `else
+        #0.002 begin end
+      `endif
+    `endif
+`ifdef RANDOMIZE_REG_INIT
+  _RAND_0 = {1{`RANDOM}};
+  ZReg = _RAND_0[17:0];
+  _RAND_1 = {1{`RANDOM}};
+  cntReg = _RAND_1[3:0];
+`endif // RANDOMIZE_REG_INIT
+  `endif // RANDOMIZE
+end // initial
+`ifdef FIRRTL_AFTER_INITIAL
+`FIRRTL_AFTER_INITIAL
+`endif
+`endif // SYNTHESIS
+endmodule
+module IOFilter(
+  input         clock,
+  input  [17:0] io_ADCWaveIn,
+  input  [17:0] io_DACWaveIn,
+  output [17:0] io_WaveOut,
+  input         io_SampleType,
+  input         io_ADCEnable,
+  input         io_DACEnable,
+  output        io_Completed
+);
+`ifdef RANDOMIZE_MEM_INIT
+  reg [31:0] _RAND_0;
+  reg [31:0] _RAND_3;
+`endif // RANDOMIZE_MEM_INIT
+`ifdef RANDOMIZE_REG_INIT
+  reg [31:0] _RAND_1;
+  reg [31:0] _RAND_2;
+  reg [31:0] _RAND_4;
+  reg [31:0] _RAND_5;
+  reg [31:0] _RAND_6;
+  reg [31:0] _RAND_7;
+  reg [31:0] _RAND_8;
+  reg [31:0] _RAND_9;
+  reg [31:0] _RAND_10;
+  reg [31:0] _RAND_11;
+  reg [31:0] _RAND_12;
+`endif // RANDOMIZE_REG_INIT
+  reg [17:0] InputSampleMemory [0:2047]; // @[IOFilter.scala 32:38]
+  wire  InputSampleMemory_ReadInputSample_MPORT_en; // @[IOFilter.scala 32:38]
+  wire [10:0] InputSampleMemory_ReadInputSample_MPORT_addr; // @[IOFilter.scala 32:38]
+  wire [17:0] InputSampleMemory_ReadInputSample_MPORT_data; // @[IOFilter.scala 32:38]
+  wire [17:0] InputSampleMemory_MPORT_2_data; // @[IOFilter.scala 32:38]
+  wire [10:0] InputSampleMemory_MPORT_2_addr; // @[IOFilter.scala 32:38]
+  wire  InputSampleMemory_MPORT_2_mask; // @[IOFilter.scala 32:38]
+  wire  InputSampleMemory_MPORT_2_en; // @[IOFilter.scala 32:38]
+  wire [17:0] InputSampleMemory_MPORT_3_data; // @[IOFilter.scala 32:38]
+  wire [10:0] InputSampleMemory_MPORT_3_addr; // @[IOFilter.scala 32:38]
+  wire  InputSampleMemory_MPORT_3_mask; // @[IOFilter.scala 32:38]
+  wire  InputSampleMemory_MPORT_3_en; // @[IOFilter.scala 32:38]
+  reg  InputSampleMemory_ReadInputSample_MPORT_en_pipe_0;
+  reg [10:0] InputSampleMemory_ReadInputSample_MPORT_addr_pipe_0;
+  reg [17:0] OutputSampleMemory [0:2047]; // @[IOFilter.scala 33:39]
+  wire  OutputSampleMemory_ReadOutputSample_MPORT_en; // @[IOFilter.scala 33:39]
+  wire [10:0] OutputSampleMemory_ReadOutputSample_MPORT_addr; // @[IOFilter.scala 33:39]
+  wire [17:0] OutputSampleMemory_ReadOutputSample_MPORT_data; // @[IOFilter.scala 33:39]
+  wire [17:0] OutputSampleMemory_MPORT_data; // @[IOFilter.scala 33:39]
+  wire [10:0] OutputSampleMemory_MPORT_addr; // @[IOFilter.scala 33:39]
+  wire  OutputSampleMemory_MPORT_mask; // @[IOFilter.scala 33:39]
+  wire  OutputSampleMemory_MPORT_en; // @[IOFilter.scala 33:39]
+  wire [17:0] OutputSampleMemory_MPORT_1_data; // @[IOFilter.scala 33:39]
+  wire [10:0] OutputSampleMemory_MPORT_1_addr; // @[IOFilter.scala 33:39]
+  wire  OutputSampleMemory_MPORT_1_mask; // @[IOFilter.scala 33:39]
+  wire  OutputSampleMemory_MPORT_1_en; // @[IOFilter.scala 33:39]
+  reg  OutputSampleMemory_ReadOutputSample_MPORT_en_pipe_0;
+  reg [10:0] OutputSampleMemory_ReadOutputSample_MPORT_addr_pipe_0;
+  reg [17:0] CoeffMemory [0:1023]; // @[IOFilter.scala 34:32]
+  wire  CoeffMemory_CoeffWire_MPORT_en; // @[IOFilter.scala 34:32]
+  wire [9:0] CoeffMemory_CoeffWire_MPORT_addr; // @[IOFilter.scala 34:32]
+  wire [17:0] CoeffMemory_CoeffWire_MPORT_data; // @[IOFilter.scala 34:32]
+  reg  CoeffMemory_CoeffWire_MPORT_en_pipe_0;
+  reg [9:0] CoeffMemory_CoeffWire_MPORT_addr_pipe_0;
+  reg [17:0] OutputReg; // @[IOFilter.scala 36:22]
+  reg [17:0] MAccReg; // @[IOFilter.scala 37:20]
+  reg [10:0] SampleCount; // @[IOFilter.scala 40:24]
+  reg [10:0] InputSamplePointer; // @[IOFilter.scala 42:31]
+  reg [10:0] OutputSamplePointer; // @[IOFilter.scala 43:32]
+  wire [10:0] _T_20 = OutputSamplePointer + SampleCount; // @[IOFilter.scala 95:30]
+  wire [10:0] _SampleAdress_T_5 = _T_20 - 11'h64; // @[IOFilter.scala 98:57]
+  wire [10:0] _T_34 = InputSamplePointer + SampleCount; // @[IOFilter.scala 126:29]
+  wire [10:0] _SampleAdress_T_11 = _T_34 - 11'h64; // @[IOFilter.scala 129:56]
+  wire  _T_9 = SampleCount > 11'h0; // @[IOFilter.scala 81:27]
+  wire  _T_15 = SampleCount == 11'h0; // @[IOFilter.scala 81:114]
+  wire  _T_16 = ~io_ADCEnable & ~io_DACEnable & SampleCount == 11'h0; // @[IOFilter.scala 81:99]
+  wire [10:0] _CoeffCount_T_1 = SampleCount + 11'h1; // @[IOFilter.scala 83:31]
+  wire [10:0] _CoeffCount_T_3 = 11'h62 - SampleCount; // @[IOFilter.scala 88:40]
+  wire [10:0] _GEN_12 = SampleCount >= 11'h31 ? _CoeffCount_T_3 : 11'h0; // @[IOFilter.scala 51:14 86:44 88:16]
+  wire [10:0] _GEN_14 = SampleCount > 11'h0 & SampleCount < 11'h31 | ~io_ADCEnable & ~io_DACEnable & SampleCount == 11'h0
+     ? _CoeffCount_T_1 : _GEN_12; // @[IOFilter.scala 81:123 83:16]
+  wire [10:0] CoeffCount = SampleCount == 11'h63 ? 11'h0 : _GEN_14; // @[IOFilter.scala 51:14 76:38]
+  wire [17:0] CoeffWire = CoeffMemory_CoeffWire_MPORT_data; // @[IOFilter.scala 24:23 58:13]
+  wire [17:0] ReadOutputSample = OutputSampleMemory_ReadOutputSample_MPORT_data; // @[IOFilter.scala 21:30 53:20]
+  wire [17:0] _GEN_22 = _T_15 ? $signed(io_DACWaveIn) : $signed(ReadOutputSample); // @[IOFilter.scala 109:31 110:16 112:16]
+  wire [17:0] ReadInputSample = InputSampleMemory_ReadInputSample_MPORT_data; // @[IOFilter.scala 20:29 52:19]
+  wire [17:0] _GEN_46 = _T_15 ? $signed(io_ADCWaveIn) : $signed(ReadInputSample); // @[IOFilter.scala 140:31 141:16 143:16]
+  wire [17:0] FIRInput = io_SampleType ? $signed(_GEN_22) : $signed(_GEN_46); // @[IOFilter.scala 93:23]
+  wire [35:0] _Fircomputation36_T = $signed(CoeffWire) * $signed(FIRInput); // @[IOFilter.scala 65:35]
+  wire [35:0] Fircomputation36 = _T_9 | _T_16 ? $signed(_Fircomputation36_T) : $signed(36'sh0); // @[IOFilter.scala 59:20 62:85 65:22]
+  wire [18:0] _Fircomputation18_T = Fircomputation36[35:17]; // @[IOFilter.scala 66:45]
+  wire [17:0] _Fircomputation18_T_2 = _Fircomputation18_T[17:0]; // @[IOFilter.scala 66:60]
+  wire [17:0] Fircomputation18 = _T_9 | _T_16 ? $signed(_Fircomputation18_T_2) : $signed(18'sh0); // @[IOFilter.scala 60:20 62:85 66:22]
+  wire [17:0] _MAccReg_T_2 = $signed(MAccReg) + $signed(Fircomputation18); // @[IOFilter.scala 67:24]
+  wire  _T_22 = OutputSamplePointer > 11'h0; // @[IOFilter.scala 102:30]
+  wire [10:0] _OutputSamplePointer_T_1 = OutputSamplePointer - 11'h1; // @[IOFilter.scala 103:50]
+  wire  _GEN_30 = _T_22 ? 1'h0 : 1'h1; // @[IOFilter.scala 117:39 33:39]
+  wire  _GEN_35 = io_DACEnable & _T_22; // @[IOFilter.scala 116:32 33:39]
+  wire  _GEN_40 = io_DACEnable & _GEN_30; // @[IOFilter.scala 116:32 33:39]
+  wire  _T_36 = InputSamplePointer > 11'h0; // @[IOFilter.scala 133:29]
+  wire [10:0] _InputSamplePointer_T_1 = InputSamplePointer - 11'h1; // @[IOFilter.scala 134:48]
+  wire  _GEN_54 = _T_36 ? 1'h0 : 1'h1; // @[IOFilter.scala 148:38 32:38]
+  wire  _GEN_59 = io_ADCEnable & _T_36; // @[IOFilter.scala 147:32 32:38]
+  wire  _GEN_64 = io_ADCEnable & _GEN_54; // @[IOFilter.scala 147:32 32:38]
+  assign InputSampleMemory_ReadInputSample_MPORT_en = InputSampleMemory_ReadInputSample_MPORT_en_pipe_0;
+  assign InputSampleMemory_ReadInputSample_MPORT_addr = InputSampleMemory_ReadInputSample_MPORT_addr_pipe_0;
+  assign InputSampleMemory_ReadInputSample_MPORT_data = InputSampleMemory[InputSampleMemory_ReadInputSample_MPORT_addr]; // @[IOFilter.scala 32:38]
+  assign InputSampleMemory_MPORT_2_data = io_ADCWaveIn;
+  assign InputSampleMemory_MPORT_2_addr = InputSamplePointer - 11'h1;
+  assign InputSampleMemory_MPORT_2_mask = 1'h1;
+  assign InputSampleMemory_MPORT_2_en = io_SampleType ? 1'h0 : _GEN_59;
+  assign InputSampleMemory_MPORT_3_data = io_ADCWaveIn;
+  assign InputSampleMemory_MPORT_3_addr = 11'h63;
+  assign InputSampleMemory_MPORT_3_mask = 1'h1;
+  assign InputSampleMemory_MPORT_3_en = io_SampleType ? 1'h0 : _GEN_64;
+  assign OutputSampleMemory_ReadOutputSample_MPORT_en = OutputSampleMemory_ReadOutputSample_MPORT_en_pipe_0;
+  assign OutputSampleMemory_ReadOutputSample_MPORT_addr = OutputSampleMemory_ReadOutputSample_MPORT_addr_pipe_0;
+  assign OutputSampleMemory_ReadOutputSample_MPORT_data =
+    OutputSampleMemory[OutputSampleMemory_ReadOutputSample_MPORT_addr]; // @[IOFilter.scala 33:39]
+  assign OutputSampleMemory_MPORT_data = io_DACWaveIn;
+  assign OutputSampleMemory_MPORT_addr = OutputSamplePointer - 11'h1;
+  assign OutputSampleMemory_MPORT_mask = 1'h1;
+  assign OutputSampleMemory_MPORT_en = io_SampleType & _GEN_35;
+  assign OutputSampleMemory_MPORT_1_data = io_DACWaveIn;
+  assign OutputSampleMemory_MPORT_1_addr = 11'h63;
+  assign OutputSampleMemory_MPORT_1_mask = 1'h1;
+  assign OutputSampleMemory_MPORT_1_en = io_SampleType & _GEN_40;
+  assign CoeffMemory_CoeffWire_MPORT_en = CoeffMemory_CoeffWire_MPORT_en_pipe_0;
+  assign CoeffMemory_CoeffWire_MPORT_addr = CoeffMemory_CoeffWire_MPORT_addr_pipe_0;
+  assign CoeffMemory_CoeffWire_MPORT_data = CoeffMemory[CoeffMemory_CoeffWire_MPORT_addr]; // @[IOFilter.scala 34:32]
+  assign io_WaveOut = OutputReg; // @[IOFilter.scala 48:14]
+  assign io_Completed = SampleCount == 11'h0; // @[IOFilter.scala 72:20]
+  always @(posedge clock) begin
+    if (InputSampleMemory_MPORT_2_en & InputSampleMemory_MPORT_2_mask) begin
+      InputSampleMemory[InputSampleMemory_MPORT_2_addr] <= InputSampleMemory_MPORT_2_data; // @[IOFilter.scala 32:38]
+    end
+    if (InputSampleMemory_MPORT_3_en & InputSampleMemory_MPORT_3_mask) begin
+      InputSampleMemory[InputSampleMemory_MPORT_3_addr] <= InputSampleMemory_MPORT_3_data; // @[IOFilter.scala 32:38]
+    end
+    InputSampleMemory_ReadInputSample_MPORT_en_pipe_0 <= 1'h1;
+    if (1'h1) begin
+      if (io_SampleType) begin
+        if (_T_20 <= 11'h63) begin // @[IOFilter.scala 95:61]
+          InputSampleMemory_ReadInputSample_MPORT_addr_pipe_0 <= _T_20; // @[IOFilter.scala 96:20]
+        end else begin
+          InputSampleMemory_ReadInputSample_MPORT_addr_pipe_0 <= _SampleAdress_T_5; // @[IOFilter.scala 98:20]
+        end
+      end else if (_T_34 <= 11'h63) begin // @[IOFilter.scala 126:60]
+        InputSampleMemory_ReadInputSample_MPORT_addr_pipe_0 <= _T_34; // @[IOFilter.scala 127:20]
+      end else begin
+        InputSampleMemory_ReadInputSample_MPORT_addr_pipe_0 <= _SampleAdress_T_11; // @[IOFilter.scala 129:20]
+      end
+    end
+    if (OutputSampleMemory_MPORT_en & OutputSampleMemory_MPORT_mask) begin
+      OutputSampleMemory[OutputSampleMemory_MPORT_addr] <= OutputSampleMemory_MPORT_data; // @[IOFilter.scala 33:39]
+    end
+    if (OutputSampleMemory_MPORT_1_en & OutputSampleMemory_MPORT_1_mask) begin
+      OutputSampleMemory[OutputSampleMemory_MPORT_1_addr] <= OutputSampleMemory_MPORT_1_data; // @[IOFilter.scala 33:39]
+    end
+    OutputSampleMemory_ReadOutputSample_MPORT_en_pipe_0 <= 1'h1;
+    if (1'h1) begin
+      if (io_SampleType) begin
+        if (_T_20 <= 11'h63) begin // @[IOFilter.scala 95:61]
+          OutputSampleMemory_ReadOutputSample_MPORT_addr_pipe_0 <= _T_20; // @[IOFilter.scala 96:20]
+        end else begin
+          OutputSampleMemory_ReadOutputSample_MPORT_addr_pipe_0 <= _SampleAdress_T_5; // @[IOFilter.scala 98:20]
+        end
+      end else if (_T_34 <= 11'h63) begin // @[IOFilter.scala 126:60]
+        OutputSampleMemory_ReadOutputSample_MPORT_addr_pipe_0 <= _T_34; // @[IOFilter.scala 127:20]
+      end else begin
+        OutputSampleMemory_ReadOutputSample_MPORT_addr_pipe_0 <= _SampleAdress_T_11; // @[IOFilter.scala 129:20]
+      end
+    end
+    CoeffMemory_CoeffWire_MPORT_en_pipe_0 <= 1'h1;
+    if (1'h1) begin
+      CoeffMemory_CoeffWire_MPORT_addr_pipe_0 <= CoeffCount[9:0];
+    end
+    if (SampleCount == 11'h63) begin // @[IOFilter.scala 76:38]
+      OutputReg <= _MAccReg_T_2; // @[IOFilter.scala 77:15]
+    end
+    if (SampleCount == 11'h63) begin // @[IOFilter.scala 76:38]
+      MAccReg <= 18'sh0; // @[IOFilter.scala 78:13]
+    end else if (_T_9 | _T_16) begin // @[IOFilter.scala 62:85]
+      MAccReg <= _MAccReg_T_2; // @[IOFilter.scala 67:13]
+    end
+    if (SampleCount == 11'h63) begin // @[IOFilter.scala 76:38]
+      SampleCount <= 11'h0; // @[IOFilter.scala 50:15]
+    end else if (SampleCount > 11'h0 & SampleCount < 11'h31 | ~io_ADCEnable & ~io_DACEnable & SampleCount == 11'h0
+      ) begin // @[IOFilter.scala 81:123]
+      SampleCount <= _CoeffCount_T_1; // @[IOFilter.scala 82:17]
+    end else if (SampleCount >= 11'h31) begin // @[IOFilter.scala 86:44]
+      SampleCount <= _CoeffCount_T_1; // @[IOFilter.scala 87:17]
+    end else begin
+      SampleCount <= 11'h0; // @[IOFilter.scala 50:15]
+    end
+    if (!(io_SampleType)) begin // @[IOFilter.scala 93:23]
+      if (InputSamplePointer > 11'h0 & io_ADCEnable) begin // @[IOFilter.scala 133:51]
+        InputSamplePointer <= _InputSamplePointer_T_1; // @[IOFilter.scala 134:26]
+      end else if (InputSamplePointer == 11'h0 & io_ADCEnable) begin // @[IOFilter.scala 135:59]
+        InputSamplePointer <= 11'h63; // @[IOFilter.scala 136:26]
+      end
+    end
+    if (io_SampleType) begin // @[IOFilter.scala 93:23]
+      if (OutputSamplePointer > 11'h0 & io_DACEnable) begin // @[IOFilter.scala 102:52]
+        OutputSamplePointer <= _OutputSamplePointer_T_1; // @[IOFilter.scala 103:27]
+      end else if (OutputSamplePointer == 11'h0 & io_DACEnable) begin // @[IOFilter.scala 104:60]
+        OutputSamplePointer <= 11'h63; // @[IOFilter.scala 105:27]
+      end
+    end
+  end
+// Register and memory initialization
+`ifdef RANDOMIZE_GARBAGE_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_INVALID_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_REG_INIT
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+`define RANDOMIZE
+`endif
+`ifndef RANDOM
+`define RANDOM $random
+`endif
+  integer initvar;
+`ifndef SYNTHESIS
+`ifdef FIRRTL_BEFORE_INITIAL
+`FIRRTL_BEFORE_INITIAL
+`endif
+initial begin
+  `ifdef RANDOMIZE
+    `ifdef INIT_RANDOM
+      `INIT_RANDOM
+    `endif
+    `ifndef VERILATOR
+      `ifdef RANDOMIZE_DELAY
+        #`RANDOMIZE_DELAY begin end
+      `else
+        #0.002 begin end
+      `endif
+    `endif
+`ifdef RANDOMIZE_MEM_INIT
+  _RAND_0 = {1{`RANDOM}};
+  for (initvar = 0; initvar < 2048; initvar = initvar+1)
+    InputSampleMemory[initvar] = _RAND_0[17:0];
+  _RAND_3 = {1{`RANDOM}};
+  for (initvar = 0; initvar < 2048; initvar = initvar+1)
+    OutputSampleMemory[initvar] = _RAND_3[17:0];
+`endif // RANDOMIZE_MEM_INIT
+`ifdef RANDOMIZE_REG_INIT
+  _RAND_1 = {1{`RANDOM}};
+  InputSampleMemory_ReadInputSample_MPORT_en_pipe_0 = _RAND_1[0:0];
+  _RAND_2 = {1{`RANDOM}};
+  InputSampleMemory_ReadInputSample_MPORT_addr_pipe_0 = _RAND_2[10:0];
+  _RAND_4 = {1{`RANDOM}};
+  OutputSampleMemory_ReadOutputSample_MPORT_en_pipe_0 = _RAND_4[0:0];
+  _RAND_5 = {1{`RANDOM}};
+  OutputSampleMemory_ReadOutputSample_MPORT_addr_pipe_0 = _RAND_5[10:0];
+  _RAND_6 = {1{`RANDOM}};
+  CoeffMemory_CoeffWire_MPORT_en_pipe_0 = _RAND_6[0:0];
+  _RAND_7 = {1{`RANDOM}};
+  CoeffMemory_CoeffWire_MPORT_addr_pipe_0 = _RAND_7[9:0];
+  _RAND_8 = {1{`RANDOM}};
+  OutputReg = _RAND_8[17:0];
+  _RAND_9 = {1{`RANDOM}};
+  MAccReg = _RAND_9[17:0];
+  _RAND_10 = {1{`RANDOM}};
+  SampleCount = _RAND_10[10:0];
+  _RAND_11 = {1{`RANDOM}};
+  InputSamplePointer = _RAND_11[10:0];
+  _RAND_12 = {1{`RANDOM}};
+  OutputSamplePointer = _RAND_12[10:0];
+`endif // RANDOMIZE_REG_INIT
+  `endif // RANDOMIZE
+end // initial
+`ifdef FIRRTL_AFTER_INITIAL
+`FIRRTL_AFTER_INITIAL
+`endif
+`endif // SYNTHESIS
+initial begin
+  $readmemh("IOFilterCoeffsQ0_17.txt", CoeffMemory);
+end
+endmodule
+module IOMaster(
+  input         clock,
+  input         reset,
+  input         io_In_ADC,
+  input  [17:0] io_In_DAC,
+  output [17:0] io_Out_ADC,
+  output        io_Out_DAC
+);
+`ifdef RANDOMIZE_REG_INIT
+  reg [31:0] _RAND_0;
+  reg [31:0] _RAND_1;
+  reg [31:0] _RAND_2;
+  reg [31:0] _RAND_3;
+  reg [31:0] _RAND_4;
+  reg [31:0] _RAND_5;
+  reg [31:0] _RAND_6;
+  reg [31:0] _RAND_7;
+  reg [31:0] _RAND_8;
+  reg [31:0] _RAND_9;
+`endif // RANDOMIZE_REG_INIT
+  wire  ADC_clock; // @[IOMaster.scala 14:19]
+  wire  ADC_reset; // @[IOMaster.scala 14:19]
+  wire  ADC_io_In; // @[IOMaster.scala 14:19]
+  wire [17:0] ADC_io_InFIR; // @[IOMaster.scala 14:19]
+  wire [17:0] ADC_io_Out; // @[IOMaster.scala 14:19]
+  wire [17:0] ADC_io_OutFIR; // @[IOMaster.scala 14:19]
+  wire  DAC_clock; // @[IOMaster.scala 15:19]
+  wire  DAC_reset; // @[IOMaster.scala 15:19]
+  wire [17:0] DAC_io_In; // @[IOMaster.scala 15:19]
+  wire [17:0] DAC_io_InFIR; // @[IOMaster.scala 15:19]
+  wire [17:0] DAC_io_OutFIR; // @[IOMaster.scala 15:19]
+  wire  DAC_io_OutPWM; // @[IOMaster.scala 15:19]
+  wire  Filter_clock; // @[IOMaster.scala 16:22]
+  wire [17:0] Filter_io_ADCWaveIn; // @[IOMaster.scala 16:22]
+  wire [17:0] Filter_io_DACWaveIn; // @[IOMaster.scala 16:22]
+  wire [17:0] Filter_io_WaveOut; // @[IOMaster.scala 16:22]
+  wire  Filter_io_SampleType; // @[IOMaster.scala 16:22]
+  wire  Filter_io_ADCEnable; // @[IOMaster.scala 16:22]
+  wire  Filter_io_DACEnable; // @[IOMaster.scala 16:22]
+  wire  Filter_io_Completed; // @[IOMaster.scala 16:22]
+  reg  sampleType; // @[IOMaster.scala 20:27]
+  reg  lastSampleType; // @[IOMaster.scala 21:31]
+  reg [17:0] ADCReg; // @[IOMaster.scala 22:23]
+  reg [17:0] DACReg; // @[IOMaster.scala 23:23]
+  reg [17:0] ADCHold; // @[IOMaster.scala 24:24]
+  reg [17:0] DACHold; // @[IOMaster.scala 25:24]
+  reg  DACEn; // @[IOMaster.scala 26:22]
+  reg  ADCEn; // @[IOMaster.scala 27:22]
+  reg  isLoading; // @[IOMaster.scala 28:26]
+  reg [9:0] cntReg; // @[IOMaster.scala 49:23]
+  wire  _check1_T = cntReg == 10'h64; // @[IOMaster.scala 50:23]
+  wire  check1 = cntReg == 10'h64 & ADCEn; // @[IOMaster.scala 50:47]
+  wire  check2 = _check1_T & DACEn; // @[IOMaster.scala 51:47]
+  wire [9:0] _cntReg_T_1 = cntReg + 10'h1; // @[IOMaster.scala 53:22]
+  wire  _GEN_1 = check2 | ADCEn; // @[IOMaster.scala 60:23 61:13 27:22]
+  wire  _GEN_3 = check1 | DACEn; // @[IOMaster.scala 56:16 57:11 26:22]
+  wire  _GEN_5 = check1 ? ADCEn : _GEN_1; // @[IOMaster.scala 56:16 27:22]
+  wire  _T_1 = ~sampleType; // @[IOMaster.scala 67:26]
+  wire  _GEN_6 = ~sampleType | _GEN_5; // @[IOMaster.scala 67:35 68:13]
+  wire  _GEN_7 = sampleType | _GEN_3; // @[IOMaster.scala 64:30 65:13]
+  wire  beginSample = Filter_io_Completed & DACEn & ADCEn; // @[IOMaster.scala 74:58]
+  wire  _GEN_14 = beginSample ? 1'h0 : _GEN_7; // @[IOMaster.scala 76:21 90:11]
+  wire  _GEN_17 = beginSample ? _T_1 : sampleType; // @[IOMaster.scala 72:14 76:21 94:16]
+  InController ADC ( // @[IOMaster.scala 14:19]
+    .clock(ADC_clock),
+    .reset(ADC_reset),
+    .io_In(ADC_io_In),
+    .io_InFIR(ADC_io_InFIR),
+    .io_Out(ADC_io_Out),
+    .io_OutFIR(ADC_io_OutFIR)
+  );
+  OutController DAC ( // @[IOMaster.scala 15:19]
+    .clock(DAC_clock),
+    .reset(DAC_reset),
+    .io_In(DAC_io_In),
+    .io_InFIR(DAC_io_InFIR),
+    .io_OutFIR(DAC_io_OutFIR),
+    .io_OutPWM(DAC_io_OutPWM)
+  );
+  IOFilter Filter ( // @[IOMaster.scala 16:22]
+    .clock(Filter_clock),
+    .io_ADCWaveIn(Filter_io_ADCWaveIn),
+    .io_DACWaveIn(Filter_io_DACWaveIn),
+    .io_WaveOut(Filter_io_WaveOut),
+    .io_SampleType(Filter_io_SampleType),
+    .io_ADCEnable(Filter_io_ADCEnable),
+    .io_DACEnable(Filter_io_DACEnable),
+    .io_Completed(Filter_io_Completed)
+  );
+  assign io_Out_ADC = ADC_io_Out; // @[IOMaster.scala 33:14]
+  assign io_Out_DAC = DAC_io_OutPWM; // @[IOMaster.scala 38:14]
+  assign ADC_clock = clock;
+  assign ADC_reset = reset;
+  assign ADC_io_In = io_In_ADC; // @[IOMaster.scala 32:13]
+  assign ADC_io_InFIR = ADCHold; // @[IOMaster.scala 34:16]
+  assign DAC_clock = clock;
+  assign DAC_reset = reset;
+  assign DAC_io_In = io_In_DAC; // @[IOMaster.scala 37:13]
+  assign DAC_io_InFIR = DACHold; // @[IOMaster.scala 39:16]
+  assign Filter_clock = clock;
+  assign Filter_io_ADCWaveIn = ADCReg; // @[IOMaster.scala 43:23]
+  assign Filter_io_DACWaveIn = DACReg; // @[IOMaster.scala 44:23]
+  assign Filter_io_SampleType = sampleType; // @[IOMaster.scala 42:24]
+  assign Filter_io_ADCEnable = ADCEn; // @[IOMaster.scala 46:23]
+  assign Filter_io_DACEnable = DACEn; // @[IOMaster.scala 45:23]
+  always @(posedge clock) begin
+    sampleType <= reset | _GEN_17; // @[IOMaster.scala 20:{27,27}]
+    if (reset) begin // @[IOMaster.scala 21:31]
+      lastSampleType <= 1'h0; // @[IOMaster.scala 21:31]
+    end else if (beginSample) begin // @[IOMaster.scala 76:21]
+      lastSampleType <= sampleType; // @[IOMaster.scala 93:20]
+    end
+    if (reset) begin // @[IOMaster.scala 22:23]
+      ADCReg <= 18'sh0; // @[IOMaster.scala 22:23]
+    end else begin
+      ADCReg <= ADC_io_OutFIR; // @[IOMaster.scala 35:10]
+    end
+    if (reset) begin // @[IOMaster.scala 23:23]
+      DACReg <= 18'sh0; // @[IOMaster.scala 23:23]
+    end else begin
+      DACReg <= DAC_io_OutFIR; // @[IOMaster.scala 40:10]
+    end
+    if (reset) begin // @[IOMaster.scala 24:24]
+      ADCHold <= 18'sh0; // @[IOMaster.scala 24:24]
+    end else if (beginSample) begin // @[IOMaster.scala 76:21]
+      if (lastSampleType) begin // @[IOMaster.scala 79:28]
+        ADCHold <= Filter_io_WaveOut; // @[IOMaster.scala 81:17]
+      end
+    end
+    if (reset) begin // @[IOMaster.scala 25:24]
+      DACHold <= 18'sh0; // @[IOMaster.scala 25:24]
+    end else if (beginSample) begin // @[IOMaster.scala 76:21]
+      if (!(lastSampleType)) begin // @[IOMaster.scala 79:28]
+        if (~lastSampleType) begin // @[IOMaster.scala 79:28]
+          DACHold <= Filter_io_WaveOut; // @[IOMaster.scala 84:17]
+        end
+      end
+    end
+    DACEn <= reset | _GEN_14; // @[IOMaster.scala 26:{22,22}]
+    if (reset) begin // @[IOMaster.scala 27:22]
+      ADCEn <= 1'h0; // @[IOMaster.scala 27:22]
+    end else if (beginSample) begin // @[IOMaster.scala 76:21]
+      ADCEn <= 1'h0; // @[IOMaster.scala 91:11]
+    end else if (sampleType) begin // @[IOMaster.scala 64:30]
+      if (!(check1)) begin // @[IOMaster.scala 56:16]
+        ADCEn <= _GEN_1;
+      end
+    end else begin
+      ADCEn <= _GEN_6;
+    end
+    if (reset) begin // @[IOMaster.scala 28:26]
+      isLoading <= 1'h0; // @[IOMaster.scala 28:26]
+    end else begin
+      isLoading <= ~ADCEn & DACEn | ADCEn & ~DACEn; // @[IOMaster.scala 30:13]
+    end
+    if (reset) begin // @[IOMaster.scala 49:23]
+      cntReg <= 10'h0; // @[IOMaster.scala 49:23]
+    end else if (check1) begin // @[IOMaster.scala 56:16]
+      cntReg <= 10'h0; // @[IOMaster.scala 58:12]
+    end else if (check2) begin // @[IOMaster.scala 60:23]
+      cntReg <= 10'h0; // @[IOMaster.scala 62:14]
+    end else if (isLoading) begin // @[IOMaster.scala 52:19]
+      cntReg <= _cntReg_T_1; // @[IOMaster.scala 53:12]
+    end
+  end
+// Register and memory initialization
+`ifdef RANDOMIZE_GARBAGE_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_INVALID_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_REG_INIT
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+`define RANDOMIZE
+`endif
+`ifndef RANDOM
+`define RANDOM $random
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+  integer initvar;
+`endif
+`ifndef SYNTHESIS
+`ifdef FIRRTL_BEFORE_INITIAL
+`FIRRTL_BEFORE_INITIAL
+`endif
+initial begin
+  `ifdef RANDOMIZE
+    `ifdef INIT_RANDOM
+      `INIT_RANDOM
+    `endif
+    `ifndef VERILATOR
+      `ifdef RANDOMIZE_DELAY
+        #`RANDOMIZE_DELAY begin end
+      `else
+        #0.002 begin end
+      `endif
+    `endif
+`ifdef RANDOMIZE_REG_INIT
+  _RAND_0 = {1{`RANDOM}};
+  sampleType = _RAND_0[0:0];
+  _RAND_1 = {1{`RANDOM}};
+  lastSampleType = _RAND_1[0:0];
+  _RAND_2 = {1{`RANDOM}};
+  ADCReg = _RAND_2[17:0];
+  _RAND_3 = {1{`RANDOM}};
+  DACReg = _RAND_3[17:0];
+  _RAND_4 = {1{`RANDOM}};
+  ADCHold = _RAND_4[17:0];
+  _RAND_5 = {1{`RANDOM}};
+  DACHold = _RAND_5[17:0];
+  _RAND_6 = {1{`RANDOM}};
+  DACEn = _RAND_6[0:0];
+  _RAND_7 = {1{`RANDOM}};
+  ADCEn = _RAND_7[0:0];
+  _RAND_8 = {1{`RANDOM}};
+  isLoading = _RAND_8[0:0];
+  _RAND_9 = {1{`RANDOM}};
+  cntReg = _RAND_9[9:0];
+`endif // RANDOMIZE_REG_INIT
+  `endif // RANDOMIZE
+end // initial
+`ifdef FIRRTL_AFTER_INITIAL
+`FIRRTL_AFTER_INITIAL
+`endif
+`endif // SYNTHESIS
+endmodule
 module MemoryController(
   input         clock,
   input         reset,
@@ -961,32 +1650,32 @@ module ALU(
   input  [7:0]  io_Operation,
   output [17:0] io_Out
 );
-  wire [17:0] _io_Out_T_1 = io_rs1 + io_rs2; // @[ALU.scala 25:24]
-  wire [17:0] _io_Out_T_3 = io_rs1 - io_rs2; // @[ALU.scala 29:24]
-  wire [35:0] _io_Out_T_4 = io_rs1 * io_rs2; // @[ALU.scala 33:25]
-  wire [80:0] _GEN_12 = {{63'd0}, io_rs1}; // @[ALU.scala 37:25]
-  wire [80:0] _io_Out_T_7 = _GEN_12 << io_rs2[5:0]; // @[ALU.scala 37:25]
-  wire [17:0] _io_Out_T_9 = io_rs1 >> io_rs2; // @[ALU.scala 41:25]
-  wire [17:0] _io_Out_T_11 = io_rs1; // @[ALU.scala 45:26]
-  wire [80:0] _GEN_13 = {{63{_io_Out_T_11[17]}},_io_Out_T_11}; // @[ALU.scala 45:34]
-  wire [80:0] _io_Out_T_13 = $signed(_GEN_13) << io_rs2[5:0]; // @[ALU.scala 45:34]
-  wire [17:0] _io_Out_T_17 = $signed(io_rs1) >>> io_rs2; // @[ALU.scala 49:45]
-  wire [17:0] _io_Out_T_18 = io_rs1 & io_rs2; // @[ALU.scala 53:24]
-  wire [17:0] _io_Out_T_19 = io_rs1 | io_rs2; // @[ALU.scala 57:24]
-  wire [17:0] _io_Out_T_20 = io_rs1 ^ io_rs2; // @[ALU.scala 61:24]
-  wire [17:0] _io_Out_T_26 = io_rd + _io_Out_T_4[17:0]; // @[ALU.scala 68:23]
-  wire [17:0] _GEN_0 = 8'hb == io_Operation ? _io_Out_T_26 : 18'h0; // @[ALU.scala 20:10 22:24 68:14]
-  wire [26:0] _GEN_1 = 8'ha == io_Operation ? _io_Out_T_4[35:9] : {{9'd0}, _GEN_0}; // @[ALU.scala 22:24 64:14]
-  wire [26:0] _GEN_2 = 8'h9 == io_Operation ? {{9'd0}, _io_Out_T_20} : _GEN_1; // @[ALU.scala 22:24 61:14]
-  wire [26:0] _GEN_3 = 8'h8 == io_Operation ? {{9'd0}, _io_Out_T_19} : _GEN_2; // @[ALU.scala 22:24 57:14]
-  wire [26:0] _GEN_4 = 8'h7 == io_Operation ? {{9'd0}, _io_Out_T_18} : _GEN_3; // @[ALU.scala 22:24 53:14]
-  wire [26:0] _GEN_5 = 8'h6 == io_Operation ? {{9'd0}, _io_Out_T_17} : _GEN_4; // @[ALU.scala 22:24 49:14]
-  wire [26:0] _GEN_6 = 8'h5 == io_Operation ? {{9'd0}, _io_Out_T_13[17:0]} : _GEN_5; // @[ALU.scala 22:24 45:14]
-  wire [26:0] _GEN_7 = 8'h4 == io_Operation ? {{9'd0}, _io_Out_T_9} : _GEN_6; // @[ALU.scala 22:24 41:14]
-  wire [26:0] _GEN_8 = 8'h3 == io_Operation ? {{9'd0}, _io_Out_T_7[17:0]} : _GEN_7; // @[ALU.scala 22:24 37:14]
-  wire [26:0] _GEN_9 = 8'h2 == io_Operation ? {{9'd0}, _io_Out_T_4[17:0]} : _GEN_8; // @[ALU.scala 22:24 33:14]
-  wire [26:0] _GEN_10 = 8'h1 == io_Operation ? {{9'd0}, _io_Out_T_3} : _GEN_9; // @[ALU.scala 22:24 29:14]
-  wire [26:0] _GEN_11 = 8'h0 == io_Operation ? {{9'd0}, _io_Out_T_1} : _GEN_10; // @[ALU.scala 22:24 25:14]
+  wire [17:0] Temp = io_rs1; // @[ALU.scala 22:18]
+  wire [17:0] _io_Out_T_1 = io_rs1 + io_rs2; // @[ALU.scala 29:24]
+  wire [17:0] _io_Out_T_3 = io_rs1 - io_rs2; // @[ALU.scala 33:24]
+  wire [35:0] _io_Out_T_4 = io_rs1 * io_rs2; // @[ALU.scala 37:25]
+  wire [80:0] _GEN_12 = {{63'd0}, io_rs1}; // @[ALU.scala 41:25]
+  wire [80:0] _io_Out_T_7 = _GEN_12 << io_rs2[5:0]; // @[ALU.scala 41:25]
+  wire [17:0] _io_Out_T_9 = io_rs1 >> io_rs2; // @[ALU.scala 45:25]
+  wire [80:0] _GEN_13 = {{63{Temp[17]}},Temp}; // @[ALU.scala 49:23]
+  wire [80:0] _io_Out_T_12 = $signed(_GEN_13) << io_rs2[5:0]; // @[ALU.scala 49:23]
+  wire [17:0] _io_Out_T_15 = $signed(io_rs1) >>> io_rs2; // @[ALU.scala 53:33]
+  wire [17:0] _io_Out_T_16 = io_rs1 & io_rs2; // @[ALU.scala 57:24]
+  wire [17:0] _io_Out_T_17 = io_rs1 | io_rs2; // @[ALU.scala 61:24]
+  wire [17:0] _io_Out_T_18 = io_rs1 ^ io_rs2; // @[ALU.scala 65:24]
+  wire [17:0] _io_Out_T_24 = io_rd + _io_Out_T_4[17:0]; // @[ALU.scala 72:23]
+  wire [17:0] _GEN_0 = 8'hb == io_Operation ? _io_Out_T_24 : 18'h0; // @[ALU.scala 24:10 26:24 72:14]
+  wire [26:0] _GEN_1 = 8'ha == io_Operation ? _io_Out_T_4[35:9] : {{9'd0}, _GEN_0}; // @[ALU.scala 26:24 68:14]
+  wire [26:0] _GEN_2 = 8'h9 == io_Operation ? {{9'd0}, _io_Out_T_18} : _GEN_1; // @[ALU.scala 26:24 65:14]
+  wire [26:0] _GEN_3 = 8'h8 == io_Operation ? {{9'd0}, _io_Out_T_17} : _GEN_2; // @[ALU.scala 26:24 61:14]
+  wire [26:0] _GEN_4 = 8'h7 == io_Operation ? {{9'd0}, _io_Out_T_16} : _GEN_3; // @[ALU.scala 26:24 57:14]
+  wire [26:0] _GEN_5 = 8'h6 == io_Operation ? {{9'd0}, _io_Out_T_15} : _GEN_4; // @[ALU.scala 26:24 53:14]
+  wire [26:0] _GEN_6 = 8'h5 == io_Operation ? {{9'd0}, _io_Out_T_12[17:0]} : _GEN_5; // @[ALU.scala 26:24 49:14]
+  wire [26:0] _GEN_7 = 8'h4 == io_Operation ? {{9'd0}, _io_Out_T_9} : _GEN_6; // @[ALU.scala 26:24 45:14]
+  wire [26:0] _GEN_8 = 8'h3 == io_Operation ? {{9'd0}, _io_Out_T_7[17:0]} : _GEN_7; // @[ALU.scala 26:24 41:14]
+  wire [26:0] _GEN_9 = 8'h2 == io_Operation ? {{9'd0}, _io_Out_T_4[17:0]} : _GEN_8; // @[ALU.scala 26:24 37:14]
+  wire [26:0] _GEN_10 = 8'h1 == io_Operation ? {{9'd0}, _io_Out_T_3} : _GEN_9; // @[ALU.scala 26:24 33:14]
+  wire [26:0] _GEN_11 = 8'h0 == io_Operation ? {{9'd0}, _io_Out_T_1} : _GEN_10; // @[ALU.scala 26:24 29:14]
   assign io_Out = _GEN_11[17:0];
 endmodule
 module BranchComp(
@@ -1852,6 +2541,12 @@ module DataMemory(
   input         io_MemPort_0_WriteEn,
   output [17:0] io_MemPort_0_ReadData,
   output        io_MemPort_0_Completed,
+  input  [17:0] io_MemPort_1_Address,
+  input  [17:0] io_MemPort_1_WriteData,
+  input         io_MemPort_1_Enable,
+  input         io_MemPort_1_WriteEn,
+  output [17:0] io_MemPort_1_ReadData,
+  output        io_MemPort_1_Completed,
   output [17:0] io_SPIMemPort_Address,
   output [17:0] io_SPIMemPort_WriteData,
   output        io_SPIMemPort_Enable,
@@ -1866,6 +2561,8 @@ module DataMemory(
   reg [31:0] _RAND_1;
   reg [31:0] _RAND_2;
   reg [31:0] _RAND_3;
+  reg [31:0] _RAND_4;
+  reg [31:0] _RAND_5;
 `endif // RANDOMIZE_REG_INIT
   reg [17:0] Memory [0:2047]; // @[DataMemory.scala 16:27]
   wire  Memory_io_MemPort_ReadData_MPORT_en; // @[DataMemory.scala 16:27]
@@ -1878,51 +2575,75 @@ module DataMemory(
   reg  Memory_io_MemPort_ReadData_MPORT_en_pipe_0;
   reg [10:0] Memory_io_MemPort_ReadData_MPORT_addr_pipe_0;
   reg  CompleteDelayInternal; // @[DataMemory.scala 29:38]
+  reg [1:0] ProducerReg; // @[DataMemory.scala 45:28]
+  reg  Taken; // @[DataMemory.scala 46:22]
+  wire  _GEN_0 = ~Taken & io_MemPort_0_Enable | Taken; // @[DataMemory.scala 51:48 52:13 46:22]
+  wire [1:0] _GEN_1 = ~Taken & io_MemPort_0_Enable ? 2'h0 : ProducerReg; // @[DataMemory.scala 48:12 51:48 53:16]
+  wire  _GEN_2 = ~Taken & io_MemPort_1_Enable | _GEN_0; // @[DataMemory.scala 51:48 52:13]
+  wire [1:0] Producer = ~Taken & io_MemPort_1_Enable ? 2'h1 : _GEN_1; // @[DataMemory.scala 51:48 53:16]
   wire  _GEN_4 = CompleteDelayInternal ? 1'h0 : CompleteDelayInternal; // @[DataMemory.scala 58:69 60:27 29:38]
+  wire  _GEN_7 = Producer[0] ? io_MemPort_1_Enable : io_MemPort_0_Enable; // @[DataMemory.scala 66:{36,36}]
+  wire [17:0] _GEN_9 = Producer[0] ? io_MemPort_1_Address : io_MemPort_0_Address; // @[DataMemory.scala 67:{39,39}]
+  wire  _GEN_10 = ~Producer[0]; // @[DataMemory.scala 36:29 86:{38,38}]
+  wire  _GEN_13 = Producer[0] ? io_MemPort_1_WriteEn : io_MemPort_0_WriteEn; // @[DataMemory.scala 88:{41,41}]
+  wire [17:0] _GEN_17 = Producer[0] ? io_MemPort_1_WriteData : io_MemPort_0_WriteData; // @[]
   wire [17:0] _io_MemPort_T_19_ReadData = Memory_io_MemPort_ReadData_MPORT_data; // @[DataMemory.scala 91:{39,39}]
-  wire  _GEN_31 = io_MemPort_0_WriteEn ? 1'h0 : 1'h1; // @[DataMemory.scala 16:27 88:41]
-  wire [17:0] _GEN_34 = io_MemPort_0_WriteEn ? 18'h0 : _io_MemPort_T_19_ReadData; // @[DataMemory.scala 35:28 88:41]
-  wire [18:0] _io_SPIMemPort_Address_T_1 = {{1'd0}, io_MemPort_0_Address}; // @[DataMemory.scala 129:61]
-  wire  _GEN_66 = io_MemPort_0_Address <= 18'h87f | io_SPIMemPort_Completed; // @[DataMemory.scala 112:55]
-  wire [17:0] _GEN_69 = io_MemPort_0_Address <= 18'h87f ? 18'h0 : io_SPIMemPort_ReadData; // @[DataMemory.scala 112:55]
-  wire [17:0] _GEN_71 = io_MemPort_0_Address <= 18'h87f ? 18'h0 : _io_SPIMemPort_Address_T_1[17:0]; // @[DataMemory.scala 112:55 40:25 129:29]
-  wire [17:0] _GEN_72 = io_MemPort_0_Address <= 18'h87f ? 18'h0 : io_MemPort_0_WriteData; // @[DataMemory.scala 112:55 41:27 130:31]
-  wire  _GEN_73 = io_MemPort_0_Address <= 18'h87f ? 1'h0 : io_MemPort_0_Enable; // @[DataMemory.scala 112:55 39:24 131:28]
-  wire  _GEN_74 = io_MemPort_0_Address <= 18'h87f ? 1'h0 : io_MemPort_0_WriteEn; // @[DataMemory.scala 112:55 42:25 132:29]
-  wire  _GEN_75 = io_MemPort_0_Address <= 18'h7ff | CompleteDelayInternal | _GEN_66; // @[DataMemory.scala 67:81]
-  wire  _GEN_79 = (io_MemPort_0_Address <= 18'h7ff | CompleteDelayInternal) & io_MemPort_0_WriteEn; // @[DataMemory.scala 16:27 67:81]
-  wire  _GEN_82 = (io_MemPort_0_Address <= 18'h7ff | CompleteDelayInternal) & _GEN_31; // @[DataMemory.scala 16:27 67:81]
-  wire [17:0] _GEN_85 = io_MemPort_0_Address <= 18'h7ff | CompleteDelayInternal ? _GEN_34 : _GEN_69; // @[DataMemory.scala 67:81]
-  wire [17:0] _GEN_91 = io_MemPort_0_Address <= 18'h7ff | CompleteDelayInternal ? 18'h0 : _GEN_71; // @[DataMemory.scala 40:25 67:81]
-  wire [17:0] _GEN_92 = io_MemPort_0_Address <= 18'h7ff | CompleteDelayInternal ? 18'h0 : _GEN_72; // @[DataMemory.scala 41:27 67:81]
-  wire  _GEN_93 = io_MemPort_0_Address <= 18'h7ff | CompleteDelayInternal ? 1'h0 : _GEN_73; // @[DataMemory.scala 39:24 67:81]
-  wire  _GEN_94 = io_MemPort_0_Address <= 18'h7ff | CompleteDelayInternal ? 1'h0 : _GEN_74; // @[DataMemory.scala 42:25 67:81]
+  wire [17:0] _GEN_24 = ~Producer[0] ? _io_MemPort_T_19_ReadData : 18'h0; // @[DataMemory.scala 35:28 91:{39,39}]
+  wire [17:0] _GEN_25 = Producer[0] ? _io_MemPort_T_19_ReadData : 18'h0; // @[DataMemory.scala 35:28 91:{39,39}]
+  wire  _GEN_31 = _GEN_13 ? 1'h0 : 1'h1; // @[DataMemory.scala 16:27 88:41]
+  wire [17:0] _GEN_34 = _GEN_13 ? 18'h0 : _GEN_24; // @[DataMemory.scala 35:28 88:41]
+  wire [17:0] _GEN_35 = _GEN_13 ? 18'h0 : _GEN_25; // @[DataMemory.scala 35:28 88:41]
+  wire [17:0] _GEN_52 = ~Producer[0] ? io_SPIMemPort_ReadData : 18'h0; // @[DataMemory.scala 126:{37,37} 35:28]
+  wire [17:0] _GEN_53 = Producer[0] ? io_SPIMemPort_ReadData : 18'h0; // @[DataMemory.scala 126:{37,37} 35:28]
+  wire  _GEN_54 = _GEN_10 & io_SPIMemPort_Completed; // @[DataMemory.scala 127:{38,38} 36:29]
+  wire  _GEN_55 = Producer[0] & io_SPIMemPort_Completed; // @[DataMemory.scala 127:{38,38} 36:29]
+  wire [18:0] _io_SPIMemPort_Address_T_1 = {{1'd0}, _GEN_9}; // @[DataMemory.scala 129:61]
+  wire  _GEN_66 = _GEN_9 <= 18'h87f ? _GEN_10 : _GEN_54; // @[DataMemory.scala 112:55]
+  wire  _GEN_67 = _GEN_9 <= 18'h87f ? Producer[0] : _GEN_55; // @[DataMemory.scala 112:55]
+  wire [17:0] _GEN_69 = _GEN_9 <= 18'h87f ? 18'h0 : _GEN_52; // @[DataMemory.scala 112:55]
+  wire [17:0] _GEN_70 = _GEN_9 <= 18'h87f ? 18'h0 : _GEN_53; // @[DataMemory.scala 112:55]
+  wire [17:0] _GEN_71 = _GEN_9 <= 18'h87f ? 18'h0 : _io_SPIMemPort_Address_T_1[17:0]; // @[DataMemory.scala 112:55 40:25 129:29]
+  wire [17:0] _GEN_72 = _GEN_9 <= 18'h87f ? 18'h0 : _GEN_17; // @[DataMemory.scala 112:55 41:27 130:31]
+  wire  _GEN_73 = _GEN_9 <= 18'h87f ? 1'h0 : _GEN_7; // @[DataMemory.scala 112:55 39:24 131:28]
+  wire  _GEN_74 = _GEN_9 <= 18'h87f ? 1'h0 : _GEN_13; // @[DataMemory.scala 112:55 42:25 132:29]
+  wire  _GEN_75 = _GEN_9 <= 18'h7ff | CompleteDelayInternal ? _GEN_10 : _GEN_66; // @[DataMemory.scala 67:81]
+  wire  _GEN_76 = _GEN_9 <= 18'h7ff | CompleteDelayInternal ? Producer[0] : _GEN_67; // @[DataMemory.scala 67:81]
+  wire  _GEN_79 = (_GEN_9 <= 18'h7ff | CompleteDelayInternal) & _GEN_13; // @[DataMemory.scala 16:27 67:81]
+  wire  _GEN_82 = (_GEN_9 <= 18'h7ff | CompleteDelayInternal) & _GEN_31; // @[DataMemory.scala 16:27 67:81]
+  wire [17:0] _GEN_85 = _GEN_9 <= 18'h7ff | CompleteDelayInternal ? _GEN_34 : _GEN_69; // @[DataMemory.scala 67:81]
+  wire [17:0] _GEN_86 = _GEN_9 <= 18'h7ff | CompleteDelayInternal ? _GEN_35 : _GEN_70; // @[DataMemory.scala 67:81]
+  wire [17:0] _GEN_91 = _GEN_9 <= 18'h7ff | CompleteDelayInternal ? 18'h0 : _GEN_71; // @[DataMemory.scala 40:25 67:81]
+  wire [17:0] _GEN_92 = _GEN_9 <= 18'h7ff | CompleteDelayInternal ? 18'h0 : _GEN_72; // @[DataMemory.scala 41:27 67:81]
+  wire  _GEN_93 = _GEN_9 <= 18'h7ff | CompleteDelayInternal ? 1'h0 : _GEN_73; // @[DataMemory.scala 39:24 67:81]
+  wire  _GEN_94 = _GEN_9 <= 18'h7ff | CompleteDelayInternal ? 1'h0 : _GEN_74; // @[DataMemory.scala 42:25 67:81]
   assign Memory_io_MemPort_ReadData_MPORT_en = Memory_io_MemPort_ReadData_MPORT_en_pipe_0;
   assign Memory_io_MemPort_ReadData_MPORT_addr = Memory_io_MemPort_ReadData_MPORT_addr_pipe_0;
   assign Memory_io_MemPort_ReadData_MPORT_data = Memory[Memory_io_MemPort_ReadData_MPORT_addr]; // @[DataMemory.scala 16:27]
-  assign Memory_MPORT_data = io_MemPort_0_WriteData;
-  assign Memory_MPORT_addr = io_MemPort_0_Address[10:0];
+  assign Memory_MPORT_data = Producer[0] ? io_MemPort_1_WriteData : io_MemPort_0_WriteData;
+  assign Memory_MPORT_addr = _GEN_9[10:0];
   assign Memory_MPORT_mask = 1'h1;
-  assign Memory_MPORT_en = io_MemPort_0_Enable & _GEN_79;
-  assign io_MemPort_0_ReadData = io_MemPort_0_Enable ? _GEN_85 : 18'h0; // @[DataMemory.scala 35:28 66:36]
-  assign io_MemPort_0_Completed = io_MemPort_0_Enable & _GEN_75; // @[DataMemory.scala 36:29 66:36]
-  assign io_SPIMemPort_Address = io_MemPort_0_Enable ? _GEN_91 : 18'h0; // @[DataMemory.scala 40:25 66:36]
-  assign io_SPIMemPort_WriteData = io_MemPort_0_Enable ? _GEN_92 : 18'h0; // @[DataMemory.scala 41:27 66:36]
-  assign io_SPIMemPort_Enable = io_MemPort_0_Enable & _GEN_93; // @[DataMemory.scala 39:24 66:36]
-  assign io_SPIMemPort_WriteEn = io_MemPort_0_Enable & _GEN_94; // @[DataMemory.scala 42:25 66:36]
+  assign Memory_MPORT_en = _GEN_7 & _GEN_79;
+  assign io_MemPort_0_ReadData = _GEN_7 ? _GEN_85 : 18'h0; // @[DataMemory.scala 35:28 66:36]
+  assign io_MemPort_0_Completed = _GEN_7 & _GEN_75; // @[DataMemory.scala 36:29 66:36]
+  assign io_MemPort_1_ReadData = _GEN_7 ? _GEN_86 : 18'h0; // @[DataMemory.scala 35:28 66:36]
+  assign io_MemPort_1_Completed = _GEN_7 & _GEN_76; // @[DataMemory.scala 36:29 66:36]
+  assign io_SPIMemPort_Address = _GEN_7 ? _GEN_91 : 18'h0; // @[DataMemory.scala 40:25 66:36]
+  assign io_SPIMemPort_WriteData = _GEN_7 ? _GEN_92 : 18'h0; // @[DataMemory.scala 41:27 66:36]
+  assign io_SPIMemPort_Enable = _GEN_7 & _GEN_93; // @[DataMemory.scala 39:24 66:36]
+  assign io_SPIMemPort_WriteEn = _GEN_7 & _GEN_94; // @[DataMemory.scala 42:25 66:36]
   always @(posedge clock) begin
     if (Memory_MPORT_en & Memory_MPORT_mask) begin
       Memory[Memory_MPORT_addr] <= Memory_MPORT_data; // @[DataMemory.scala 16:27]
     end
-    Memory_io_MemPort_ReadData_MPORT_en_pipe_0 <= io_MemPort_0_Enable & _GEN_82;
-    if (io_MemPort_0_Enable & _GEN_82) begin
-      Memory_io_MemPort_ReadData_MPORT_addr_pipe_0 <= io_MemPort_0_Address[10:0];
+    Memory_io_MemPort_ReadData_MPORT_en_pipe_0 <= _GEN_7 & _GEN_82;
+    if (_GEN_7 & _GEN_82) begin
+      Memory_io_MemPort_ReadData_MPORT_addr_pipe_0 <= _GEN_9[10:0];
     end
     if (reset) begin // @[DataMemory.scala 29:38]
       CompleteDelayInternal <= 1'h0; // @[DataMemory.scala 29:38]
-    end else if (io_MemPort_0_Enable) begin // @[DataMemory.scala 66:36]
-      if (io_MemPort_0_Address <= 18'h7ff | CompleteDelayInternal) begin // @[DataMemory.scala 67:81]
-        if (io_MemPort_0_WriteEn) begin // @[DataMemory.scala 88:41]
+    end else if (_GEN_7) begin // @[DataMemory.scala 66:36]
+      if (_GEN_9 <= 18'h7ff | CompleteDelayInternal) begin // @[DataMemory.scala 67:81]
+        if (_GEN_13) begin // @[DataMemory.scala 88:41]
           CompleteDelayInternal <= _GEN_4;
         end else begin
           CompleteDelayInternal <= 1'h1; // @[DataMemory.scala 93:31]
@@ -1932,6 +2653,20 @@ module DataMemory(
       end
     end else begin
       CompleteDelayInternal <= _GEN_4;
+    end
+    if (reset) begin // @[DataMemory.scala 45:28]
+      ProducerReg <= 2'h0; // @[DataMemory.scala 45:28]
+    end else if (~Taken & io_MemPort_1_Enable) begin // @[DataMemory.scala 51:48]
+      ProducerReg <= 2'h1; // @[DataMemory.scala 53:16]
+    end else if (~Taken & io_MemPort_0_Enable) begin // @[DataMemory.scala 51:48]
+      ProducerReg <= 2'h0; // @[DataMemory.scala 53:16]
+    end
+    if (reset) begin // @[DataMemory.scala 46:22]
+      Taken <= 1'h0; // @[DataMemory.scala 46:22]
+    end else if (CompleteDelayInternal) begin // @[DataMemory.scala 58:69]
+      Taken <= 1'h0; // @[DataMemory.scala 61:11]
+    end else begin
+      Taken <= _GEN_2;
     end
   end
 // Register and memory initialization
@@ -1981,6 +2716,10 @@ initial begin
   Memory_io_MemPort_ReadData_MPORT_addr_pipe_0 = _RAND_2[10:0];
   _RAND_3 = {1{`RANDOM}};
   CompleteDelayInternal = _RAND_3[0:0];
+  _RAND_4 = {1{`RANDOM}};
+  ProducerReg = _RAND_4[1:0];
+  _RAND_5 = {1{`RANDOM}};
+  Taken = _RAND_5[0:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
@@ -1988,6 +2727,174 @@ end // initial
 `FIRRTL_AFTER_INITIAL
 `endif
 `endif // SYNTHESIS
+endmodule
+module FirEngine(
+  input         clock,
+  input  [17:0] io_WaveIn,
+  output [17:0] io_WaveOut,
+  output [17:0] io_MemPort_Address,
+  output [17:0] io_MemPort_WriteData,
+  output        io_MemPort_Enable,
+  output        io_MemPort_WriteEn,
+  input  [17:0] io_MemPort_ReadData,
+  input         io_MemPort_Completed
+);
+`ifdef RANDOMIZE_REG_INIT
+  reg [31:0] _RAND_0;
+  reg [31:0] _RAND_1;
+  reg [31:0] _RAND_2;
+  reg [31:0] _RAND_3;
+  reg [31:0] _RAND_4;
+  reg [31:0] _RAND_5;
+  reg [31:0] _RAND_6;
+`endif // RANDOMIZE_REG_INIT
+  reg [17:0] CoeffMemory [0:1023]; // @[FirEngine.scala 65:32]
+  wire  CoeffMemory_CoeffWire_MPORT_en; // @[FirEngine.scala 65:32]
+  wire [9:0] CoeffMemory_CoeffWire_MPORT_addr; // @[FirEngine.scala 65:32]
+  wire [17:0] CoeffMemory_CoeffWire_MPORT_data; // @[FirEngine.scala 65:32]
+  reg  CoeffMemory_CoeffWire_MPORT_en_pipe_0;
+  reg [9:0] CoeffMemory_CoeffWire_MPORT_addr_pipe_0;
+  reg [17:0] DataReg_0; // @[FirEngine.scala 27:20]
+  reg [17:0] DataReg_1; // @[FirEngine.scala 27:20]
+  reg [17:0] MAccReg; // @[FirEngine.scala 66:20]
+  reg [10:0] SampleCount; // @[FirEngine.scala 68:24]
+  reg [10:0] InputSamplePointer; // @[FirEngine.scala 69:31]
+  wire [17:0] _Halfcountwire_T = DataReg_0 & 18'hd; // @[FirEngine.scala 80:35]
+  wire [13:0] _Halfcountwire_T_3 = _Halfcountwire_T[17:4] + 14'h1; // @[FirEngine.scala 80:72]
+  wire [12:0] Halfcountwire = _Halfcountwire_T_3[13:1] - 13'h1; // @[FirEngine.scala 80:92]
+  wire [13:0] _GEN_547 = {{3'd0}, SampleCount}; // @[FirEngine.scala 104:20]
+  wire  _T_4 = _GEN_547 == _Halfcountwire_T[17:4]; // @[FirEngine.scala 104:20]
+  wire  _T_7 = SampleCount > 11'h0; // @[FirEngine.scala 118:27]
+  wire [12:0] _GEN_549 = {{2'd0}, SampleCount}; // @[FirEngine.scala 118:50]
+  wire [17:0] _T_10 = DataReg_0 & 18'h1; // @[FirEngine.scala 118:82]
+  wire [10:0] _GEN_524 = io_MemPort_Completed ? SampleCount : 11'h0; // @[FirEngine.scala 119:32 121:18 78:14]
+  wire [13:0] _CoeffCount_T_3 = _Halfcountwire_T[17:4] - 14'h2; // @[FirEngine.scala 131:69]
+  wire [13:0] _CoeffCount_T_5 = _CoeffCount_T_3 - _GEN_547; // @[FirEngine.scala 131:75]
+  wire [13:0] _GEN_527 = io_MemPort_Completed ? _CoeffCount_T_5 : 14'h0; // @[FirEngine.scala 129:32 131:16 78:14]
+  wire [13:0] _GEN_529 = _GEN_549 >= Halfcountwire ? _GEN_527 : 14'h0; // @[FirEngine.scala 128:44 78:14]
+  wire [13:0] _GEN_531 = SampleCount > 11'h0 & _GEN_549 < Halfcountwire | _T_10[0] & SampleCount == 11'h0 ? {{3'd0},
+    _GEN_524} : _GEN_529; // @[FirEngine.scala 118:118]
+  wire [13:0] CoeffCount = _GEN_547 == _Halfcountwire_T[17:4] ? 14'h0 : _GEN_531; // @[FirEngine.scala 104:75 78:14]
+  wire [17:0] CoeffWire = CoeffMemory_CoeffWire_MPORT_data; // @[FirEngine.scala 57:23 85:13]
+  wire [17:0] _GEN_541 = _T_7 ? $signed(io_MemPort_ReadData) : $signed(18'sh0); // @[FirEngine.scala 146:34 150:16 82:14]
+  wire [17:0] ReadSample = _T_4 ? $signed(18'sh0) : $signed(_GEN_541); // @[FirEngine.scala 136:75 82:14]
+  wire [17:0] FIRInput = SampleCount == 11'h1 ? $signed(io_WaveIn) : $signed(ReadSample); // @[FirEngine.scala 161:29 162:14 164:14]
+  wire [35:0] _Fircomputation36_T = $signed(CoeffWire) * $signed(FIRInput); // @[FirEngine.scala 93:35]
+  wire [35:0] Fircomputation36 = _T_7 ? $signed(_Fircomputation36_T) : $signed(36'sh0); // @[FirEngine.scala 86:20 90:27 93:22]
+  wire [18:0] _Fircomputation18_T = Fircomputation36[35:17]; // @[FirEngine.scala 94:45]
+  wire [17:0] _Fircomputation18_T_2 = _Fircomputation18_T[17:0]; // @[FirEngine.scala 94:60]
+  wire [17:0] Fircomputation18 = _T_7 ? $signed(_Fircomputation18_T_2) : $signed(18'sh0); // @[FirEngine.scala 87:20 90:27 94:22]
+  wire [17:0] _MAccReg_T_2 = $signed(MAccReg) + $signed(Fircomputation18); // @[FirEngine.scala 95:24]
+  wire [17:0] _DataReg_1_T_3 = $signed(MAccReg) + $signed(Fircomputation18); // @[FirEngine.scala 105:48]
+  wire [17:0] _DataReg_0_T = DataReg_0 | 18'h2; // @[FirEngine.scala 107:30]
+  wire  _T_5 = InputSamplePointer > 11'h0; // @[FirEngine.scala 110:29]
+  wire [10:0] _InputSamplePointer_T_1 = InputSamplePointer - 11'h1; // @[FirEngine.scala 111:48]
+  wire [13:0] _InputSamplePointer_T_3 = _Halfcountwire_T[17:4] - 14'h1; // @[FirEngine.scala 113:42]
+  wire [13:0] _GEN_521 = InputSamplePointer == 11'h0 ? _InputSamplePointer_T_3 : {{3'd0}, InputSamplePointer}; // @[FirEngine.scala 112:44 113:26 69:31]
+  wire [13:0] _GEN_522 = InputSamplePointer > 11'h0 ? {{3'd0}, _InputSamplePointer_T_1} : _GEN_521; // @[FirEngine.scala 110:36 111:26]
+  wire [10:0] _SampleCount_T_1 = SampleCount + 11'h1; // @[FirEngine.scala 120:34]
+  wire [17:0] _DataReg_0_T_1 = DataReg_0 & 18'h3fffc; // @[FirEngine.scala 122:32]
+  wire [10:0] _GEN_523 = io_MemPort_Completed ? _SampleCount_T_1 : 11'h0; // @[FirEngine.scala 119:32 120:19 77:15]
+  wire [13:0] _GEN_536 = _GEN_547 == _Halfcountwire_T[17:4] ? _GEN_522 : {{3'd0}, InputSamplePointer}; // @[FirEngine.scala 104:75 69:31]
+  wire [10:0] _GEN_539 = _T_5 ? _InputSamplePointer_T_1 : 11'h0; // @[FirEngine.scala 141:36 142:26 20:22]
+  wire [10:0] _GEN_545 = _T_4 ? _GEN_539 : 11'h0; // @[FirEngine.scala 136:75 20:22]
+  assign CoeffMemory_CoeffWire_MPORT_en = CoeffMemory_CoeffWire_MPORT_en_pipe_0;
+  assign CoeffMemory_CoeffWire_MPORT_addr = CoeffMemory_CoeffWire_MPORT_addr_pipe_0;
+  assign CoeffMemory_CoeffWire_MPORT_data = CoeffMemory[CoeffMemory_CoeffWire_MPORT_addr]; // @[FirEngine.scala 65:32]
+  assign io_WaveOut = DataReg_1; // @[FirEngine.scala 76:28]
+  assign io_MemPort_Address = {{7'd0}, _GEN_545};
+  assign io_MemPort_WriteData = _T_4 ? io_WaveIn : 18'h0; // @[FirEngine.scala 136:75 140:26 19:24]
+  assign io_MemPort_Enable = _T_4 | _T_7; // @[FirEngine.scala 136:75 138:23]
+  assign io_MemPort_WriteEn = _GEN_547 == _Halfcountwire_T[17:4]; // @[FirEngine.scala 136:20]
+  always @(posedge clock) begin
+    CoeffMemory_CoeffWire_MPORT_en_pipe_0 <= 1'h1;
+    if (1'h1) begin
+      CoeffMemory_CoeffWire_MPORT_addr_pipe_0 <= CoeffCount[9:0];
+    end
+    if (_GEN_547 == _Halfcountwire_T[17:4]) begin // @[FirEngine.scala 104:75]
+      DataReg_0 <= _DataReg_0_T; // @[FirEngine.scala 107:16]
+    end else if (SampleCount > 11'h0 & _GEN_549 < Halfcountwire | _T_10[0] & SampleCount == 11'h0) begin // @[FirEngine.scala 118:118]
+      if (io_MemPort_Completed) begin // @[FirEngine.scala 119:32]
+        DataReg_0 <= _DataReg_0_T_1; // @[FirEngine.scala 122:18]
+      end
+    end
+    if (_GEN_547 == _Halfcountwire_T[17:4]) begin // @[FirEngine.scala 104:75]
+      DataReg_1 <= _DataReg_1_T_3; // @[FirEngine.scala 105:16]
+    end
+    if (_GEN_547 == _Halfcountwire_T[17:4]) begin // @[FirEngine.scala 104:75]
+      MAccReg <= 18'sh0; // @[FirEngine.scala 106:13]
+    end else if (_T_7) begin // @[FirEngine.scala 90:27]
+      MAccReg <= _MAccReg_T_2; // @[FirEngine.scala 95:13]
+    end
+    if (_GEN_547 == _Halfcountwire_T[17:4]) begin // @[FirEngine.scala 104:75]
+      SampleCount <= 11'h0; // @[FirEngine.scala 77:15]
+    end else if (SampleCount > 11'h0 & _GEN_549 < Halfcountwire | _T_10[0] & SampleCount == 11'h0) begin // @[FirEngine.scala 118:118]
+      SampleCount <= _GEN_523;
+    end else if (_GEN_549 >= Halfcountwire) begin // @[FirEngine.scala 128:44]
+      SampleCount <= _GEN_523;
+    end else begin
+      SampleCount <= 11'h0; // @[FirEngine.scala 77:15]
+    end
+    InputSamplePointer <= _GEN_536[10:0];
+  end
+// Register and memory initialization
+`ifdef RANDOMIZE_GARBAGE_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_INVALID_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_REG_INIT
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+`define RANDOMIZE
+`endif
+`ifndef RANDOM
+`define RANDOM $random
+`endif
+  integer initvar;
+`ifndef SYNTHESIS
+`ifdef FIRRTL_BEFORE_INITIAL
+`FIRRTL_BEFORE_INITIAL
+`endif
+initial begin
+  `ifdef RANDOMIZE
+    `ifdef INIT_RANDOM
+      `INIT_RANDOM
+    `endif
+    `ifndef VERILATOR
+      `ifdef RANDOMIZE_DELAY
+        #`RANDOMIZE_DELAY begin end
+      `else
+        #0.002 begin end
+      `endif
+    `endif
+`ifdef RANDOMIZE_REG_INIT
+  _RAND_0 = {1{`RANDOM}};
+  CoeffMemory_CoeffWire_MPORT_en_pipe_0 = _RAND_0[0:0];
+  _RAND_1 = {1{`RANDOM}};
+  CoeffMemory_CoeffWire_MPORT_addr_pipe_0 = _RAND_1[9:0];
+  _RAND_2 = {1{`RANDOM}};
+  DataReg_0 = _RAND_2[17:0];
+  _RAND_3 = {1{`RANDOM}};
+  DataReg_1 = _RAND_3[17:0];
+  _RAND_4 = {1{`RANDOM}};
+  MAccReg = _RAND_4[17:0];
+  _RAND_5 = {1{`RANDOM}};
+  SampleCount = _RAND_5[10:0];
+  _RAND_6 = {1{`RANDOM}};
+  InputSamplePointer = _RAND_6[10:0];
+`endif // RANDOMIZE_REG_INIT
+  `endif // RANDOMIZE
+end // initial
+`ifdef FIRRTL_AFTER_INITIAL
+`FIRRTL_AFTER_INITIAL
+`endif
+`endif // SYNTHESIS
+initial begin
+  $readmemh("IOFilterCoeffsQ0_17.txt", CoeffMemory);
+end
 endmodule
 module SubDSP(
   input         clock,
@@ -2019,13 +2926,27 @@ module SubDSP(
   wire  DataMemory_io_MemPort_0_WriteEn; // @[SubDSP.scala 34:26]
   wire [17:0] DataMemory_io_MemPort_0_ReadData; // @[SubDSP.scala 34:26]
   wire  DataMemory_io_MemPort_0_Completed; // @[SubDSP.scala 34:26]
+  wire [17:0] DataMemory_io_MemPort_1_Address; // @[SubDSP.scala 34:26]
+  wire [17:0] DataMemory_io_MemPort_1_WriteData; // @[SubDSP.scala 34:26]
+  wire  DataMemory_io_MemPort_1_Enable; // @[SubDSP.scala 34:26]
+  wire  DataMemory_io_MemPort_1_WriteEn; // @[SubDSP.scala 34:26]
+  wire [17:0] DataMemory_io_MemPort_1_ReadData; // @[SubDSP.scala 34:26]
+  wire  DataMemory_io_MemPort_1_Completed; // @[SubDSP.scala 34:26]
   wire [17:0] DataMemory_io_SPIMemPort_Address; // @[SubDSP.scala 34:26]
   wire [17:0] DataMemory_io_SPIMemPort_WriteData; // @[SubDSP.scala 34:26]
   wire  DataMemory_io_SPIMemPort_Enable; // @[SubDSP.scala 34:26]
   wire  DataMemory_io_SPIMemPort_WriteEn; // @[SubDSP.scala 34:26]
   wire [17:0] DataMemory_io_SPIMemPort_ReadData; // @[SubDSP.scala 34:26]
   wire  DataMemory_io_SPIMemPort_Completed; // @[SubDSP.scala 34:26]
-  wire [18:0] _io_Sub_IO_Out_T = {{1'd0}, Core_io_WaveOut}; // @[SubDSP.scala 39:36]
+  wire  FirEngine_clock; // @[SubDSP.scala 35:25]
+  wire [17:0] FirEngine_io_WaveIn; // @[SubDSP.scala 35:25]
+  wire [17:0] FirEngine_io_WaveOut; // @[SubDSP.scala 35:25]
+  wire [17:0] FirEngine_io_MemPort_Address; // @[SubDSP.scala 35:25]
+  wire [17:0] FirEngine_io_MemPort_WriteData; // @[SubDSP.scala 35:25]
+  wire  FirEngine_io_MemPort_Enable; // @[SubDSP.scala 35:25]
+  wire  FirEngine_io_MemPort_WriteEn; // @[SubDSP.scala 35:25]
+  wire [17:0] FirEngine_io_MemPort_ReadData; // @[SubDSP.scala 35:25]
+  wire  FirEngine_io_MemPort_Completed; // @[SubDSP.scala 35:25]
   Core Core ( // @[SubDSP.scala 33:20]
     .clock(Core_clock),
     .reset(Core_reset),
@@ -2047,6 +2968,12 @@ module SubDSP(
     .io_MemPort_0_WriteEn(DataMemory_io_MemPort_0_WriteEn),
     .io_MemPort_0_ReadData(DataMemory_io_MemPort_0_ReadData),
     .io_MemPort_0_Completed(DataMemory_io_MemPort_0_Completed),
+    .io_MemPort_1_Address(DataMemory_io_MemPort_1_Address),
+    .io_MemPort_1_WriteData(DataMemory_io_MemPort_1_WriteData),
+    .io_MemPort_1_Enable(DataMemory_io_MemPort_1_Enable),
+    .io_MemPort_1_WriteEn(DataMemory_io_MemPort_1_WriteEn),
+    .io_MemPort_1_ReadData(DataMemory_io_MemPort_1_ReadData),
+    .io_MemPort_1_Completed(DataMemory_io_MemPort_1_Completed),
     .io_SPIMemPort_Address(DataMemory_io_SPIMemPort_Address),
     .io_SPIMemPort_WriteData(DataMemory_io_SPIMemPort_WriteData),
     .io_SPIMemPort_Enable(DataMemory_io_SPIMemPort_Enable),
@@ -2054,7 +2981,18 @@ module SubDSP(
     .io_SPIMemPort_ReadData(DataMemory_io_SPIMemPort_ReadData),
     .io_SPIMemPort_Completed(DataMemory_io_SPIMemPort_Completed)
   );
-  assign io_Sub_IO_Out = _io_Sub_IO_Out_T[17:0]; // @[SubDSP.scala 39:36]
+  FirEngine FirEngine ( // @[SubDSP.scala 35:25]
+    .clock(FirEngine_clock),
+    .io_WaveIn(FirEngine_io_WaveIn),
+    .io_WaveOut(FirEngine_io_WaveOut),
+    .io_MemPort_Address(FirEngine_io_MemPort_Address),
+    .io_MemPort_WriteData(FirEngine_io_MemPort_WriteData),
+    .io_MemPort_Enable(FirEngine_io_MemPort_Enable),
+    .io_MemPort_WriteEn(FirEngine_io_MemPort_WriteEn),
+    .io_MemPort_ReadData(FirEngine_io_MemPort_ReadData),
+    .io_MemPort_Completed(FirEngine_io_MemPort_Completed)
+  );
+  assign io_Sub_IO_Out = Core_io_WaveOut + FirEngine_io_WaveOut; // @[SubDSP.scala 39:36]
   assign SPI_SPIMemPort_Address = DataMemory_io_SPIMemPort_Address; // @[SubDSP.scala 52:18]
   assign SPI_SPIMemPort_WriteData = DataMemory_io_SPIMemPort_WriteData; // @[SubDSP.scala 52:18]
   assign SPI_SPIMemPort_Enable = DataMemory_io_SPIMemPort_Enable; // @[SubDSP.scala 52:18]
@@ -2070,8 +3008,16 @@ module SubDSP(
   assign DataMemory_io_MemPort_0_WriteData = Core_io_MemPort_WriteData; // @[SubDSP.scala 45:19]
   assign DataMemory_io_MemPort_0_Enable = Core_io_MemPort_Enable; // @[SubDSP.scala 45:19]
   assign DataMemory_io_MemPort_0_WriteEn = Core_io_MemPort_WriteEn; // @[SubDSP.scala 45:19]
+  assign DataMemory_io_MemPort_1_Address = FirEngine_io_MemPort_Address; // @[SubDSP.scala 49:24]
+  assign DataMemory_io_MemPort_1_WriteData = FirEngine_io_MemPort_WriteData; // @[SubDSP.scala 49:24]
+  assign DataMemory_io_MemPort_1_Enable = FirEngine_io_MemPort_Enable; // @[SubDSP.scala 49:24]
+  assign DataMemory_io_MemPort_1_WriteEn = FirEngine_io_MemPort_WriteEn; // @[SubDSP.scala 49:24]
   assign DataMemory_io_SPIMemPort_ReadData = SPI_SPIMemPort_ReadData; // @[SubDSP.scala 52:18]
   assign DataMemory_io_SPIMemPort_Completed = SPI_SPIMemPort_Completed; // @[SubDSP.scala 52:18]
+  assign FirEngine_clock = clock;
+  assign FirEngine_io_WaveIn = io_Sub_IO_In; // @[SubDSP.scala 41:39]
+  assign FirEngine_io_MemPort_ReadData = DataMemory_io_MemPort_1_ReadData; // @[SubDSP.scala 49:24]
+  assign FirEngine_io_MemPort_Completed = DataMemory_io_MemPort_1_Completed; // @[SubDSP.scala 49:24]
 endmodule
 module NodeConnector(
   input  [17:0] io_In_0,
@@ -2080,52 +3026,67 @@ module NodeConnector(
   assign io_Out = io_In_0; // @[NodeConnector.scala 14:19 15:12]
 endmodule
 module DSP(
-  input         clock,
-  input         reset,
-  input  [15:0] io_In,
-  output [15:0] io_Out,
-  output        SPI_SCLK,
-  output        SPI_CE,
-  inout  [3:0]  SPI_MOSI_MISO
+  input        clock,
+  input        reset,
+  input        io_In_ADC,
+  output       io_Out_DAC,
+  output       SPI_SCLK,
+  output       SPI_CE,
+  inout  [3:0] SPI_MOSI_MISO
 );
-  wire  SPIArbiter_clock; // @[DSP.scala 26:26]
-  wire  SPIArbiter_reset; // @[DSP.scala 26:26]
-  wire [17:0] SPIArbiter_io_MemPort_0_Address; // @[DSP.scala 26:26]
-  wire [17:0] SPIArbiter_io_MemPort_0_WriteData; // @[DSP.scala 26:26]
-  wire  SPIArbiter_io_MemPort_0_Enable; // @[DSP.scala 26:26]
-  wire  SPIArbiter_io_MemPort_0_WriteEn; // @[DSP.scala 26:26]
-  wire [17:0] SPIArbiter_io_MemPort_0_ReadData; // @[DSP.scala 26:26]
-  wire  SPIArbiter_io_MemPort_0_Completed; // @[DSP.scala 26:26]
-  wire  SPIArbiter_SPI_SCLK; // @[DSP.scala 26:26]
-  wire  SPIArbiter_SPI_CE; // @[DSP.scala 26:26]
-  wire  SPIArbiter_SPI_SO_0; // @[DSP.scala 26:26]
-  wire  SPIArbiter_SPI_SO_1; // @[DSP.scala 26:26]
-  wire  SPIArbiter_SPI_SO_2; // @[DSP.scala 26:26]
-  wire  SPIArbiter_SPI_SO_3; // @[DSP.scala 26:26]
-  wire  SPIArbiter_SPI_SI_0; // @[DSP.scala 26:26]
-  wire  SPIArbiter_SPI_SI_1; // @[DSP.scala 26:26]
-  wire  SPIArbiter_SPI_SI_2; // @[DSP.scala 26:26]
-  wire  SPIArbiter_SPI_SI_3; // @[DSP.scala 26:26]
-  wire  SPIArbiter_SPI_Drive; // @[DSP.scala 26:26]
-  wire [3:0] LCDBusDriver_busData; // @[DSP.scala 27:28]
-  wire [3:0] LCDBusDriver_driveData; // @[DSP.scala 27:28]
-  wire  LCDBusDriver_drive; // @[DSP.scala 27:28]
-  wire  SubDSP_clock; // @[DSP.scala 56:24]
-  wire  SubDSP_reset; // @[DSP.scala 56:24]
-  wire [17:0] SubDSP_io_Sub_IO_In; // @[DSP.scala 56:24]
-  wire [17:0] SubDSP_io_Sub_IO_Out; // @[DSP.scala 56:24]
-  wire [17:0] SubDSP_SPI_SPIMemPort_Address; // @[DSP.scala 56:24]
-  wire [17:0] SubDSP_SPI_SPIMemPort_WriteData; // @[DSP.scala 56:24]
-  wire  SubDSP_SPI_SPIMemPort_Enable; // @[DSP.scala 56:24]
-  wire  SubDSP_SPI_SPIMemPort_WriteEn; // @[DSP.scala 56:24]
-  wire [17:0] SubDSP_SPI_SPIMemPort_ReadData; // @[DSP.scala 56:24]
-  wire  SubDSP_SPI_SPIMemPort_Completed; // @[DSP.scala 56:24]
-  wire [17:0] OutputConnector_io_In_0; // @[DSP.scala 76:31]
-  wire [17:0] OutputConnector_io_Out; // @[DSP.scala 76:31]
-  wire [1:0] LCDBusDriver_io_driveData_lo = {SPIArbiter_SPI_SI_1,SPIArbiter_SPI_SI_0}; // @[DSP.scala 31:50]
-  wire [1:0] LCDBusDriver_io_driveData_hi = {SPIArbiter_SPI_SI_3,SPIArbiter_SPI_SI_2}; // @[DSP.scala 31:50]
-  wire [15:0] _CAP_IOs_0_In_T = io_In; // @[DSP.scala 102:36]
-  SPIArbiter SPIArbiter ( // @[DSP.scala 26:26]
+  wire  IOMaster_clock; // @[DSP.scala 23:26]
+  wire  IOMaster_reset; // @[DSP.scala 23:26]
+  wire  IOMaster_io_In_ADC; // @[DSP.scala 23:26]
+  wire [17:0] IOMaster_io_In_DAC; // @[DSP.scala 23:26]
+  wire [17:0] IOMaster_io_Out_ADC; // @[DSP.scala 23:26]
+  wire  IOMaster_io_Out_DAC; // @[DSP.scala 23:26]
+  wire  SPIArbiter_clock; // @[DSP.scala 54:26]
+  wire  SPIArbiter_reset; // @[DSP.scala 54:26]
+  wire [17:0] SPIArbiter_io_MemPort_0_Address; // @[DSP.scala 54:26]
+  wire [17:0] SPIArbiter_io_MemPort_0_WriteData; // @[DSP.scala 54:26]
+  wire  SPIArbiter_io_MemPort_0_Enable; // @[DSP.scala 54:26]
+  wire  SPIArbiter_io_MemPort_0_WriteEn; // @[DSP.scala 54:26]
+  wire [17:0] SPIArbiter_io_MemPort_0_ReadData; // @[DSP.scala 54:26]
+  wire  SPIArbiter_io_MemPort_0_Completed; // @[DSP.scala 54:26]
+  wire  SPIArbiter_SPI_SCLK; // @[DSP.scala 54:26]
+  wire  SPIArbiter_SPI_CE; // @[DSP.scala 54:26]
+  wire  SPIArbiter_SPI_SO_0; // @[DSP.scala 54:26]
+  wire  SPIArbiter_SPI_SO_1; // @[DSP.scala 54:26]
+  wire  SPIArbiter_SPI_SO_2; // @[DSP.scala 54:26]
+  wire  SPIArbiter_SPI_SO_3; // @[DSP.scala 54:26]
+  wire  SPIArbiter_SPI_SI_0; // @[DSP.scala 54:26]
+  wire  SPIArbiter_SPI_SI_1; // @[DSP.scala 54:26]
+  wire  SPIArbiter_SPI_SI_2; // @[DSP.scala 54:26]
+  wire  SPIArbiter_SPI_SI_3; // @[DSP.scala 54:26]
+  wire  SPIArbiter_SPI_Drive; // @[DSP.scala 54:26]
+  wire [3:0] LCDBusDriver_busData; // @[DSP.scala 55:28]
+  wire [3:0] LCDBusDriver_driveData; // @[DSP.scala 55:28]
+  wire  LCDBusDriver_drive; // @[DSP.scala 55:28]
+  wire  SubDSP_clock; // @[DSP.scala 84:24]
+  wire  SubDSP_reset; // @[DSP.scala 84:24]
+  wire [17:0] SubDSP_io_Sub_IO_In; // @[DSP.scala 84:24]
+  wire [17:0] SubDSP_io_Sub_IO_Out; // @[DSP.scala 84:24]
+  wire [17:0] SubDSP_SPI_SPIMemPort_Address; // @[DSP.scala 84:24]
+  wire [17:0] SubDSP_SPI_SPIMemPort_WriteData; // @[DSP.scala 84:24]
+  wire  SubDSP_SPI_SPIMemPort_Enable; // @[DSP.scala 84:24]
+  wire  SubDSP_SPI_SPIMemPort_WriteEn; // @[DSP.scala 84:24]
+  wire [17:0] SubDSP_SPI_SPIMemPort_ReadData; // @[DSP.scala 84:24]
+  wire  SubDSP_SPI_SPIMemPort_Completed; // @[DSP.scala 84:24]
+  wire [17:0] OutputConnector_io_In_0; // @[DSP.scala 104:31]
+  wire [17:0] OutputConnector_io_Out; // @[DSP.scala 104:31]
+  wire [17:0] Out = OutputConnector_io_Out; // @[DSP.scala 11:17 148:7]
+  wire [15:0] _IOMaster_io_In_DAC_T_1 = Out[15:0]; // @[DSP.scala 29:37]
+  wire [1:0] LCDBusDriver_io_driveData_lo = {SPIArbiter_SPI_SI_1,SPIArbiter_SPI_SI_0}; // @[DSP.scala 59:50]
+  wire [1:0] LCDBusDriver_io_driveData_hi = {SPIArbiter_SPI_SI_3,SPIArbiter_SPI_SI_2}; // @[DSP.scala 59:50]
+  IOMaster IOMaster ( // @[DSP.scala 23:26]
+    .clock(IOMaster_clock),
+    .reset(IOMaster_reset),
+    .io_In_ADC(IOMaster_io_In_ADC),
+    .io_In_DAC(IOMaster_io_In_DAC),
+    .io_Out_ADC(IOMaster_io_Out_ADC),
+    .io_Out_DAC(IOMaster_io_Out_DAC)
+  );
+  SPIArbiter SPIArbiter ( // @[DSP.scala 54:26]
     .clock(SPIArbiter_clock),
     .reset(SPIArbiter_reset),
     .io_MemPort_0_Address(SPIArbiter_io_MemPort_0_Address),
@@ -2146,13 +3107,13 @@ module DSP(
     .SPI_SI_3(SPIArbiter_SPI_SI_3),
     .SPI_Drive(SPIArbiter_SPI_Drive)
   );
-  LCDBusDriver LCDBusDriver ( // @[DSP.scala 27:28]
+  LCDBusDriver LCDBusDriver ( // @[DSP.scala 55:28]
     .busData(LCDBusDriver_busData),
     .driveData(LCDBusDriver_driveData),
     .bus(SPI_MOSI_MISO),
     .drive(LCDBusDriver_drive)
   );
-  SubDSP SubDSP ( // @[DSP.scala 56:24]
+  SubDSP SubDSP ( // @[DSP.scala 84:24]
     .clock(SubDSP_clock),
     .reset(SubDSP_reset),
     .io_Sub_IO_In(SubDSP_io_Sub_IO_In),
@@ -2164,29 +3125,46 @@ module DSP(
     .SPI_SPIMemPort_ReadData(SubDSP_SPI_SPIMemPort_ReadData),
     .SPI_SPIMemPort_Completed(SubDSP_SPI_SPIMemPort_Completed)
   );
-  NodeConnector OutputConnector ( // @[DSP.scala 76:31]
+  NodeConnector OutputConnector ( // @[DSP.scala 104:31]
     .io_In_0(OutputConnector_io_In_0),
     .io_Out(OutputConnector_io_Out)
   );
-  assign io_Out = OutputConnector_io_Out[15:0]; // @[DSP.scala 120:42]
-  assign SPI_SCLK = SPIArbiter_SPI_SCLK; // @[DSP.scala 33:12]
-  assign SPI_CE = SPIArbiter_SPI_CE; // @[DSP.scala 34:10]
+  assign io_Out_DAC = IOMaster_io_Out_DAC; // @[DSP.scala 26:16]
+  assign SPI_SCLK = SPIArbiter_SPI_SCLK; // @[DSP.scala 61:12]
+  assign SPI_CE = SPIArbiter_SPI_CE; // @[DSP.scala 62:10]
+  assign IOMaster_clock = clock;
+  assign IOMaster_reset = reset;
+  assign IOMaster_io_In_ADC = io_In_ADC; // @[DSP.scala 25:24]
+  assign IOMaster_io_In_DAC = {{2{_IOMaster_io_In_DAC_T_1[15]}},_IOMaster_io_In_DAC_T_1}; // @[DSP.scala 29:24]
   assign SPIArbiter_clock = clock;
   assign SPIArbiter_reset = reset;
-  assign SPIArbiter_io_MemPort_0_Address = SubDSP_SPI_SPIMemPort_Address; // @[DSP.scala 60:27]
-  assign SPIArbiter_io_MemPort_0_WriteData = SubDSP_SPI_SPIMemPort_WriteData; // @[DSP.scala 60:27]
-  assign SPIArbiter_io_MemPort_0_Enable = SubDSP_SPI_SPIMemPort_Enable; // @[DSP.scala 60:27]
-  assign SPIArbiter_io_MemPort_0_WriteEn = SubDSP_SPI_SPIMemPort_WriteEn; // @[DSP.scala 60:27]
-  assign SPIArbiter_SPI_SO_0 = LCDBusDriver_busData[0]; // @[DSP.scala 32:48]
-  assign SPIArbiter_SPI_SO_1 = LCDBusDriver_busData[1]; // @[DSP.scala 32:48]
-  assign SPIArbiter_SPI_SO_2 = LCDBusDriver_busData[2]; // @[DSP.scala 32:48]
-  assign SPIArbiter_SPI_SO_3 = LCDBusDriver_busData[3]; // @[DSP.scala 32:48]
-  assign LCDBusDriver_driveData = {LCDBusDriver_io_driveData_hi,LCDBusDriver_io_driveData_lo}; // @[DSP.scala 31:50]
-  assign LCDBusDriver_drive = SPIArbiter_SPI_Drive; // @[DSP.scala 30:25]
+  assign SPIArbiter_io_MemPort_0_Address = SubDSP_SPI_SPIMemPort_Address; // @[DSP.scala 88:27]
+  assign SPIArbiter_io_MemPort_0_WriteData = SubDSP_SPI_SPIMemPort_WriteData; // @[DSP.scala 88:27]
+  assign SPIArbiter_io_MemPort_0_Enable = SubDSP_SPI_SPIMemPort_Enable; // @[DSP.scala 88:27]
+  assign SPIArbiter_io_MemPort_0_WriteEn = SubDSP_SPI_SPIMemPort_WriteEn; // @[DSP.scala 88:27]
+  assign SPIArbiter_SPI_SO_0 = LCDBusDriver_busData[0]; // @[DSP.scala 60:48]
+  assign SPIArbiter_SPI_SO_1 = LCDBusDriver_busData[1]; // @[DSP.scala 60:48]
+  assign SPIArbiter_SPI_SO_2 = LCDBusDriver_busData[2]; // @[DSP.scala 60:48]
+  assign SPIArbiter_SPI_SO_3 = LCDBusDriver_busData[3]; // @[DSP.scala 60:48]
+  assign LCDBusDriver_driveData = {LCDBusDriver_io_driveData_hi,LCDBusDriver_io_driveData_lo}; // @[DSP.scala 59:50]
+  assign LCDBusDriver_drive = SPIArbiter_SPI_Drive; // @[DSP.scala 58:25]
   assign SubDSP_clock = clock;
   assign SubDSP_reset = reset;
-  assign SubDSP_io_Sub_IO_In = {{2'd0}, _CAP_IOs_0_In_T}; // @[DSP.scala 41:21 102:27]
-  assign SubDSP_SPI_SPIMemPort_ReadData = SPIArbiter_io_MemPort_0_ReadData; // @[DSP.scala 60:27]
-  assign SubDSP_SPI_SPIMemPort_Completed = SPIArbiter_io_MemPort_0_Completed; // @[DSP.scala 60:27]
-  assign OutputConnector_io_In_0 = SubDSP_io_Sub_IO_Out; // @[DSP.scala 41:21 62:19]
+  assign SubDSP_io_Sub_IO_In = IOMaster_io_Out_ADC; // @[DSP.scala 28:31]
+  assign SubDSP_SPI_SPIMemPort_ReadData = SPIArbiter_io_MemPort_0_ReadData; // @[DSP.scala 88:27]
+  assign SubDSP_SPI_SPIMemPort_Completed = SPIArbiter_io_MemPort_0_Completed; // @[DSP.scala 88:27]
+  assign OutputConnector_io_In_0 = SubDSP_io_Sub_IO_Out; // @[DSP.scala 69:21 90:19]
+  always @(posedge clock) begin
+    `ifndef SYNTHESIS
+    `ifdef PRINTF_COND
+      if (`PRINTF_COND) begin
+    `endif
+        if (~reset) begin
+          $fwrite(32'h80000002,"true"); // @[DSP.scala 16:11]
+        end
+    `ifdef PRINTF_COND
+      end
+    `endif
+    `endif // SYNTHESIS
+  end
 endmodule

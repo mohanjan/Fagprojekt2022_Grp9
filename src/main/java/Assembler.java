@@ -65,7 +65,7 @@ public class Assembler {
                             myWriter.write("li x" + rd + ", " + immediate + addedData + "\n");
                             addedData = "";
                         }
-                    }else if(data.contains("sw") || data.contains("lw")){
+                    }else if((data.contains("sw") && data.contains("swi")) || (data.contains("lw") && data.contains("lwi"))){
                         myWriter.write(data + ", x0" + addedData + "\n");
                         addedData = "";
                     }
@@ -411,6 +411,8 @@ public class Assembler {
                 rd = find_register(instruction.substring(rd_index, rd_index + 3).replace(" ", ""));
 
                 int imm2 = find_register(instruction.substring(rd_index + 3));
+
+                System.out.println(imm2);
 
                 return (rd << 11) + (imm2 & 0b11111111111);
 

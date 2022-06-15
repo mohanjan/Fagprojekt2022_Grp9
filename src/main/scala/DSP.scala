@@ -6,10 +6,38 @@ import java.io._
 import Assembler._
 
 class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
-  val io = IO(new Bundle {
-    val In = Input(SInt(16.W))
-    val Out = Output(SInt(16.W))
-  })
+
+  val In = Wire(UInt(18.W))
+  val Out = Wire(UInt(18.W))
+
+
+  if((xml \\ "IN_OUT" \\ "@init").text == "true"){
+
+    printf("true")
+
+    val io = IO(new Bundle {
+      val In_ADC = Input(UInt(1.W))
+      val Out_DAC = Output(UInt(1.W))
+    })
+
+    val IOMaster = Module(new IOMaster(18))
+
+    IOMaster.io.In_ADC := io.In_ADC
+    io.Out_DAC := IOMaster.io.Out_DAC
+
+    In := IOMaster.io.Out_ADC.asUInt
+    IOMaster.io.In_DAC := Out(15,0).asSInt
+
+  }else{
+    val io = IO(new Bundle {
+      val In = Input(SInt(16.W))
+      val Out = Output(SInt(16.W))
+    })
+
+    In := io.In.asUInt
+    io.Out := Out(15,0).asSInt
+  }
+
   val SPI = IO(new Bundle{
     val SCLK = Output(Bool())
     val CE = Output(Bool())
@@ -86,7 +114,7 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
         val NODE = (CAP \\ "Input" \\ "@node")(i).text
 
         if(NODE == "In"){
-          NodeConnector.io.In(i) := io.In.asUInt
+          NodeConnector.io.In(i) := In
         }else{
           var INPUT = NODE.toInt
           NodeConnector.io.In(i) := CAP_IOs(INPUT).Out
@@ -99,7 +127,7 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
       val NODE = (CAP \\ "Input" \\ "@node").text
 
       if(NODE == "In"){
-        CAP_IOs(CORE).In  := io.In.asUInt
+        CAP_IOs(CORE).In  := In.asUInt
       }else{
         var INPUT = NODE.toInt
         CAP_IOs(CORE).In := CAP_IOs(INPUT).Out
@@ -117,7 +145,7 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
   }
 
-  io.Out := OutputConnector.io.Out(15,0).asSInt
+  Out := OutputConnector.io.Out
 
 }
 
