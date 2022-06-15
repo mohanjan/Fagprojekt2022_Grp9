@@ -4,11 +4,10 @@ import chisel3.util._
 
 class OutController(bufferWidth: Int) extends Module {
   val io = IO(new Bundle {
-    val In    = Input(SInt(16.W))
-    val InFIR = Input(SInt(16.W)) // input from FIR filter
-    val convReady = Input(Bool())
+    val In    = Input(SInt(bufferWidth.W))
+    val InFIR = Input(SInt(bufferWidth.W)) // input from FIR filter
 
-    val OutFIR = Output(SInt(16.W)) // output from interpolator to FIR
+    val OutFIR = Output(SInt(bufferWidth.W)) // output from interpolator to FIR
     val OutPWM = Output(UInt(1.W))  //
 
   })

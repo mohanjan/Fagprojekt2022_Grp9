@@ -6,31 +6,60 @@ class test extends AnyFlatSpec with ChiselScalatestTester {
   "test " should "pass" in {
     test(new DSP(20)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
       dut.clock.setTimeout(0)
-      println("Hej")
-      var serial = Array(true.B,  false.B,  true.B,   false.B,  false.B,  false.B,  true.B,   true.B,
-                         false.B, false.B,  false.B,  false.B,  false.B,  true.B,   true.B,   true.B,
-                         false.B, false.B,  false.B,  false.B,  false.B,  false.B,  true.B,   true.B,
-                         true.B,  true.B,   true.B,   false.B,  true.B,   false.B,  true.B,   false.B)
+      println("Starting test")
+      var serial = Array(
+        true.B,
+        false.B,
+        true.B,
+        false.B,
+        false.B,
+        false.B,
+        true.B,
+        true.B,
+        false.B,
+        false.B,
+        false.B,
+        false.B,
+        false.B,
+        true.B,
+        true.B,
+        true.B,
+        false.B,
+        false.B,
+        false.B,
+        false.B,
+        false.B,
+        false.B,
+        true.B,
+        true.B,
+        true.B,
+        true.B,
+        true.B,
+        false.B,
+        true.B,
+        false.B,
+        true.B,
+        false.B
+      )
 
-      for(j <- 0 until 4){
+      for (j <- 0 until 30) {
 
-        println(s"${j} x 64 bits")
-
-        for(i <- 0 until 32){
+        for (i <- 0 until 32) {
           dut.clock.step(1)
           dut.io.In.poke(serial(i))
         }
-        
-        for(i <- 0 until 32){
+
+        for (i <- 0 until 32) {
           dut.clock.step(1)
           dut.io.In.poke(false.B)
         }
-      }
-      
-       // + dut.IOC.io.Out_ADC.peek().toString
-      
 
-      for(i <- 0 until 200){
+        println(s"${j + 1} x 64 bits")
+      }
+
+      // + dut.IOC.io.Out_ADC.peek().toString
+
+      for (i <- 0 until 400) {
         dut.clock.step(1)
       }
     }

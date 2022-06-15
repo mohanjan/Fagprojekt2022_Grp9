@@ -13,20 +13,23 @@ class InController(bufferWidth: Int) extends Module {
   })
 
   val scaler = bufferWidth.U
-  io.ADC_D_out := io.In
+  val delay = RegInit(0.U(1.W))
+  delay := io.In
+  io.ADC_D_out := delay
 
   // serial to parallel buffer
   val inReg = RegInit(0.U(bufferWidth.W))
-  val sample = RegInit(0.S(bufferWidth.W))
+  val sample = RegInit(0x10.S(bufferWidth.W))
 
   // Counter for decimation
-  val cntReg = RegInit(0.U(3.W))
+  val cntReg = RegInit(0.U(8.W))
   cntReg := cntReg + 1.U
-  val tick = cntReg === 0.U
+  val tick = cntReg === scaler
 
   inReg := Cat(io.In, inReg(bufferWidth - 1, 1))
 
-  when(cntReg === scaler) {
+
+  when(tick) {
     cntReg := 0.U
     sample := io.InFIR
   }
