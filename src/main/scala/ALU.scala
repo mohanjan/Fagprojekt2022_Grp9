@@ -33,33 +33,38 @@ class ALU() extends Module {
       io.Out := (io.rs1 * io.rs2)(17,0)
     }
     is(3.U){
-      //bitshift right
+      //bitshift right logical
       io.Out := (io.rs1 << io.rs2(5,0))(17,0)
     }
     is(4.U){
-      //bitshift left
+      //bitshift left logical 
       io.Out := (io.rs1 >> io.rs2)(17,0)
     }
     is(5.U){
+      //bitshift right arithmetic
+      io.Out := ((io.rs1.asSInt) << io.rs2(5,0))(17,0).asUInt
+    }
+    is(6.U){
+      //bitshift left arithmetic
+      io.Out := ((io.rs1.asSInt)  >> io.rs2)(17,0).asUInt
+    }
+    is(7.U){
       // bitwise AND
       io.Out := io.rs1 & io.rs2
     }
-    is(6.U){
+    is(8.U){
       // bitwise OR
       io.Out := io.rs1 | io.rs2
     }
-    is(7.U){
+    is(9.U){
       // bitwise XOR
       io.Out := io.rs1 ^ io.rs2
     }
-    is(8.U){
-<<<<<<< HEAD
+    is(10.U){
       io.Out := (io.rs1 * io.rs2) >> 9
     }
-    is(9.U){
-=======
+    is(11.U){
       // multiply accumulate
->>>>>>> 07f748f86301de13db634cb72381cf74d37f6ddb
       io.Out := io.rd + (io.rs1 * io.rs2)(17,0)
     }
   }

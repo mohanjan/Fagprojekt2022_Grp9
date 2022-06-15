@@ -26,25 +26,19 @@ class SubDSP(Program: String, Memsize: Int, SPIRAM_Offset: Int) extends Module {
     val SPIMemPort = new MemPort
   })
 
-  // Single Core
-
   val dedupBlock = WireInit(Program.hashCode.S)
 
-  val Core = Module(new Core(Program))
-  val FirEngine = Module(new FirEngine())
-  val DataMemory = Module(new DataMemory(2, Memsize, SPIRAM_Offset))
+  // Single Core
 
-  /*
-  doNotDedup(Core)
-  doNotDedup(FirEngine)
-  doNotDedup(DataMemory)
-  */
+  val Core = Module(new Core(Program))
+  val DataMemory = Module(new DataMemory(2, Memsize, SPIRAM_Offset))
+  val FirEngine = Module(new FirEngine())
 
   // IO
 
   io.Sub_IO.Out := Core.io.WaveOut + FirEngine.io.WaveOut
-  FirEngine.io.WaveIn := io.Sub_IO.In
   Core.io.WaveIn := io.Sub_IO.In
+  FirEngine.io.WaveIn := io.Sub_IO.In
 
   // Interconnections
 
@@ -56,6 +50,4 @@ class SubDSP(Program: String, Memsize: Int, SPIRAM_Offset: Int) extends Module {
   FirEngine.io.WaveIn := 0.U
 
   SPI.SPIMemPort <> DataMemory.io.SPIMemPort
-
-  //SPI <> DataMemory.SPI
 }

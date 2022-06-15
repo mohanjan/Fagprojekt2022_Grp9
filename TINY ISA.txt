@@ -18,6 +18,8 @@ sub rd, rs1, rs2
 mult rd, rs1, rs2
 sll rd, rs1, rs2
 srl rd, rs1, rs2
+sla rd, rs1, rs2
+sra rd, rs1, rs2
 and rd, rs1, rs2
 or rd, rs1, rs2
 xor rd, rs1, rs2

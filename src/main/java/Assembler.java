@@ -209,7 +209,6 @@ public class Assembler {
 
         if(instruction.contains("add") && !instruction.contains("addi")){
             val = 0b000000000000000000;
-
             val = (val | find_arguments(instruction,0));
             //System.out.println(val);
         }
@@ -238,45 +237,56 @@ public class Assembler {
             //System.out.println(val);
         }
 
-        else if(instruction.contains("and")){
+        else if(instruction.contains("sla")){
             val = 0b000101000000000000;
             val = (val | find_arguments(instruction,0));
             //System.out.println(val);
         }
 
-        else if(instruction.contains("or") && !instruction.contains("xor")){
+        else if(instruction.contains("sra")){
             val = 0b000110000000000000;
             val = (val | find_arguments(instruction,0));
             //System.out.println(val);
         }
 
-        else if(instruction.contains("xor")){
+        else if(instruction.contains("and")){
             val = 0b000111000000000000;
+            val = (val | find_arguments(instruction,0));
+            //System.out.println(val);
+        }
+
+        else if(instruction.contains("or") && !instruction.contains("xor")){
+            val = 0b001000000000000000;
+            val = (val | find_arguments(instruction,0));
+            //System.out.println(val);
+        }
+
+        else if(instruction.contains("xor")){
+            val = 0b001001000000000000;
             val = (val | find_arguments(instruction.replace("xor", "or"),0));
             //System.out.println(val);
         }
 
         else if(instruction.contains("fpmul")){
-            val = 0b000100000000000000;
-            val = (val | find_arguments(instruction,0));
-            //System.out.println(val);
-        }
-
-        else if(instruction.contains("mac")){
-            val = 0b001001000000000000;
-            val = (val | find_arguments(instruction,0));
-            //System.out.println(val);
-        }
-
-
-        else if(instruction.contains("lw") && !instruction.contains("lwi")){
             val = 0b001010000000000000;
             val = (val | find_arguments(instruction,0));
             //System.out.println(val);
         }
 
-        else if(instruction.contains("sw") && !instruction.contains("swi")){
+        else if(instruction.contains("mac")){
             val = 0b001011000000000000;
+            val = (val | find_arguments(instruction,0));
+            //System.out.println(val);
+        }
+
+        else if(instruction.contains("lw") && !instruction.contains("lwi")){
+            val = 0b001100000000000000;
+            val = (val | find_arguments(instruction,0));
+            //System.out.println(val);
+        }
+
+        else if(instruction.contains("sw") && !instruction.contains("swi")){
+            val = 0b001101000000000000;
             val = (val | find_arguments(instruction,0));
             //System.out.println(val);
         }

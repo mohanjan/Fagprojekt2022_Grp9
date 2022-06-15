@@ -10,28 +10,27 @@ class DataMemory(Memports: Int, Memsize: Int, SPIRAM_Offset: Int) extends Module
     val SPIMemPort = new MemPort
   })
 
-  /*
-  val SPI = IO(new Bundle{
-    val SCLK = Output(Bool())
-    val CE = Output(Bool())
-    val SO = Input(Vec(4,Bool()))
-    val SI = Output(Vec(4,Bool()))
-    val Drive = Output(Bool())
-  })
-  */
 
   // Module Definitions
 
   val Memory = SyncReadMem(Memsize, UInt(18.W))
-  //val ExternalMemory = Module(new MemoryController(0))
 
   // Defaults
+
+  
 
   io.Registers.Address := 0.U
   io.Registers.WriteData := 0.U
   io.Registers.Enable := false.B
   io.Registers.WriteEn := false.B
 
+  
+
+  val CompleteDelayInternal = RegInit(0.U(1.W))
+  val CompleteDelayRegister = RegInit(0.U(1.W))
+  //val CompleteDelayExternal = RegInit(0.U(1.W))
+
+  
   for(i <- 0 until Memports){
     io.MemPort(i).ReadData := 0.U
     io.MemPort(i).Completed := false.B
@@ -41,16 +40,6 @@ class DataMemory(Memports: Int, Memsize: Int, SPIRAM_Offset: Int) extends Module
   io.SPIMemPort.Address := 0.U
   io.SPIMemPort.WriteData := 0.U
   io.SPIMemPort.WriteEn := false.B
-
-  /*
-
-  ExternalMemory.io.WriteData := 0.U
-  ExternalMemory.io.ReadEnable := false.B
-  ExternalMemory.io.WriteEnable := false.B
-  ExternalMemory.io.Address := 0.U
-  ExternalMemory.SPI <> SPI
-
-  */
 
   val Producer = Wire(UInt(2.W))
   val ProducerReg = RegInit(0.U(2.W))
@@ -66,14 +55,19 @@ class DataMemory(Memports: Int, Memsize: Int, SPIRAM_Offset: Int) extends Module
     }
   }
 
-  when(io.MemPort(Producer).Completed === true.B){
+  when(CompleteDelayInternal.asBool || CompleteDelayRegister.asBool){
+    CompleteDelayInternal := false.B
+    CompleteDelayInternal := false.B
     Taken := 0.U
   }
 
   // Address space partition
 
   when(io.MemPort(Producer).Enable){
-    when(io.MemPort(Producer).Address <= 2047.U){ // Internal data memory
+    when(io.MemPort(Producer).Address <= 2047.U || CompleteDelayInternal.asBool){ // Internal data memory
+
+      /*
+
       val ReadWritePort = Memory(io.MemPort(Producer).Address)
       io.MemPort(Producer).Completed := true.B
 
@@ -81,9 +75,42 @@ class DataMemory(Memports: Int, Memsize: Int, SPIRAM_Offset: Int) extends Module
         ReadWritePort := io.MemPort(Producer).WriteData
       }.otherwise{
         io.MemPort(Producer).ReadData := ReadWritePort
+        io.MemPort(Producer).Completed
+        CompleteDelayInternal := true.B
       }
 
+      */
+
+      
+
+      io.MemPort(Producer).Completed := true.B
+
+      when(io.MemPort(Producer).WriteEn){
+        Memory.write(io.MemPort(Producer).Address, io.MemPort(Producer).WriteData)
+      }.otherwise{
+        io.MemPort(Producer).ReadData := Memory.read(io.MemPort(Producer).Address, true.B)
+        io.MemPort(Producer).Completed
+        CompleteDelayInternal := true.B
+      }
+
+      
+
+      /*
+
+      io.MemPort(Producer).Completed := true.B
+
+      when(io.MemPort(Producer).WriteEn){
+        Memory(io.MemPort(Producer).Address):= io.MemPort(Producer).WriteData
+      }.otherwise{
+        io.MemPort(Producer).ReadData := Memory(io.MemPort(Producer).Address)
+      }
+
+      */
+
+    
+
     }.elsewhen(io.MemPort(Producer).Address <= 2175.U){ // FIR Registers
+
       io.Registers.Address := (io.MemPort(Producer).Address - 2175.U)(5,0)
       io.Registers.WriteEn := true.B
       io.MemPort(Producer).Completed := true.B
@@ -92,29 +119,9 @@ class DataMemory(Memports: Int, Memsize: Int, SPIRAM_Offset: Int) extends Module
         io.Registers.WriteData := io.MemPort(Producer).WriteData
       }.otherwise{
         io.MemPort(Producer).ReadData := io.Registers.ReadData
-      }
+      } 
+
     }.otherwise{ // External Memory
-
-      /*    
-      ExternalMemory.io.Address := io.MemPort(Producer).Address
-
-      when(io.MemPort(Producer).WriteEn){
-        when(ExternalMemory.io.Ready){
-          ExternalMemory.io.WriteEnable := true.B
-          ExternalMemory.io.WriteData := io.MemPort(Producer).WriteData
-        }
-
-        io.MemPort(Producer).Completed := ExternalMemory.io.Completed
-      }.otherwise{
-        when(ExternalMemory.io.Ready){
-          ExternalMemory.io.ReadEnable := true.B
-        }
-
-        io.MemPort(Producer).Completed := ExternalMemory.io.Completed
-        io.MemPort(Producer).ReadData := ExternalMemory.io.ReadData
-    
-      }
-      */
 
       io.MemPort(Producer).ReadData := io.SPIMemPort.ReadData
       io.MemPort(Producer).Completed := io.SPIMemPort.Completed
@@ -123,8 +130,6 @@ class DataMemory(Memports: Int, Memsize: Int, SPIRAM_Offset: Int) extends Module
       io.SPIMemPort.WriteData := io.MemPort(Producer).WriteData
       io.SPIMemPort.Enable := io.MemPort(Producer).Enable
       io.SPIMemPort.WriteEn := io.MemPort(Producer).WriteEn
-
-      //io.SPIMemPort <> io.MemPort(Producer)
 
     }
   }
