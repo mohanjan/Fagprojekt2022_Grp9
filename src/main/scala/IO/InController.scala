@@ -8,31 +8,32 @@ class InController(bufferWidth: Int) extends Module {
     val In = Input(UInt(1.W))
     val InFIR = Input(SInt(bufferWidth.W))
     val Out = Output(SInt(bufferWidth.W))
+    val ADC_D_out = Output(UInt(1.W))
     val OutFIR = Output(SInt(bufferWidth.W))
   })
 
-  val scaler = 4.U
+  val scaler = bufferWidth.U
+  io.ADC_D_out := io.In
 
   // serial to parallel buffer
-  val outReg = RegInit(0.U(bufferWidth.W))
-  val sample= RegInit(0.S(bufferWidth.W))
+  val inReg = RegInit(0.U(bufferWidth.W))
+  val sample = RegInit(0.S(bufferWidth.W))
 
-  // Counter for generating a 'do a sample' flag
+  // Counter for decimation
   val cntReg = RegInit(0.U(3.W))
   cntReg := cntReg + 1.U
   val tick = cntReg === 0.U
 
-  outReg := Cat(io.In, outReg(bufferWidth - 1, 1))
+  inReg := Cat(io.In, inReg(bufferWidth - 1, 1))
+
   when(cntReg === scaler) {
     cntReg := 0.U
-
-    sample := ~outReg.asSInt + 1.S
-
+    sample := io.InFIR
   }
 
   // send word to fir
-  io.OutFIR := sample
-  io.Out := io.InFIR
+  io.OutFIR := ~inReg.asSInt + 1.S
+  io.Out := sample
 
   // master will then put filtered value onto io.Out
 
