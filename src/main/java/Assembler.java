@@ -44,7 +44,14 @@ public class Assembler {
                         myWriter.write("swi x5, " + (Integer.parseInt(memorypos) + 1983) + "\n");
                         addedData = "";
                     }else if(data.contains("li")){
-                        int immediate = Integer.parseInt(data.substring(data.indexOf(",") + 2).replace(" ", ""));
+
+                        int immediate = 0;
+
+                        if(data.contains("b")){
+                            immediate = Integer.parseInt(data.substring(data.indexOf("b") + 1).replace(" ", ""), 2);
+                        }else{
+                            immediate = Integer.parseInt(data.substring(data.indexOf(",") + 2).replace(" ", ""));
+                        }
 
                         int rd_index = data.indexOf("x");
                         int rd = find_register(data.substring(rd_index, rd_index + 3).replace(" ", ""));
