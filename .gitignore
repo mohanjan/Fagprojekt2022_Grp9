@@ -7,3 +7,9 @@ null/
 firrtl_black_box_resource_files.f
 
 /.idea/libraries/sbt__org_scala_lang_modules_scala_xml_2_13_1_2_0_jar.xml
+DSP.fir
+DSP.v
+havd ska der sske.txt
+test_run_dir/IOtest_should_pass/IOFilter.lo.fir
+test_run_dir/IOtest_should_pass/IOFilter.vcd
+test_run_dir/test_should_pass/DSP.lo.fir
