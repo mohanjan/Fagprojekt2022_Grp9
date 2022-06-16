@@ -4,6 +4,22 @@ import chisel3.util._
 import scala.xml._
 import java.io._
 import Assembler._
+//import Text._
+//package Text
+
+
+object Text{
+    val name = """
+               #   .g8PPPbgd     db      `7MMPPPMq.`7MN.   `7MF'     db      
+               # .dP'     `M    ;MM:       MM   `MM. MMN.    M      ;MM:     
+               # dM'       `   ,V^MM.      MM   ,M9  M YMb   M     ,V^MM.    
+               # MM           ,M  `MM      MMmmdM9   M  `MN. M    ,M  `MM    
+               # MM.          AbmmmqMA     MM        M   `MM.M    AbmmmqMA   
+               # `Mb.     ,' A'     VML    MM        M     YMM   A'     VML  
+               #   `"bmmmd'.AMA.   .AMMA..JMML.    .JML.    YM .AMA.   .AMMA.
+               #""".stripMargin('#')
+}
+
 
 class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
@@ -151,7 +167,9 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
 // generate Verilog
 object DSP extends App {
+  println(Text.name)
   val xml = XML.loadFile("config.xml")
+
   (new chisel3.stage.ChiselStage).emitVerilog(new DSP(100000000, xml))
 }
 
