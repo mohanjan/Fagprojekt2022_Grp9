@@ -1,15 +1,16 @@
 [*]
 [*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
-[*] Wed Jun 15 02:18:12 2022
+[*] Wed Jun 15 15:24:16 2022
 [*]
 [dumpfile] "C:\Users\johan\IdeaProjects\Fagprojekt2022_Grp9\test_run_dir\FieEnginetest_should_pass\FirEngine.vcd"
 [dumpfile_mtime] "Wed Jun 15 02:10:24 2022"
 [dumpfile_size] 44639
 [savefile] "C:\Users\johan\IdeaProjects\Fagprojekt2022_Grp9\test_run_dir\FieEnginetest_should_pass\FirEngineTestSetup.gtkw"
-[timestart] 270
+[timestart] 0
 [size] 1920 1009
 [pos] -113 -113
-*-4.000000 101 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-5.000000 101 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] FirEngine.
 [treeopen] FirEngine.CoeffMemory.
 [sst_width] 211
 [signals_width] 254
@@ -36,7 +37,29 @@ FirEngine.io_Registers_Completed
 FirEngine.io_Registers_Enable
 @420
 FirEngine.io_Registers_ReadData[17:0]
+@c00024
 FirEngine.io_Registers_WriteData[17:0]
+@28
+(0)FirEngine.io_Registers_WriteData[17:0]
+(1)FirEngine.io_Registers_WriteData[17:0]
+(2)FirEngine.io_Registers_WriteData[17:0]
+(3)FirEngine.io_Registers_WriteData[17:0]
+(4)FirEngine.io_Registers_WriteData[17:0]
+(5)FirEngine.io_Registers_WriteData[17:0]
+(6)FirEngine.io_Registers_WriteData[17:0]
+(7)FirEngine.io_Registers_WriteData[17:0]
+(8)FirEngine.io_Registers_WriteData[17:0]
+(9)FirEngine.io_Registers_WriteData[17:0]
+(10)FirEngine.io_Registers_WriteData[17:0]
+(11)FirEngine.io_Registers_WriteData[17:0]
+(12)FirEngine.io_Registers_WriteData[17:0]
+(13)FirEngine.io_Registers_WriteData[17:0]
+(14)FirEngine.io_Registers_WriteData[17:0]
+(15)FirEngine.io_Registers_WriteData[17:0]
+(16)FirEngine.io_Registers_WriteData[17:0]
+(17)FirEngine.io_Registers_WriteData[17:0]
+@1401200
+-group_end
 @28
 FirEngine.io_Registers_WriteEn
 @420
@@ -48,7 +71,9 @@ FirEngine.io_WaveOut[17:0]
 -Wires
 -Not Working
 -Memory
-@c00022
+@24
+FirEngine.SampleCount[10:0]
+@c00024
 +{CoeffAddress} FirEngine.CoeffMemory.CoeffWire_MPORT.addr[9:0]
 @28
 (0)FirEngine.CoeffMemory.CoeffWire_MPORT.addr[9:0]
@@ -61,11 +86,40 @@ FirEngine.io_WaveOut[17:0]
 (7)FirEngine.CoeffMemory.CoeffWire_MPORT.addr[9:0]
 (8)FirEngine.CoeffMemory.CoeffWire_MPORT.addr[9:0]
 (9)FirEngine.CoeffMemory.CoeffWire_MPORT.addr[9:0]
-@1401200
+@1401204
 -group_end
-@22
+@24
 +{CoeffMemory} FirEngine.CoeffMemory.CoeffWire_MPORT.data[17:0]
+@c00025
++{Filtersize} #{FirEngine.DataReg_0[4:17]} (13)FirEngine.DataReg_0[17:0] (12)FirEngine.DataReg_0[17:0] (11)FirEngine.DataReg_0[17:0] (10)FirEngine.DataReg_0[17:0] (9)FirEngine.DataReg_0[17:0] (8)FirEngine.DataReg_0[17:0] (7)FirEngine.DataReg_0[17:0] (6)FirEngine.DataReg_0[17:0] (5)FirEngine.DataReg_0[17:0] (4)FirEngine.DataReg_0[17:0] (3)FirEngine.DataReg_0[17:0] (2)FirEngine.DataReg_0[17:0] (1)FirEngine.DataReg_0[17:0] (0)FirEngine.DataReg_0[17:0]
+@28
+(0)FirEngine.DataReg_0[17:0]
+(1)FirEngine.DataReg_0[17:0]
+(2)FirEngine.DataReg_0[17:0]
+(3)FirEngine.DataReg_0[17:0]
+(4)FirEngine.DataReg_0[17:0]
+(5)FirEngine.DataReg_0[17:0]
+(6)FirEngine.DataReg_0[17:0]
+(7)FirEngine.DataReg_0[17:0]
+(8)FirEngine.DataReg_0[17:0]
+(9)FirEngine.DataReg_0[17:0]
+(10)FirEngine.DataReg_0[17:0]
+(11)FirEngine.DataReg_0[17:0]
+(12)FirEngine.DataReg_0[17:0]
+(13)FirEngine.DataReg_0[17:0]
+@1401205
+-group_end
 @200
 -Wires
+@c00024
+#{States} (14)FirEngine.DataReg_0[17:0] (15)FirEngine.DataReg_0[17:0]
+@28
+(14)FirEngine.DataReg_0[17:0]
+(15)FirEngine.DataReg_0[17:0]
+@1401204
+-group_end
+@28
++{Completed} (16)FirEngine.DataReg_0[17:0]
++{Enable} (17)FirEngine.DataReg_0[17:0]
 [pattern_trace] 1
 [pattern_trace] 0

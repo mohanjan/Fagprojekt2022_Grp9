@@ -10,6 +10,7 @@ class FirEngineTest extends AnyFlatSpec with ChiselScalatestTester {
   "FieEnginetest " should "pass" in {
     test(new FirEngine).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
 
+    val testvalues = Array(65536, 65536, 0, 0, 0, -1000, -2000, 0, -4000, 0)
 
       /*convolution check table:
       * convolution pr sample:
@@ -43,7 +44,6 @@ class FirEngineTest extends AnyFlatSpec with ChiselScalatestTester {
 
 
       //input samples
-      val testvalues = Array(65536, 65536, 0, 0, 0, -1000, -2000, 0, -4000, 0)
 
       dut.io.Registers.Enable.poke(1.U)
       dut.io.Registers.WriteEn.poke(1.U)

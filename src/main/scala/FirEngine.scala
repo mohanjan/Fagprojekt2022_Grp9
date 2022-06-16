@@ -63,7 +63,7 @@ class FirEngine() extends Module {
   // Memory definitions
 
   val CoeffMemory = SyncReadMem(1024, SInt(18.W))
-  val MAccReg = Reg(SInt(18.W))
+  val MAccReg = Reg(SInt(36.W))
 
   val SampleCount = Reg(UInt(11.W))
   val InputSamplePointer = Reg(UInt(11.W))
@@ -91,20 +91,19 @@ class FirEngine() extends Module {
     //FIR filtering
     //note first filterlength of samples are garbage, but since they are gone in a split second it is fine
     Fircomputation36 := CoeffWire * FIRInput
-    Fircomputation18 := ((Fircomputation36) >> 17) (17, 0).asSInt //bitshift
-    MAccReg := MAccReg + Fircomputation18
+    MAccReg := MAccReg + Fircomputation36
   }
   //todo change the counter such that it does the 0th convolution when enable is high
   //States
 
-  //Ready state:
-  when(SampleCount === 0.U) {
-  }
+
+
+  DataReg(0) :=DataReg(0)|2.U
   //output state:
   when(SampleCount === ((DataReg(0) & (2 ^ (15 + 1) - 1).U) >> 4).asUInt) {
-    DataReg(1) := (MAccReg + Fircomputation18).asUInt
+    DataReg(1) := (MAccReg + Fircomputation36 >> 17) (17, 0).asUInt
     MAccReg := 0.S
-    DataReg(0) := DataReg(0) | 2.U
+    DataReg(0) := DataReg(0) | 2.U      //setting Completed
 
     //SamplePointer update
     when(InputSamplePointer > 0.U) {
