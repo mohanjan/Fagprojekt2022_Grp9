@@ -1,12 +1,25 @@
 import chisel3._
 import chisel3.experimental._
 import chisel3.util._
-// import scala.xml._
+import scala.xml._
 import java.io._
 import Assembler._
 
-class DSP(maxCount: Int) extends Module {
-  val io = IO(new Bundle {
+object Text{
+    val name = """
+               #   .g8PPPbgd     db      `7MMPPPMq.`7MN.   `7MF'     db      
+               # .dP'     `M    ;MM:       MM   `MM. MMN.    M      ;MM:     
+               # dM'       `   ,V^MM.      MM   ,M9  M YMb   M     ,V^MM.    
+               # MM           ,M  `MM      MMmmdM9   M  `MN. M    ,M  `MM    
+               # MM.          AbmmmqMA     MM        M   `MM.M    AbmmmqMA   
+               # `Mb.     ,' A'     VML    MM        M     YMM   A'     VML  
+               #   `"bmmmd'.AMA.   .AMMA..JMML.    .JML.    YM .AMA.   .AMMA.
+               #""".stripMargin('#')
+}
+
+
+class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
+    val io = IO(new Bundle {
     val In = Input(UInt(1.W))
     val Out = Output(UInt(1.W))
   })
@@ -131,8 +144,15 @@ class DSP(maxCount: Int) extends Module {
 
 // generate Verilog
 object DSP extends App {
-  // val xml = XML.loadFile("config.xml")
-  (new chisel3.stage.ChiselStage).emitVerilog(new DSP(100000000))
+    println(Text.name + "\n")
+
+  print("Enter config file: ")
+
+  val input = scala.io.StdIn.readLine()
+
+  val xml = XML.loadFile("Config/" + input + ".xml")
+
+  (new chisel3.stage.ChiselStage).emitVerilog(new DSP(100000000, xml))
 }
 
 
