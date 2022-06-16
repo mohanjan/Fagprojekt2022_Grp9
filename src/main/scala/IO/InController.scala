@@ -23,11 +23,19 @@ class InController(bufferWidth: Int) extends Module {
 
   // Counter for decimation
   val cntReg = RegInit(0.U(8.W))
-  cntReg := cntReg + 1.U
+  val cntReg2 = RegInit(0.U(7.W)) // cntReg2 is used to scale the internal clock to 780 ish kHz
+  
+  cntReg2 := cntReg2 +1.U
+  
+  when(cntReg2 === 127.U){
+    cntReg2 := 0.U
+    cntReg := cntReg + 1.U
+  }
+  
+  //cntReg := cntReg + 1.U
   val tick = cntReg === scaler
-
+  
   inReg := Cat(io.In, inReg(bufferWidth - 1, 1))
-
 
   when(tick) {
     cntReg := 0.U
