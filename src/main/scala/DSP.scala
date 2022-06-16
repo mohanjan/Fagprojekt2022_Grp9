@@ -6,6 +6,7 @@ import java.io._
 import Assembler._
 //import Text._
 //package Text
+import java.io.File
 
 
 object Text{
@@ -105,6 +106,16 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
     CAP_IOs(CORE) <> SubDSP.io.Sub_IO
 
+    println("")
+    println("Core " + (CORE + 1))
+    println("") 
+    println("Program: " + Program)
+    println("BRAM size: " + Memsize)
+    println("")
+    println("")
+
+
+
     CORE += 1 
   }
 
@@ -167,8 +178,13 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
 // generate Verilog
 object DSP extends App {
-  println(Text.name)
-  val xml = XML.loadFile("config.xml")
+  println(Text.name + "\n")
+
+  print("Enter config file: ")
+
+  val input = scala.io.StdIn.readLine()
+
+  val xml = XML.loadFile("Config/" + input + ".xml")
 
   (new chisel3.stage.ChiselStage).emitVerilog(new DSP(100000000, xml))
 }
