@@ -1,0 +1,212 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Thu Jun 16 05:32:27 2022
+[*]
+[dumpfile] "C:\Users\johan\IdeaProjects\Fagprojekt2022_Grp9\test_run_dir\IOtest_should_pass\IOFilter.vcd"
+[dumpfile_mtime] "Thu Jun 16 05:28:39 2022"
+[dumpfile_size] 36764
+[savefile] "C:\Users\johan\IdeaProjects\Fagprojekt2022_Grp9\test_run_dir\IOtest_should_pass\GTK TestSetup.gtkw"
+[timestart] 0
+[size] 1920 1009
+[pos] -1 -1
+*-4.000000 71 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] IOFilter.
+[treeopen] IOFilter.CoeffMemory.
+[treeopen] IOFilter.InputSampleMemory.
+[treeopen] IOFilter.OutputSampleMemory.
+[sst_width] 211
+[signals_width] 206
+[sst_expanded] 1
+[sst_vpaned_height] 288
+@200
+-IO
+@28
++{Working} IOFilter.clock
+IOFilter.io_ADCEnable
+@24
+IOFilter.io_DACEnable
+@28
+IOFilter.io_Completed
+IOFilter.io_SampleType
+@c00420
+IOFilter.io_ADCWaveIn[17:0]
+@28
+(0)IOFilter.io_ADCWaveIn[17:0]
+(1)IOFilter.io_ADCWaveIn[17:0]
+(2)IOFilter.io_ADCWaveIn[17:0]
+(3)IOFilter.io_ADCWaveIn[17:0]
+(4)IOFilter.io_ADCWaveIn[17:0]
+(5)IOFilter.io_ADCWaveIn[17:0]
+(6)IOFilter.io_ADCWaveIn[17:0]
+(7)IOFilter.io_ADCWaveIn[17:0]
+(8)IOFilter.io_ADCWaveIn[17:0]
+(9)IOFilter.io_ADCWaveIn[17:0]
+(10)IOFilter.io_ADCWaveIn[17:0]
+(11)IOFilter.io_ADCWaveIn[17:0]
+(12)IOFilter.io_ADCWaveIn[17:0]
+(13)IOFilter.io_ADCWaveIn[17:0]
+(14)IOFilter.io_ADCWaveIn[17:0]
+(15)IOFilter.io_ADCWaveIn[17:0]
+(16)IOFilter.io_ADCWaveIn[17:0]
+(17)IOFilter.io_ADCWaveIn[17:0]
+@1401600
+-group_end
+@420
+IOFilter.io_DACWaveIn[17:0]
+@421
+IOFilter.io_WaveOut[17:0]
+@200
+-Working
+-Memory
+-Wires
+-Not Working
+-Memory
+@420
++{CoeffMemory} IOFilter.CoeffMemory.CoeffWire_MPORT.data[17:0]
+@c00420
++{Input Memory} IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+@28
+(0)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(1)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(2)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(3)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(4)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(5)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(6)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(7)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(8)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(9)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(10)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(11)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(12)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(13)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(14)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(15)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(16)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+(17)IOFilter.InputSampleMemory.MPORT_1.data[17:0]
+@1401600
+-group_end
+@420
++{Output Memory'} IOFilter.OutputSampleMemory.MPORT.data[17:0]
+IOFilter.MAccReg[17:0]
+@c00420
+IOFilter.OutputReg[17:0]
+@28
+(0)IOFilter.OutputReg[17:0]
+(1)IOFilter.OutputReg[17:0]
+(2)IOFilter.OutputReg[17:0]
+(3)IOFilter.OutputReg[17:0]
+(4)IOFilter.OutputReg[17:0]
+(5)IOFilter.OutputReg[17:0]
+(6)IOFilter.OutputReg[17:0]
+(7)IOFilter.OutputReg[17:0]
+(8)IOFilter.OutputReg[17:0]
+(9)IOFilter.OutputReg[17:0]
+(10)IOFilter.OutputReg[17:0]
+(11)IOFilter.OutputReg[17:0]
+(12)IOFilter.OutputReg[17:0]
+(13)IOFilter.OutputReg[17:0]
+(14)IOFilter.OutputReg[17:0]
+(15)IOFilter.OutputReg[17:0]
+(16)IOFilter.OutputReg[17:0]
+(17)IOFilter.OutputReg[17:0]
+@1401600
+-group_end
+@c00024
+[color] 2
+IOFilter.SampleCount[10:0]
+@28
+(0)IOFilter.SampleCount[10:0]
+(1)IOFilter.SampleCount[10:0]
+(2)IOFilter.SampleCount[10:0]
+(3)IOFilter.SampleCount[10:0]
+(4)IOFilter.SampleCount[10:0]
+(5)IOFilter.SampleCount[10:0]
+(6)IOFilter.SampleCount[10:0]
+(7)IOFilter.SampleCount[10:0]
+(8)IOFilter.SampleCount[10:0]
+(9)IOFilter.SampleCount[10:0]
+(10)IOFilter.SampleCount[10:0]
+@1401204
+-group_end
+@200
+-Wires
+@c00028
+IOFilter.Halfcountwire[1:0]
+@28
+(0)IOFilter.Halfcountwire[1:0]
+(1)IOFilter.Halfcountwire[1:0]
+@1401200
+-group_end
+@28
+IOFilter.maxcountwire[2:0]
+@420
+IOFilter.FIRInput[17:0]
+@c00420
+IOFilter.CoeffWire[17:0]
+@28
+(0)IOFilter.CoeffWire[17:0]
+(1)IOFilter.CoeffWire[17:0]
+(2)IOFilter.CoeffWire[17:0]
+(3)IOFilter.CoeffWire[17:0]
+(4)IOFilter.CoeffWire[17:0]
+(5)IOFilter.CoeffWire[17:0]
+(6)IOFilter.CoeffWire[17:0]
+(7)IOFilter.CoeffWire[17:0]
+(8)IOFilter.CoeffWire[17:0]
+(9)IOFilter.CoeffWire[17:0]
+(10)IOFilter.CoeffWire[17:0]
+(11)IOFilter.CoeffWire[17:0]
+(12)IOFilter.CoeffWire[17:0]
+(13)IOFilter.CoeffWire[17:0]
+(14)IOFilter.CoeffWire[17:0]
+(15)IOFilter.CoeffWire[17:0]
+(16)IOFilter.CoeffWire[17:0]
+(17)IOFilter.CoeffWire[17:0]
+@1401200
+-group_end
+@c00420
+IOFilter.Fircomputation36[35:0]
+@28
+(0)IOFilter.Fircomputation36[35:0]
+(1)IOFilter.Fircomputation36[35:0]
+(2)IOFilter.Fircomputation36[35:0]
+(3)IOFilter.Fircomputation36[35:0]
+(4)IOFilter.Fircomputation36[35:0]
+(5)IOFilter.Fircomputation36[35:0]
+(6)IOFilter.Fircomputation36[35:0]
+(7)IOFilter.Fircomputation36[35:0]
+(8)IOFilter.Fircomputation36[35:0]
+(9)IOFilter.Fircomputation36[35:0]
+(10)IOFilter.Fircomputation36[35:0]
+(11)IOFilter.Fircomputation36[35:0]
+(12)IOFilter.Fircomputation36[35:0]
+(13)IOFilter.Fircomputation36[35:0]
+(14)IOFilter.Fircomputation36[35:0]
+(15)IOFilter.Fircomputation36[35:0]
+(16)IOFilter.Fircomputation36[35:0]
+(17)IOFilter.Fircomputation36[35:0]
+(18)IOFilter.Fircomputation36[35:0]
+(19)IOFilter.Fircomputation36[35:0]
+(20)IOFilter.Fircomputation36[35:0]
+(21)IOFilter.Fircomputation36[35:0]
+(22)IOFilter.Fircomputation36[35:0]
+(23)IOFilter.Fircomputation36[35:0]
+(24)IOFilter.Fircomputation36[35:0]
+(25)IOFilter.Fircomputation36[35:0]
+(26)IOFilter.Fircomputation36[35:0]
+(27)IOFilter.Fircomputation36[35:0]
+(28)IOFilter.Fircomputation36[35:0]
+(29)IOFilter.Fircomputation36[35:0]
+(30)IOFilter.Fircomputation36[35:0]
+(31)IOFilter.Fircomputation36[35:0]
+(32)IOFilter.Fircomputation36[35:0]
+(33)IOFilter.Fircomputation36[35:0]
+(34)IOFilter.Fircomputation36[35:0]
+(35)IOFilter.Fircomputation36[35:0]
+@1401200
+-group_end
+@420
+IOFilter.Fircomputation18[17:0]
+[pattern_trace] 1
+[pattern_trace] 0
