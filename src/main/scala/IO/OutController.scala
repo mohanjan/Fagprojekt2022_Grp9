@@ -13,13 +13,21 @@ class OutController(bufferWidth: Int) extends Module {
   })
 
   val scale = bufferWidth.U //shoud be fixed 16 or bufferwidth?
-  val ZReg  = RegInit(0.S(bufferWidth.W))
-  val Diff  = Wire(SInt(bufferWidth.W))
-  val ZIn   = Wire(SInt(bufferWidth.W))
-  val DDC   = WireDefault(0.U(bufferWidth.W))
+  val ZReg  = RegInit(0.S(scale.W))
+  val Diff  = Wire(SInt(scale.W))
+  val ZIn   = Wire(SInt(scale.W))
+  val DDC   = WireDefault(0.U(scale.W))
 
-  val cntReg = RegInit(0.U(4.W))
-  cntReg := cntReg + 1.U
+  val cntReg = RegInit(0.U(5.W))
+  val cntReg2 = RegInit(0.U(7.W))
+  
+  cntReg2 := cntReg2 + 1.U
+  
+  when(cntReg2 === 127.U){
+    cntReg2 := 0.U
+    cntReg := cntReg + 1.U
+  }
+  
   val tick = cntReg === 0.U
 
   when(cntReg === scale) {
@@ -36,14 +44,5 @@ class OutController(bufferWidth: Int) extends Module {
   io.OutPWM := ~ZReg(bufferWidth - 1)
 
 //shared FIR filter with IN controller
-
-  //            SIGMA BALLS
-  // step 0: declare different components
-  // step 1: connect ALU_1 with DDC & IN_FIR
-  // step 2: connect ALU_2 with ALU_1 & z^-1 register
-  // step 3: connect z^-1 register with c_in
-  // step 4: connect wire from ALU_2 to OUT_PWM (MSB), same wire to DDC. This signal goes to the pin connector, then it is sent to an analog Integrator outside the chip
-  // step 5: DDC is a 16 bit NOR connector
-  // step 6: dab on the haters
 
 }
