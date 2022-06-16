@@ -13,20 +13,19 @@ class IOFilter(filterLength: Int) extends Module {
     val Completed = Output(Bool())
   })
 
-  //Wire definitions
+  // Wire definitions
   val FIRInput = Wire(SInt())
   val CoeffCount = Wire(UInt())
   val SampleAddress = Wire(UInt())
   val ReadInputSample = Wire(SInt())
   val ReadOutputSample = Wire(SInt())
 
-  //test wires
+  // test wires
   val CoeffWire = Wire(SInt())
   val Fircomputation36 = Wire(SInt())
   val Fircomputation18 = Wire(SInt())
   val Halfcountwire = Wire(UInt())
   val maxcountwire = Wire(UInt())
-
 
   // Memory definitions
   val InputSampleMemory = SyncReadMem(2048, SInt(18.W))
@@ -51,59 +50,55 @@ class IOFilter(filterLength: Int) extends Module {
   CoeffCount := 0.U
   ReadInputSample := InputSampleMemory.read(SampleAddress)
   ReadOutputSample := OutputSampleMemory.read(SampleAddress)
-  Halfcountwire := (((filterLength - 1 + 2) / 2) - 1).U //CeilDivide
+  Halfcountwire := (((filterLength - 1 + 2) / 2) - 1).U // CeilDivide
   maxcountwire := CountMax
 
-  //TestWires
+  // TestWires
   CoeffWire := CoeffMemory.read(CoeffCount)
   Fircomputation36 := 0.S
   Fircomputation18 := 0.S
 
-  when(SampleCount > 0.U || !io.ADCEnable && !io.DACEnable && (SampleCount === 0.U)) {
-    //FIR Computations
+  when(
+    SampleCount > 0.U || !io.ADCEnable && !io.DACEnable && (SampleCount === 0.U)
+  ) {
+    // FIR Computations
     Fircomputation36 := CoeffWire * FIRInput
     MAccReg := MAccReg + Fircomputation36
   }
 
-  //Counter
-  //Ready state:
+  // Counter
+  // Ready state:
   when(SampleCount === 0.U) {
     io.Completed := 1.U
   }
-  //output state:
+  // output state:
   when(SampleCount === maxcountwire) {
-    OutputReg := (MAccReg + Fircomputation36 >> 17) (17, 0).asSInt //bitshift
+    OutputReg := (MAccReg + Fircomputation36 >> 17)(17, 0).asSInt // bitshift
     MAccReg := 0.S
 
-    //CountUp start state:
-  }.elsewhen((SampleCount > 0.U) && (SampleCount < Halfcountwire) || !io.ADCEnable && !io.DACEnable && SampleCount === 0.U) {
+    // CountUp start state:
+  }.elsewhen(
+    (SampleCount > 0.U) && (SampleCount < Halfcountwire) || !io.ADCEnable && !io.DACEnable && SampleCount === 0.U
+  ) {
     SampleCount := SampleCount + 1.U
     CoeffCount := SampleCount + 1.U
 
-    //CountDown state:
+    // CountDown state:
   }.elsewhen(SampleCount >= Halfcountwire) {
     SampleCount := SampleCount + 1.U
     CoeffCount := (filterLength - 2).U - SampleCount
   }
-
-  //Input/output mode logic
-  when(io.SampleType) {
-    //Logic controlling Output mode
-
-    //FIRInput handling
-    when(SampleCount === 0.U) {
-      FIRInput := io.DACWaveIn
-    }.otherwise {
-      FIRInput := ReadOutputSample
+    // Update input sample-pointer and input sample write
+    when(io.ADCEnable && SampleCount === 0.U) {
+      when(InputSamplePointer > 0.U) {
+        InputSamplePointer := InputSamplePointer - 1.U
+        InputSampleMemory.write(InputSamplePointer - 1.U, io.ADCWaveIn)
+      }.elsewhen(InputSamplePointer === 0.U) {
+        InputSamplePointer := maxcountwire
+        InputSampleMemory.write(maxcountwire, io.ADCWaveIn)
+      }
     }
-
-    //Sample address
-    when(OutputSamplePointer + SampleCount <= maxcountwire) {
-      SampleAddress := OutputSamplePointer + SampleCount
-    }.otherwise {
-      SampleAddress := OutputSamplePointer + SampleCount - filterLength.U
-    }
-    //Update sample-pointer and sample write
+    //Update output sample-pointer and output sample write
     when(io.DACEnable && SampleCount === 0.U) {
       when(OutputSamplePointer > 0.U) {
         OutputSamplePointer := OutputSamplePointer - 1.U
@@ -112,7 +107,26 @@ class IOFilter(filterLength: Int) extends Module {
         OutputSamplePointer := maxcountwire
         OutputSampleMemory.write(maxcountwire, io.DACWaveIn)
       }
-    }.elsewhen(!io.ADCEnable && !io.DACEnable && SampleCount === 0.U) {
+    }
+  // Input/output mode logic
+  when(io.SampleType) {
+    // Logic controlling Output mode
+
+    // FIRInput handling
+    when(SampleCount === 0.U) {
+      FIRInput := io.DACWaveIn
+    }.otherwise {
+      FIRInput := ReadOutputSample
+    }
+
+    // Sample address
+    when(OutputSamplePointer + SampleCount <= maxcountwire) {
+      SampleAddress := OutputSamplePointer + SampleCount
+    }.otherwise {
+      SampleAddress := OutputSamplePointer + SampleCount - filterLength.U
+    }
+
+    when(!io.ADCEnable && !io.DACEnable && SampleCount === 0.U) {
       OutputSampleMemory.write(OutputSamplePointer - 1.U, io.DACWaveIn)
     }.elsewhen(SampleCount === maxcountwire) {
       when(OutputSamplePointer > 0.U) {
@@ -122,35 +136,24 @@ class IOFilter(filterLength: Int) extends Module {
       }
     }
 
-
   }.otherwise {
-    //Logic controlling Input mode
+    // Logic controlling Input mode
 
-    //FIRInput handling
+    // FIRInput handling
     when(SampleCount === 0.U) {
       FIRInput := io.ADCWaveIn
     }.otherwise {
       FIRInput := ReadInputSample
     }
 
-    //Sample address
+    // Sample address
     when(InputSamplePointer + SampleCount <= maxcountwire) {
       SampleAddress := InputSamplePointer + SampleCount
     }.otherwise {
       SampleAddress := InputSamplePointer + SampleCount - filterLength.U
     }
 
-
-    //Update sample-pointer and sample write
-    when(io.ADCEnable && SampleCount === 0.U) {
-      when(InputSamplePointer > 0.U) {
-        InputSamplePointer := InputSamplePointer - 1.U
-        InputSampleMemory.write(InputSamplePointer - 1.U, io.ADCWaveIn)
-      }.elsewhen(InputSamplePointer === 0.U) {
-        InputSamplePointer := maxcountwire
-        InputSampleMemory.write(maxcountwire, io.ADCWaveIn)
-      }
-    }.elsewhen(!io.ADCEnable && !io.DACEnable && SampleCount === 0.U) {
+    when(!io.ADCEnable && !io.DACEnable && SampleCount === 0.U) {
       InputSampleMemory.write(InputSamplePointer - 1.U, io.ADCWaveIn)
     }.elsewhen(SampleCount === maxcountwire) {
       when(InputSamplePointer > 0.U) {
@@ -161,4 +164,3 @@ class IOFilter(filterLength: Int) extends Module {
     }
   }
 }
-

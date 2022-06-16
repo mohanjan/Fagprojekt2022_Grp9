@@ -7,46 +7,17 @@ class test extends AnyFlatSpec with ChiselScalatestTester {
     test(new DSP(20)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
       dut.clock.setTimeout(0)
       println("Starting test")
-      var serial = Array(
-        true.B,
-        false.B,
-        true.B,
-        false.B,
-        false.B,
-        false.B,
-        true.B,
-        true.B,
-        false.B,
-        false.B,
-        false.B,
-        false.B,
-        false.B,
-        true.B,
-        true.B,
-        true.B,
-        false.B,
-        false.B,
-        false.B,
-        false.B,
-        false.B,
-        false.B,
-        true.B,
-        true.B,
-        true.B,
-        true.B,
-        true.B,
-        false.B,
-        true.B,
-        false.B,
-        true.B,
-        false.B
-      )
+      var serial = Array(1.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 1.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 10000.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U, 2.U)
 
-      for (j <- 0 until 30) {
+      for (j <- 0 until 4) {
 
-        for (i <- 0 until 32) {
+        for (i <- 0 until 1000) {
           dut.clock.step(1)
-          dut.io.In.poke(serial(i))
+          dut.io.In.poke(true.B)
+        }
+        for (i <- 0 until 1000) {
+          dut.clock.step(1)
+          dut.io.In.poke(false.B)
         }
 
         for (i <- 0 until 32) {

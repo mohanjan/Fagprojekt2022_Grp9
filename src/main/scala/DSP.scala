@@ -1,16 +1,16 @@
 import chisel3._
 import chisel3.experimental._
 import chisel3.util._
-import scala.xml._
+// import scala.xml._
 import java.io._
 import Assembler._
 
-class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
+class DSP(maxCount: Int) extends Module {
   val io = IO(new Bundle {
-    val In = Input(SInt(16.W))
-    val Out = Output(SInt(16.W))
+    val In = Input(UInt(1.W))
+    val Out = Output(UInt(1.W))
   })
-  val SPI = IO(new Bundle{
+  /*val SPI = IO(new Bundle{
     val SCLK = Output(Bool())
     val CE = Output(Bool())
     val MOSI_MISO = Analog(4.W)   
@@ -116,15 +116,23 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
     CORE += 1
 
   }
+  */
+  val IOC  = Module(new IOMaster(18))
 
-  io.Out := OutputConnector.io.Out(15,0).asSInt
+  IOC.io.In_ADC := io.In
+  //SDSP.io.In     := IOC.io.Out_ADC
+  IOC.io.In_DAC := IOC.io.Out_ADC
+  //IOC.io.In_DAC := SDSP.io.Out
+  io.Out        := IOC.io.Out_DAC
+
+  // io.Out := OutputConnector.io.Out(15,0).asSInt
 
 }
 
 // generate Verilog
 object DSP extends App {
-  val xml = XML.loadFile("config.xml")
-  (new chisel3.stage.ChiselStage).emitVerilog(new DSP(100000000, xml))
+  // val xml = XML.loadFile("config.xml")
+  (new chisel3.stage.ChiselStage).emitVerilog(new DSP(100000000))
 }
 
 

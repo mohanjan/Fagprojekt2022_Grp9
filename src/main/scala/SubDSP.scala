@@ -36,7 +36,7 @@ class SubDSP(Program: String, Memsize: Int, SPIRAM_Offset: Int) extends Module {
 
   // IO
 
-  io.Sub_IO.Out := Core.io.WaveOut + FirEngine.io.WaveOut
+  // io.Sub_IO.Out := Core.io.WaveOut + FirEngine.io.WaveOut
   Core.io.WaveIn := io.Sub_IO.In
   FirEngine.io.WaveIn := io.Sub_IO.In
 

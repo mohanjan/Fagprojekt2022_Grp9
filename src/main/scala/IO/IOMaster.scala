@@ -91,7 +91,7 @@ class IOMaster(bufferWidth: Int) extends Module {
     ADCEn := 0.U
 
     lastSampleType := sampleType
-    sampleType := ~sampleType
+    //sampleType := ~sampleType
   }
 
 }
