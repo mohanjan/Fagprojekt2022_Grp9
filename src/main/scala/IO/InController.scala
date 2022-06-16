@@ -20,11 +20,21 @@ class InController(bufferWidth: Int) extends Module {
   val sample = RegInit(0.S(bufferWidth.W))
 
   // Counter for decimation
-  val cntReg = RegInit(0.U(3.W))
-  cntReg := cntReg + 1.U
+ 
+  val cntReg = RegInit(0.U(5.W))
+  
   val tick = cntReg === 0.U
 
   inReg := Cat(io.In, inReg(bufferWidth - 1, 1))
+
+  //prescaler register 
+  val cntReg2 = RegInit(0.U(7.W))
+  cntReg2 := cntReg2 +1.U
+
+  when(cntReg2 === 127.U){
+    cntReg2 := 0.U
+    cntReg := cntReg + 1.U
+  }
 
   when(cntReg === scaler) {
     cntReg := 0.U
