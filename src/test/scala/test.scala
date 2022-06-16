@@ -54,7 +54,7 @@ class test extends AnyFlatSpec with ChiselScalatestTester {
           dut.io.In.poke(false.B)
         }
 
-        println(s"${j + 1} x parts")
+        println(s"${j + 1} x 64 bits")
       }
 
       // + dut.IOC.io.Out_ADC.peek().toString
