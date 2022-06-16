@@ -7,10 +7,36 @@ import scala.xml._
 import org.scalatest.FlatSpec
 import Sounds._
 import Assembler._
+import chisel3.experimental._
+import chisel3.util._
+
+object Text{
+    val name = """
+               #   .g8PPPbgd     db      `7MMPPPMq.`7MN.   `7MF'     db      
+               # .dP'     `M    ;MM:       MM   `MM. MMN.    M      ;MM:     
+               # dM'       `   ,V^MM.      MM   ,M9  M YMb   M     ,V^MM.    
+               # MM           ,M  `MM      MMmmdM9   M  `MN. M    ,M  `MM    
+               # MM.          AbmmmqMA     MM        M   `MM.M    AbmmmqMA   
+               # `Mb.     ,' A'     VML    MM        M     YMM   A'     VML  
+               #   `"bmmmd'.AMA.   .AMMA..JMML.    .JML.    YM .AMA.   .AMMA.
+               #""".stripMargin('#')
+}
 
 class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
 
-  val xml = XML.loadFile("config.xml")
+  println(Text.name + "\n")
+
+  /*
+
+  print("Enter config file: ")
+
+  val input = scala.io.StdIn.readLine()
+
+  val xml = XML.loadFile("Config/" + input + ".xml")
+
+  */
+
+  val xml = XML.loadFile("Config/SingleCore.xml")
   
   behavior of "DSP"
 
@@ -37,7 +63,6 @@ class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
             dut.clock.step()
           }
 
-      
           /*
           while (!dut.io.in.ready.peek.litToBoolean) {
             dut.clock.step()

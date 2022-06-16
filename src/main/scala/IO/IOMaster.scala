@@ -10,7 +10,7 @@ class IOMaster(bufferWidth: Int) extends Module {
     val Out_ADC = Output(SInt(bufferWidth.W))
     val Out_DAC = Output(UInt(1.W))
   })
-  val filterLength = 100
+  var filterLength = 100
   val ADC = Module(new InController(bufferWidth))
   val DAC = Module(new OutController(bufferWidth))
   val Filter = Module(

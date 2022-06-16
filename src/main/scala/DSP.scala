@@ -27,6 +27,7 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
   val In = Wire(UInt(18.W))
   val Out = Wire(UInt(18.W))
 
+  /*
 
   if((xml \\ "IN_OUT" \\ "@init").text == "true"){
 
@@ -54,6 +55,20 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
     In := io.In.asUInt
     io.Out := Out(15,0).asSInt
   }
+
+  */
+
+  
+
+  val io = IO(new Bundle {
+    val In = Input(SInt(16.W))
+    val Out = Output(SInt(16.W))
+  })
+
+  In := io.In.asUInt
+  io.Out := Out(15,0).asSInt
+
+  
 
   val SPI = IO(new Bundle{
     val SCLK = Output(Bool())
