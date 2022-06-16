@@ -89,7 +89,7 @@ class IOFilter(filterLength: Int) extends Module {
     CoeffCount := (filterLength - 2).U - SampleCount
   }
     // Update input sample-pointer and input sample write
-    when(io.ADCEnable && SampleCount === 0.U) {
+    when(io.ADCEnable && (SampleCount === 0.U || !io.SampleType)) {
       when(InputSamplePointer > 0.U) {
         InputSamplePointer := InputSamplePointer - 1.U
         InputSampleMemory.write(InputSamplePointer - 1.U, io.ADCWaveIn)
@@ -99,7 +99,7 @@ class IOFilter(filterLength: Int) extends Module {
       }
     }
     //Update output sample-pointer and output sample write
-    when(io.DACEnable && SampleCount === 0.U) {
+    when(io.DACEnable && (SampleCount === 0.U || io.SampleType)) {
       when(OutputSamplePointer > 0.U) {
         OutputSamplePointer := OutputSamplePointer - 1.U
         OutputSampleMemory.write(OutputSamplePointer - 1.U, io.DACWaveIn)
