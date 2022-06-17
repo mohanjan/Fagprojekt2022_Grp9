@@ -7,10 +7,11 @@ class InController(bufferWidth: Int) extends Module {
   val io = IO(new Bundle {
     val In = Input(UInt(1.W))
     val ADC_D_out = Output(UInt(1.W))
+    val Sync = Input(UInt(1.W))
+
     // val InFIR = Input(SInt(bufferWidth.W))
     // val Out = Output(SInt(bufferWidth.W))
     // val OutFIR = Output(SInt(bufferWidth.W))
-    val Sync = Input(UInt(1.W))
     // -----unsigned test-----
     val InFIR = Input(UInt(bufferWidth.W))
     val Out = Output(UInt(bufferWidth.W))
@@ -42,7 +43,7 @@ class InController(bufferWidth: Int) extends Module {
   //-----prescaler register-----
   
 
-  when(syncIn===1.U){
+  when(syncIn === 1.U){
     cntReg := cntReg + 1.U
   }
 

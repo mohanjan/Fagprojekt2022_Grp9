@@ -4,11 +4,12 @@ import chisel3.util._
 class IOMaster(bufferWidth: Int) extends Module {
   val io = IO(new Bundle {
     val In_ADC = Input(UInt(1.W))
-    // val In_DAC = Input(SInt(bufferWidth.W))
-    // val Out_ADC = Output(SInt(bufferWidth.W))
     val Out_ADC_D = Output(UInt(1.W))
     val Out_DAC = Output(UInt(1.W))
     val Sync = Output(UInt(1.W))
+
+    // val In_DAC = Input(SInt(bufferWidth.W))
+    // val Out_ADC = Output(SInt(bufferWidth.W))
     // -----unsigned test-----
     val In_DAC = Input(UInt(bufferWidth.W))
     val Out_ADC = Output(UInt(bufferWidth.W))
@@ -20,12 +21,12 @@ class IOMaster(bufferWidth: Int) extends Module {
   
   val syncReg = RegInit(0.U(8.W))
   syncReg := syncReg + 1.U
-  when(syncReg === 0.U){
+  when(syncReg === 1.U){
     io.Sync := 1.U
   }.otherwise{
     io.Sync := 0.U
   }
-  when(syncReg === 127.U){
+  when(syncReg === 1.U){
     syncReg := 0.U
   }
   
