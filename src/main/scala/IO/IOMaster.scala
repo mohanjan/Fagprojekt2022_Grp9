@@ -1,3 +1,4 @@
+
 // støjen bliver skubbet op i høje frekvenser, men det er også de høje frekvenser der bliver dæmpet
 //lav et fælles modul det styrer filter ressourcen
 import chisel3._
@@ -36,6 +37,8 @@ class IOMaster(bufferWidth: Int) extends Module {
   DAC.io.postFIR := DACHold
   DACReg := DAC.io.preFIR
 
+  io.Out_ADC_D := ADC.io.ADC_D_out
+
   ADCFilter.io.SampleType := 0.U
   ADCFilter.io.ADCWaveIn := ADCReg
   ADCFilter.io.DACWaveIn := 0.S
@@ -70,8 +73,17 @@ class IOMaster(bufferWidth: Int) extends Module {
     count := false.B
   }
 
+<<<<<<< HEAD
   when(ADCFilter.io.Completed === 1.U) {
     // when a sample is ready send it to either adc or dac
+=======
+
+
+  when(ADCFilter.io.Completed === 1.U) {
+    // when a sample is ready send it to either adc or dac
+
+        ADCHold := ADCFilter.io.WaveOut
+>>>>>>> 599319850d24562686e5bc910157618d7fe88f3b
 
     ADCHold := ADCFilter.io.WaveOut
     ADCEn := 1.U
@@ -80,10 +92,19 @@ class IOMaster(bufferWidth: Int) extends Module {
   }
   when(DACFilter.io.Completed === 1.U) {
     // when a sample is ready send it to either adc or dac
+<<<<<<< HEAD
 
     DACHold := ADCFilter.io.WaveOut
     DACEn := 1.U
 
   }
+=======
+
+        DACHold := ADCFilter.io.WaveOut
+
+    }
+ */
+>>>>>>> 599319850d24562686e5bc910157618d7fe88f3b
 
 }
+

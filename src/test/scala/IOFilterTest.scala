@@ -40,91 +40,36 @@ class IOFilterTest extends AnyFlatSpec with ChiselScalatestTester {
       //input samples
 
 
-      dut.io.DACEnable.poke(true.B) //checking behavior when in input state and no input enable
-      dut.io.SampleType.poke(0.U)
-      dut.io.ADCWaveIn.poke(0.S)
-      dut.clock.step()
-
-      dut.io.DACEnable.poke(false.B) //checking if convolution stops when enable criterea is not met
-      dut.clock.step()
-      dut.io.DACEnable.poke(1.U)
-      dut.clock.step()
-      dut.clock.step()
-      dut.clock.step()
-      dut.clock.step()
-
-      dut.io.DACEnable.poke(0.U)
-      for (i <- testvalues) { //test af convolution
-        dut.io.ADCWaveIn.poke(i.S)
-        dut.clock.step()
-        dut.clock.step()
-        dut.clock.step()
-        dut.clock.step()
-        dut.clock.step()
-      }
-
-      dut.io.ADCEnable.poke(1.U)
-
-      for (i <- 5 to 9) { //test af buffer opfyldning
-        if (i == 9) {
-          dut.io.ADCEnable.poke(0.U)
-          dut.io.ADCWaveIn.poke(testvalues(i).S)
-          dut.clock.step()
-          dut.clock.step()
-          dut.clock.step()
-          dut.clock.step()
-          dut.clock.step()
-        } else {
-          dut.io.ADCWaveIn.poke(testvalues(i).S)
-          dut.clock.step()
-        }
-      }
 
 
-      //Output samples
-      dut.io.ADCEnable.poke(true.B) //checking behavior when in input state and no input enable
-      dut.io.SampleType.poke(1.U)
-      dut.io.DACWaveIn.poke(0.S)
+      dut.io.ConvEnable.poke(0.U)
+      dut.io.WaveIn.poke(0.S)
       dut.clock.step()
-
-      dut.io.ADCEnable.poke(false.B) //checking if convolution stops when enable criterea is not met
+      dut.io.ConvEnable.poke(0.U) //checking if convolution stops when enable criterea is not met
       dut.clock.step()
-      dut.io.ADCEnable.poke(1.U)
-      dut.clock.step()
-      dut.clock.step()
-      dut.clock.step()
-      dut.clock.step()
-
-      dut.io.ADCEnable.poke(0.U)
       dut.io.ConvEnable.poke(1.U)
+      dut.clock.step()
+      dut.clock.step()
+      dut.clock.step()
+      dut.clock.step()
+
       for (i <- testvalues) { //test af convolution
-        dut.io.DACWaveIn.poke(i.S)
+        dut.io.LoadSamples.poke(0.U)
+        dut.io.WaveIn.poke(i.S)
         dut.clock.step()
         dut.clock.step()
         dut.clock.step()
         dut.clock.step()
+        dut.clock.step()
+        dut.io.LoadSamples.poke(1.U)
+      }
+      dut.io.ConvEnable.poke(0.U)
+      for (i <- testvalues) { //test af buffer opfyldning
+        dut.io.WaveIn.poke(i.S)
+        dut.io.LoadSamples.poke(1.U)
         dut.clock.step()
       }
-
-      dut.io.DACEnable.poke(1.U)
-      dut.io.ConvEnable.poke(1.U)
-
-      for (i <- 5 to 9) { //test af buffer opfyldning
-        if (i == 4) {
-          dut.io.ADCEnable.poke(0.U)
-          dut.io.DACWaveIn.poke(testvalues(i).S)
-
-          dut.clock.step()
-          dut.clock.step()
-          dut.clock.step()
-          dut.clock.step()
-          dut.clock.step()
-        } else {
-          dut.io.DACWaveIn.poke(testvalues(i).S)
-          dut.clock.step()
-        }
-      }
-
     }
+
   }
 }
