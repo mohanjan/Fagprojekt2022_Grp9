@@ -4,12 +4,9 @@ import chisel3.util.experimental.loadMemoryFromFileInline
 
 class IOFilter(filterLength: Int) extends Module {
   val io = IO(new Bundle {
-    val ADCWaveIn = Input(SInt(18.W))
-    val DACWaveIn = Input(SInt(18.W))
+    val WaveIn = Input(SInt(18.W))
     val WaveOut = Output(SInt(18.W))
-    val SampleType = Input(Bool()) // [input=0/output=1]
-    val ADCEnable = Input(Bool())
-    val DACEnable = Input(Bool())
+    val LoadSamples = Input(Bool())
     val ConvEnable = Input(Bool())
     val Completed = Output(Bool())
   })
@@ -18,8 +15,7 @@ class IOFilter(filterLength: Int) extends Module {
   val FIRInput = Wire(SInt())
   val CoeffCount = Wire(UInt())
   val SampleAddress = Wire(UInt())
-  val ReadInputSample = Wire(SInt())
-  val ReadOutputSample = Wire(SInt())
+  val ReadSample = Wire(SInt())
 
   // test wires
   val CoeffWire = Wire(SInt())
@@ -30,7 +26,6 @@ class IOFilter(filterLength: Int) extends Module {
 
   // Memory definitions
   val InputSampleMemory = SyncReadMem(2048, SInt(18.W))
-  val OutputSampleMemory = SyncReadMem(2048, SInt(18.W))
   val CoeffMemory = SyncReadMem(1024, SInt(18.W))
 
   val OutputReg = Reg(SInt(18.W))
@@ -49,8 +44,7 @@ class IOFilter(filterLength: Int) extends Module {
   io.Completed := false.B
   SampleCount := 0.U
   CoeffCount := 0.U
-  ReadInputSample := InputSampleMemory.read(SampleAddress)
-  ReadOutputSample := OutputSampleMemory.read(SampleAddress)
+  ReadSample := InputSampleMemory.read(SampleAddress)
   Halfcountwire := (((filterLength - 1 + 2) / 2) - 1).U // CeilDivide
   maxcountwire := CountMax
 
@@ -60,8 +54,7 @@ class IOFilter(filterLength: Int) extends Module {
   Fircomputation18 := 0.S
 
   when(
-    SampleCount > 0.U || io.ConvEnable && (SampleCount === 0.U)
-  ) {
+    SampleCount > 0.U || (io.ConvEnable && SampleCount === 0.U)) {
     // FIR Computations
     Fircomputation36 := CoeffWire * FIRInput
     MAccReg := MAccReg + Fircomputation36
@@ -74,12 +67,12 @@ class IOFilter(filterLength: Int) extends Module {
   }
   // output state:
   when(SampleCount === maxcountwire) {
-    OutputReg := (MAccReg + Fircomputation36 >> 17)(17, 0).asSInt // bitshift
+    OutputReg := (MAccReg + Fircomputation36 >> 17) (17, 0).asSInt // bitshift
     MAccReg := 0.S
 
     // CountUp start state:
   }.elsewhen(
-    (SampleCount > 0.U) && (SampleCount < Halfcountwire) || io.ConvEnable && SampleCount === 0.U
+    ((SampleCount > 0.U) && (SampleCount < Halfcountwire))|| (io.ConvEnable && SampleCount === 0.U)
   ) {
     SampleCount := SampleCount + 1.U
     CoeffCount := SampleCount + 1.U
@@ -89,79 +82,32 @@ class IOFilter(filterLength: Int) extends Module {
     SampleCount := SampleCount + 1.U
     CoeffCount := (filterLength - 2).U - SampleCount
   }
-    // Update input sample-pointer and input sample write
-    when(io.ADCEnable && (SampleCount === 0.U || !io.SampleType)) {
-      when(InputSamplePointer > 0.U) {
-        InputSamplePointer := InputSamplePointer - 1.U
-        InputSampleMemory.write(InputSamplePointer - 1.U, io.ADCWaveIn)
-      }.elsewhen(InputSamplePointer === 0.U) {
-        InputSamplePointer := maxcountwire
-        InputSampleMemory.write(maxcountwire, io.ADCWaveIn)
-      }
-    }
-    //Update output sample-pointer and output sample write
-    when(io.DACEnable && (SampleCount === 0.U || io.SampleType)) {
-      when(OutputSamplePointer > 0.U) {
-        OutputSamplePointer := OutputSamplePointer - 1.U
-        OutputSampleMemory.write(OutputSamplePointer - 1.U, io.DACWaveIn)
-      }.elsewhen(OutputSamplePointer === 0.U) {
-        OutputSamplePointer := maxcountwire
-        OutputSampleMemory.write(maxcountwire, io.DACWaveIn)
-      }
-    }
-  // Input/output mode logic
-  when(io.SampleType) {
-    // Logic controlling Output mode
 
-    // FIRInput handling
-    when(SampleCount === 0.U) {
-      FIRInput := io.DACWaveIn
-    }.otherwise {
-      FIRInput := ReadOutputSample
-    }
-
-    // Sample address
-    when(OutputSamplePointer + SampleCount <= maxcountwire) {
-      SampleAddress := OutputSamplePointer + SampleCount
-    }.otherwise {
-      SampleAddress := OutputSamplePointer + SampleCount - filterLength.U
-    }
-
-    when(io.ConvEnable && SampleCount === 0.U) {
-      OutputSampleMemory.write(OutputSamplePointer - 1.U, io.DACWaveIn)
-    }.elsewhen(SampleCount === maxcountwire) {
-      when(OutputSamplePointer > 0.U) {
-        OutputSamplePointer := OutputSamplePointer - 1.U
-      }.elsewhen(OutputSamplePointer === 0.U) {
-        OutputSamplePointer := maxcountwire
-      }
-    }
-
+  // FIRInput handling
+  when(SampleCount === 0.U) {
+    FIRInput := io.WaveIn
   }.otherwise {
-    // Logic controlling Input mode
+    FIRInput := ReadSample
+  }
 
-    // FIRInput handling
-    when(SampleCount === 0.U) {
-      FIRInput := io.ADCWaveIn
-    }.otherwise {
-      FIRInput := ReadInputSample
-    }
+  // Sample address
+  when(InputSamplePointer + SampleCount <= maxcountwire) {
+    SampleAddress := InputSamplePointer + SampleCount
+  }.otherwise {
+    SampleAddress := InputSamplePointer + SampleCount - filterLength.U
+  }
 
-    // Sample address
-    when(InputSamplePointer + SampleCount <= maxcountwire) {
-      SampleAddress := InputSamplePointer + SampleCount
-    }.otherwise {
-      SampleAddress := InputSamplePointer + SampleCount - filterLength.U
-    }
-
-    when(io.ConvEnable && SampleCount === 0.U) {
-      InputSampleMemory.write(InputSamplePointer - 1.U, io.ADCWaveIn)
-    }.elsewhen(SampleCount === maxcountwire) {
-      when(InputSamplePointer > 0.U) {
-        InputSamplePointer := InputSamplePointer - 1.U
-      }.elsewhen(InputSamplePointer === 0.U) {
-        InputSamplePointer := maxcountwire
-      }
+  when(io.ConvEnable && SampleCount === 0.U) {
+    InputSampleMemory.write(InputSamplePointer - 1.U, io.WaveIn)
+  }.elsewhen(SampleCount === maxcountwire) {
+    when(InputSamplePointer > 0.U) {
+      InputSamplePointer := InputSamplePointer - 1.U
+    }.elsewhen(InputSamplePointer === 0.U) {
+      InputSamplePointer := maxcountwire
     }
   }
+}
+
+object IOFilter extends App {
+  (new chisel3.stage.ChiselStage).emitVerilog(new IOFilter(827))
 }
