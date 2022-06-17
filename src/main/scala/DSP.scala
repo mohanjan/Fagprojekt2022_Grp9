@@ -21,6 +21,7 @@ object Text{
 class DSP(maxCount: Int) extends Module {
     val io = IO(new Bundle {
     val In = Input(UInt(1.W))
+    val Out_AD = Output(UInt(1.W))
     val Out = Output(UInt(1.W))
   })
   /*val SPI = IO(new Bundle{
@@ -136,6 +137,7 @@ class DSP(maxCount: Int) extends Module {
   //SDSP.io.In     := IOC.io.Out_ADC
   IOC.io.In_DAC := IOC.io.Out_ADC
   //IOC.io.In_DAC := SDSP.io.Out
+  io.Out_AD     := IOC.io.Out_ADC_D
   io.Out        := IOC.io.Out_DAC
 
   // io.Out := OutputConnector.io.Out(15,0).asSInt

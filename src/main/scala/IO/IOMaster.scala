@@ -6,10 +6,11 @@ class IOMaster(bufferWidth: Int) extends Module {
   val io = IO(new Bundle {
     val In_ADC = Input(UInt(1.W))
     val In_DAC = Input(SInt(bufferWidth.W))
+    val Out_ADC_D = Output(UInt(1.W))
     val Out_ADC = Output(SInt(bufferWidth.W))
     val Out_DAC = Output(UInt(1.W))
   })
-  val filterLength = 100
+  val filterLength = 10
 
   val ADC = Module(new InController(bufferWidth))
   val DAC = Module(new OutController(bufferWidth))
@@ -33,6 +34,8 @@ class IOMaster(bufferWidth: Int) extends Module {
   io.Out_DAC := DAC.io.OutPWM
   DAC.io.postFIR := DACHold
   DACReg := DAC.io.preFIR
+
+  io.Out_ADC_D := ADC.io.ADC_D_out
 
   ADCFilter.io.SampleType := 0.U
   ADCFilter.io.ADCWaveIn := ADCReg
