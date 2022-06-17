@@ -9,26 +9,14 @@ class DSP(maxCount: Int) extends Module {
     val DAOut = Output(UInt(1.W))
     val ADOut = Output(UInt(1.W))
   })
- /* val SPI = IO(new Bundle {
-    val SCLK  = Output(Bool())
-    val CE    = Output(Bool())
-    val SO    = Input(Vec(4, Bool()))
-    val SI    = Output(Vec(4, Bool()))
-    val Drive = Output(Bool())
-  })*/
 
-  //val SDSP = Module(new SubDSP())
   val IOC  = Module(new IOMaster(18))
 
   IOC.io.In_ADC := io.ADIn
-  
   IOC.io.In_DAC := IOC.io.Out_ADC
-  
   io.DAOut        := IOC.io.Out_DAC
   io.ADOut        := IOC.io.Out_ADC_D
-  //SDSP.SPI <> SPI
-  //IOC.io.In_DAC := SDSP.io.Out
-  //SDSP.io.In     := IOC.io.Out_ADC
+
 }
 // generate Verilog
 object DSP extends App {
