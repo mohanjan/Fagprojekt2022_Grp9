@@ -9,6 +9,7 @@ class IOMaster(bufferWidth: Int) extends Module {
     val Out_ADC = Output(SInt(bufferWidth.W))
     val Out_DAC = Output(UInt(1.W))
     val Out_ADC_D = Output(UInt(1.W))
+    val Sync = Output(UInt(1.W))
   })
   val filterLength = 824
 
@@ -27,6 +28,21 @@ class IOMaster(bufferWidth: Int) extends Module {
   val DACHold = RegInit(0.S(bufferWidth.W))
   val ADCLoad = RegInit(false.B)
   val DACLoad = RegInit(false.B)
+
+   // ----- synchronizing clock ----------
+  val syncReg = RegInit(0.U(8.W))
+  syncReg := syncReg + 1.U
+  when(syncReg === 1.U){
+    io.Sync := 1.U
+  }.otherwise{
+    io.Sync := 0.U
+  }
+  when(syncReg === 127.U){
+    syncReg := 0.U
+  }
+  ADC.io.Sync := io.Sync
+  DAC.io.Sync := io.Sync
+
 
   ADC.io.In := io.In_ADC
   io.Out_ADC := ADC.io.Out

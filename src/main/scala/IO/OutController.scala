@@ -9,40 +9,43 @@ class OutController(bufferWidth: Int) extends Module {
 
     val preFIR = Output(SInt(bufferWidth.W)) // output from interpolator to FIR
     val OutPWM = Output(UInt(1.W))  //
-
+    val Sync = Input(UInt(1.W))
   })
+  val syncIn = WireDefault(0.U(1.W))
+  syncIn := io.Sync
 
   val scale = bufferWidth.U //shoud be fixed 16 or bufferwidth?
   val ZReg  = RegInit(0.S(bufferWidth.W))
-  val Diff  = Wire(SInt(bufferWidth.W))
-  val ZIn   = Wire(SInt(bufferWidth.W))
-  val DDC   = WireDefault(0.U(bufferWidth.W))
-
+  val Diff  = RegInit(0.S(bufferWidth.W))
+  val DDC   = RegInit(0.S(bufferWidth.W))
   val cntReg = RegInit(0.U(5.W))
-  val cntReg2 = RegInit(0.U(7.W))
-  
- /* cntReg2 := cntReg2 + 1.U
-  
-  when(cntReg2 === 127.U){
-    cntReg2 := 0.U
-    cntReg := cntReg + 1.U
-  }*/
-   
-    cntReg := cntReg + 1.U
   val tick = cntReg === 0.U
+
+  // val DiffReg = RegInit((bufferWidth.W))
+  val PDMReg = RegInit(0.U(1.W))
+  val pFIRReg = RegInit(0.S(bufferWidth.W))
+  val FIRpReg = RegInit(0.S(bufferWidth.W))
+  cntReg := cntReg + 1.U
+  io.preFIR := pFIRReg
+  
+  io.preFIR := Mux(tick, io.In, 0.S)
+  
+  // -----synced calculation-----
+  when(syncIn === 1.U){
+    // cntReg := cntReg + 1.U
+    FIRpReg := io.postFIR
+    //bitshift DDC
+    Diff := FIRpReg - DDC
+    ZReg  := ZReg + Diff
+    DDC := Mux(io.OutPWM === 1.U, Fill(bufferWidth-1, 1.U).zext, ~(Fill(bufferWidth-1, 1.U).zext))
+    PDMReg := ~ZReg(bufferWidth - 1)
+  }
+  io.OutPWM := PDMReg
 
   when(cntReg === scale) {
     cntReg := 0.U
   }
-
-  Diff := io.postFIR - DDC.asSInt
-  ZIn  := ZReg + Diff
-  ZReg := ZIn
-
-  DDC := Mux(io.OutPWM === 1.U, Fill(bufferWidth, 1.U).asUInt, 0.U)
-  
-  io.preFIR := Mux(tick, io.In, 0.S)
-  io.OutPWM := ~ZReg(bufferWidth - 1)
+ 
 
 //shared FIR filter with IN controller
  
