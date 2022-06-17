@@ -4,8 +4,8 @@ import chisel3.util._
 class IOMaster(bufferWidth: Int) extends Module {
   val io = IO(new Bundle {
     val In_ADC = Input(UInt(1.W))
-    val In_DAC = Input(SInt(16.W))
-    val Out_ADC = Output(SInt(16.W))
+    val In_DAC = Input(SInt(bufferWidth.W))
+    val Out_ADC = Output(SInt(bufferWidth.W))
     val Out_ADC_D = Output(UInt(1.W))
     val Out_DAC = Output(UInt(1.W))
   })

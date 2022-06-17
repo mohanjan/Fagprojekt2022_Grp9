@@ -21,13 +21,14 @@ class DSP(maxCount: Int) extends Module {
   val IOC  = Module(new IOMaster(18))
 
   IOC.io.In_ADC := io.ADIn
-  //SDSP.io.In     := IOC.io.Out_ADC
+  
   IOC.io.In_DAC := IOC.io.Out_ADC
-  //IOC.io.In_DAC := SDSP.io.Out
+  
   io.DAOut        := IOC.io.Out_DAC
   io.ADOut        := IOC.io.Out_ADC_D
   //SDSP.SPI <> SPI
-
+  //IOC.io.In_DAC := SDSP.io.Out
+  //SDSP.io.In     := IOC.io.Out_ADC
 }
 // generate Verilog
 object DSP extends App {

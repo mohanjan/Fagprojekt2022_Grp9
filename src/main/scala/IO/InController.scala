@@ -13,7 +13,10 @@ class InController(bufferWidth: Int) extends Module {
   })
 
   val scaler = bufferWidth.U
-  io.ADC_D_out := io.In
+  val dReg = RegInit(0.U(1.W))
+  
+  dReg := io.In
+  io.ADC_D_out := dReg
 
   // serial to parallel buffer
   val inReg = RegInit(0.U(bufferWidth.W))
@@ -26,9 +29,10 @@ class InController(bufferWidth: Int) extends Module {
   val tick = cntReg === 0.U
 
   inReg := Cat(io.In, inReg(bufferWidth - 1, 1))
+  // inReg := Cat(dReg, inReg(bufferWidth - 1, 1))
 
-  //prescaler register 
-  val cntReg2 = RegInit(0.U(7.W))
+  //-----prescaler register-----
+  val cntReg2 = RegInit(0.U(8.W))
   cntReg2 := cntReg2 +1.U
 
   when(cntReg2 === 127.U){
@@ -40,7 +44,7 @@ class InController(bufferWidth: Int) extends Module {
     cntReg := 0.U
     sample := io.InFIR
   }
-
+  // sample := io.InFIR
   // send word to fir
   io.OutFIR := ~inReg.asSInt + 1.S
   io.Out := sample

@@ -11,34 +11,50 @@ module InController(
   reg [31:0] _RAND_0;
   reg [31:0] _RAND_1;
   reg [31:0] _RAND_2;
+  reg [31:0] _RAND_3;
+  reg [31:0] _RAND_4;
 `endif // RANDOMIZE_REG_INIT
-  reg [17:0] inReg; // @[InController.scala 19:22]
-  reg [17:0] sample; // @[InController.scala 20:23]
-  reg [2:0] cntReg; // @[InController.scala 23:23]
-  wire [2:0] _cntReg_T_1 = cntReg + 3'h1; // @[InController.scala 24:20]
+  reg  dReg; // @[InController.scala 16:21]
+  reg [17:0] inReg; // @[InController.scala 22:22]
+  reg [17:0] sample; // @[InController.scala 23:23]
+  reg [4:0] cntReg; // @[InController.scala 27:23]
   wire [17:0] _inReg_T_1 = {io_In,inReg[17:1]}; // @[Cat.scala 31:58]
-  wire [4:0] _GEN_2 = {{2'd0}, cntReg}; // @[InController.scala 29:15]
-  wire [17:0] _io_OutFIR_T_2 = ~inReg; // @[InController.scala 35:16]
-  assign io_Out = sample; // @[InController.scala 36:10]
-  assign io_ADC_D_out = io_In; // @[InController.scala 16:16]
-  assign io_OutFIR = $signed(_io_OutFIR_T_2) + 18'sh1; // @[InController.scala 35:30]
+  reg [7:0] cntReg2; // @[InController.scala 35:24]
+  wire [7:0] _cntReg2_T_1 = cntReg2 + 8'h1; // @[InController.scala 36:22]
+  wire [4:0] _cntReg_T_1 = cntReg + 5'h1; // @[InController.scala 40:22]
+  wire [17:0] _io_OutFIR_T_2 = ~inReg; // @[InController.scala 49:16]
+  assign io_Out = sample; // @[InController.scala 50:10]
+  assign io_ADC_D_out = dReg; // @[InController.scala 19:16]
+  assign io_OutFIR = $signed(_io_OutFIR_T_2) + 18'sh1; // @[InController.scala 49:30]
   always @(posedge clock) begin
-    if (reset) begin // @[InController.scala 19:22]
-      inReg <= 18'h0; // @[InController.scala 19:22]
+    if (reset) begin // @[InController.scala 16:21]
+      dReg <= 1'h0; // @[InController.scala 16:21]
     end else begin
-      inReg <= _inReg_T_1; // @[InController.scala 27:9]
+      dReg <= io_In; // @[InController.scala 18:8]
     end
-    if (reset) begin // @[InController.scala 20:23]
-      sample <= 18'sh0; // @[InController.scala 20:23]
-    end else if (_GEN_2 == 5'h12) begin // @[InController.scala 29:27]
-      sample <= io_InFIR; // @[InController.scala 31:12]
+    if (reset) begin // @[InController.scala 22:22]
+      inReg <= 18'h0; // @[InController.scala 22:22]
+    end else begin
+      inReg <= _inReg_T_1; // @[InController.scala 31:9]
     end
     if (reset) begin // @[InController.scala 23:23]
-      cntReg <= 3'h0; // @[InController.scala 23:23]
-    end else if (_GEN_2 == 5'h12) begin // @[InController.scala 29:27]
-      cntReg <= 3'h0; // @[InController.scala 30:12]
+      sample <= 18'sh0; // @[InController.scala 23:23]
+    end else if (cntReg == 5'h12) begin // @[InController.scala 43:27]
+      sample <= io_InFIR; // @[InController.scala 45:12]
+    end
+    if (reset) begin // @[InController.scala 27:23]
+      cntReg <= 5'h0; // @[InController.scala 27:23]
+    end else if (cntReg == 5'h12) begin // @[InController.scala 43:27]
+      cntReg <= 5'h0; // @[InController.scala 44:12]
+    end else if (cntReg2 == 8'h7f) begin // @[InController.scala 38:26]
+      cntReg <= _cntReg_T_1; // @[InController.scala 40:12]
+    end
+    if (reset) begin // @[InController.scala 35:24]
+      cntReg2 <= 8'h0; // @[InController.scala 35:24]
+    end else if (cntReg2 == 8'h7f) begin // @[InController.scala 38:26]
+      cntReg2 <= 8'h0; // @[InController.scala 39:13]
     end else begin
-      cntReg <= _cntReg_T_1; // @[InController.scala 24:10]
+      cntReg2 <= _cntReg2_T_1; // @[InController.scala 36:11]
     end
   end
 // Register and memory initialization
@@ -78,11 +94,15 @@ initial begin
     `endif
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {1{`RANDOM}};
-  inReg = _RAND_0[17:0];
+  dReg = _RAND_0[0:0];
   _RAND_1 = {1{`RANDOM}};
-  sample = _RAND_1[17:0];
+  inReg = _RAND_1[17:0];
   _RAND_2 = {1{`RANDOM}};
-  cntReg = _RAND_2[2:0];
+  sample = _RAND_2[17:0];
+  _RAND_3 = {1{`RANDOM}};
+  cntReg = _RAND_3[4:0];
+  _RAND_4 = {1{`RANDOM}};
+  cntReg2 = _RAND_4[7:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
@@ -102,20 +122,17 @@ module OutController(
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
 `endif // RANDOMIZE_REG_INIT
-  reg [17:0] ZReg; // @[OutController.scala 16:22]
-  wire [17:0] _Diff_T = io_OutPWM ? 18'h3ffff : 18'h0; // @[OutController.scala 36:26]
-  wire [17:0] _Diff_T_3 = $signed(io_InFIR) - $signed(_Diff_T); // @[OutController.scala 36:20]
-  wire [15:0] Diff = _Diff_T_3[15:0]; // @[OutController.scala 17:19 36:8]
-  wire [17:0] _GEN_4 = {{2{Diff[15]}},Diff}; // @[OutController.scala 37:16]
-  wire [17:0] _ZIn_T_2 = $signed(ZReg) + $signed(_GEN_4); // @[OutController.scala 37:16]
-  wire [15:0] ZIn = _ZIn_T_2[15:0]; // @[OutController.scala 18:19 37:8]
-  assign io_OutFIR = io_In; // @[OutController.scala 42:19]
-  assign io_OutPWM = ~ZReg[17]; // @[OutController.scala 43:16]
+  reg [17:0] ZReg; // @[OutController.scala 17:22]
+  wire [17:0] _Diff_T = io_OutPWM ? 18'h3ffff : 18'h0; // @[OutController.scala 50:26]
+  wire [17:0] Diff = $signed(io_InFIR) - $signed(_Diff_T); // @[OutController.scala 50:20]
+  wire [17:0] _ZReg_T_2 = $signed(ZReg) + $signed(Diff); // @[OutController.scala 45:19]
+  assign io_OutFIR = io_In; // @[OutController.scala 58:13]
+  assign io_OutPWM = ~ZReg[17]; // @[OutController.scala 59:16]
   always @(posedge clock) begin
-    if (reset) begin // @[OutController.scala 16:22]
-      ZReg <= 18'sh0; // @[OutController.scala 16:22]
+    if (reset) begin // @[OutController.scala 17:22]
+      ZReg <= 18'sh0; // @[OutController.scala 17:22]
     end else begin
-      ZReg <= {{2{ZIn[15]}},ZIn}; // @[OutController.scala 38:8]
+      ZReg <= _ZReg_T_2; // @[OutController.scala 52:8]
     end
   end
 // Register and memory initialization
@@ -168,8 +185,8 @@ module IOMaster(
   input         clock,
   input         reset,
   input         io_In_ADC,
-  input  [15:0] io_In_DAC,
-  output [15:0] io_Out_ADC,
+  input  [17:0] io_In_DAC,
+  output [17:0] io_Out_ADC,
   output        io_Out_ADC_D,
   output        io_Out_DAC
 );
@@ -203,17 +220,17 @@ module IOMaster(
     .io_OutFIR(DAC_io_OutFIR),
     .io_OutPWM(DAC_io_OutPWM)
   );
-  assign io_Out_ADC = ADC_io_Out[15:0]; // @[IOMaster.scala 31:14]
-  assign io_Out_ADC_D = ADC_io_ADC_D_out; // @[IOMaster.scala 33:16]
-  assign io_Out_DAC = DAC_io_OutPWM; // @[IOMaster.scala 36:14]
+  assign io_Out_ADC = ADC_io_Out; // @[IOMaster.scala 17:14]
+  assign io_Out_ADC_D = ADC_io_ADC_D_out; // @[IOMaster.scala 19:16]
+  assign io_Out_DAC = DAC_io_OutPWM; // @[IOMaster.scala 22:14]
   assign ADC_clock = clock;
   assign ADC_reset = reset;
-  assign ADC_io_In = io_In_ADC; // @[IOMaster.scala 30:13]
-  assign ADC_io_InFIR = ADC_io_OutFIR; // @[IOMaster.scala 32:16]
+  assign ADC_io_In = io_In_ADC; // @[IOMaster.scala 16:13]
+  assign ADC_io_InFIR = ADC_io_OutFIR; // @[IOMaster.scala 18:16]
   assign DAC_clock = clock;
   assign DAC_reset = reset;
-  assign DAC_io_In = {{2{io_In_DAC[15]}},io_In_DAC}; // @[IOMaster.scala 35:13]
-  assign DAC_io_InFIR = DAC_io_OutFIR; // @[IOMaster.scala 37:16]
+  assign DAC_io_In = io_In_DAC; // @[IOMaster.scala 21:13]
+  assign DAC_io_InFIR = DAC_io_OutFIR; // @[IOMaster.scala 23:16]
 endmodule
 module DSP(
   input   clock,
@@ -225,8 +242,8 @@ module DSP(
   wire  IOC_clock; // @[DSP.scala 21:20]
   wire  IOC_reset; // @[DSP.scala 21:20]
   wire  IOC_io_In_ADC; // @[DSP.scala 21:20]
-  wire [15:0] IOC_io_In_DAC; // @[DSP.scala 21:20]
-  wire [15:0] IOC_io_Out_ADC; // @[DSP.scala 21:20]
+  wire [17:0] IOC_io_In_DAC; // @[DSP.scala 21:20]
+  wire [17:0] IOC_io_Out_ADC; // @[DSP.scala 21:20]
   wire  IOC_io_Out_ADC_D; // @[DSP.scala 21:20]
   wire  IOC_io_Out_DAC; // @[DSP.scala 21:20]
   IOMaster IOC ( // @[DSP.scala 21:20]
