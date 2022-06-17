@@ -6,10 +6,10 @@ import chisel3.util._
 class InController(bufferWidth: Int) extends Module {
   val io = IO(new Bundle {
     val In = Input(UInt(1.W))
-    val InFIR = Input(SInt(bufferWidth.W))
+    val postFIR = Input(SInt(bufferWidth.W))
     val Out = Output(SInt(bufferWidth.W))
     val ADC_D_out = Output(UInt(1.W))
-    val OutFIR = Output(SInt(bufferWidth.W))
+    val preFIR = Output(SInt(bufferWidth.W))
   })
 
   val scaler = bufferWidth.U
@@ -31,11 +31,11 @@ class InController(bufferWidth: Int) extends Module {
 
   when(tick) {
     cntReg := 0.U
-    sample := io.InFIR
+    sample := io.postFIR
   }
 
   // send word to fir
-  io.OutFIR := ~inReg.asSInt + 1.S
+  io.preFIR := ~inReg.asSInt + 1.S
   io.Out := sample
 
   // master will then put filtered value onto io.Out

@@ -5,9 +5,9 @@ import chisel3.util._
 class OutController(bufferWidth: Int) extends Module {
   val io = IO(new Bundle {
     val In    = Input(SInt(bufferWidth.W))
-    val InFIR = Input(SInt(bufferWidth.W)) // input from FIR filter
+    val postFIR = Input(SInt(bufferWidth.W)) // input from FIR filter
 
-    val OutFIR = Output(SInt(bufferWidth.W)) // output from interpolator to FIR
+    val preFIR = Output(SInt(bufferWidth.W)) // output from interpolator to FIR
     val OutPWM = Output(UInt(1.W))  //
 
   })
@@ -35,13 +35,13 @@ class OutController(bufferWidth: Int) extends Module {
     cntReg := 0.U
   }
 
-  Diff := io.InFIR - DDC.asSInt
+  Diff := io.postFIR - DDC.asSInt
   ZIn  := ZReg + Diff
   ZReg := ZIn
 
   DDC := Mux(io.OutPWM === 1.U, Fill(bufferWidth, 1.U).asUInt, 0.U)
   
-  io.OutFIR := Mux(tick, io.In, 0.S)
+  io.preFIR := Mux(tick, io.In, 0.S)
   io.OutPWM := ~ZReg(bufferWidth - 1)
 
 //shared FIR filter with IN controller

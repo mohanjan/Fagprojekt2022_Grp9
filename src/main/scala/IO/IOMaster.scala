@@ -27,12 +27,12 @@ class IOMaster(bufferWidth: Int) extends Module {
 
   ADC.io.In := io.In_ADC
   io.Out_ADC := ADC.io.Out
-  ADC.io.InFIR := ADCHold
-  ADCReg := ADC.io.OutFIR
+  ADC.io.postFIR := ADCHold
+  ADCReg := ADC.io.preFIR
   DAC.io.In := io.In_DAC
   io.Out_DAC := DAC.io.OutPWM
-  DAC.io.InFIR := DACHold
-  DACReg := DAC.io.OutFIR
+  DAC.io.postFIR := DACHold
+  DACReg := DAC.io.preFIR
 
   ADCFilter.io.SampleType := 0.U
   ADCFilter.io.ADCWaveIn := ADCReg
