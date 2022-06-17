@@ -24,6 +24,8 @@ class IOMaster(bufferWidth: Int) extends Module {
   val DACReg = RegInit(0.S(bufferWidth.W))
   val ADCHold = RegInit(0.S(bufferWidth.W))
   val DACHold = RegInit(0.S(bufferWidth.W))
+  val ADCEn = RegInit(false.B)
+  val DACEn = RegInit(false.B)
 
   ADC.io.In := io.In_ADC
   io.Out_ADC := ADC.io.Out
@@ -38,42 +40,50 @@ class IOMaster(bufferWidth: Int) extends Module {
   ADCFilter.io.ADCWaveIn := ADCReg
   ADCFilter.io.DACWaveIn := 0.S
   ADCFilter.io.DACEnable := 0.U
-  ADCFilter.io.ADCEnable := 1.U
+  ADCFilter.io.ADCEnable := ADCEn // hhhh
   ADCFilter.io.ConvEnable := 0.U
-  
+
   DACFilter.io.SampleType := 1.U
   DACFilter.io.ADCWaveIn := 0.S
   DACFilter.io.DACWaveIn := DACReg
-  DACFilter.io.DACEnable := 1.U
+  DACFilter.io.DACEnable := DACEn // hhhh
   DACFilter.io.ADCEnable := 0.U
   DACFilter.io.ConvEnable := 0.U
 
   // Counter for ensuring filter is filled with samples
   val cntReg = RegInit(0.U(10.W))
-  val check1 = cntReg === filterLength.asUInt
 
-  cntReg := cntReg + 1.U
+  val check1 = cntReg === filterLength.asUInt
+  val count = RegInit(true.B)
+
+  when(count) {
+    cntReg := cntReg + 1.U
+  }
 
   when(check1) {
     ADCFilter.io.ConvEnable := 1.U
+    ADCEn := false.B
+
     DACFilter.io.ConvEnable := 1.U
+    DACEn := false.B
     cntReg := 0.U
+    count := false.B
   }
-  
- 
-  
+
   when(ADCFilter.io.Completed === 1.U) {
     // when a sample is ready send it to either adc or dac
-    
-        ADCHold := ADCFilter.io.WaveOut
 
-    }
-    when(DACFilter.io.Completed === 1.U) {
+    ADCHold := ADCFilter.io.WaveOut
+    ADCEn := 1.U
+    count := true.B
+
+  }
+  when(DACFilter.io.Completed === 1.U) {
     // when a sample is ready send it to either adc or dac
-    
-        DACHold := ADCFilter.io.WaveOut
 
-    }
-  
+    DACHold := ADCFilter.io.WaveOut
+    DACEn := 1.U
+
+  }
 
 }

@@ -148,7 +148,7 @@ object DSP extends App {
 
   print("Enter config file: ")
 
-  val input = scala.io.StdIn.readLine()
+  // val input = scala.io.StdIn.readLine()
 
   // val xml = XML.loadFile("Config/" + input + ".xml")
 

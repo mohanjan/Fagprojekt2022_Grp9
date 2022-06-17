@@ -283,7 +283,7 @@ class test extends AnyFlatSpec with ChiselScalatestTester {
           //if(i==0){println(s"output is $output | error is $error | ")}
         }
 
-        //println(s"${i + 1} x periods")
+        println(s"${i + 1} x periods")
       }
       // + dut.IOC.io.Out_ADC.peek().toString
 
