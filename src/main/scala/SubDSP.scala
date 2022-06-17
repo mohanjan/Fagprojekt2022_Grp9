@@ -45,9 +45,7 @@ class SubDSP(Program: String, Memsize: Int, SPIRAM_Offset: Int) extends Module {
   Core.io.MemPort <> DataMemory.io.MemPort(0)
 
   FirEngine.io.Registers <> DataMemory.io.Registers
-
   FirEngine.io.MemPort <> DataMemory.io.MemPort(1)
-  //FirEngine.io.WaveIn := 0.U
 
   SPI.SPIMemPort <> DataMemory.io.SPIMemPort
 }

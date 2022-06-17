@@ -47,6 +47,8 @@ class FirEngine() extends Module {
 
   //FIR Engine controll logic
 
+  /*
+
   //Wire definitions
   val FIRInput = Wire(SInt())
   val CoeffCount = Wire(UInt())
@@ -163,5 +165,7 @@ class FirEngine() extends Module {
   }.otherwise {
     FIRInput := ReadSample
   }
+
+  */
 
 }

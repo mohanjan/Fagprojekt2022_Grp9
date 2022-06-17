@@ -17,20 +17,16 @@ class DataMemory(Memports: Int, Memsize: Int, SPIRAM_Offset: Int) extends Module
 
   // Defaults
 
-  
-
   io.Registers.Address := 0.U
   io.Registers.WriteData := 0.U
   io.Registers.Enable := false.B
   io.Registers.WriteEn := false.B
 
-  
 
   val CompleteDelayInternal = RegInit(0.U(1.W))
   val CompleteDelayRegister = RegInit(0.U(1.W))
   //val CompleteDelayExternal = RegInit(0.U(1.W))
 
-  
   for(i <- 0 until Memports){
     io.MemPort(i).ReadData := 0.U
     io.MemPort(i).Completed := false.B
@@ -58,57 +54,28 @@ class DataMemory(Memports: Int, Memsize: Int, SPIRAM_Offset: Int) extends Module
   when(CompleteDelayInternal.asBool || CompleteDelayRegister.asBool){
     CompleteDelayInternal := false.B
     CompleteDelayInternal := false.B
+    io.MemPort(Producer).Completed := true.B
     Taken := 0.U
   }
 
   // Address space partition
 
+  //ReadInputSample := Memory.read(SampleAdress)
+
   when(io.MemPort(Producer).Enable){
     when(io.MemPort(Producer).Address <= 2047.U || CompleteDelayInternal.asBool){ // Internal data memory
 
-      /*
 
-      val ReadWritePort = Memory(io.MemPort(Producer).Address)
-      io.MemPort(Producer).Completed := true.B
-
-      when(io.MemPort(Producer).WriteEn){
-        ReadWritePort := io.MemPort(Producer).WriteData
-      }.otherwise{
-        io.MemPort(Producer).ReadData := ReadWritePort
-        io.MemPort(Producer).Completed
+      val rdwrPort = Memory(io.MemPort(Producer).Address)
+      when (io.MemPort(Producer).WriteEn) {
+        rdwrPort := io.MemPort(Producer).WriteData
         CompleteDelayInternal := true.B
       }
-
-      */
-
-      
-
-      io.MemPort(Producer).Completed := true.B
-
-      when(io.MemPort(Producer).WriteEn){
-        Memory.write(io.MemPort(Producer).Address, io.MemPort(Producer).WriteData)
-      }.otherwise{
-        io.MemPort(Producer).ReadData := Memory.read(io.MemPort(Producer).Address, true.B)
-        io.MemPort(Producer).Completed
+      .otherwise{
+        io.MemPort(Producer).ReadData := rdwrPort
         CompleteDelayInternal := true.B
       }
-
-      
-
-      /*
-
-      io.MemPort(Producer).Completed := true.B
-
-      when(io.MemPort(Producer).WriteEn){
-        Memory(io.MemPort(Producer).Address):= io.MemPort(Producer).WriteData
-      }.otherwise{
-        io.MemPort(Producer).ReadData := Memory(io.MemPort(Producer).Address)
-      }
-
-      */
-
-    
-
+  
     }.elsewhen(io.MemPort(Producer).Address <= 2175.U){ // FIR Registers
 
       io.Registers.Address := (io.MemPort(Producer).Address - 2175.U)(5,0)
