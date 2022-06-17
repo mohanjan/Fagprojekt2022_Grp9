@@ -279,7 +279,7 @@ class test extends AnyFlatSpec with ChiselScalatestTester {
           error =  error - output*65535
           output = if (output<0) 0 else output
           dut.io.In.poke(output.B)
-          dut.clock.step()
+          dut.clock.step(127)
           //if(i==0){println(s"output is $output | error is $error | ")}
         }
 

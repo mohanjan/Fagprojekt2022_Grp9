@@ -101,9 +101,8 @@ class IOFilter(filterLength: Int) extends Module {
     SampleAddress := InputSamplePointer + SampleCount - filterLength.U
   }
 
-  when(io.ConvEnable && SampleCount === 0.U) {
+  when(io.LoadSamples && SampleCount === 0.U) {
     InputSampleMemory.write(InputSamplePointer - 1.U, io.WaveIn)
-  }.elsewhen(SampleCount === maxcountwire) {
     when(InputSamplePointer > 0.U) {
       InputSamplePointer := InputSamplePointer - 1.U
     }.elsewhen(InputSamplePointer === 0.U) {

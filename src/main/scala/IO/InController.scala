@@ -24,16 +24,16 @@ class InController(bufferWidth: Int) extends Module {
   // Counter for decimation
   val cntReg = RegInit(0.U(8.W))
   val cntReg2 = RegInit(0.U(7.W))
-  cntReg2 := cntReg2 + 1.U
+ /* cntReg2 := cntReg2 + 1.U
   when(cntReg2 === 127.U){
     cntReg2 := 0.U
     cntReg := cntReg + 1.U
   }
-
-  // cntReg := cntReg + 1.U
+*/
+  cntReg := cntReg + 1.U
   val tick = cntReg === scaler
 
-  inReg := Cat(io.In, inReg(bufferWidth - 1, 1))
+  inReg := Cat(inReg(bufferWidth - 2, 0), io.In)
   io.ADC_D_out := inReg
 
   when(tick) {
@@ -42,7 +42,7 @@ class InController(bufferWidth: Int) extends Module {
   }
 
   // send word to fir
-  io.preFIR := ~inReg.asSInt + 1.S
+  io.preFIR := inReg.asSInt
   io.Out := sample
 
   // master will then put filtered value onto io.Out

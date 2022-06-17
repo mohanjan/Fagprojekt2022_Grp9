@@ -21,14 +21,14 @@ class OutController(bufferWidth: Int) extends Module {
   val cntReg = RegInit(0.U(5.W))
   val cntReg2 = RegInit(0.U(7.W))
   
-  cntReg2 := cntReg2 + 1.U
+ /* cntReg2 := cntReg2 + 1.U
   
   when(cntReg2 === 127.U){
     cntReg2 := 0.U
     cntReg := cntReg + 1.U
-  }
+  }*/
    
-    // cntReg := cntReg + 1.U
+    cntReg := cntReg + 1.U
   val tick = cntReg === 0.U
 
   when(cntReg === scale) {
