@@ -1,3 +1,4 @@
+
 // støjen bliver skubbet op i høje frekvenser, men det er også de høje frekvenser der bliver dæmpet
 //lav et fælles modul det styrer filter ressourcen
 import chisel3._
@@ -11,7 +12,7 @@ class IOMaster(bufferWidth: Int) extends Module {
     val Out_DAC = Output(UInt(1.W))
   })
   val filterLength = 10
-
+/*
   val ADC = Module(new InController(bufferWidth))
   val DAC = Module(new OutController(bufferWidth))
   val ADCFilter = Module(
@@ -43,7 +44,7 @@ class IOMaster(bufferWidth: Int) extends Module {
   ADCFilter.io.DACEnable := 0.U
   ADCFilter.io.ADCEnable := 1.U
   ADCFilter.io.ConvEnable := 0.U
-  
+
   DACFilter.io.SampleType := 1.U
   DACFilter.io.ADCWaveIn := 0.S
   DACFilter.io.DACWaveIn := DACReg
@@ -62,21 +63,22 @@ class IOMaster(bufferWidth: Int) extends Module {
     DACFilter.io.ConvEnable := 1.U
     cntReg := 0.U
   }
-  
- 
-  
+
+
+
   when(ADCFilter.io.Completed === 1.U) {
     // when a sample is ready send it to either adc or dac
-    
+
         ADCHold := ADCFilter.io.WaveOut
 
     }
     when(DACFilter.io.Completed === 1.U) {
     // when a sample is ready send it to either adc or dac
-    
+
         DACHold := ADCFilter.io.WaveOut
 
     }
-  
+ */
 
 }
+

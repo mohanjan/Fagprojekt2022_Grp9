@@ -44,7 +44,7 @@ class IOFilter(filterLength: Int) extends Module {
   io.Completed := false.B
   SampleCount := 0.U
   CoeffCount := 0.U
-  ReadSample := InputSampleMemory.read(SampleAddress)
+  ReadSample :=0.S
   Halfcountwire := (((filterLength - 1 + 2) / 2) - 1).U // CeilDivide
   maxcountwire := CountMax
 
@@ -52,6 +52,10 @@ class IOFilter(filterLength: Int) extends Module {
   CoeffWire := CoeffMemory.read(CoeffCount)
   Fircomputation36 := 0.S
   Fircomputation18 := 0.S
+
+  when(!io.LoadSamples){
+    ReadSample :=InputSampleMemory.read(SampleAddress)
+  }
 
   when(
     SampleCount > 0.U || (io.ConvEnable && SampleCount === 0.U)) {
