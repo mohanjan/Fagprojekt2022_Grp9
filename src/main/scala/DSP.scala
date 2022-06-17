@@ -4,9 +4,9 @@ import chisel3.util._
 import scala.xml._
 import java.io._
 import Assembler._
-//import Text._
-//package Text
+import PrintFiles._
 import java.io.File
+import java.util.Arrays;
 
 
 object Text{
@@ -20,6 +20,7 @@ object Text{
                #   `"bmmmd'.AMA.   .AMMA..JMML.    .JML.    YM .AMA.   .AMMA.
                #""".stripMargin('#')
 }
+
 
 
 class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
@@ -193,9 +194,12 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
 // generate Verilog
 object DSP extends App {
-  println(Text.name + "\n")
 
-  print("Enter config file: ")
+  println(Text.name + "\n")
+  
+  sortAll("Config")
+
+  print("\n" + "Enter config file: ")
 
   val input = scala.io.StdIn.readLine()
 
