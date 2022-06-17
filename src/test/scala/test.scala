@@ -17,7 +17,7 @@ class test extends AnyFlatSpec with ChiselScalatestTester {
 
 
   it should "play" in {
-    test(new DSP(100000000, xml)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
+    test(new DSP(100000000)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
       dut.clock.setTimeout(0)
       println("Starting test")
       var serial = Array(

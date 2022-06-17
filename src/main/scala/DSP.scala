@@ -18,7 +18,7 @@ object Text{
 }
 
 
-class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
+class DSP(maxCount: Int) extends Module {
     val io = IO(new Bundle {
     val In = Input(UInt(1.W))
     val Out = Output(UInt(1.W))
@@ -150,9 +150,9 @@ object DSP extends App {
 
   val input = scala.io.StdIn.readLine()
 
-  val xml = XML.loadFile("Config/" + input + ".xml")
+  // val xml = XML.loadFile("Config/" + input + ".xml")
 
-  (new chisel3.stage.ChiselStage).emitVerilog(new DSP(100000000, xml))
+  (new chisel3.stage.ChiselStage).emitVerilog(new DSP(100000000))
 }
 
 
