@@ -26,7 +26,7 @@ class IOMaster(bufferWidth: Int) extends Module {
   }.otherwise{
     io.Sync := 0.U
   }
-  when(syncReg === 1.U){
+  when(syncReg === 127.U){
     syncReg := 0.U
   }
   

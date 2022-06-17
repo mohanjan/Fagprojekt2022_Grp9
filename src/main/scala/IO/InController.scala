@@ -21,10 +21,16 @@ class InController(bufferWidth: Int) extends Module {
   val scaler = bufferWidth.U
   val syncIn = WireDefault(0.U(1.W))
 
+  //-----hold registers-----
+  val ADCDReg = RegInit(0.U(1.W))
+  val FIRReg = RegInit(0.U(bufferWidth.W))
+  val OutReg = RegInit(0.U(bufferWidth.W))
+
   syncIn := io.Sync
 
-
-  io.ADC_D_out:= io.In
+  io.ADC_D_out := ADCDReg
+  io.OutFIR := FIRReg
+  io.Out := OutReg
 
   // serial to parallel buffer
   val inReg = RegInit(0.U(bufferWidth.W))
@@ -38,19 +44,28 @@ class InController(bufferWidth: Int) extends Module {
   
   val tick = cntReg === 0.U
 
-  inReg := Cat(io.In, inReg(bufferWidth - 1, 1))
+  
 
   //-----prescaler register-----
   
 
   when(syncIn === 1.U){
     cntReg := cntReg + 1.U
+    inReg := Cat(io.In, inReg(bufferWidth - 1, 1))
+    // io.ADC_D_out:= inReg(bufferWidth - 1)
+    ADCDReg := inReg(bufferWidth - 1)
+    
   }
 
   when(cntReg === scaler) {
     cntReg := 0.U
+    sample := io.InFIR
+    // io.OutFIR := inReg
+    // io.Out := sample
+    FIRReg := inReg
+    OutReg := sample
   }
-  sample := io.InFIR
+  
 
 
   // send word to fir
@@ -58,7 +73,7 @@ class InController(bufferWidth: Int) extends Module {
   // io.Out := sample
 
   // -----unsigned test-----
-  io.OutFIR := inReg
-  io.Out := sample
+  // io.OutFIR := inReg
+  // io.Out := sample
 
 }
