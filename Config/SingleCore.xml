@@ -1,6 +1,6 @@
 <CAPNA>
   <CAP top="true" id="0">
-    <Program>TestProgram</Program>
+    <Program>Bitcrusher</Program>
     <Inputs>
       <Input node="In"/>
     </Inputs>
@@ -9,7 +9,7 @@
   </CAP>
   <IN_OUT init="false"/>
   <TEST>
-    <CLK count="1"/>
+    <CLK count="23"/>
     <SOUND sample="sample.wav"/>
   </TEST>
 </CAPNA>

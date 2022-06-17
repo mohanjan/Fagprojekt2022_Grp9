@@ -9,6 +9,9 @@ import Sounds._
 import Assembler._
 import chisel3.experimental._
 import chisel3.util._
+import PrintFiles._
+import java.io.File
+import java.util.Arrays;
 
 object Text{
     val name = """
@@ -22,21 +25,26 @@ object Text{
                #""".stripMargin('#')
 }
 
+
+
 class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
 
   println(Text.name + "\n")
 
   /*
+  
+  sortAll("Config")
 
-  print("Enter config file: ")
+  print("\n" + "Enter config file: ")
 
   val input = scala.io.StdIn.readLine()
 
   val xml = XML.loadFile("Config/" + input + ".xml")
 
   */
-
+  
   val xml = XML.loadFile("Config/SingleCore.xml")
+
   
   behavior of "DSP"
 

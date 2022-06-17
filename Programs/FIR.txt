@@ -1,0 +1,22 @@
+.main: 
+li x11, 1 
+li x12, 2 
+li x13, 3 
+li x14, 2 
+li x15, 1
+.fuckdigselv: 
+add x10, x9, x0 
+add x9, x8, x0 
+add x8, x7, x0 
+add x7, x6, x0 
+add x6, x2, x0 
+mac x5, x6, x11
+mac x5, x7, x12
+mac x5, x8, x13
+mac x5, x9, x14
+mac x5, x10, x15
+add x3, x5, x0 
+add x5, x0, x0 
+j .fuckdigselv
+
+
