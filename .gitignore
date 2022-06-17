@@ -13,3 +13,4 @@ havd ska der sske.txt
 test_run_dir/IOtest_should_pass/IOFilter.lo.fir
 test_run_dir/IOtest_should_pass/IOFilter.vcd
 test_run_dir/test_should_pass/DSP.lo.fir
+src/test/scala/dactest.scala

@@ -20,40 +20,7 @@ class test extends AnyFlatSpec with ChiselScalatestTester {
     test(new DSP(100000000)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
       dut.clock.setTimeout(0)
       println("Starting test")
-      var serial = Array(
-        true.B,
-        false.B,
-        true.B,
-        false.B,
-        false.B,
-        false.B,
-        true.B,
-        true.B,
-        false.B,
-        false.B,
-        false.B,
-        false.B,
-        false.B,
-        true.B,
-        true.B,
-        true.B,
-        false.B,
-        false.B,
-        false.B,
-        false.B,
-        false.B,
-        false.B,
-        true.B,
-        true.B,
-        true.B,
-        true.B,
-        true.B,
-        false.B,
-        true.B,
-        false.B,
-        true.B,
-        false.B
-      )
+   
 
       var Sine = Array( //5kHz sine
         0,1372,2741,4106,5464,6812,8148,9470,10776,12062,
