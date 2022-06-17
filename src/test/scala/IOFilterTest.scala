@@ -96,6 +96,7 @@ class IOFilterTest extends AnyFlatSpec with ChiselScalatestTester {
       dut.clock.step()
 
       dut.io.ADCEnable.poke(0.U)
+      dut.io.ConvEnable.poke(1.U)
       for (i <- testvalues) { //test af convolution
         dut.io.DACWaveIn.poke(i.S)
         dut.clock.step()
@@ -106,11 +107,13 @@ class IOFilterTest extends AnyFlatSpec with ChiselScalatestTester {
       }
 
       dut.io.DACEnable.poke(1.U)
+      dut.io.ConvEnable.poke(1.U)
 
       for (i <- 5 to 9) { //test af buffer opfyldning
         if (i == 4) {
           dut.io.ADCEnable.poke(0.U)
           dut.io.DACWaveIn.poke(testvalues(i).S)
+
           dut.clock.step()
           dut.clock.step()
           dut.clock.step()
