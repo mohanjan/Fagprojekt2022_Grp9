@@ -17,13 +17,13 @@ class OutController(bufferWidth: Int) extends Module {
     val OutFIR = Output(UInt(bufferWidth.W)) // output from interpolator to FIR
   })
   val scale = bufferWidth.U
-  val DDC   = WireDefault(0.U(bufferWidth.W))
+  val DDC   = RegInit(0.U(bufferWidth.W))
 
   // val ZReg  = RegInit(0.S(bufferWidth.W))
   // val Diff  = Wire(SInt(bufferWidth.W))
   // -----unsigned test-----
   val ZReg  = RegInit(0.U(bufferWidth.W))
-  val Diff  = WireDefault(0.U(bufferWidth.W))
+  val Diff  = RegInit(0.U(bufferWidth.W))
 
   //-----scale registers-----
   val syncIn = WireDefault(0.U(1.W))
@@ -31,7 +31,7 @@ class OutController(bufferWidth: Int) extends Module {
 
 
   // -----init values
-  Diff      := 0.U
+  // Diff      := 0.U
   // io.OutFIR := 0.S
   // io.OutPWM := 0.U
 
@@ -54,7 +54,6 @@ class OutController(bufferWidth: Int) extends Module {
   io.OutFIR := io.In
 
   // x3-----unsigned values-----
-  // ZReg := ZReg + Diff
   // Diff := io.InFIR - DDC
   // DDC := Mux(io.OutPWM === 1.U, Fill(bufferWidth, 1.U), 0.U)
 

@@ -45,16 +45,15 @@ circuit DSP :
     input reset : Reset
     output io : { OutPWM : UInt<1>, flip Sync : UInt<1>, flip In : UInt<18>, flip InFIR : UInt<18>, OutFIR : UInt<18>}
 
-    wire DDC : UInt<18>
-    DDC <= UInt<18>("h0")
+    reg DDC : UInt<18>, clock with :
+      reset => (reset, UInt<18>("h0")) @[OutController.scala 20:22]
     reg ZReg : UInt<18>, clock with :
       reset => (reset, UInt<18>("h0")) @[OutController.scala 25:22]
-    wire Diff : UInt<18>
-    Diff <= UInt<18>("h0")
+    reg Diff : UInt<18>, clock with :
+      reset => (reset, UInt<18>("h0")) @[OutController.scala 26:22]
     wire syncIn : UInt<1>
     syncIn <= UInt<1>("h0")
     syncIn <= io.Sync @[OutController.scala 30:10]
-    Diff <= UInt<1>("h0") @[OutController.scala 34:13]
     node _T = eq(syncIn, UInt<1>("h1")) @[OutController.scala 39:15]
     when _T : @[OutController.scala 39:23]
       node _ZReg_T = add(ZReg, Diff) @[OutController.scala 47:18]
