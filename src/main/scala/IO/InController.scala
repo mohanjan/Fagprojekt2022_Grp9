@@ -9,13 +9,13 @@ class InController(bufferWidth: Int) extends Module {
     val ADC_D_out = Output(UInt(1.W))
     val Sync = Input(UInt(1.W))
 
-    // val InFIR = Input(SInt(bufferWidth.W))
-    // val Out = Output(SInt(bufferWidth.W))
-    // val OutFIR = Output(SInt(bufferWidth.W))
+    val InFIR = Input(SInt(bufferWidth.W))
+    val Out = Output(SInt(bufferWidth.W))
+    val OutFIR = Output(SInt(bufferWidth.W))
     // -----unsigned test-----
-    val InFIR = Input(UInt(bufferWidth.W))
-    val Out = Output(UInt(bufferWidth.W))
-    val OutFIR = Output(UInt(bufferWidth.W))
+    // val InFIR = Input(UInt(bufferWidth.W))
+    // val Out = Output(UInt(bufferWidth.W))
+    // val OutFIR = Output(UInt(bufferWidth.W))
   })
 
   val scaler = bufferWidth.U
@@ -23,8 +23,11 @@ class InController(bufferWidth: Int) extends Module {
 
   //-----hold registers-----
   val ADCDReg = RegInit(0.U(1.W))
-  val FIRReg = RegInit(0.U(bufferWidth.W))
-  val OutReg = RegInit(0.U(bufferWidth.W))
+  val FIRReg = RegInit(0.S(bufferWidth.W))
+  val OutReg = RegInit(0.S(bufferWidth.W))
+
+  // val FIRReg = RegInit(0.U(bufferWidth.W))
+  // val OutReg = RegInit(0.U(bufferWidth.W))
 
   syncIn := io.Sync
 
@@ -33,11 +36,12 @@ class InController(bufferWidth: Int) extends Module {
   io.Out := OutReg
 
   // serial to parallel buffer
+  
   val inReg = RegInit(0.U(bufferWidth.W))
 
-  // val sample = RegInit(0.S(bufferWidth.W))
+  val sample = RegInit(0.S(bufferWidth.W))
   // -----unsigned test-----
-  val sample = RegInit(0.U(bufferWidth.W))
+  // val sample = RegInit(0.U(bufferWidth.W))
 
   // Counter for decimation
   val cntReg = RegInit(0.U(5.W))
@@ -49,7 +53,6 @@ class InController(bufferWidth: Int) extends Module {
     inReg := Cat(ADCDReg, inReg(bufferWidth - 1, 1))
     // io.ADC_D_out:= inReg(bufferWidth - 1)
     ADCDReg := io.In
-    
   }
 
   when(cntReg === scaler) {
@@ -58,7 +61,7 @@ class InController(bufferWidth: Int) extends Module {
     sample := io.InFIR
     // io.OutFIR := inReg
     // io.Out := sample
-    FIRReg := inReg
+    FIRReg := inReg(bufferWidth-1,1).zext
     
   }
   

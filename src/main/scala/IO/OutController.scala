@@ -7,24 +7,28 @@ class OutController(bufferWidth: Int) extends Module {
     val OutPWM = Output(UInt(1.W))
     val Sync = Input(UInt(1.W))
 
-    // val In    = Input(SInt(bufferWidth.W))
-    // val InFIR = Input(SInt(bufferWidth.W)) // input from FIR filter
-    // val OutFIR = Output(SInt(bufferWidth.W)) // output from interpolator to FIR
+    val In    = Input(SInt(bufferWidth.W))
+    val InFIR = Input(SInt(bufferWidth.W)) // input from FIR filter
+    val OutFIR = Output(SInt(bufferWidth.W)) // output from interpolator to FIR
     
     // -----unsigned test-----
-    val In    = Input(UInt(bufferWidth.W))
-    val InFIR = Input(UInt(bufferWidth.W)) // input from FIR filter
-    val OutFIR = Output(UInt(bufferWidth.W)) // output from interpolator to FIR
+    // val In    = Input(UInt(bufferWidth.W))
+    // val InFIR = Input(UInt(bufferWidth.W)) // input from FIR filter
+    // val OutFIR = Output(UInt(bufferWidth.W)) // output from interpolator to FIR
   })
   val scale = bufferWidth.U
-  val DDC   = RegInit(0.U(bufferWidth.W))
+  val DDC   = RegInit(0.S(bufferWidth.W))
+
+  // val DDC   = RegInit(0.U(bufferWidth.W))
+
   io.OutFIR := io.In
-  // val ZReg  = RegInit(0.S(bufferWidth.W))
-  // val Diff  = Wire(SInt(bufferWidth.W))
+  val ZReg  = RegInit(0.S(bufferWidth.W))
+  val Diff  = RegInit(0.S(bufferWidth.W))
+  val FIRpReg = RegInit(0.S(bufferWidth.W))
   // -----unsigned test-----
-  val ZReg  = RegInit(0.U(bufferWidth.W))
-  val Diff  = RegInit(0.U(bufferWidth.W))
-  val FIRpReg = RegInit(0.U(bufferWidth.W))
+  // val ZReg  = RegInit(0.U(bufferWidth.W))
+  // val Diff  = RegInit(0.U(bufferWidth.W))
+  // val FIRpReg = RegInit(0.U(bufferWidth.W))
 
   //-----scale registers-----
   val syncIn = WireDefault(0.U(1.W))
@@ -44,14 +48,19 @@ class OutController(bufferWidth: Int) extends Module {
   // io.OutPWM := ZReg(bufferWidth - 1)
   // io.OutFIR := io.In
 
-  // -----unsigned values-----
     FIRpReg := io.InFIR
     Diff := FIRpReg - DDC
     ZReg := ZReg + Diff
-    DDC := Mux(io.OutPWM === 1.U, Fill(bufferWidth, 1.U), 0.U)
+    DDC := Mux(io.OutPWM === 1.U, Fill(bufferWidth-1, 1.U).zext, ~(Fill(bufferWidth-1, 1.U).zext))
+
+  // -----unsigned values-----
+    // FIRpReg := io.InFIR
+    // Diff := FIRpReg - DDC
+    // ZReg := ZReg + Diff
+    // DDC := Mux(io.OutPWM === 1.U, Fill(bufferWidth, 1.U), 0.U)
   }
-  // io.OutPWM := ~ZReg(bufferWidth - 1)
-  io.OutPWM := ZReg(bufferWidth-1)
+  io.OutPWM := ~ZReg(bufferWidth - 1)
+  // io.OutPWM := ZReg(bufferWidth-1)
 
   
 

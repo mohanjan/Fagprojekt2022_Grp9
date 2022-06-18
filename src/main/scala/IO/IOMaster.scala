@@ -8,11 +8,11 @@ class IOMaster(bufferWidth: Int) extends Module {
     val Out_DAC = Output(UInt(1.W))
     val Sync = Output(UInt(1.W))
 
-    // val In_DAC = Input(SInt(bufferWidth.W))
-    // val Out_ADC = Output(SInt(bufferWidth.W))
+    val In_DAC = Input(SInt(bufferWidth.W))
+    val Out_ADC = Output(SInt(bufferWidth.W))
     // -----unsigned test-----
-    val In_DAC = Input(UInt(bufferWidth.W))
-    val Out_ADC = Output(UInt(bufferWidth.W))
+    // val In_DAC = Input(UInt(bufferWidth.W))
+    // val Out_ADC = Output(UInt(bufferWidth.W))
 
   })
 
@@ -26,7 +26,7 @@ class IOMaster(bufferWidth: Int) extends Module {
   }.otherwise{
     io.Sync := 0.U
   }
-  when(syncReg === 16.U){
+  when(syncReg === 1.U){
     syncReg := 0.U
   }
   
