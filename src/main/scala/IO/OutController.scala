@@ -18,12 +18,13 @@ class OutController(bufferWidth: Int) extends Module {
   })
   val scale = bufferWidth.U
   val DDC   = RegInit(0.U(bufferWidth.W))
-
+  io.OutFIR := io.In
   // val ZReg  = RegInit(0.S(bufferWidth.W))
   // val Diff  = Wire(SInt(bufferWidth.W))
   // -----unsigned test-----
   val ZReg  = RegInit(0.U(bufferWidth.W))
   val Diff  = RegInit(0.U(bufferWidth.W))
+  val FIRpReg = RegInit(0.U(bufferWidth.W))
 
   //-----scale registers-----
   val syncIn = WireDefault(0.U(1.W))
@@ -34,8 +35,8 @@ class OutController(bufferWidth: Int) extends Module {
   // Diff      := 0.U
   // io.OutFIR := 0.S
   // io.OutPWM := 0.U
-
-  // -----timer test-----
+  // FIRpReg := io.InFIR
+  // -----timed test-----
   when(syncIn === 1.U){
   // DDC  := Mux(io.OutPWM === 1.U, Fill(bufferWidth, 1.U).asUInt, 0.U)
   // Diff := io.InFIR - DDC.asSInt
@@ -44,14 +45,15 @@ class OutController(bufferWidth: Int) extends Module {
   // io.OutFIR := io.In
 
   // -----unsigned values-----
+    FIRpReg := io.InFIR
+    Diff := FIRpReg - DDC
     ZReg := ZReg + Diff
-    Diff := io.InFIR - DDC
     DDC := Mux(io.OutPWM === 1.U, Fill(bufferWidth, 1.U), 0.U)
   }
   // io.OutPWM := ~ZReg(bufferWidth - 1)
-  io.OutPWM := ZReg(bufferWidth - 1)
+  io.OutPWM := ZReg(bufferWidth-1)
 
-  io.OutFIR := io.In
+  
 
   // x3-----unsigned values-----
   // Diff := io.InFIR - DDC

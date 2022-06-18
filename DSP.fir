@@ -2,78 +2,80 @@ circuit DSP :
   module InController :
     input clock : Clock
     input reset : Reset
-    output io : { flip In : UInt<1>, ADC_D_out : UInt<1>, flip Sync : UInt<1>, flip InFIR : UInt<18>, Out : UInt<18>, OutFIR : UInt<18>}
+    output io : { flip In : UInt<1>, ADC_D_out : UInt<1>, flip Sync : UInt<1>, flip InFIR : UInt<10>, Out : UInt<10>, OutFIR : UInt<10>}
 
     wire syncIn : UInt<1>
     syncIn <= UInt<1>("h0")
     reg ADCDReg : UInt<1>, clock with :
       reset => (reset, UInt<1>("h0")) @[InController.scala 25:24]
-    reg FIRReg : UInt<18>, clock with :
-      reset => (reset, UInt<18>("h0")) @[InController.scala 26:23]
-    reg OutReg : UInt<18>, clock with :
-      reset => (reset, UInt<18>("h0")) @[InController.scala 27:23]
+    reg FIRReg : UInt<10>, clock with :
+      reset => (reset, UInt<10>("h0")) @[InController.scala 26:23]
+    reg OutReg : UInt<10>, clock with :
+      reset => (reset, UInt<10>("h0")) @[InController.scala 27:23]
     syncIn <= io.Sync @[InController.scala 29:10]
     io.ADC_D_out <= ADCDReg @[InController.scala 31:16]
     io.OutFIR <= FIRReg @[InController.scala 32:13]
     io.Out <= OutReg @[InController.scala 33:10]
-    reg inReg : UInt<18>, clock with :
-      reset => (reset, UInt<18>("h0")) @[InController.scala 36:22]
-    reg sample : UInt<18>, clock with :
-      reset => (reset, UInt<18>("h0")) @[InController.scala 40:23]
+    reg inReg : UInt<10>, clock with :
+      reset => (reset, UInt<10>("h0")) @[InController.scala 36:22]
+    reg sample : UInt<10>, clock with :
+      reset => (reset, UInt<10>("h0")) @[InController.scala 40:23]
     reg cntReg : UInt<5>, clock with :
       reset => (reset, UInt<5>("h0")) @[InController.scala 43:23]
-    node tick = eq(cntReg, UInt<1>("h0")) @[InController.scala 45:21]
-    node _T = eq(syncIn, UInt<1>("h1")) @[InController.scala 52:15]
-    when _T : @[InController.scala 52:23]
-      node _cntReg_T = add(cntReg, UInt<1>("h1")) @[InController.scala 53:22]
-      node _cntReg_T_1 = tail(_cntReg_T, 1) @[InController.scala 53:22]
-      cntReg <= _cntReg_T_1 @[InController.scala 53:12]
-      node _inReg_T = bits(inReg, 17, 1) @[InController.scala 54:30]
-      node _inReg_T_1 = cat(io.In, _inReg_T) @[Cat.scala 31:58]
-      inReg <= _inReg_T_1 @[InController.scala 54:11]
-      node _ADCDReg_T = bits(inReg, 17, 17) @[InController.scala 56:21]
-      ADCDReg <= _ADCDReg_T @[InController.scala 56:13]
-    node _T_1 = eq(cntReg, UInt<5>("h12")) @[InController.scala 60:15]
-    when _T_1 : @[InController.scala 60:27]
-      cntReg <= UInt<1>("h0") @[InController.scala 61:12]
-      sample <= io.InFIR @[InController.scala 62:12]
-      FIRReg <= inReg @[InController.scala 65:12]
-      OutReg <= sample @[InController.scala 66:12]
+    node tick = eq(cntReg, UInt<1>("h0")) @[InController.scala 44:21]
+    node _T = eq(syncIn, UInt<1>("h1")) @[InController.scala 47:15]
+    when _T : @[InController.scala 47:23]
+      node _cntReg_T = add(cntReg, UInt<1>("h1")) @[InController.scala 48:22]
+      node _cntReg_T_1 = tail(_cntReg_T, 1) @[InController.scala 48:22]
+      cntReg <= _cntReg_T_1 @[InController.scala 48:12]
+      node _inReg_T = bits(inReg, 9, 1) @[InController.scala 49:32]
+      node _inReg_T_1 = cat(ADCDReg, _inReg_T) @[Cat.scala 31:58]
+      inReg <= _inReg_T_1 @[InController.scala 49:11]
+      ADCDReg <= io.In @[InController.scala 51:13]
+    node _T_1 = eq(cntReg, UInt<4>("ha")) @[InController.scala 55:15]
+    when _T_1 : @[InController.scala 55:27]
+      cntReg <= UInt<1>("h0") @[InController.scala 56:12]
+      OutReg <= sample @[InController.scala 57:12]
+      sample <= io.InFIR @[InController.scala 58:12]
+      FIRReg <= inReg @[InController.scala 61:12]
 
   module OutController :
     input clock : Clock
     input reset : Reset
-    output io : { OutPWM : UInt<1>, flip Sync : UInt<1>, flip In : UInt<18>, flip InFIR : UInt<18>, OutFIR : UInt<18>}
+    output io : { OutPWM : UInt<1>, flip Sync : UInt<1>, flip In : UInt<10>, flip InFIR : UInt<10>, OutFIR : UInt<10>}
 
-    reg DDC : UInt<18>, clock with :
-      reset => (reset, UInt<18>("h0")) @[OutController.scala 20:22]
-    reg ZReg : UInt<18>, clock with :
-      reset => (reset, UInt<18>("h0")) @[OutController.scala 25:22]
-    reg Diff : UInt<18>, clock with :
-      reset => (reset, UInt<18>("h0")) @[OutController.scala 26:22]
+    reg DDC : UInt<10>, clock with :
+      reset => (reset, UInt<10>("h0")) @[OutController.scala 20:22]
+    io.OutFIR <= io.In @[OutController.scala 21:13]
+    reg ZReg : UInt<10>, clock with :
+      reset => (reset, UInt<10>("h0")) @[OutController.scala 25:22]
+    reg Diff : UInt<10>, clock with :
+      reset => (reset, UInt<10>("h0")) @[OutController.scala 26:22]
+    reg FIRpReg : UInt<10>, clock with :
+      reset => (reset, UInt<10>("h0")) @[OutController.scala 27:24]
     wire syncIn : UInt<1>
     syncIn <= UInt<1>("h0")
-    syncIn <= io.Sync @[OutController.scala 30:10]
-    node _T = eq(syncIn, UInt<1>("h1")) @[OutController.scala 39:15]
-    when _T : @[OutController.scala 39:23]
-      node _ZReg_T = add(ZReg, Diff) @[OutController.scala 47:18]
-      node _ZReg_T_1 = tail(_ZReg_T, 1) @[OutController.scala 47:18]
-      ZReg <= _ZReg_T_1 @[OutController.scala 47:10]
-      node _Diff_T = sub(io.InFIR, DDC) @[OutController.scala 48:22]
-      node _Diff_T_1 = tail(_Diff_T, 1) @[OutController.scala 48:22]
-      Diff <= _Diff_T_1 @[OutController.scala 48:10]
-      node _DDC_T = eq(io.OutPWM, UInt<1>("h1")) @[OutController.scala 49:26]
-      node _DDC_T_1 = mux(UInt<1>("h1"), UInt<18>("h3ffff"), UInt<18>("h0")) @[Bitwise.scala 74:12]
-      node _DDC_T_2 = mux(_DDC_T, _DDC_T_1, UInt<1>("h0")) @[OutController.scala 49:15]
-      DDC <= _DDC_T_2 @[OutController.scala 49:9]
-    node _io_OutPWM_T = bits(ZReg, 17, 17) @[OutController.scala 52:20]
-    io.OutPWM <= _io_OutPWM_T @[OutController.scala 52:13]
-    io.OutFIR <= io.In @[OutController.scala 54:13]
+    syncIn <= io.Sync @[OutController.scala 31:10]
+    node _T = eq(syncIn, UInt<1>("h1")) @[OutController.scala 40:15]
+    when _T : @[OutController.scala 40:23]
+      FIRpReg <= io.InFIR @[OutController.scala 48:13]
+      node _Diff_T = sub(FIRpReg, DDC) @[OutController.scala 49:21]
+      node _Diff_T_1 = tail(_Diff_T, 1) @[OutController.scala 49:21]
+      Diff <= _Diff_T_1 @[OutController.scala 49:10]
+      node _ZReg_T = add(ZReg, Diff) @[OutController.scala 50:18]
+      node _ZReg_T_1 = tail(_ZReg_T, 1) @[OutController.scala 50:18]
+      ZReg <= _ZReg_T_1 @[OutController.scala 50:10]
+      node _DDC_T = eq(io.OutPWM, UInt<1>("h1")) @[OutController.scala 51:26]
+      node _DDC_T_1 = mux(UInt<1>("h1"), UInt<10>("h3ff"), UInt<10>("h0")) @[Bitwise.scala 74:12]
+      node _DDC_T_2 = mux(_DDC_T, _DDC_T_1, UInt<1>("h0")) @[OutController.scala 51:15]
+      DDC <= _DDC_T_2 @[OutController.scala 51:9]
+    node _io_OutPWM_T = bits(ZReg, 9, 9) @[OutController.scala 54:20]
+    io.OutPWM <= _io_OutPWM_T @[OutController.scala 54:13]
 
   module IOMaster :
     input clock : Clock
     input reset : Reset
-    output io : { flip In_ADC : UInt<1>, Out_ADC_D : UInt<1>, Out_DAC : UInt<1>, Sync : UInt<1>, flip In_DAC : UInt<18>, Out_ADC : UInt<18>}
+    output io : { flip In_ADC : UInt<1>, Out_ADC_D : UInt<1>, Out_DAC : UInt<1>, Sync : UInt<1>, flip In_DAC : UInt<10>, Out_ADC : UInt<10>}
 
     inst ADC of InController @[IOMaster.scala 19:19]
     ADC.clock <= clock

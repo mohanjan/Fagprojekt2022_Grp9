@@ -11,7 +11,7 @@ class DSP(maxCount: Int) extends Module {
     val SyncOut = Output(UInt(1.W))
   })
 
-  val IOC  = Module(new IOMaster(18))
+  val IOC  = Module(new IOMaster(10))
 
   IOC.io.In_ADC := io.ADIn
   IOC.io.In_DAC := IOC.io.Out_ADC

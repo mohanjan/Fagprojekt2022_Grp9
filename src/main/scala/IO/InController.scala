@@ -41,29 +41,25 @@ class InController(bufferWidth: Int) extends Module {
 
   // Counter for decimation
   val cntReg = RegInit(0.U(5.W))
-  
   val tick = cntReg === 0.U
 
-  
-
-  //-----prescaler register-----
-  
 
   when(syncIn === 1.U){
     cntReg := cntReg + 1.U
-    inReg := Cat(io.In, inReg(bufferWidth - 1, 1))
+    inReg := Cat(ADCDReg, inReg(bufferWidth - 1, 1))
     // io.ADC_D_out:= inReg(bufferWidth - 1)
-    ADCDReg := inReg(bufferWidth - 1)
+    ADCDReg := io.In
     
   }
 
   when(cntReg === scaler) {
     cntReg := 0.U
+    OutReg := sample
     sample := io.InFIR
     // io.OutFIR := inReg
     // io.Out := sample
     FIRReg := inReg
-    OutReg := sample
+    
   }
   
 
