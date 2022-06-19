@@ -8,6 +8,7 @@ class InController(bufferWidth: Int) extends Module {
     val In = Input(UInt(1.W))
     val ADC_D_out = Output(UInt(1.W))
     val Sync = Input(UInt(1.W))
+    val TickOut = Output(UInt(1.W))
 
     val postFIR = Input(SInt(bufferWidth.W))
     val Out = Output(SInt(bufferWidth.W))
@@ -43,8 +44,9 @@ class InController(bufferWidth: Int) extends Module {
   // -----connections-----
   syncIn := io.Sync
   io.ADC_D_out := delay
-  io.Out := OutReg
-  io.preFIR := ~inReg.asSInt +1.S
+  io.Out := io.postFIR
+  io.TickOut := tick
+  
 
   // ----- synchronized calculations -----
    when(syncIn === 1.U){
@@ -57,10 +59,9 @@ class InController(bufferWidth: Int) extends Module {
 
   when(tick) {
     cntReg := 0.U
-    OutReg := sample
-    sample := io.postFIR
-    FIRReg := inReg
+    io.preFIR := ~inReg.asSInt +1.S
   }
+  // sample := io.postFIR
 
   // inReg := Cat(inReg(bufferWidth - 2, 0), io.In)
   // io.ADC_D_out := inReg
