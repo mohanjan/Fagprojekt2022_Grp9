@@ -9,37 +9,42 @@ class InController(bufferWidth: Int) extends Module {
     val ADC_D_out = Output(UInt(1.W))
     val Sync = Input(UInt(1.W))
 
-    // val postFIR = Input(SInt(bufferWidth.W))
-    // val Out = Output(SInt(bufferWidth.W))
-    // val preFIR = Output(SInt(bufferWidth.W))
+    val postFIR = Input(SInt(bufferWidth.W))
+    val Out = Output(SInt(bufferWidth.W))
+    val preFIR = Output(SInt(bufferWidth.W))
     // -----unsigned values-----
-    val postFIR = Input(UInt(bufferWidth.W))
-    val Out = Output(UInt(bufferWidth.W))
-    val preFIR = Output(UInt(bufferWidth.W))
+    // val postFIR = Input(UInt(bufferWidth.W))
+    // val Out = Output(UInt(bufferWidth.W))
+    // val preFIR = Output(UInt(bufferWidth.W))
 
   })
+
   val scaler = bufferWidth.U
   val syncIn = WireDefault(0.U(1.W))
-  syncIn := io.Sync
-  
   val delay = RegInit(0.U(1.W))
-  io.ADC_D_out := delay
 
   // serial to parallel buffer
   val inReg = RegInit(0.U(bufferWidth.W))
-
-  // val sample = RegInit(0.S(bufferWidth.W))
-// -----unsigned values-----
-  val sample = RegInit(0.U(bufferWidth.W))
+  val sample = RegInit(0.S(bufferWidth.W))
+  // -----unsigned values-----
+  // val sample = RegInit(0.U(bufferWidth.W))
 
   // Counter for decimation
   val cntReg = RegInit(0.U(5.W))
   val tick = cntReg === scaler
-  //-----hold registers-----
- 
-  val FIRReg = RegInit(0.U(bufferWidth.W))
-  val OutReg = RegInit(0.U(bufferWidth.W))
   
+  //-----hold registers-----
+  val FIRReg = RegInit(0.S(bufferWidth.W))
+  val OutReg = RegInit(0.S(bufferWidth.W))
+  // -----unsigned vals-----
+  // val FIRReg = RegInit(0.U(bufferWidth.W))
+  // val OutReg = RegInit(0.U(bufferWidth.W))
+
+  // -----connections-----
+  syncIn := io.Sync
+  io.ADC_D_out := delay
+  io.Out := OutReg
+  io.preFIR := ~inReg.asSInt +1.S
 
   // ----- synchronized calculations -----
    when(syncIn === 1.U){
@@ -61,10 +66,8 @@ class InController(bufferWidth: Int) extends Module {
   // io.ADC_D_out := inReg
 
   // send word to fir
-  // io.preFIR := inReg.asSInt
-  // -----unsigned val-----
-  io.preFIR := inReg
-  io.Out := OutReg
+  
+  
 
   // master will then put filtered value onto io.Out
 
