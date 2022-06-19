@@ -1,13 +1,16 @@
-/*
+import chisel3._
+import chisel3.util._
 
-class I2S(Bitwidth: Int) extends Module {
+class I2S(Bitwidth: Int, Count: Int) extends Module {
   val io = IO(new Bundle {
     val Enable = Input(Bool())
-    val ReadData = Output(UInt(18.W))
-    val Completed = Output(Bool())
+    val Left = Output(SInt(Bitwidth.W))
+    val Right = Output(SInt(Bitwidth.W))
+    val LeftCompleted = Output(Bool())
+    val RightCompleted = Output(Bool())
   })
 
-  val Out = IO(new Bundle{
+  val I2S = IO(new Bundle{
     val SCLK = Output(Bool())
     val LCLK = Output(Bool())
     //val MCLK = Output(Bool())
@@ -16,22 +19,27 @@ class I2S(Bitwidth: Int) extends Module {
 
   // Register and state machine definitions.
 
-  val DataRigthReg = RegInit(0.U(Bitwidth.W))
-  val DataLeftReg = RegInit(0.U(Bitwidth.W))
+  val DataReg = RegInit(0.U(Bitwidth.W))
+  val OutRegLeft = RegInit(0.S(Bitwidth.W))
+  val OutRegRight = RegInit(0.S(Bitwidth.W))
 
-  io.ReadData := DataReg
+  io.Left := OutRegLeft
+  io.Right := OutRegRight
+
+  I2S.LCLK := false.B
 
   val CntReg = RegInit(0.U(14.W))
-
   val StateReg = RegInit(0.U(4.W))
 
   // Clock stuff
 
   val ClkReg = RegInit(0.U(1.W))
   val ClkCounter = RegInit(0.U(8.W))
+  val ClockCounter = RegInit(0.U(8.W)) 
 
   val ClkRegDelay = RegInit(0.U(1.W)) // Used to determine rising and falling edge
   ClkRegDelay := ClkReg
+
 
   val NextState = Wire(Bool()) // Goes high one clock cycle before rising edge of SCLK
   val NextStateInv = Wire(Bool()) // Goes high one clock cycle before falling edge of SCLK
@@ -51,7 +59,7 @@ class I2S(Bitwidth: Int) extends Module {
   RisingEdge := false.B
   FallingEdge := false.B
 
-  SPI.SCLK := (ClkReg & ClockEn)
+  I2S.SCLK := (ClkReg & ClockEn)
 
   ClkCounter := ClkCounter + 1.U
 
@@ -84,30 +92,40 @@ class I2S(Bitwidth: Int) extends Module {
 
   switch(StateReg){
     is(0.U){
+      I2S.LCLK := false.B
+
       when(RisingEdge){
-        DataRightReg := Cat(DataRightReg, SDOUT.asUInt)
+        DataReg := Cat(DataReg, I2S.SDOUT.asUInt)
         CntReg := CntReg + 1.U
       }
 
-      when(CntReg === Bitwidth.U){
+      when(NextStateInv && CntReg === (Bitwidth - 1).U){
+        StateReg := StateReg + 0.U
+        I2S.LCLK := true.B
+        io.LeftCompleted := true.B
+        OutRegLeft := DataReg.asSInt
         CntReg := 0.U
-        StateReg := StateReg + 1.U
       }
     }
     is(1.U){
+      I2S.LCLK := true.B
+
       when(RisingEdge){
-        DataLeftReg := Cat(DataRightReg, SDOUT.asUInt)
+        DataReg := Cat(DataReg, I2S.SDOUT.asUInt)
         CntReg := CntReg + 1.U
       }
 
-      when(CntReg === Bitwidth.U){
+      when(NextStateInv && CntReg === (Bitwidth - 1).U){
+        StateReg := StateReg + 0.U
+        I2S.LCLK := false.B
+        io.RightCompleted := true.B
+        OutRegRight := DataReg.asSInt
         CntReg := 0.U
-        StateReg := StateReg + 1.U
       }
     }
   }
 }
-*/
+
 
 
 
