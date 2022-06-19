@@ -2792,7 +2792,7 @@ circuit DSP :
     node _io_Sub_IO_Out_T_1 = add(Core.io_WaveOut, _io_Sub_IO_Out_T) @[SubDSP.scala 39:36]
     node _io_Sub_IO_Out_T_2 = tail(_io_Sub_IO_Out_T_1, 1) @[SubDSP.scala 39:36]
     node _FirEngine_io_WaveIn_T = asSInt(io_Sub_IO_In) @[SubDSP.scala 41:39]
-    node dedupBlock = asSInt(UInt<32>("h47347f7b"))
+    node dedupBlock = asSInt(UInt<31>("h32f7327e"))
     io_Sub_IO_Out <= _io_Sub_IO_Out_T_2 @[SubDSP.scala 39:17]
     SPI_SPIMemPort_Address <= DataMemory.io_SPIMemPort_Address @[SubDSP.scala 50:18]
     SPI_SPIMemPort_WriteData <= DataMemory.io_SPIMemPort_WriteData @[SubDSP.scala 50:18]

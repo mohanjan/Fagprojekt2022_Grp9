@@ -10,6 +10,6 @@
   <IN_OUT init="false"/>
   <TEST>
     <CLK count="23"/>
-    <SOUND sample="sample.wav"/>
+    <SOUND sample="sample"/>
   </TEST>
 </CAPNA>

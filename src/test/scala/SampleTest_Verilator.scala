@@ -53,14 +53,13 @@ class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
     //test(new DSP(100000000,xml)) { dut =>
       var ClkCount = (xml \\ "TEST" \\ "CLK" \\ "@count").text.toInt
       var Soundfile = (xml \\ "TEST" \\ "SOUND" \\ "@sample").text
-      val samples = getFileSamples(Soundfile)
+      val samples = getFileSamples("Samples/" + Soundfile + ".wav")
       val outSamples = new Array[Short](samples.length)
 
       var finished = false
 
       // no timeout, as a bunch of 0 samples would lead to a timeout.
       dut.clock.setTimeout(0)
-
       // Write the samples
       val th = fork {
         //dut.io.in.valid.poke(true.B)
@@ -112,7 +111,7 @@ class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
       //playArray(outSamples)      
       //stopPlayer
 
-      saveArray(outSamples, "sample_out.wav")
+      saveArray(outSamples, ("Samples/" + Soundfile + "_out.wav"))
     }
   }
 }
