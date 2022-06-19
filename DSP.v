@@ -654,7 +654,7 @@ end // initial
 `endif
 `endif // SYNTHESIS
 initial begin
-  $readmemh("Programs/MachineCode/Bitcrusher.mem", mem);
+  $readmemh("Programs/MachineCode/TestProgram.mem", mem);
 end
 endmodule
 module FetchStage(

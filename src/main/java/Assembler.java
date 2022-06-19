@@ -381,14 +381,14 @@ public class Assembler {
         switch(type){
             case 0:
                 int rd_index = instruction.indexOf("x");
-                int rd = find_register(instruction.substring(rd_index, rd_index + 3).replace(" ", ""));
+                int rd = find_register(instruction.substring(rd_index, rd_index + 3));
 
                 int rs1_index = instruction.indexOf("x", rd_index + 1);
 
-                int rs1 = find_register(instruction.substring(rs1_index, rs1_index + 3).replace(" ", ""));
+                int rs1 = find_register(instruction.substring(rs1_index, rs1_index + 3));
 
                 int rs2_index = instruction.indexOf("x", rs1_index + 1);
-                int rs2 = find_register(instruction.substring(rs2_index, rs2_index + 3).replace(" ", ""));
+                int rs2 = find_register(instruction.substring(rs2_index));
 
                 /*
 

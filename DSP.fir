@@ -1412,7 +1412,7 @@ circuit DSP :
     output SPI : { SPIMemPort : { Address : UInt<18>, WriteData : UInt<18>, Enable : UInt<1>, WriteEn : UInt<1>, flip ReadData : UInt<18>, flip Completed : UInt<1>}}
 
     wire dedupBlock : SInt
-    dedupBlock <= asSInt(UInt<32>("h5fd594bd"))
+    dedupBlock <= asSInt(UInt<31>("h32f7327e"))
     inst Core of Core @[SubDSP.scala 33:20]
     Core.clock <= clock
     Core.reset <= reset
