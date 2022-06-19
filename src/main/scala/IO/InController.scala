@@ -25,7 +25,7 @@ class InController(bufferWidth: Int) extends Module {
   val ADCDReg = RegInit(0.U(1.W))
   // val FIRReg = RegInit(0.S(bufferWidth.W))
   // val OutReg = RegInit(0.S(bufferWidth.W))
-
+  // -----unsigned val-----
   val FIRReg = RegInit(0.U(bufferWidth.W))
   val OutReg = RegInit(0.U(bufferWidth.W))
 
@@ -53,17 +53,22 @@ class InController(bufferWidth: Int) extends Module {
     inReg := Cat(ADCDReg, inReg(bufferWidth - 1, 1))
     // io.ADC_D_out:= inReg(bufferWidth - 1)
     ADCDReg := io.In
+
+    // sample := io.InFIR
+    // OutReg := sample
+    // FIRReg := inReg
   }
 
+  // -----decimation-----
   when(cntReg === scaler) {
     cntReg := 0.U
     OutReg := sample
     sample := io.InFIR
+    // FIRReg := inReg(bufferWidth-1,1).zext
+    FIRReg := inReg
+
     // io.OutFIR := inReg
     // io.Out := sample
-    FIRReg := inReg
-    // FIRReg := inReg(bufferWidth-1,1).zext
-    
   }
   
 

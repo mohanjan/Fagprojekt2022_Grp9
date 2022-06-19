@@ -16,52 +16,48 @@ class OutController(bufferWidth: Int) extends Module {
     val InFIR = Input(UInt(bufferWidth.W)) // input from FIR filter
     val OutFIR = Output(UInt(bufferWidth.W)) // output from interpolator to FIR
   })
-  val scale = bufferWidth.U
-
-  // val DDC   = RegInit(0.S(bufferWidth.W))
-  // -----unsigned test-----
-  val DDC   = RegInit(0.U(bufferWidth.W))
-
   io.OutFIR := io.In
+  
+
+  val scale = bufferWidth.U
+  val syncIn = WireDefault(0.U(1.W))
+  syncIn := io.Sync
+  
+  // val DDC   = RegInit(0.S(bufferWidth.W))
   // val ZReg  = RegInit(0.S(bufferWidth.W))
   // val Diff  = RegInit(0.S(bufferWidth.W))
   // val FIRpReg = RegInit(0.S(bufferWidth.W))
   // -----unsigned test-----
   val ZReg  = RegInit(0.U(bufferWidth.W))
   val Diff  = RegInit(0.U(bufferWidth.W))
-  val FIRpReg = RegInit(0.U(bufferWidth.W))
+  // val FIRpReg = RegInit(0.U(bufferWidth.W))
+  val DDC   = RegInit(0.U(bufferWidth.W))
+  // -----mod 2 test-----
+  // val ZReg2  = RegInit(0.U(bufferWidth.W))
+  // val Diff2  = RegInit(0.U(bufferWidth.W))
+  // val DDC2   = RegInit(0.U(bufferWidth.W))
 
-  //-----scale registers-----
-  val syncIn = WireDefault(0.U(1.W))
-  syncIn := io.Sync
-
-
-  // -----init values
-  // Diff      := 0.U
-  // io.OutFIR := 0.S
-  // io.OutPWM := 0.U
-  // FIRpReg := io.InFIR
   // -----timed test-----
   when(syncIn === 1.U){
-  // DDC  := Mux(io.OutPWM === 1.U, Fill(bufferWidth, 1.U).asUInt, 0.U)
-  // Diff := io.InFIR - DDC.asSInt
-  // ZReg := ZReg + Diff
-  // io.OutPWM := ZReg(bufferWidth - 1)
-  // io.OutFIR := io.In
-
     // FIRpReg := io.InFIR
     // Diff := FIRpReg - DDC
     // ZReg := ZReg + Diff
     // DDC := Mux(io.OutPWM === 1.U, Fill(bufferWidth-1, 1.U).zext, ~(Fill(bufferWidth-1, 1.U).zext))
 
   // -----unsigned values-----
-    FIRpReg := io.InFIR
-    Diff := FIRpReg - DDC
+    Diff := io.InFIR - DDC
     ZReg := ZReg + Diff
     DDC := Mux(io.OutPWM === 1.U, Fill(bufferWidth, 1.U), 0.U)
+
+    // Diff2 := ZReg - DDC2
+    // ZReg2 := ZReg2 + Diff2
+    // DDC2  := Mux(io.OutPWM === 1.U, Fill(bufferWidth, 1.U), 0.U)
+
+
   }
   // io.OutPWM := ~ZReg(bufferWidth - 1)
   io.OutPWM := ZReg(bufferWidth-1)
+  // io.OutPWM := ZReg2(bufferWidth-1)
 
   
 
