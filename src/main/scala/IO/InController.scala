@@ -23,6 +23,7 @@ class InController(bufferWidth: Int) extends Module {
   val scaler = bufferWidth.U
   val syncIn = WireDefault(0.U(1.W))
   val delay = RegInit(0.U(1.W))
+  // val preFIRWire = WireDefault(0.S(bufferWidth.W))
 
   // serial to parallel buffer
   val inReg = RegInit(0.U(bufferWidth.W))
@@ -46,7 +47,7 @@ class InController(bufferWidth: Int) extends Module {
   io.ADC_D_out := delay
   io.Out := io.postFIR
   io.TickOut := tick
-  
+  io.preFIR :=FIRReg 
 
   // ----- synchronized calculations -----
    when(syncIn === 1.U){
@@ -59,7 +60,7 @@ class InController(bufferWidth: Int) extends Module {
 
   when(tick) {
     cntReg := 0.U
-    io.preFIR := ~inReg.asSInt +1.S
+    FIRReg := ~inReg.asSInt +1.S
   }
   // sample := io.postFIR
 
