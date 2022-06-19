@@ -79,7 +79,7 @@ class IOMaster(bufferWidth: Int) extends Module {
 
 // these are for testing purposes
   c1 := io.SAD1 + (io.SAD2<<1) + (io.SAD3<<2) + (io.SAD4<<3) + (io.SAD5<<4) + (io.SAD6<<5) + (io.SAD7<<6) + (io.SAD8<<7)
-  c2 := io.SDA1 + (io.SDA2<<1) + (io.SDA3<<2) + (io.SDA4<<3) + (io.SDA5<<4) + (io.SDA6<<5) + (io.SDA7<<6) + (io.SDA8<<7)
+  c2 := (io.SDA2<<1) + (io.SDA3<<2) + (io.SDA4<<3) + (io.SDA5<<4) + (io.SDA6<<5) + (io.SDA7<<6) + (io.SDA8<<7)
 
   ADC.io.Sync := io.Sync1
   DAC.io.Sync := io.Sync2
@@ -87,19 +87,26 @@ class IOMaster(bufferWidth: Int) extends Module {
   // connecting modules
   ADC.io.In := io.In_ADC
   io.Out_ADC := ADC.io.Out
+  // ADC.io.postFIR := ADCFilter.io.WaveOut
+  // ADCReg := ADC.io.preFIR
+
+  when(io.SAD1===1.U){
   ADC.io.postFIR := ADCFilter.io.WaveOut
   ADCReg := ADC.io.preFIR
-  // -----unsigned val-----
-  // ADC.io.postFIR := ADCFilter.io.WaveOut.asUInt
-  // ADCReg := ADC.io.preFIR.asSInt
+  DAC.io.postFIR := DACFilter.io.WaveOut
+  DACReg := DAC.io.preFIR
+  }.otherwise{
+  ADC.io.postFIR := ADC.io.preFIR
+  ADCReg := 0.S
+  DAC.io.postFIR := DAC.io.preFIR
+  DACReg := 0.S
+  }
 
   DAC.io.In := io.In_DAC
   io.Out_DAC := DAC.io.OutPWM
-  DAC.io.postFIR := DACFilter.io.WaveOut
-  DACReg := DAC.io.preFIR
-  // -----unsigned val-----
-  // DAC.io.postFIR := DACFilter.io.WaveOut.asUInt
-  // DACReg := DAC.io.preFIR.asSInt
+  // DAC.io.postFIR := DACFilter.io.WaveOut
+  // DACReg := DAC.io.preFIR
+
 
   io.Out_ADC_D := ADC.io.ADC_D_out
 

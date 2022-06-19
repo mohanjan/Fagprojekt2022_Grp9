@@ -31,12 +31,11 @@ class OutController(bufferWidth: Int) extends Module {
 
   syncIn := io.Sync
   cntReg := cntReg + 1.U
-
   io.preFIR := Mux(tick, io.In, 0.S)
   
   // -----synced calculation-----
   when(syncIn === 1.U){
-    // cntReg := cntReg + 1.U
+    cntReg := cntReg + 1.U
         
     Diff := (~io.postFIR.asUInt+1.U) - DDC
     ZReg  := ZReg + Diff
