@@ -5,11 +5,15 @@ import chisel3.util._
 class IOMaster(bufferWidth: Int) extends Module {
   val io = IO(new Bundle {
     val In_ADC = Input(UInt(1.W))
-    val In_DAC = Input(SInt(bufferWidth.W))
-    val Out_ADC = Output(SInt(bufferWidth.W))
     val Out_DAC = Output(UInt(1.W))
     val Out_ADC_D = Output(UInt(1.W))
     val Sync = Output(UInt(1.W))
+
+    // val In_DAC = Input(SInt(bufferWidth.W))
+    // val Out_ADC = Output(SInt(bufferWidth.W))
+    // -----unsigned val-----
+    val In_DAC = Input(UInt(bufferWidth.W))
+    val Out_ADC = Output(UInt(bufferWidth.W))
   })
   val filterLength = 824
 
@@ -43,16 +47,22 @@ class IOMaster(bufferWidth: Int) extends Module {
   ADC.io.Sync := io.Sync
   DAC.io.Sync := io.Sync
 
-
+  // connecting modules
   ADC.io.In := io.In_ADC
   io.Out_ADC := ADC.io.Out
-  ADC.io.postFIR := ADCFilter.io.WaveOut
-  ADCReg := ADC.io.preFIR
+  // ADC.io.postFIR := ADCFilter.io.WaveOut
+  // ADCReg := ADC.io.preFIR
+  // -----unsigned val-----
+  ADC.io.postFIR := ADCFilter.io.WaveOut.asUInt
+  ADCReg := ADC.io.preFIR.asSInt
 
   DAC.io.In := io.In_DAC
   io.Out_DAC := DAC.io.OutPWM
-  DAC.io.postFIR := DACFilter.io.WaveOut
-  DACReg := DAC.io.preFIR
+  // DAC.io.postFIR := DACFilter.io.WaveOut
+  // DACReg := DAC.io.preFIR
+  // -----unsigned val-----
+  DAC.io.postFIR := DACFilter.io.WaveOut.asUInt
+  DACReg := DAC.io.preFIR.asSInt
 
   io.Out_ADC_D := ADC.io.ADC_D_out
 
