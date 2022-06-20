@@ -243,15 +243,11 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 // generate Verilog
 object DSP extends App {
 
+  val Config = args(0)
+
   println(Text.name + "\n")
-  
-  sortAll("Config")
 
-  print("\n" + "Enter config file: ")
-
-  val input = scala.io.StdIn.readLine()
-
-  val xml = XML.loadFile("Config/" + input + ".xml")
+  val xml = XML.loadFile(Config)
 
   (new chisel3.stage.ChiselStage).emitVerilog(new DSP(100000000, xml))
 }
