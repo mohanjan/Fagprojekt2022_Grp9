@@ -9,7 +9,6 @@ class I2S(Bitwidth: Int, Count: Int) extends Module {
     val LeftCompleted = Output(Bool())
     val RightCompleted = Output(Bool())
   })
-
   val I2S = IO(new Bundle{
     val SCLK = Output(Bool())
     val LCLK = Output(Bool())
@@ -25,6 +24,9 @@ class I2S(Bitwidth: Int, Count: Int) extends Module {
 
   io.Left := OutRegLeft
   io.Right := OutRegRight
+
+  io.LeftCompleted := false.B
+  io.RightCompleted := false.B
 
   I2S.LCLK := false.B
 

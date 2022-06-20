@@ -1,5 +1,7 @@
 // støjen bliver skubbet op i høje frekvenser, men det er også de høje frekvenser der bliver dæmpet
 //lav et fælles modul det styrer filter ressourcen
+
+/*
 import chisel3._
 import chisel3.util._
 
@@ -95,3 +97,4 @@ class IOMaster(bufferWidth: Int) extends Module {
   }
 
 }
+*/

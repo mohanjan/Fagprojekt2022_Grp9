@@ -59,7 +59,55 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
   */
 
-  
+  val Intype = (xml \\ "InputController" \\ "@type").text
+
+  Intype match{
+    case "DS" => 
+      val io = IO(new Bundle {
+        val In_ADC = Input(UInt(1.W))
+        val Out_ADC = Output(UInt(1.W))
+      })
+
+      val ADC = Module(new InController(18))
+
+      // connecting modules
+      ADC.io.In := io.In_ADC
+      io.Out_ADC := ADC.io.ADC_D_out
+
+      In := ADC.io.Out(15,0).asUInt
+
+    case "TEST" =>
+      val io = IO(new Bundle {
+        val In = Input(SInt(16.W))
+        val Out = Output(SInt(16.W))
+      })
+
+      In := io.In.asUInt
+      io.Out := Out(15,0).asSInt
+
+    case "I2S" =>
+      val I2S = IO(new Bundle {
+        val SCLK = Output(Bool())
+        val LCLK = Output(Bool())
+        //val MCLK = Output(Bool())
+        val SDOUT = Input(Bool())
+      })
+      val io = IO(new Bundle {
+        val Out = Output(SInt(16.W))
+      })
+
+      val ADC = Module(new I2S(24, 200))
+
+      ADC.I2S <> I2S
+
+      ADC.io.Enable := true.B
+      
+      In := ADC.io.Left(23,6)
+      io.Out := Out(15,0).asSInt
+  }
+
+
+  /*
 
   val io = IO(new Bundle {
     val In = Input(SInt(16.W))
@@ -69,7 +117,7 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
   In := io.In.asUInt
   io.Out := Out(15,0).asSInt
 
-  
+  */
 
   val SPI = IO(new Bundle{
     val SCLK = Output(Bool())
