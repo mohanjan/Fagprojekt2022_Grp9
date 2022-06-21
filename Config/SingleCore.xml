@@ -1,13 +1,13 @@
 <CAPNA>
   <CAP top="true" id="0">
-    <Program>TestProgram</Program>
+    <Program>Distortion</Program>
     <Inputs>
       <Input node="In"/>
     </Inputs>
     <BRAM size="2048"/>
     <DRAM offset="0"/>
   </CAP>
-  <InputController type="TEST"/>
+  <InputController type="DS"/>
   <OutputController type="DS"/>
   <TEST>
     <CLK count="23"/>

@@ -27,7 +27,6 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
   val In = Wire(UInt(18.W))
   val Out = Wire(UInt(18.W))
-
   /*
 
   if((xml \\ "IN_OUT" \\ "@init").text == "true"){
@@ -68,7 +67,8 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
         val Out_ADC = Output(UInt(1.W))
       })
 
-      val ADC = Module(new InController(18))
+      // val ADC = Module(new InController(16))
+      val ADC = Module(new SDADC(16, 142))
 
       // connecting modules
       ADC.io.In := io.In_ADC
@@ -105,8 +105,8 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
       In := ADC.io.Left(23,6)
       io.Out := Out(15,0).asSInt
   }
-
-
+  
+  
   /*
 
   val io = IO(new Bundle {
@@ -237,7 +237,14 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
   }
 
   Out := OutputConnector.io.Out
-
+  // -----DAC-----
+  val outputfromDAC = IO(new Bundle {
+    val Out = Output(UInt(1.W))
+  })
+  val DAC = Module(new SDDAC(16, 1))
+  
+  DAC.io.In := OutputConnector.io.Out(17, 2)
+  outputfromDAC.Out := DAC.io.OutPDM
 }
 
 // generate Verilog
