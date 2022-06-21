@@ -2,6 +2,8 @@ import chisel3._
 import chisel3.experimental.Analog
 import chisel3.util.HasBlackBoxInline
 
+// Code taken from Tjark Petersen
+
 class LCDBusDriver extends BlackBox with HasBlackBoxInline {
   val io = IO(new Bundle{
     val busData =     Output(UInt(4.W))   // data on the bus
