@@ -15,7 +15,8 @@
     <BRAM size="2048"/>
     <DRAM offset="0"/>
   </CAP>
-  <IN_OUT init="false"/>
+  <InputController type="TEST"/>
+  <OutputController type="DS"/>
   <TEST>
     <CLK count="1"/>
     <SOUND sample="sample.wav"/>

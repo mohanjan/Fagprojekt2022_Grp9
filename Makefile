@@ -22,7 +22,7 @@ run: $(SRCS)
 	$(SBT) "run $(CONFIGFILE)"
 
 .PHONY: test
-testall: $(SRCS) $(TESTS)
-	$(SBT) test
+test: $(TESTS)
+	$(SBT) "test $(CONFIGFILE)"
 
 	

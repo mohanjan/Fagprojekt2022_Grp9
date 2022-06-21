@@ -42,8 +42,12 @@ class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
   val xml = XML.loadFile("Config/" + input + ".xml")
 
   */
-  
-  val xml = XML.loadFile("Config/SingleCore.xml")
+
+  val Config = args(0)
+
+  val xml = XML.loadFile("/" + Config)
+
+  //val xml = XML.loadFile("Config/SingleCore.xml")
 
   
   behavior of "DSP"
