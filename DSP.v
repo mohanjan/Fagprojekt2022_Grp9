@@ -2299,60 +2299,60 @@ module DSP(
   inout  [3:0] SPI_MOSI_MISO,
   output       outputfromDAC_Out
 );
-  wire  ADC_clock; // @[DSP.scala 71:23]
-  wire  ADC_reset; // @[DSP.scala 71:23]
-  wire  ADC_io_In; // @[DSP.scala 71:23]
-  wire  ADC_io_ADC_D_out; // @[DSP.scala 71:23]
-  wire [15:0] ADC_io_Out; // @[DSP.scala 71:23]
-  wire  SPIArbiter_clock; // @[DSP.scala 135:26]
-  wire  SPIArbiter_reset; // @[DSP.scala 135:26]
-  wire [17:0] SPIArbiter_io_MemPort_0_Address; // @[DSP.scala 135:26]
-  wire [17:0] SPIArbiter_io_MemPort_0_WriteData; // @[DSP.scala 135:26]
-  wire  SPIArbiter_io_MemPort_0_Enable; // @[DSP.scala 135:26]
-  wire  SPIArbiter_io_MemPort_0_WriteEn; // @[DSP.scala 135:26]
-  wire [17:0] SPIArbiter_io_MemPort_0_ReadData; // @[DSP.scala 135:26]
-  wire  SPIArbiter_io_MemPort_0_Completed; // @[DSP.scala 135:26]
-  wire  SPIArbiter_SPI_SCLK; // @[DSP.scala 135:26]
-  wire  SPIArbiter_SPI_CE; // @[DSP.scala 135:26]
-  wire  SPIArbiter_SPI_SO_0; // @[DSP.scala 135:26]
-  wire  SPIArbiter_SPI_SO_1; // @[DSP.scala 135:26]
-  wire  SPIArbiter_SPI_SO_2; // @[DSP.scala 135:26]
-  wire  SPIArbiter_SPI_SO_3; // @[DSP.scala 135:26]
-  wire  SPIArbiter_SPI_SI_0; // @[DSP.scala 135:26]
-  wire  SPIArbiter_SPI_SI_1; // @[DSP.scala 135:26]
-  wire  SPIArbiter_SPI_SI_2; // @[DSP.scala 135:26]
-  wire  SPIArbiter_SPI_SI_3; // @[DSP.scala 135:26]
-  wire  SPIArbiter_SPI_Drive; // @[DSP.scala 135:26]
-  wire [3:0] LCDBusDriver_busData; // @[DSP.scala 136:28]
-  wire [3:0] LCDBusDriver_driveData; // @[DSP.scala 136:28]
-  wire  LCDBusDriver_drive; // @[DSP.scala 136:28]
-  wire  SubDSP_clock; // @[DSP.scala 165:24]
-  wire  SubDSP_reset; // @[DSP.scala 165:24]
-  wire [17:0] SubDSP_io_Sub_IO_In; // @[DSP.scala 165:24]
-  wire [17:0] SubDSP_io_Sub_IO_Out; // @[DSP.scala 165:24]
-  wire [17:0] SubDSP_SPI_SPIMemPort_Address; // @[DSP.scala 165:24]
-  wire [17:0] SubDSP_SPI_SPIMemPort_WriteData; // @[DSP.scala 165:24]
-  wire  SubDSP_SPI_SPIMemPort_Enable; // @[DSP.scala 165:24]
-  wire  SubDSP_SPI_SPIMemPort_WriteEn; // @[DSP.scala 165:24]
-  wire [17:0] SubDSP_SPI_SPIMemPort_ReadData; // @[DSP.scala 165:24]
-  wire  SubDSP_SPI_SPIMemPort_Completed; // @[DSP.scala 165:24]
-  wire [17:0] OutputConnector_io_In_0; // @[DSP.scala 195:31]
-  wire [17:0] OutputConnector_io_Out; // @[DSP.scala 195:31]
-  wire  DAC_clock; // @[DSP.scala 244:19]
-  wire  DAC_reset; // @[DSP.scala 244:19]
-  wire [15:0] DAC_io_In; // @[DSP.scala 244:19]
-  wire  DAC_io_OutPDM; // @[DSP.scala 244:19]
-  wire [15:0] _In_T = ADC_io_Out; // @[DSP.scala 77:23]
-  wire [1:0] LCDBusDriver_io_driveData_lo = {SPIArbiter_SPI_SI_1,SPIArbiter_SPI_SI_0}; // @[DSP.scala 140:50]
-  wire [1:0] LCDBusDriver_io_driveData_hi = {SPIArbiter_SPI_SI_3,SPIArbiter_SPI_SI_2}; // @[DSP.scala 140:50]
-  SDADC ADC ( // @[DSP.scala 71:23]
+  wire  ADC_clock; // @[DSP.scala 40:23]
+  wire  ADC_reset; // @[DSP.scala 40:23]
+  wire  ADC_io_In; // @[DSP.scala 40:23]
+  wire  ADC_io_ADC_D_out; // @[DSP.scala 40:23]
+  wire [15:0] ADC_io_Out; // @[DSP.scala 40:23]
+  wire  SPIArbiter_clock; // @[DSP.scala 91:26]
+  wire  SPIArbiter_reset; // @[DSP.scala 91:26]
+  wire [17:0] SPIArbiter_io_MemPort_0_Address; // @[DSP.scala 91:26]
+  wire [17:0] SPIArbiter_io_MemPort_0_WriteData; // @[DSP.scala 91:26]
+  wire  SPIArbiter_io_MemPort_0_Enable; // @[DSP.scala 91:26]
+  wire  SPIArbiter_io_MemPort_0_WriteEn; // @[DSP.scala 91:26]
+  wire [17:0] SPIArbiter_io_MemPort_0_ReadData; // @[DSP.scala 91:26]
+  wire  SPIArbiter_io_MemPort_0_Completed; // @[DSP.scala 91:26]
+  wire  SPIArbiter_SPI_SCLK; // @[DSP.scala 91:26]
+  wire  SPIArbiter_SPI_CE; // @[DSP.scala 91:26]
+  wire  SPIArbiter_SPI_SO_0; // @[DSP.scala 91:26]
+  wire  SPIArbiter_SPI_SO_1; // @[DSP.scala 91:26]
+  wire  SPIArbiter_SPI_SO_2; // @[DSP.scala 91:26]
+  wire  SPIArbiter_SPI_SO_3; // @[DSP.scala 91:26]
+  wire  SPIArbiter_SPI_SI_0; // @[DSP.scala 91:26]
+  wire  SPIArbiter_SPI_SI_1; // @[DSP.scala 91:26]
+  wire  SPIArbiter_SPI_SI_2; // @[DSP.scala 91:26]
+  wire  SPIArbiter_SPI_SI_3; // @[DSP.scala 91:26]
+  wire  SPIArbiter_SPI_Drive; // @[DSP.scala 91:26]
+  wire [3:0] LCDBusDriver_busData; // @[DSP.scala 92:28]
+  wire [3:0] LCDBusDriver_driveData; // @[DSP.scala 92:28]
+  wire  LCDBusDriver_drive; // @[DSP.scala 92:28]
+  wire  SubDSP_clock; // @[DSP.scala 121:24]
+  wire  SubDSP_reset; // @[DSP.scala 121:24]
+  wire [17:0] SubDSP_io_Sub_IO_In; // @[DSP.scala 121:24]
+  wire [17:0] SubDSP_io_Sub_IO_Out; // @[DSP.scala 121:24]
+  wire [17:0] SubDSP_SPI_SPIMemPort_Address; // @[DSP.scala 121:24]
+  wire [17:0] SubDSP_SPI_SPIMemPort_WriteData; // @[DSP.scala 121:24]
+  wire  SubDSP_SPI_SPIMemPort_Enable; // @[DSP.scala 121:24]
+  wire  SubDSP_SPI_SPIMemPort_WriteEn; // @[DSP.scala 121:24]
+  wire [17:0] SubDSP_SPI_SPIMemPort_ReadData; // @[DSP.scala 121:24]
+  wire  SubDSP_SPI_SPIMemPort_Completed; // @[DSP.scala 121:24]
+  wire [17:0] OutputConnector_io_In_0; // @[DSP.scala 151:31]
+  wire [17:0] OutputConnector_io_Out; // @[DSP.scala 151:31]
+  wire  DAC_clock; // @[DSP.scala 204:23]
+  wire  DAC_reset; // @[DSP.scala 204:23]
+  wire [15:0] DAC_io_In; // @[DSP.scala 204:23]
+  wire  DAC_io_OutPDM; // @[DSP.scala 204:23]
+  wire [15:0] _In_T = ADC_io_Out; // @[DSP.scala 46:23]
+  wire [1:0] LCDBusDriver_io_driveData_lo = {SPIArbiter_SPI_SI_1,SPIArbiter_SPI_SI_0}; // @[DSP.scala 96:50]
+  wire [1:0] LCDBusDriver_io_driveData_hi = {SPIArbiter_SPI_SI_3,SPIArbiter_SPI_SI_2}; // @[DSP.scala 96:50]
+  SDADC ADC ( // @[DSP.scala 40:23]
     .clock(ADC_clock),
     .reset(ADC_reset),
     .io_In(ADC_io_In),
     .io_ADC_D_out(ADC_io_ADC_D_out),
     .io_Out(ADC_io_Out)
   );
-  SPIArbiter SPIArbiter ( // @[DSP.scala 135:26]
+  SPIArbiter SPIArbiter ( // @[DSP.scala 91:26]
     .clock(SPIArbiter_clock),
     .reset(SPIArbiter_reset),
     .io_MemPort_0_Address(SPIArbiter_io_MemPort_0_Address),
@@ -2373,13 +2373,13 @@ module DSP(
     .SPI_SI_3(SPIArbiter_SPI_SI_3),
     .SPI_Drive(SPIArbiter_SPI_Drive)
   );
-  LCDBusDriver LCDBusDriver ( // @[DSP.scala 136:28]
+  LCDBusDriver LCDBusDriver ( // @[DSP.scala 92:28]
     .busData(LCDBusDriver_busData),
     .driveData(LCDBusDriver_driveData),
     .bus(SPI_MOSI_MISO),
     .drive(LCDBusDriver_drive)
   );
-  SubDSP SubDSP ( // @[DSP.scala 165:24]
+  SubDSP SubDSP ( // @[DSP.scala 121:24]
     .clock(SubDSP_clock),
     .reset(SubDSP_reset),
     .io_Sub_IO_In(SubDSP_io_Sub_IO_In),
@@ -2391,42 +2391,42 @@ module DSP(
     .SPI_SPIMemPort_ReadData(SubDSP_SPI_SPIMemPort_ReadData),
     .SPI_SPIMemPort_Completed(SubDSP_SPI_SPIMemPort_Completed)
   );
-  NodeConnector OutputConnector ( // @[DSP.scala 195:31]
+  NodeConnector OutputConnector ( // @[DSP.scala 151:31]
     .io_In_0(OutputConnector_io_In_0),
     .io_Out(OutputConnector_io_Out)
   );
-  SDDAC DAC ( // @[DSP.scala 244:19]
+  SDDAC DAC ( // @[DSP.scala 204:23]
     .clock(DAC_clock),
     .reset(DAC_reset),
     .io_In(DAC_io_In),
     .io_OutPDM(DAC_io_OutPDM)
   );
-  assign io_Out_ADC = ADC_io_ADC_D_out; // @[DSP.scala 75:18]
-  assign SPI_SCLK = SPIArbiter_SPI_SCLK; // @[DSP.scala 142:12]
-  assign SPI_CE = SPIArbiter_SPI_CE; // @[DSP.scala 143:10]
-  assign outputfromDAC_Out = DAC_io_OutPDM; // @[DSP.scala 247:21]
+  assign io_Out_ADC = ADC_io_ADC_D_out; // @[DSP.scala 44:18]
+  assign SPI_SCLK = SPIArbiter_SPI_SCLK; // @[DSP.scala 98:12]
+  assign SPI_CE = SPIArbiter_SPI_CE; // @[DSP.scala 99:10]
+  assign outputfromDAC_Out = DAC_io_OutPDM; // @[DSP.scala 207:25]
   assign ADC_clock = clock;
   assign ADC_reset = reset;
-  assign ADC_io_In = io_In_ADC; // @[DSP.scala 74:17]
+  assign ADC_io_In = io_In_ADC; // @[DSP.scala 43:17]
   assign SPIArbiter_clock = clock;
   assign SPIArbiter_reset = reset;
-  assign SPIArbiter_io_MemPort_0_Address = SubDSP_SPI_SPIMemPort_Address; // @[DSP.scala 169:27]
-  assign SPIArbiter_io_MemPort_0_WriteData = SubDSP_SPI_SPIMemPort_WriteData; // @[DSP.scala 169:27]
-  assign SPIArbiter_io_MemPort_0_Enable = SubDSP_SPI_SPIMemPort_Enable; // @[DSP.scala 169:27]
-  assign SPIArbiter_io_MemPort_0_WriteEn = SubDSP_SPI_SPIMemPort_WriteEn; // @[DSP.scala 169:27]
-  assign SPIArbiter_SPI_SO_0 = LCDBusDriver_busData[0]; // @[DSP.scala 141:48]
-  assign SPIArbiter_SPI_SO_1 = LCDBusDriver_busData[1]; // @[DSP.scala 141:48]
-  assign SPIArbiter_SPI_SO_2 = LCDBusDriver_busData[2]; // @[DSP.scala 141:48]
-  assign SPIArbiter_SPI_SO_3 = LCDBusDriver_busData[3]; // @[DSP.scala 141:48]
-  assign LCDBusDriver_driveData = {LCDBusDriver_io_driveData_hi,LCDBusDriver_io_driveData_lo}; // @[DSP.scala 140:50]
-  assign LCDBusDriver_drive = SPIArbiter_SPI_Drive; // @[DSP.scala 139:25]
+  assign SPIArbiter_io_MemPort_0_Address = SubDSP_SPI_SPIMemPort_Address; // @[DSP.scala 125:27]
+  assign SPIArbiter_io_MemPort_0_WriteData = SubDSP_SPI_SPIMemPort_WriteData; // @[DSP.scala 125:27]
+  assign SPIArbiter_io_MemPort_0_Enable = SubDSP_SPI_SPIMemPort_Enable; // @[DSP.scala 125:27]
+  assign SPIArbiter_io_MemPort_0_WriteEn = SubDSP_SPI_SPIMemPort_WriteEn; // @[DSP.scala 125:27]
+  assign SPIArbiter_SPI_SO_0 = LCDBusDriver_busData[0]; // @[DSP.scala 97:48]
+  assign SPIArbiter_SPI_SO_1 = LCDBusDriver_busData[1]; // @[DSP.scala 97:48]
+  assign SPIArbiter_SPI_SO_2 = LCDBusDriver_busData[2]; // @[DSP.scala 97:48]
+  assign SPIArbiter_SPI_SO_3 = LCDBusDriver_busData[3]; // @[DSP.scala 97:48]
+  assign LCDBusDriver_driveData = {LCDBusDriver_io_driveData_hi,LCDBusDriver_io_driveData_lo}; // @[DSP.scala 96:50]
+  assign LCDBusDriver_drive = SPIArbiter_SPI_Drive; // @[DSP.scala 95:25]
   assign SubDSP_clock = clock;
   assign SubDSP_reset = reset;
-  assign SubDSP_io_Sub_IO_In = {{2'd0}, _In_T}; // @[DSP.scala 28:16 77:10]
-  assign SubDSP_SPI_SPIMemPort_ReadData = SPIArbiter_io_MemPort_0_ReadData; // @[DSP.scala 169:27]
-  assign SubDSP_SPI_SPIMemPort_Completed = SPIArbiter_io_MemPort_0_Completed; // @[DSP.scala 169:27]
-  assign OutputConnector_io_In_0 = SubDSP_io_Sub_IO_Out; // @[DSP.scala 150:21 171:19]
+  assign SubDSP_io_Sub_IO_In = {{2'd0}, _In_T}; // @[DSP.scala 26:16 46:10]
+  assign SubDSP_SPI_SPIMemPort_ReadData = SPIArbiter_io_MemPort_0_ReadData; // @[DSP.scala 125:27]
+  assign SubDSP_SPI_SPIMemPort_Completed = SPIArbiter_io_MemPort_0_Completed; // @[DSP.scala 125:27]
+  assign OutputConnector_io_In_0 = SubDSP_io_Sub_IO_Out; // @[DSP.scala 106:21 127:19]
   assign DAC_clock = clock;
   assign DAC_reset = reset;
-  assign DAC_io_In = OutputConnector_io_Out[17:2]; // @[DSP.scala 246:38]
+  assign DAC_io_In = OutputConnector_io_Out[17:2]; // @[DSP.scala 206:42]
 endmodule

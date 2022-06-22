@@ -21,42 +21,11 @@ object Text{
                #""".stripMargin('#')
 }
 
-
-
 class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
   val In = Wire(UInt(18.W))
   val Out = Wire(UInt(18.W))
-  /*
 
-  if((xml \\ "IN_OUT" \\ "@init").text == "true"){
-
-    printf("true")
-
-    val io = IO(new Bundle {
-      val In_ADC = Input(UInt(1.W))
-      val Out_DAC = Output(UInt(1.W))
-    })
-
-    val IOMaster = Module(new IOMaster(18))
-
-    IOMaster.io.In_ADC := io.In_ADC
-    io.Out_DAC := IOMaster.io.Out_DAC
-
-    In := IOMaster.io.Out_ADC.asUInt
-    IOMaster.io.In_DAC := Out(15,0).asSInt
-
-  }else{
-    val io = IO(new Bundle {
-      val In = Input(SInt(16.W))
-      val Out = Output(SInt(16.W))
-    })
-
-    In := io.In.asUInt
-    io.Out := Out(15,0).asSInt
-  }
-
-  */
 
   val Intype = (xml \\ "InputController" \\ "@type").text
 
@@ -106,19 +75,6 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
       io.Out := Out(15,0).asSInt
   }
   
-  
-  /*
-
-  val io = IO(new Bundle {
-    val In = Input(SInt(16.W))
-    val Out = Output(SInt(16.W))
-  })
-
-  In := io.In.asUInt
-  io.Out := Out(15,0).asSInt
-
-  */
-
   val SPI = IO(new Bundle{
     val SCLK = Output(Bool())
     val CE = Output(Bool())
@@ -236,15 +192,20 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
   }
 
-  Out := OutputConnector.io.Out
-  // -----DAC-----
-  val outputfromDAC = IO(new Bundle {
-    val Out = Output(UInt(1.W))
-  })
-  val DAC = Module(new SDDAC(16, 1))
-  
-  DAC.io.In := OutputConnector.io.Out(17, 2)
-  outputfromDAC.Out := DAC.io.OutPDM
+  val Outtype = (xml \\ "OutputController" \\ "@type").text
+
+  Outtype match{
+    case "DS" => 
+      Out := OutputConnector.io.Out
+      // -----DAC-----
+      val outputfromDAC = IO(new Bundle {
+        val Out = Output(UInt(1.W))
+      })
+      val DAC = Module(new SDDAC(16, 1))
+
+      DAC.io.In := OutputConnector.io.Out(17, 2)
+      outputfromDAC.Out := DAC.io.OutPDM
+  }
 }
 
 // generate Verilog

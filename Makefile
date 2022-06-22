@@ -20,9 +20,3 @@ CONFIGFILE?=Config/$(CONFIG).xml
 .PHONY: run
 run: $(SRCS)
 	$(SBT) "run $(CONFIGFILE)"
-
-.PHONY: test
-test: $(TESTS)
-	$(SBT) "test $(CONFIGFILE)"
-
-	

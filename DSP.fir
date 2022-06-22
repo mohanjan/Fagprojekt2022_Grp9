@@ -1533,56 +1533,56 @@ circuit DSP :
     output SPI : { SCLK : UInt<1>, CE : UInt<1>, MOSI_MISO : Analog<4>}
     output outputfromDAC : { Out : UInt<1>}
 
-    wire In : UInt<18> @[DSP.scala 28:16]
-    wire Out : UInt<18> @[DSP.scala 29:17]
-    inst ADC of SDADC @[DSP.scala 71:23]
+    wire In : UInt<18> @[DSP.scala 26:16]
+    wire Out : UInt<18> @[DSP.scala 27:17]
+    inst ADC of SDADC @[DSP.scala 40:23]
     ADC.clock <= clock
     ADC.reset <= reset
-    ADC.io.In <= io.In_ADC @[DSP.scala 74:17]
-    io.Out_ADC <= ADC.io.ADC_D_out @[DSP.scala 75:18]
-    node _In_T = bits(ADC.io.Out, 15, 0) @[DSP.scala 77:23]
-    In <= _In_T @[DSP.scala 77:10]
-    inst SPIArbiter of SPIArbiter @[DSP.scala 135:26]
+    ADC.io.In <= io.In_ADC @[DSP.scala 43:17]
+    io.Out_ADC <= ADC.io.ADC_D_out @[DSP.scala 44:18]
+    node _In_T = bits(ADC.io.Out, 15, 0) @[DSP.scala 46:23]
+    In <= _In_T @[DSP.scala 46:10]
+    inst SPIArbiter of SPIArbiter @[DSP.scala 91:26]
     SPIArbiter.clock <= clock
     SPIArbiter.reset <= reset
-    inst LCDBusDriver of LCDBusDriver @[DSP.scala 136:28]
+    inst LCDBusDriver of LCDBusDriver @[DSP.scala 92:28]
     LCDBusDriver.drive is invalid
     LCDBusDriver.bus is invalid
     LCDBusDriver.driveData is invalid
     LCDBusDriver.busData is invalid
-    attach (SPI.MOSI_MISO, LCDBusDriver.bus) @[DSP.scala 138:17]
-    LCDBusDriver.drive <= SPIArbiter.SPI.Drive @[DSP.scala 139:25]
-    node LCDBusDriver_io_driveData_lo = cat(SPIArbiter.SPI.SI[1], SPIArbiter.SPI.SI[0]) @[DSP.scala 140:50]
-    node LCDBusDriver_io_driveData_hi = cat(SPIArbiter.SPI.SI[3], SPIArbiter.SPI.SI[2]) @[DSP.scala 140:50]
-    node _LCDBusDriver_io_driveData_T = cat(LCDBusDriver_io_driveData_hi, LCDBusDriver_io_driveData_lo) @[DSP.scala 140:50]
-    LCDBusDriver.driveData <= _LCDBusDriver_io_driveData_T @[DSP.scala 140:29]
-    node _T = bits(LCDBusDriver.busData, 0, 0) @[DSP.scala 141:48]
-    node _T_1 = bits(LCDBusDriver.busData, 1, 1) @[DSP.scala 141:48]
-    node _T_2 = bits(LCDBusDriver.busData, 2, 2) @[DSP.scala 141:48]
-    node _T_3 = bits(LCDBusDriver.busData, 3, 3) @[DSP.scala 141:48]
-    SPIArbiter.SPI.SO[0] <= _T @[DSP.scala 141:21]
-    SPIArbiter.SPI.SO[1] <= _T_1 @[DSP.scala 141:21]
-    SPIArbiter.SPI.SO[2] <= _T_2 @[DSP.scala 141:21]
-    SPIArbiter.SPI.SO[3] <= _T_3 @[DSP.scala 141:21]
-    SPI.SCLK <= SPIArbiter.SPI.SCLK @[DSP.scala 142:12]
-    SPI.CE <= SPIArbiter.SPI.CE @[DSP.scala 143:10]
-    wire CAP_IOs : { flip In : UInt<18>, Out : UInt<18>}[1] @[DSP.scala 150:21]
-    inst SubDSP of SubDSP @[DSP.scala 165:24]
+    attach (SPI.MOSI_MISO, LCDBusDriver.bus) @[DSP.scala 94:17]
+    LCDBusDriver.drive <= SPIArbiter.SPI.Drive @[DSP.scala 95:25]
+    node LCDBusDriver_io_driveData_lo = cat(SPIArbiter.SPI.SI[1], SPIArbiter.SPI.SI[0]) @[DSP.scala 96:50]
+    node LCDBusDriver_io_driveData_hi = cat(SPIArbiter.SPI.SI[3], SPIArbiter.SPI.SI[2]) @[DSP.scala 96:50]
+    node _LCDBusDriver_io_driveData_T = cat(LCDBusDriver_io_driveData_hi, LCDBusDriver_io_driveData_lo) @[DSP.scala 96:50]
+    LCDBusDriver.driveData <= _LCDBusDriver_io_driveData_T @[DSP.scala 96:29]
+    node _T = bits(LCDBusDriver.busData, 0, 0) @[DSP.scala 97:48]
+    node _T_1 = bits(LCDBusDriver.busData, 1, 1) @[DSP.scala 97:48]
+    node _T_2 = bits(LCDBusDriver.busData, 2, 2) @[DSP.scala 97:48]
+    node _T_3 = bits(LCDBusDriver.busData, 3, 3) @[DSP.scala 97:48]
+    SPIArbiter.SPI.SO[0] <= _T @[DSP.scala 97:21]
+    SPIArbiter.SPI.SO[1] <= _T_1 @[DSP.scala 97:21]
+    SPIArbiter.SPI.SO[2] <= _T_2 @[DSP.scala 97:21]
+    SPIArbiter.SPI.SO[3] <= _T_3 @[DSP.scala 97:21]
+    SPI.SCLK <= SPIArbiter.SPI.SCLK @[DSP.scala 98:12]
+    SPI.CE <= SPIArbiter.SPI.CE @[DSP.scala 99:10]
+    wire CAP_IOs : { flip In : UInt<18>, Out : UInt<18>}[1] @[DSP.scala 106:21]
+    inst SubDSP of SubDSP @[DSP.scala 121:24]
     SubDSP.clock <= clock
     SubDSP.reset <= reset
-    SPIArbiter.io.MemPort[0] <= SubDSP.SPI.SPIMemPort @[DSP.scala 169:27]
-    CAP_IOs[0].Out <= SubDSP.io.Sub_IO.Out @[DSP.scala 171:19]
-    SubDSP.io.Sub_IO.In <= CAP_IOs[0].In @[DSP.scala 171:19]
-    inst OutputConnector of NodeConnector @[DSP.scala 195:31]
+    SPIArbiter.io.MemPort[0] <= SubDSP.SPI.SPIMemPort @[DSP.scala 125:27]
+    CAP_IOs[0].Out <= SubDSP.io.Sub_IO.Out @[DSP.scala 127:19]
+    SubDSP.io.Sub_IO.In <= CAP_IOs[0].In @[DSP.scala 127:19]
+    inst OutputConnector of NodeConnector @[DSP.scala 151:31]
     OutputConnector.clock <= clock
     OutputConnector.reset <= reset
-    CAP_IOs[0].In <= In @[DSP.scala 221:27]
-    OutputConnector.io.In[0] <= CAP_IOs[0].Out @[DSP.scala 231:40]
-    Out <= OutputConnector.io.Out @[DSP.scala 239:7]
-    inst DAC of SDDAC @[DSP.scala 244:19]
+    CAP_IOs[0].In <= In @[DSP.scala 177:27]
+    OutputConnector.io.In[0] <= CAP_IOs[0].Out @[DSP.scala 187:40]
+    Out <= OutputConnector.io.Out @[DSP.scala 199:11]
+    inst DAC of SDDAC @[DSP.scala 204:23]
     DAC.clock <= clock
     DAC.reset <= reset
-    node _DAC_io_In_T = bits(OutputConnector.io.Out, 17, 2) @[DSP.scala 246:38]
-    DAC.io.In <= _DAC_io_In_T @[DSP.scala 246:13]
-    outputfromDAC.Out <= DAC.io.OutPDM @[DSP.scala 247:21]
+    node _DAC_io_In_T = bits(OutputConnector.io.Out, 17, 2) @[DSP.scala 206:42]
+    DAC.io.In <= _DAC_io_In_T @[DSP.scala 206:17]
+    outputfromDAC.Out <= DAC.io.OutPDM @[DSP.scala 207:25]
 

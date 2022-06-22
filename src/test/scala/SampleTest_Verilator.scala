@@ -25,30 +25,9 @@ object Text{
                #""".stripMargin('#')
 }
 
-
-
 class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
 
-  println(Text.name + "\n")
-
-  /*
-  
-  sortAll("Config")
-
-  print("\n" + "Enter config file: ")
-
-  val input = scala.io.StdIn.readLine()
-
-  val xml = XML.loadFile("Config/" + input + ".xml")
-
-  */
-
-  val Config = args(0)
-
-  val xml = XML.loadFile("/" + Config)
-
-  //val xml = XML.loadFile("Config/SingleCore.xml")
-
+  val xml = XML.loadFile("Config/Test.xml")
   
   behavior of "DSP"
 
@@ -73,12 +52,6 @@ class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
           for(i <- 0 until ClkCount){
             dut.clock.step()
           }
-
-          /*
-          while (!dut.io.in.ready.peek.litToBoolean) {
-            dut.clock.step()
-          }
-          */
         }
         finished = true
       }
@@ -86,16 +59,6 @@ class SampleTest_Verilator extends AnyFlatSpec with ChiselScalatestTester {
       // Playing in real-time does not work, so record the result
       var idx = 0
       while (!finished) {
-        // for (j <- 0 to 40) {
-
-        /*
-        val valid = dut.io.out.valid.peek.litToBoolean
-        if (valid) {
-          val s = dut.io.out.bits.peek.litValue.toShort
-          outSamples(idx) = s
-          idx += 1
-        }
-        */
 
         val s = dut.io.Out.peek().litValue.toShort
         outSamples(idx) = s

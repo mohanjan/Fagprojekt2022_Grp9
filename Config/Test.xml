@@ -1,0 +1,16 @@
+<CAPNA>
+    <CAP top="true" id="0">
+      <Program>Distortion</Program>
+      <Inputs>
+        <Input node="In"/>
+      </Inputs>
+      <BRAM size="2048"/>
+      <DRAM offset="0"/>
+    </CAP>
+    <InputController type="DS"/>
+    <OutputController type="DS"/>
+    <TEST>
+      <CLK count="23"/>
+      <SOUND sample="sample"/>
+    </TEST>
+  </CAPNA>
