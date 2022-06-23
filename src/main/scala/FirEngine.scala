@@ -75,6 +75,9 @@ class FirEngine() extends Module {
 
   Filter starts at Filterlength
 */
+
+  /*
+
   val FilterLength = Wire(UInt())
   val HalfCount =  Wire(UInt())
   val SIMDVal = 	Wire(SInt())
@@ -162,6 +165,6 @@ class FirEngine() extends Module {
 
 
 
-
+  */
 
 }

@@ -18,6 +18,7 @@ class Core(Program: String) extends Module {
     val WaveOut = Output(UInt(18.W))
 
     val MemPort = new MemPort
+    val Switches = Input(UInt(4.W))
   })
 
   // Initializing pipeline 
@@ -39,6 +40,7 @@ class Core(Program: String) extends Module {
   x(0) := 0.U(16.W)
   x(2) := io.WaveIn
   io.WaveOut := x(3)
+  x(4) := io.Switches
 
   // Default
   //asserting fetch decode to be false by default

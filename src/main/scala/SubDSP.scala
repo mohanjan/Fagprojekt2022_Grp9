@@ -25,6 +25,9 @@ class SubDSP(Program: String, Memsize: Int, SPIRAM_Offset: Int) extends Module {
   val SPI = IO(new Bundle {
     val SPIMemPort = new MemPort
   })
+  val IO_switches = IO(new Bundle {
+    val Switches = Input(UInt(4.W))
+  })
 
   val dedupBlock = WireInit(Program.hashCode.S)
 
@@ -39,6 +42,8 @@ class SubDSP(Program: String, Memsize: Int, SPIRAM_Offset: Int) extends Module {
   io.Sub_IO.Out := Core.io.WaveOut + FirEngine.io.WaveOut.asUInt
   Core.io.WaveIn := io.Sub_IO.In
   FirEngine.io.WaveIn := io.Sub_IO.In.asSInt
+
+  Core.io.Switches := IO_switches.Switches
 
   // Interconnections
 

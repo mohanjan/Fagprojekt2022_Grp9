@@ -4,10 +4,8 @@ import chisel3.util._
 import scala.xml._
 import java.io._
 import Assembler._
-import PrintFiles._
 import java.io.File
 import java.util.Arrays;
-
 
 object Text{
     val name = """
@@ -26,6 +24,9 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
   val In = Wire(UInt(18.W))
   val Out = Wire(UInt(18.W))
 
+  val IO_switches = IO(new Bundle {
+    val Switches = Input(UInt(4.W))
+  })
 
   val Intype = (xml \\ "InputController" \\ "@type").text
 
@@ -120,6 +121,8 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
 
     val SubDSP = Module(new SubDSP("Programs/MachineCode/" + Program + ".mem", Memsize, SPIRAM_Offset))
 
+    SubDSP.IO_switches.Switches := IO_switches.Switches
+
     doNotDedup(SubDSP)
 
     SubDSP.SPI.SPIMemPort <> SPIArbiter.io.MemPort(CORE)
@@ -133,8 +136,6 @@ class DSP(maxCount: Int, xml: scala.xml.Elem) extends Module {
     println("BRAM size: " + Memsize)
     println("")
     println("")
-
-
 
     CORE += 1 
   }
