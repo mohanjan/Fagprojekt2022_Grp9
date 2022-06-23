@@ -46,126 +46,122 @@ class FirEngine() extends Module {
 
 
   //FIR Engine controll logic
+/*
+  FIRENGINE DESIGN thoughts:
 
-  /*
+    Basic spec:
+  first coeffs are loaded, filterlength is loaded
 
-  //Wire definitions
-  val FIRInput = Wire(SInt())
-  val CoeffCount = Wire(UInt())
-  val SampleAdress = Wire(UInt())
-  val ReadSample = Wire(SInt())
+  a state is then chosen from (FIR, IIR , or SIMD MACC)
+  //FIR is fir filtering
+  //IIR is iir filtering
+  //SIMD is either enable,Load coeffs, subtract,accumulate, and from 
 
-  //test wires
-  val CoeffWire = Wire(SInt())
-  val Fircomputation36 = Wire(SInt())
-  val Fircomputation18 = Wire(SInt())
-  val maxcountwire = Wire(UInt())
-  val Halfcountwire = Wire(UInt())
+  REGISTERBANK:
+    (0)=OutputReg
+  (1)=flags and constants
+  (2)=SampleCount
+  (3)=MAccReg
+  (4)=filterlength/SIMD Value
 
-  // Memory definitions
+  FLAGS:
+    * - (0)(0)Enable
+    * - (0)(1)Completed
+    * - (0)(2-3)states
+    * - (0)(4)filter-full 	IF SIMD add or mult [0=add/1=mult]
+  * -	(0)(5-10) Bitshift
+
+  If at any poInt the state is changed then filter full is set to 0.
+
+  Filter starts at Filterlength
+*/
+  val FilterLength = Wire(UInt())
+  val HalfCount =  Wire(UInt())
+  val SIMDVal = 	Wire(SInt())
+  val SIMDMode = 	Wire(UInt())
+  val Bitshift =	Wire(UInt())
+  val Sample =	Wire(SInt())
+  val Coeff = 	Wire(SInt())
+  val MAcc =		Wire(SInt())
+  val SampleCount = Wire(UInt())
+
+
+  val Enable = 	Wire(UInt())
+  val Completed = 	Wire(UInt())
+  val States = 	Wire(UInt())
+
+  val Ready = 	Wire(UInt())
+  val FirstHalf = 	Wire(UInt())
+  val LastHalf = 	Wire(UInt())
+  val Outputting = 	Wire(UInt())
+  val MAcc =		Wire(SInt())
+  val Coeff =		Wire(SInt())
+  val Sample =	Wire(SInt())
 
   val CoeffMemory = SyncReadMem(1024, SInt(18.W))
-  val MAccReg = Reg(SInt(18.W))
+  loadMemoryFromFileInline(CoeffMemory, "FIRfilterCoeffs.txt")
+  
+  
+  //defaults
+  FilterLength :=	DataReg(4)
+  SIMDVal :=		DataReg(4)
+  SIMDMode :=		FilterLength
+  Enable := 		DataReg(0)&1.U
+  Completed := 	(DataReg(0)>>1).asUInt & 1.U
+  States := 		(DataReg(0)>>2).asUInt & 3.U
+  Bitshift :=		(DataReg(0)>>5).asUInt & 31.U
+  HalfCount := 0.U
+  Filterfull := 0.U
 
-  val SampleCount = Reg(UInt(11.W))
-  val InputSamplePointer = Reg(UInt(11.W))
-  val OutputSamplePointer = Reg(UInt(11.W))
+  Ready := 		0.U
+  FirstHalf :=	0.U
+  LastHalf := 	0.U
+  Outputting:= 	0.U
+  Coeff:=		  CoeffMemory.read(SampleCount)
+  Sample:=		io.MemPort.ReadData
+  when(Ready.asBool){Sample:=io.WaveIn}
+  MAcc:=		Coeff*Sample
+  HalfCount:= 	(Filterlength>>2).asUInt
+  Filterfull:=	(DataReg(0)>>4)&1.U
+  Ready := 		SampleCount===0.U
+  FirstHalf :=	SampleCount<HalfCount
+  LastHalf := 	SampleCount>HalfCount
+  Outputting:= 	SampleCount===Filterlength
 
-  loadMemoryFromFileInline(CoeffMemory, "IOFilterCoeffsQ0_17.txt")
-  //todo adress protection
+  //FunctionStates
+  val fir :: iir :: simd :: Nil = Enum(3)
 
-  // Defaults
-  io.WaveOut := DataReg(1).asSInt
-  SampleCount := 0.U
-  CoeffCount := 0.U
-  //dynamic bit extraction of register: ((Register & (2^(MSB+1)-1).U)>>LSB).asUInt
-  Halfcountwire := ((((DataReg(0) & (2 ^ (15 + 1) - 1).U) >> 4).asUInt + 1.U) >> 1).asUInt - 1.U //divide and round up
-  maxcountwire := ((DataReg(0) & (2 ^ (15 + 1) - 1).U) >> 4).asUInt
-  ReadSample := 0.S
+  when (States=/=simd){ 				//when IIR|FIR
+    
 
-  //TestWires
-  CoeffWire := CoeffMemory.read(CoeffCount)
-  Fircomputation36 := 0.S
-  Fircomputation18 := 0.S
-
-
-  when(SampleCount > 0.U) {
-    //FIR filtering
-    //note first filterlength of samples are garbage, but since they are gone in a split second it is fine
-    Fircomputation36 := CoeffWire * FIRInput
-    Fircomputation18 := ((Fircomputation36) >> 17) (17, 0).asSInt //bitshift
-    MAccReg := MAccReg + Fircomputation18
-  }
-  //todo change the counter such that it does the 0th convolution when enable is high
-  //States
-
-  //Ready state:
-  when(SampleCount === 0.U) {
-  }
-  //output state:
-  when(SampleCount === ((DataReg(0) & (2 ^ (15 + 1) - 1).U) >> 4).asUInt) {
-    DataReg(1) := (MAccReg + Fircomputation18).asUInt
-    MAccReg := 0.S
-    DataReg(0) := DataReg(0) | 2.U
-
-    //SamplePointer update
-    when(InputSamplePointer > 0.U) {
-      InputSamplePointer := InputSamplePointer - 1.U
-    }.elsewhen(InputSamplePointer === 0.U) {
-      InputSamplePointer := maxcountwire - 1.U
-    }
-
-
-    //CountUp start state:
-  }.elsewhen((SampleCount > 0.U) && (SampleCount < Halfcountwire) || (DataReg(0) & 1.U)(0) && (SampleCount === 0.U)) {
-    when(io.MemPort.Completed) {                //todo add arbiter write and read protection
-      SampleCount := SampleCount + 1.U
-      CoeffCount := SampleCount
-      DataReg(0) := DataReg(0) & "b11_1111_1111_1111_1100".U
-    }
-
-
-
-    //CountDown state:
-  }.elsewhen(SampleCount >= Halfcountwire) {
-    when(io.MemPort.Completed) {                //todo add arbiter write and read protection
-    SampleCount := SampleCount + 1.U
-    CoeffCount := ((DataReg(0) & (2 ^ (15 + 1) - 1).U) >> 4).asUInt - 2.U - SampleCount
-  }
+  }.else{
+    Coeff:=SIMDVal
   }
 
-  //read/write samples
-  when(SampleCount === ((DataReg(0) & (2 ^ (15 + 1) - 1).U) >> 4).asUInt) {
-    //Sample write
-    io.MemPort.Enable := 1.U
-    io.MemPort.WriteEn := 1.U
-    io.MemPort.WriteData := io.WaveIn.asUInt
-    when(InputSamplePointer > 0.U) {
-      io.MemPort.Address := InputSamplePointer - 1.U
-    }.otherwise {
-      io.MemPort.Address(maxcountwire - 1.U)
-    }
-  }.elsewhen(SampleCount > 0.U ) {
-    //Sample Read
-    io.MemPort.Enable := 1.U
-    io.MemPort.Address(SampleAdress)
-    ReadSample := io.MemPort.ReadData.asSInt
+
+  //MAcc
+  when(Enable&Ready|SampleCount>0.U){
+    DataReg(3):=DataReg(3)+MAcc
   }
 
-  //sampleadress
-  when(InputSamplePointer + SampleCount <= maxcountwire) {
-    SampleAdress := InputSamplePointer + SampleCount
-  }.otherwise {
-    SampleAdress := InputSamplePointer + SampleCount - ((DataReg(0) & (2 ^ (15 + 1) - 1).U) >> 4).asUInt - 1.U
+
+  when(Outputting){
+    SampleCount:=	0.U
+    DataReg(0):=	DataReg(3)
+    DataReg(3):=	0.U
+
+  }.elsewhen (IIR|FIR)&(Ready&Enable|FirstHalf){
+    SampleCount= 1+SampleCount
+    CoeffCount= SampleCount
+  }.elsewhen(LastHalf){
+
+  }.otherwise{}
+  
+
   }
 
-  //sample handling
-  when(SampleCount === 1.U) {
-    FIRInput := io.WaveIn
-  }.otherwise {
-    FIRInput := ReadSample
-  }
 
-  */
+
+
 
 }
