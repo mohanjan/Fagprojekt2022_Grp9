@@ -7,7 +7,7 @@ CAPNA enables the user to accelerate algorithms within digital signal processing
 
 
 ## Usage
-CAPNA is setup using an [XML configuration file](/tree/main/Config) and programmed using [assembly files](tree/main/Programs).
+CAPNA is setup using an [XML configuration file](Config) and programmed using [assembly files](Programs).
 
 
 ## Installation of recomended development enviroment
