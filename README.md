@@ -41,6 +41,6 @@ iverilog \
 make \
 gtkwave \
 && sudo curl -s "https://get.sdkman.io" | bash \
-&& sudo sdk install sbt \
-&& sudo sdk install java 11.0.15-tem \
+&& sdk install sbt \
+&& sdk install java 11.0.15-tem \
 ```
