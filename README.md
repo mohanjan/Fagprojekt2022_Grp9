@@ -24,7 +24,8 @@ The environment contains the following tools:
 - [Verilator](https://www.veripool.org/verilator/)
 - [Icaros verilog](http://iverilog.icarus.com/)
 - [gtkwave](http://gtkwave.sourceforge.net/)
-### Instalation
+- 
+### Installation
 To install the docker image do the following (insert instruction).
 
 To install the tools mentioned above on a linux distribution or WSL(windows subsystem linux) copy paste the following into a bash terminal:
