@@ -13,13 +13,33 @@ Once programmed and configured, chisel3 is then used to compile the CAPNA-networ
 ## Recomended development environment
 To ease any development on or using CAPNA, we've made a dockerfile from which an working development ubuntu enviroment can be created and used. 
 The environment contains the following tools:
-- [SDKMan](https://sdkman.io/) (An java SDK manager)
-- [Java version 11 from Termurin](https://adoptium.net/).
+- [git](https://git-scm.com/)
+- [curl](https://curl.se/)
+- [zip/unzip](http://infozip.sourceforge.net/)
+- [SDKMan](https://sdkman.io/)
+- [make](https://www.gnu.org/software/make/)
+- [Java version 11 from adoptium](https://adoptium.net/).
 - [SBT 1.6.2](https://www.scala-sbt.org/)
 - [Chisel3](https://github.com/chipsalliance/chisel3)
 - [Verilator](https://www.veripool.org/verilator/)
 - [Icaros verilog](http://iverilog.icarus.com/)
+- [gtkwave](http://gtkwave.sourceforge.net/)
 ### Instalation
 To install the docker image do the following (insert instruction).
 
-To install the tools mentioned above on a linux distribution or WSL(windows subsystem linux) the following (instert instructions)
+To install the tools mentioned above on a linux distribution or WSL(windows subsystem linux) copy paste the following into a bash terminal:
+```bash
+sudo apt-get update \
+&& apt-get install -y \
+git \
+curl \
+unzip \
+zip \
+verilator \
+iverilog \
+make \
+gtkwave \
+&& sudo curl -s "https://get.sdkman.io" | bash \
+&& sudo sdk install sbt \
+&& sudo sdk install java 11.0.15-tem \
+```
