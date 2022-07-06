@@ -44,3 +44,17 @@ gtkwave \
 && sdk install sbt \
 && sdk install java 11.0.15-tem \
 ```
+### Uninstalling
+To uninstall the tools used in the development environment cope paste the following into a bash terminal:
+```bash
+apt remove \
+git \
+curl \
+unzip \
+zip \
+verilator \
+iverilog \
+make \
+gtkwave \
+rm -rf ~/.sdkman
+```
