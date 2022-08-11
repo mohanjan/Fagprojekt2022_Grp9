@@ -34,7 +34,33 @@ The environment contains the following tools:
 
 
 ### Installation
-To install the docker image do the following (insert instruction).
+Note: we recommend to install docker desktop and use the docker image to build a container to insure the function of CAPNA regardless of which system you are using.
+
+To deploy a docker container using the image do the following:
+Firstly build the image via the dockerfile calling it chisel3_dev using the command below
+```cmd
+docker build <path of folder containing dockerfile> -t chisel3_dev
+```
+To insure the build please check that it is there when the images are listed:
+
+```cmd
+docker image ls 
+```
+
+Then deploy a container called dev_container and run a bash terminal using the chisel3_dev image and mounting the capna folder location:
+
+```cmd
+docker run -it  --name dev_container -v <path\\CAPNA>:/<name of folder in the container> chisel3_dev
+```
+
+To manage the container use docker desktop.
+
+To start another terminal using the runnning container dev_container use:
+```cmd
+docker exec -it dev_container bash
+```
+
+
 
 To install the tools mentioned above on a linux distribution or WSL(windows subsystem linux) copy paste the following into a bash terminal:
 ```bash
