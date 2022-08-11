@@ -11,19 +11,22 @@ CAPNA is setup using an [XML configuration file](Config) and programmed using [a
 Once programmed and configured, chisel3 is then used to compile the CAPNA-network into a verilog file which is called DSP.V.
 
 ## Recomended development environment
-To ease any development on or using CAPNA, we've made a dockerfile from which an working development ubuntu enviroment can be created and used. 
+To ease any development on or using CAPNA, [vowstar](https://github.com/vowstar) has made a dockerfile from which an working development debian enviroment can be created and used. we have added verilator to this file and included it here. his original repo can be found here: [https://github.com/vowstar/chisel3-docker](https://github.com/vowstar/chisel3-docker).
 The environment contains the following tools:
 - [git](https://git-scm.com/)
 - [curl](https://curl.se/)
 - [zip/unzip](http://infozip.sourceforge.net/)
-- [SDKMan](https://sdkman.io/)
 - [make](https://www.gnu.org/software/make/)
-- [Java version 11 from adoptium](https://adoptium.net/).
-- [SBT 1.6.2](https://www.scala-sbt.org/)
+- [SBT](https://www.scala-sbt.org/)
 - [Chisel3](https://github.com/chipsalliance/chisel3)
 - [Verilator](https://www.veripool.org/verilator/)
 - [Icaros verilog](http://iverilog.icarus.com/)
 - [gtkwave](http://gtkwave.sourceforge.net/)
+- [python3](https://www.python.org/)
+- [build essentials(GNU debugger, g++/GNU compiler collection)]()
+- [default-jdk-headless]()
+- [tools for vivado]()
+
 
 ### Installation
 To install the docker image do the following (insert instruction).
