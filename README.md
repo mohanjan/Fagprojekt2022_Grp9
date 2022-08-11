@@ -14,6 +14,10 @@ Once programmed and configured, chisel3 is then used to compile the CAPNA-networ
 To ease any development on or using CAPNA, [vowstar](https://github.com/vowstar) has made a dockerfile from which an working development debian enviroment can be created and used. we have added verilator to this file and included it here. his original repo can be found here: [https://github.com/vowstar/chisel3-docker](https://github.com/vowstar/chisel3-docker).
 The environment contains the following tools:
 - [git](https://git-scm.com/)
+- [wget](https://www.gnu.org/software/wget/)
+- bc(basic calculator)
+- [rsync](https://linux.die.net/man/1/rsync)
+- [gnupg gnu privacy guard](https://gnupg.org/)
 - [curl](https://curl.se/)
 - [zip/unzip](http://infozip.sourceforge.net/)
 - [make](https://www.gnu.org/software/make/)
@@ -23,9 +27,10 @@ The environment contains the following tools:
 - [Icaros verilog](http://iverilog.icarus.com/)
 - [gtkwave](http://gtkwave.sourceforge.net/)
 - [python3](https://www.python.org/)
-- [build essentials(GNU debugger, g++/GNU compiler collection)]()
-- [default-jdk-headless]()
-- [tools for vivado]()
+- Vim
+- build essentials(GNU debugger, g++/GNU compiler collection)
+- default-jdk-headless
+- tools for vivado
 
 
 ### Installation
