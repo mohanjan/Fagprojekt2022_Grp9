@@ -26,6 +26,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update -qq && \
         unzip \
         sudo \
         vim \
+        emacs \
         tree\
     && \
     rm -rf /var/lib/apt/lists/*
