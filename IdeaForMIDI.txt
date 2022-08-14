@@ -1,0 +1,6 @@
+MIDI: serial comm. protocol
+baud rate= 31250 (max bps)
+
+serial read @ 31250 hz -> MIDI data to be used via assembly code (?)
+store polyphony data in memory?
+have a shitty script which spits out a sine at different frequencies to test?
