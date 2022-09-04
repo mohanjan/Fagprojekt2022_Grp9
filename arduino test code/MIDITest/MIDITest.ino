@@ -19,7 +19,7 @@ int byt = 0;
 class MIDI{
   public:
     int channel;
-    int note;
+    int note; 
     int vel;
     int noteOn;
     int pitchBend;
