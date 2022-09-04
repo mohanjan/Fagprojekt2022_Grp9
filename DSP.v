@@ -772,7 +772,7 @@ end // initial
 `endif
 `endif // SYNTHESIS
 initial begin
-  $readmemh("Programs/MachineCode/Distortion.mem", mem);
+  $readmemh("Programs/MachineCode/Bitcrusher.mem", mem);
 end
 endmodule
 module FetchStage(
