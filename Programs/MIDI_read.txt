@@ -1,0 +1,29 @@
+//proposed sketch of reading midi
+//1: wait, and conduct other calculations
+//
+//
+//
+//
+
+.main:
+//assuming a clock rate of 100MHz, and a baud rate of 31.25k, we get 3200 cycles between messages
+li x15 3200
+
+
+.timer:
+//only every xth clock cycle is midi read, otherwise continuing with main program
+addi x14 1
+
+
+bge x14 x15 //if value in register 14 >=15, branch to decode
+j .timer //if not equal, jumps back to top of loop
+
+.decode:
+
+li x4, 2 // load midi instruction into register x4
+
+
+
+.status
+
+.data

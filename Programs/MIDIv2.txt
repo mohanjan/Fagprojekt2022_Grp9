@@ -1,0 +1,20 @@
+//proposed sketch of reading midi, assuming 2nd version
+// we're assuming that the UART module sends MIDI bytes to the processor core, 
+// so everything related to timing is shortened to a "see if input has changed" program
+//1: see if input in x2 has changed 
+//2: assuming yes, go to 3
+//3: 
+//4:
+//5:
+
+.main:
+
+.decode:
+
+li x4, 
+
+.data
+
+.status
+
+
