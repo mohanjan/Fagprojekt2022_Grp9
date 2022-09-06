@@ -9,11 +9,20 @@
 
 .main:
 
-.decode:
+//something something "if the previous input value is NOT the same as the current input value, go to decode. otherwise, do some DSP
 
-li x4, 
+
+.decode:
+//checks if data or status
+li x15 0x80
+and x5 x4 x15
+beq x5 x0 .status
 
 .data
+
+//store channel data in memory
+//7statuses X 16channels, 12 bytes of data per channel 
+//totalling 84 bytes
 
 .status
 
