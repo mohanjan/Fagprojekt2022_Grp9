@@ -8,6 +8,8 @@
 //5:
 
 .main:
+bne x2 x3 a//jump value...
+
 
 .decode:
 
