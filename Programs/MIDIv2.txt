@@ -1,21 +1,36 @@
 //proposed sketch of reading midi, assuming 2nd version
 // we're assuming that the UART module sends MIDI bytes to the processor core, 
 // so everything related to timing is shortened to a "see if input has changed" program
+
+//issues:
+//- UART module needs to be implemented
+//- 
+
+
 //1: see if input in x2 has changed 
 //2: assuming yes, go to 3
-//3: 
-//4:
+//3: write to memory if status byte
+//4: 
 //5:
 
 .main:
 bne x2 x3 a//jump value...
 
 
-.decode:
+//something something "if the previous input value is NOT the same as the current input value, go to decode. otherwise, do some DSP
 
-li x4, 
+
+.decode:
+//checks if data or status
+li x15 0x80
+and x5 x4 x15
+beq x5 x0 .status
 
 .data
+
+//store channel data in memory
+//7statuses X 16channels, 12 bytes of data per channel 
+//totalling 84 bytes
 
 .status
 
